@@ -1,6 +1,5 @@
 rootProject.name = 'und'
 include 'auth-service'
-include 'auth-client'
 include 'event-api'
 include 'client-panel'
 include 'emailsendservice'
