@@ -93,7 +93,7 @@ subprojects {
         compile('org.springframework.cloud:spring-cloud-config-client')
         compile('org.springframework.cloud:spring-cloud-starter-netflix-eureka-client')
         compile('org.springframework.cloud:spring-cloud-starter-openfeign')
-        compile('org.springframework.cloud:spring-cloud-starter-sleuth')
+        //compile('org.springframework.cloud:spring-cloud-starter-sleuth')
         compile('org.springframework.cloud:spring-cloud-starter-zipkin')
         compile('org.springframework.boot:spring-boot-starter-security')
         compile("org.jetbrains.kotlin:kotlin-reflect:${kotlinVersion}")
@@ -120,9 +120,6 @@ subprojects {
 
 
     }
-
-
-
 
 
 
