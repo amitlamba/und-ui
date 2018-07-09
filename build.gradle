@@ -1,7 +1,7 @@
 buildscript {
     ext {
         kotlinVersion = '1.2.41'
-        springBootVersion = '2.0.2.RELEASE'
+        springBootVersion = '2.0.3.RELEASE'
     }
     repositories {
         mavenCentral()
@@ -10,7 +10,7 @@ buildscript {
         maven { url "https://plugins.gradle.org/m2/" }
     }
     dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:2.0.2.RELEASE")
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlinVersion}")
         classpath("org.jetbrains.kotlin:kotlin-allopen:${kotlinVersion}")
         classpath "com.moowork.gradle:gradle-node-plugin:1.2.0"
@@ -71,7 +71,7 @@ subprojects {
 
     ext {
         swaggerVersion = '2.7.0'
-        springCloudVersion = 'Finchley.RC2'
+        springCloudVersion = 'Finchley.RELEASE'
     }
 
     sourceCompatibility = 1.8
