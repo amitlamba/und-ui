@@ -1,0 +1,20 @@
+<div class="my-2 event-widget">
+  <div class="row d-flex flex-row ml-2">
+    <div class="form-group m-2">
+      <!--<select2 class="form-control" placeholder="Country" [options]="countriesSelectList" [(ngModel)]="selectedCountry" (onSelect)="onCountrySelect($event)"></select2>-->
+      <!--<input class="form-control" placeholder="Country"/>-->
+      <!--<select2 placeholder="Country" class="form-control"  [data]="countriesSelectList"></select2>-->
+      <select2 [data]="countriesSelectList" [value]="countriesSelectList"
+               [options]="select2Options" (valueChanged)="onCountrySelect($event)"></select2>
+    </div>
+    <div *ngIf="selectedCountry" class="form-group m-2">
+      <select2 [data]="statesSelectList" [value]="statesSelectList" (valueChanged)="onStateSelect($event)"></select2>
+    </div>
+    <div *ngIf="selectedState" class="form-group m-2">
+      <select2 [data]="citiesSelectList" [value]="citiesSelectList" (valueChanged)="onCitySelect($event)"></select2>
+    </div>
+    <button type="button" class="close ml-auto mr-4 pos" aria-label="Close" (click)="removeObject()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+</div>

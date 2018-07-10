@@ -1,0 +1,13 @@
+.dropdown-toggle::after {
+  display:none
+}
+.campaigns{
+  padding: 0 50px;
+}
+.dropdown-menu {
+  width: 200px !important;
+}
+
+button.bg-light:hover {
+  background-color: transparent !important;
+}

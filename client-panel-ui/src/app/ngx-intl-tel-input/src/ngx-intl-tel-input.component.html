@@ -1,0 +1,36 @@
+<div class="intl-tel-input allow-dropdown">
+    <div class="flag-container" dropdown>
+        <div class="selected-flag " dropdownToggle>
+            <div class="iti-flag" [ngClass]="selectedCountry.flagClass"></div>
+            <span class="ml-4 d-inline-block text-muted" style="position: relative;top: 5px;left: 5px;">(+{{dialCodePlaceholder}})</span>
+            <div class="iti-arrow"></div>
+        </div>
+        <ul class="country-list dropdown-menu" *dropdownMenu>
+            <li class="country" *ngFor="let country of preferredCountriesInDropDown" (click)="onCountrySelect(country, focusable)">
+                <div class="flag-box">
+                    <div class="iti-flag" [ngClass]="country.flagClass"></div>
+                </div>
+                <span class="country-name">{{country.name}}</span>
+                <span class="dial-code">+{{country.dialCode}}</span>
+            </li>
+            <li class="divider"></li>
+            <li class="country" *ngFor="let country of allCountries" (click)="onCountrySelect(country, focusable)">
+                <div class="flag-box">
+                    <div class="iti-flag" [ngClass]="country.flagClass"></div>
+                </div>
+                <span class="country-name">{{country.name}}</span>
+                <span class="dial-code">+{{country.dialCode}}</span>
+            </li>
+        </ul>
+    </div>
+    <input type="tel" id="phone" class="form-control" autocomplete="off"
+           (keypress)="onInputKeyPress($event)"
+           [(ngModel)]="phone_number"
+           (ngModelChange)="onPhoneNumberChange()"
+           placeholder="Phone Number" #focusable
+           minlength="10" maxlength="15"
+           #telValidation="ngModel"
+           [ngClass]="{'border-danger':telValidation.invalid && (telValidation.touched || telValidation.dirty)}"
+           required>
+</div>
+<!--<p>From ngx-intl-tel-input: {{ phone_number }}</p>-->

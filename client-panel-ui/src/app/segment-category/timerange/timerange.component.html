@@ -1,0 +1,24 @@
+<div class="row d-flex flex-row flex-wrap">
+  <label class="ml-3 mr-2 pl-1 pt-1">From :</label>
+  <select class="form-control mr-2 col-2" (change)="timeStringChanged()" [(ngModel)]="fromHours">
+    <option *ngFor="let hour of timeOfTheDayOptions[0].hours" [value]="hour">
+      {{hour}}
+    </option>
+  </select>
+  <select class="form-control col-2" (change)="timeStringChanged()" [(ngModel)]="fromMinutes">
+    <option *ngFor="let minutes of timeOfTheDayOptions[1].minutes">
+      {{minutes}}
+    </option>
+  </select>
+  <label class="mx-3 pt-1">To :</label>
+  <select class="col-2 form-control mr-2" (change)="timeStringChanged()" [(ngModel)]="toHours">
+    <option *ngFor="let hour of timeOfTheDayOptions[0].hours">
+      {{hour}}
+    </option>
+  </select>
+  <select class="col-2 form-control" (change)="timeStringChanged()" [(ngModel)]="toMinutes">
+    <option *ngFor="let minutes of timeOfTheDayOptions[1].minutes">
+      {{minutes}}
+    </option>
+  </select>
+</div>

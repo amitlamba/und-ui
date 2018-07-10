@@ -1,0 +1,38 @@
+<div>
+  {{segment.name}}
+  <ul>
+    <li *ngIf="segment.didEvents && segment.didEvents.events && segment.didEvents.events.length > 0">Users who did {{segment.didEvents.joinCondition.conditionType}} {{segment.didEvents.joinCondition.anyOfCount}} of these events
+      <ul>
+        <li *ngFor="let event of segment.didEvents.events">{{event.name}} {{event.dateFilter.operator}} {{event.dateFilter.values[0]}} <span *ngIf="event.dateFilter.values[1]"> and {{event.dateFilter.values[1]}}</span> <span *ngIf="event.dateFilter.valueUnit"> {{event.dateFilter.valueUnit}}</span>
+          <ul>
+            <li *ngFor="let filter of event.propertyFilters">{{filter.name}} {{filter.operator}} {{filter.values[0]}} <span *ngIf="filter.values[1]"> and {{filter.values[1]}}</span> <span *ngIf="filter.valueUnit"> and {{filter.valueUnit}}</span></li>
+            <li>where {{event.whereFilter.whereFilterName}} {{event.whereFilter.propertyName}} {{event.whereFilter.operator}} {{event.whereFilter.values.join(',')}}</li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li *ngIf="segment.didNotEvents && segment.didNotEvents.events && segment.didNotEvents.events.length > 0">Users who did not do any of these events
+      <ul>
+        <li *ngFor="let event of segment.didNotEvents.events">{{event.name}} {{event.dateFilter.operator}} {{event.dateFilter.values[0]}} <span *ngIf="event.dateFilter.values[1]"> and {{event.dateFilter.values[1]}}</span> <span *ngIf="event.dateFilter.valueUnit"> {{event.dateFilter.valueUnit}}</span>
+          <ul>
+            <li *ngFor="let filter of event.propertyFilters">{{filter.name}} {{filter.operator}} {{filter.values[0]}} <span *ngIf="filter.values[1]"> and {{filter.values[1]}}</span> <span *ngIf="filter.valueUnit"> and {{filter.valueUnit}}</span></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li *ngIf="segment.globalFilters && segment.globalFilters.length > 0">With generic filters
+      <ul>
+        <li *ngFor="let filter of segment.globalFilters">
+          {{filter.globalFilterType}} {{filter.name}} {{filter.operator}} {{filter.values[0]}} <span *ngIf="filter.values[1]"> and {{filter.values[1]}}</span> <span *ngIf="filter.valueUnit"> and {{filter.valueUnit}}</span>
+        </li>
+      </ul>
+    </li>
+    <li *ngIf="segment.geographyFilters && segment.geographyFilters.length > 0">With Geography filters
+      <ul>
+        <li *ngFor="let filter of segment.geographyFilters">
+          <span *ngIf="filter.city && filter.city.name">{{filter.city.name}}, </span><span *ngIf="filter.state && filter.state.name">{{filter.state.name}}, </span>{{filter.country.name}}
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>

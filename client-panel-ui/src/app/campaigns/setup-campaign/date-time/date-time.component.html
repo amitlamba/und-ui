@@ -1,0 +1,61 @@
+<div class="row">
+  <div class=" col-xl-4 col-md-5 mt-2 mb-1  pr-0 form-inline">
+    <div class="input-group mr-4"
+         daterangepicker
+         [options]="singlePicker"
+         (selected)="singleSelect($event)" style="width: 170px;">
+    <span class="form-control uneditable-input pr-4"
+          name="daterange">
+    {{ campaignTime.date | date:'dd/M/y' }}
+    </span>
+      <span class="input-group-btn">
+        <a type="button" class="btn btn-default"><i class="far fa-calendar-alt"></i></a>
+      </span>
+    </div>
+    <p class="mt-3" style="font-size: 15px;">at</p>
+  </div>
+  <div class="col-md-6 form-inline border-bottom" style="margin-left: -12px;">
+    <select name="hoursDropdown"
+            id="hoursDropDown"
+            class="form-control mr-2"
+            [(ngModel)]="campaignTime.hours">
+      <option value="{{hour}}" *ngFor="let hour of time.hours">{{hour}}</option>
+    </select>
+    <span>&#58;</span>
+    <!--<input type="number"-->
+    <!--class="form-control col-3 mr-2"-->
+    <!--min="1"-->
+    <!--max="12"-->
+    <!--name="hours"-->
+    <!--[(ngModel)]="campaignTime.hours"-->
+    <!--#hours="ngModel"-->
+    <!--[ngClass]="{'border-danger':hours.errors && hours.touched}">&#58;-->
+    <select name="minutesDropdown"
+            id="minutesDropDown"
+            class="form-control mx-2"
+            [(ngModel)]="campaignTime.minutes">
+      <option value="{{minutes}}" *ngFor="let minutes of time.minutes">{{minutes}}</option>
+    </select>
+    <!--<input type="number"-->
+    <!--class="form-control col-3 mx-2"-->
+    <!--min="0"-->
+    <!--max="55"-->
+    <!--step="5"-->
+    <!--name="minutes"-->
+    <!--[(ngModel)]="campaignTime.minutes">-->
+    <select class="form-control col-4" [(ngModel)]="campaignTime.ampm">
+      <option name="ampm"
+              *ngFor="let AmPm of campaignTimeAmpPmList"
+              value="{{AmPm}}"
+      >{{AmPm}}
+      </option>
+    </select>
+  </div>
+  <button type="button"
+          class="close ml-auto mr-4 pos"
+          aria-label="Close"
+          (click)="removeObject()"
+          *ngIf="showCloseButton">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>

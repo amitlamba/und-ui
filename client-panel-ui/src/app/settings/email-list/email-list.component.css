@@ -1,0 +1,9 @@
+.info-add {
+  width: 120px;
+}
+#deleteButton {
+  background: none;
+}
+.btn:focus {
+  outline: none;
+}

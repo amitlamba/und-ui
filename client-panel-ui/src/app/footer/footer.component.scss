@@ -1,0 +1,16 @@
+/*
+footer{
+  width:100%;
+  min-height:100px;
+  background-color: #222; !* This color gets inverted color or you can add navbar inverse class in html *!
+}
+*/
+footer {
+  background: #005C99;
+}
+.site-links li{
+  font-size: 1.1rem;
+}
+.site-links li a:hover {
+  text-decoration: none;
+}

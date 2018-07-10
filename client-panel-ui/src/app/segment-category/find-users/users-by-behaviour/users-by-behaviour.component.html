@@ -1,0 +1,37 @@
+<div class="card">
+  <div class="card-header">
+    <h4><i class="fas fa-users"></i> Users by behavior</h4>
+  </div>
+  <div class="card-body">
+    <div class="card">
+      <div class="card-body">
+        <div class="card-title"><div class="d-inline">Users who did </div><span class="small text-muted">(optional)</span>
+        </div>
+        <app-did-events [didEvents]="segment.didEvents"></app-did-events>
+      </div>
+    </div>
+    AND
+    <div class="card">
+      <div class="card-body">
+        <div class="card-title">Users who did not do <span class="small text-muted">(optional)</span></div>
+        <app-did-events [didEvents]="segment.didNotEvents" [didNotEvent]="true"></app-did-events>
+      </div>
+    </div>
+    AND
+    <div class="card">
+      <div class="card-body">
+        <div class="card-title">Users with these properties <span class="small text-muted">(optional)</span></div>
+        <app-global-filters [(globalFilters)]="segment.globalFilters"></app-global-filters>
+      </div>
+    </div>
+    AND
+    <div class="card">
+      <div class="card-body">
+        <div class="card-title">Users with these Locations <span class="small text-muted">(optional)</span></div>
+        <app-geography-filters [(geographyFilters)]="segment.geographyFilters"></app-geography-filters>
+      </div>
+    </div>
+    <button class="btn btn-primary mt-2" (click)="find()">Find</button>
+  </div>
+  <!--<app-segment-nlp *ngIf="showSegmentInNl" [segment]="segment"></app-segment-nlp>-->
+</div>

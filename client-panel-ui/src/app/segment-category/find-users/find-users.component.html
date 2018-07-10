@@ -1,0 +1,51 @@
+<div class="container-fluid">
+  <div class="row d-flex flex-wrap flex-row">
+    <div class="col-lg-9 mt-5">
+      <app-users-by-behaviour (eventUserList)="receiveEventUserList($event)"></app-users-by-behaviour>
+    </div>
+    <div class="col-lg-3 mt-5">
+      <div class="card">
+        <div class="card-header font-weight-bold">
+          <span class="icon-title">
+            <i class="fas fa-user"></i>
+          </span>
+          <span class="">User by identity</span>
+        </div>
+        <div class="card-body" style="background-color: #FCFCFC">
+          <h5 class="card-title pb-2">Find User By ID</h5>
+          <div class="form-group">
+            <select class="form-control" (change)="changeInputPlaceholder($event.target.value)">
+              <option value="Email">Email</option>
+              <option value="Facebook ID">Facebook ID</option>
+              <option value="Google ID">Google ID</option>
+              <option value="UserNDot ID">UserNDot ID</option>
+              <option value="Client User ID">Client User ID</option>
+              <option value="Mobile Number">Mobile Number</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <input #userID
+                   type="text"
+                   class="form-control"
+                   [placeholder]="inputPlaceholder"
+                   [(ngModel)]="userIdentity"
+                   (keyup.enter)="findUserByIdentity()">
+          </div>
+          <div class="alert alert-info" *ngIf="invalidID">
+            Invalid {{ inputPlaceholder }}
+          </div>
+          <button class="btn btn-success mt-1"
+                  (click)="findUserByIdentity()"><i class="fas fa-search mr-2"></i>Find
+          </button>
+          <img *ngIf="loadingIcon" src="../../../assets/img/Spinner-small.svg" alt="" class="">
+          <div *ngIf="errorMessage" class="alert alert-info mt-3">
+            {{errorMessage}}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-9 mt-5" *ngIf="eventUserList.length!=0;">
+      <app-event-user-list [eventUserList]="eventUserList"></app-event-user-list>
+    </div>
+  </div>
+</div>

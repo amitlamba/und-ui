@@ -1,0 +1,40 @@
+<div class="col-sm-6">
+<form (ngSubmit)="onSave(f)" #f="ngForm">
+  <div class="form-group">
+    <label for="name">Name</label>
+    <input type="text" class="form-control" maxlength="100" id="name" name="name" placeholder="Name (Will help you in searching templates)" [(ngModel)]="smsTemplate.name">
+  </div>
+  <div class="form-group">
+    <label for="messageType">Sms Message Type</label>
+    <select type="text" class="form-control" id="messageType" name="messageType" [(ngModel)]="smsTemplate.messageType">
+      <option value="PROMOTIONAL">PROMOTIONAL</option>
+      <option value="TRANSACTIONAL">TRANSACTIONAL</option>
+    </select>
+  </div>
+  <div class="form-group">
+    <label for="fromSmsAddress">From Sms address</label>
+    <select type="sms" class="form-control" id="fromSmsAddress" name="fromSmsAddress" [(ngModel)]="smsTemplate.from">
+      <option>UD-TEST</option>
+      <option>UD-TEST1</option>
+    </select>
+  </div>
+  <div class="form-group">
+    <label for="toSegment">To (Segment)</label>
+    <select type="text" class="form-control" id="toSegment" name="toSegment">
+      <option>segment 1</option>
+      <option>segment 2</option>
+    </select>
+    <a href="#">Create Segment</a>
+  </div>
+  <div class="form-group">
+    <label for="smsBody">Sms Text</label>
+    <textarea type="text" class="form-control" id="smsBody" name="smsBody" placeholder="Sms text" rows="8" [(ngModel)]="smsTemplate.smsTemplateBody"></textarea>
+  </div>
+  <div class="text-right">
+    <button type="submit" class="btn btn-primary"  data-toggle="modal" data-target="#exampleModalLong">Save</button>
+  </div>
+</form>
+</div>
+<div class="col-sm-6">
+
+</div>

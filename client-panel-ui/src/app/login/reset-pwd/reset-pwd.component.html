@@ -1,0 +1,37 @@
+
+<div class="container" *ngIf="loadForm">
+  <div class="row justify-content-center">
+    <div class="col-sm-6">
+      <!--<div class="col-md-6 col-md-offset-3">-->
+      <h2 class="text-center">Reset Password</h2>
+      <form #f="ngForm" (ngSubmit)="onSubmit()" novalidate>
+        <div class="form-group">
+          <div class="form-group">
+            <label for="password">New Password</label>
+            <input type="password"
+                   class="form-control"
+                   id="password"
+                   placeholder="New Password"
+                   pattern="^(?=\S*[a-z])(?=\S*[A-Z])(?=\S*\d)(?=\S*[^\w\s])\S{8,}$"
+                   required
+                   #password="ngModel"
+                   name="password"
+                   [(ngModel)]="user.password">
+          </div>
+          <div class="feedback text-danger"
+               *ngIf="password.errors && (password.dirty || password.touched)">
+            <div *ngIf="password.errors.required">Password is required</div>
+            <div *ngIf="password.errors.minlength">Password must be at least 8 characters long</div>
+            <div *ngIf="password.errors.pattern">Password must have one caps, one small ,one special character and one number. </div>
+          </div>
+          <div class="text-right">
+            <button class="btn btn-primary"
+                    [disabled]="f.invalid"> Reset </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<app-page-not-found *ngIf="!loadForm"></app-page-not-found>
+
