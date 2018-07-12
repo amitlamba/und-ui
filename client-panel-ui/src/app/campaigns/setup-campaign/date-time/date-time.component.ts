@@ -49,7 +49,7 @@ export class DateTimeComponent implements OnInit {
     this.campaignTime.hours = this.date.getHours() > 12 ? this.date.getHours() - 12 : this.date.getHours();
     console.log(this.campaignTime.hours);
     // this.campaignTime.minutes = (this.date.getMinutes());
-    this.campaignTime.minutes = 10;
+    this.campaignTime.minutes = Math.floor(this.date.getMinutes() / 5) * 5;
     this.campaignTime.ampm = this.date.getHours() < 12 ? AmPm.AM : AmPm.PM;
     this.campaignTime.date = moment(Date.now()).format("YYYY-MM-DD");
     this.campaignTimesList.push(this.campaignTime);

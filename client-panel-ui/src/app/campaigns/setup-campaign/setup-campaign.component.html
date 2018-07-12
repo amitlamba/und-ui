@@ -165,7 +165,7 @@
                    (selected)="campaignStartDateSelect($event)">
               <span class="form-control uneditable-input pr-2 col-6"
                     name="daterange">
-                {{ schedule.recurring.scheduleStartDate | date:'dd/M/y'}}
+                {{ schedule.recurring.scheduleStartDate | date:'yyyy-MM-dd'}}
               </span>
                 <span class="input-group-btn">
                 <a type="button" class="btn btn-default"><i class="far fa-calendar-alt"></i></a>
@@ -220,7 +220,7 @@
                    (selected)="campaignEndDateSelect($event)">
               <span class="form-control uneditable-input pr-2 col-6"
                     name="daterange">
-                  {{ schedule.recurring.scheduleEnd.endsOn | date:'dd/M/y' }}
+                  {{ schedule.recurring.scheduleEnd.endsOn | date:'yyyy-MM-dd' }}
               </span>
                 <span class="input-group-btn">
                 <a type="button" class="btn btn-default"><i class="far fa-calendar-alt"></i></a>

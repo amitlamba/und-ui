@@ -28,15 +28,41 @@ export class MessageService {
   }
 
   private addMessage(text: string, status: MessageStatus) {
-    this.messages.push(new Message(text, status));
+    let message = new Message(text, status);
+    this.messages.push(message);
+    console.log("Message: " + message.id + " " + message.text);
+    var that = this;
+    setTimeout(function () {
+      that.clear(message.id);
+    }, 2000);
   }
 
-  clear() {
+  clearAll() {
     this.messages = [];
+  }
+
+  clear(id: string) {
+    this.messages = this.messages.filter((v,i,a) => id !== v.id);
   }
 }
 
+function clearMessagesById(id) {
+
+}
+
+function makeid(): string {
+  var text = "";
+  var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+  for (var i = 0; i < 5; i++)
+    text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+  return text;
+}
+
 export class Message {
+  id: string = makeid();
+  time: number = Date.now();
   text: string;
   messageStatus: MessageStatus;
   constructor(text: string, status: MessageStatus) {

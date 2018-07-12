@@ -27,7 +27,7 @@ export class SetupCampaignComponent implements OnInit {
   showCloseButton: boolean = false;
   disableSubmit: boolean = false;
   occurencesValueFalse: boolean = false;
-  cronExpression = '4 3 2 LW 1/1 ? *'; //FIXME
+  cronExpression = '0 0 10 1 1/1 ? *'; //FIXME
   isCronDisabled: boolean = false;
   // schedule: Schedule = new Schedule();
   schedule: Schedule;
@@ -69,7 +69,7 @@ export class SetupCampaignComponent implements OnInit {
     opens: "right",
     minDate: moment(),
     locale: {
-      format: "DD/MM/YYYY"
+      format: "YYYY-MM-DD"
     }
   };
 
@@ -128,7 +128,7 @@ export class SetupCampaignComponent implements OnInit {
 
   onSubmit(): void {
     this.campaign.name = this.campaignName;
-    if (this.scheduleType === "recurring") {
+    if (this.scheduleType === ScheduleType.recurring) {
       this.schedule.recurring.cronExpression = this.cronExpression;
     }
     this.campaign.schedule = this.schedule;

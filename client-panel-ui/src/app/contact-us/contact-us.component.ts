@@ -57,7 +57,6 @@ export class ContactUsComponent implements OnInit {
   }
 
   phoneNumberLengthCheck($event) {
-    console.log($event.length);
     this.phoneNumberLength = $event.length
   }
 }

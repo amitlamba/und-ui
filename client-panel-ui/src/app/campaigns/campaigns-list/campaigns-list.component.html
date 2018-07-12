@@ -44,7 +44,7 @@
              tooltip="Campaign Info">
             <i class="far fa-question-circle text-primary ml-2"></i></a></td>
         <td>{{campaignItem.campaignType}}</td>
-        <td>{{campaignItem.dateCreated | date:'medium'}}</td>
+        <td>{{campaignItem.dateCreated+"Z" | date:'medium'}}</td>
         <td>
           <span *ngIf="campaignItem.schedule.oneTime!==null">One Time</span>
           <span *ngIf="campaignItem.schedule.multipleDates!==null">Multiple Dates</span>

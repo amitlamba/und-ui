@@ -8,9 +8,16 @@ import "rxjs/add/operator/catch"
 import "rxjs/add/observable/throw"
 import "rxjs/add/operator/retry"
 import {Injectable, NgModule} from "@angular/core";
+import {MessageService} from "../_services/message.service";
+import {Router} from "@angular/router";
+import {AuthenticationService} from "../_services/authentication.service";
 
 @Injectable()
 export class HttpRequestInterceptor implements HttpInterceptor {
+
+  constructor(private messageService: MessageService, private router: Router, private authenticationService: AuthenticationService) {
+
+  }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     if (localStorage.getItem("currentUser")) {
@@ -31,6 +38,10 @@ export class HttpRequestInterceptor implements HttpInterceptor {
           if (err instanceof HttpErrorResponse) {
             if (err.status === 403 || err.status === 401) {
               console.error('err.error =', err.error, ';');
+              console.error("You are not logged in! Or you might have logged in into another machine, hence you have been logged out from this interface!!");
+              this.messageService.addDangerMessage("You are not logged in! Or you might have logged in into another machine, hence you have been logged out from this interface!!");
+              this.authenticationService.logout();
+              this.router.navigate(['/login']);
             }
             console.error('err =', err, caught, ';');
             return Observable.throw(err);

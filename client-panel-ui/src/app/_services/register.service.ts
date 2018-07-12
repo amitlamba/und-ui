@@ -13,6 +13,6 @@ export class RegisterService {
   submitContactForm(contactUs, recaptchaToken): Observable<any> {
     const headers = new HttpHeaders().set('Content-Type', 'application/json; charset=utf-8');
     const params = new HttpParams().set("recaptchaToken", recaptchaToken);
-    return this.http.post(AppSettings.API_ENDPOINT_CLIENT_CONTACT_US_SAVE, contactUs, {headers: headers, params: params});
+    return this.http.post(AppSettings.API_ENDPOINT_AUTH_CONTACT_US_SAVE, contactUs, {headers: headers, params: params});
   }
 }
