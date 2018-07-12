@@ -1,4 +1,5 @@
 rootProject.name = 'und'
+//include 'auth-client'
 include 'auth-service'
 include 'event-api'
 include 'client-panel'
