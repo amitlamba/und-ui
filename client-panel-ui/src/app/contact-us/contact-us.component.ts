@@ -2,6 +2,7 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {RegisterService} from "../_services/register.service";
 import {HttpErrorResponse} from "@angular/common/http";
 import {_RECAPTCHA_KEY} from "../_settings/app-settings";
+import {MessageService} from "../_services/message.service";
 
 @Component({
   selector: 'app-contact-us',
@@ -23,7 +24,7 @@ export class ContactUsComponent implements OnInit {
   _site_key = _RECAPTCHA_KEY;
   @ViewChild('contactUsForm') contactUsForm;
 
-  constructor(private registerService: RegisterService) {
+  constructor(private registerService: RegisterService, private messageService: MessageService) {
   }
 
   ngOnInit() {
@@ -46,8 +47,8 @@ export class ContactUsComponent implements OnInit {
         (error: HttpErrorResponse) => {
           this.loading = false;
           this.showErrorMessage = true;
-          console.log(error);
-          this.errorMessage = error;
+          console.log(JSON.stringify(error));
+          this.errorMessage = error.error.message;
         }
       );
   }

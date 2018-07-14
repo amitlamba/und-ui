@@ -5,13 +5,13 @@
       <h2 class="text-center">Login</h2>
       <form name="form" (ngSubmit)="f.form.valid && login()" #f="ngForm" novalidate>
         <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !username.valid }">
-          <label for="username">Email / Username</label>
+          <label for="username">Email / Username<sup>*</sup></label>
           <input type="text" class="form-control" placeholder="Email / Username" id="username" name="username" [(ngModel)]="model.username" #username="ngModel"
                  required/>
           <div *ngIf="f.submitted && !username.valid" class="help-block">Username is required</div>
         </div>
         <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !password.valid }">
-          <label for="password">Password</label>
+          <label for="password">Password<sup>*</sup></label>
           <input type="password" class="form-control" placeholder="Password" id="password" name="password" [(ngModel)]="model.password" #password="ngModel"
                  required/>
           <div *ngIf="f.submitted && !password.valid" class="help-block">Password is required</div>
@@ -32,7 +32,7 @@
             </div>
           </div>
         </div>
-        <div *ngIf="error" class="alert alert-danger">{{error}}</div>
+        <div *ngIf="error" class="mt-3 alert alert-danger">{{error}}</div>
       </form>
     </div>
 

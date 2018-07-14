@@ -19,7 +19,7 @@
         <p><i class="fas fa-phone fa-lg mr-4 fa-rotate-90 icon-light"></i><span class="address-text">8882774104</span>
         </p>
         <p><i class="far fa-envelope-open fa-lg mr-4 icon-light"></i><span
-          class="address-text">support@userndot.com</span></p>
+          class="address-text"><a href="mailto:support@userndot.com">support@userndot.com</a></span></p>
         <p><i class="fas fa-map-marker-alt fa-lg mr-4 icon-light"></i><span class="address-text">F-424, Phase 2, New Palam Vihar, Sector 112, Gurugram</span>
         </p>
       </div>
@@ -110,7 +110,7 @@
         </div>
         <button class="btn btn-primary w-100"
                 (click)="submitContactUsForm()"
-                [disabled]="contactUsForm.invalid || loading || !recaptchaToken || phoneNumberLength <10">Send it
+                [disabled]="contactUsForm.invalid || loading || !recaptchaToken || phoneNumberLength <10">Submit
         </button>
       </form>
     </div>

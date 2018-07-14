@@ -7,9 +7,9 @@
       <form novalidate (ngSubmit)="onSubmit(f)" #f="ngForm">
 
           <div class="form-group my-3">
-            <label>First Name</label>
+            <label>First Name<sup>*</sup></label>
             <input type="text" class="form-control" name="firstName" [(ngModel)]="model.firstName" required
-                   #firstName="ngModel" placeholder="First Name">
+                   #firstName="ngModel" placeholder="First Name" trim="blur" >
             <div class="feedback text-danger"
                  *ngIf="firstName.errors && (firstName.dirty || firstName.touched)">
               <p *ngIf="firstName.errors.required">First name is required</p>
@@ -17,11 +17,13 @@
           </div>
 
           <div class="form-group my-3">
-            <label>Last Name</label>
+            <label>Last Name<sup>*</sup></label>
             <input type="text" class="form-control" name="lastName" [(ngModel)]="model.lastName"
                    required
                    #lastName="ngModel"
-                   placeholder="Last Name">
+                   placeholder="Last Name"
+                   trim="blur"
+            >
             <div class="feedback text-danger"
                  *ngIf="lastName.errors && (lastName.dirty || lastName.touched)">
               <p *ngIf="lastName.errors.required">Last name is required</p>
@@ -30,14 +32,17 @@
 
 
         <div class="form-group my-3">
-          <label>Company Name</label>
+          <label for="company">Company Name<sup>*</sup></label>
           <input type="text"
                  class="form-control"
                  name="company"
+                 id="company"
                  [(ngModel)]="model.name"
                  required
                  #company="ngModel"
-                 placeholder="Company Name">
+                 placeholder="Company Name"
+                 trim="blur"
+          >
           <div class="feedback text-danger"
                *ngIf="company.errors && (company.dirty || company.touched)">
             <p *ngIf="company.errors.required">Company name is required</p>
@@ -45,8 +50,9 @@
         </div>
 
         <div class="form-group my-3">
-          <label for="">Mobile number</label>
-          <ngx-intl-tel-input [(value)]="model.phone"
+          <label for="phoneNumber">Mobile number<sup>*</sup></label>
+          <ngx-intl-tel-input id="phoneNumber"
+                              [(value)]="model.phone"
                               [preferredCountries]="preferredCountries"
                               (checkPhoneNumberLength)="phoneNumberLengthCheck($event)"
                               (getSelectedCountryName)="saveCountryName($event)"></ngx-intl-tel-input>
@@ -57,7 +63,7 @@
         </div>
 
         <div class="form-group my-3">
-          <label>Email</label>
+          <label>Email<sup>*</sup></label>
           <input type="email"
                  class="form-control"
                  name="email"
@@ -75,7 +81,7 @@
 
 
         <div class="form-group my-3">
-          <label>Password</label>
+          <label>Password<sup>*</sup></label>
           <input type="password"
                  class="form-control"
                  name="password"
@@ -94,25 +100,30 @@
         </div>
 
         <div class="form-group my-3">
-          <label>Address</label>
+          <label>Address<sup>*</sup></label>
           <input type="text"
                  class="form-control"
                  name="address"
                  [(ngModel)]="model.address"
                  required
                  #address="ngModel"
-                 placeholder="Address">
+                 placeholder="Address"
+                 trim="blur">
           <div class="feedback text-danger"
                *ngIf="address.errors && (address.dirty || address.touched)">
             <p *ngIf="address.errors.required">Address required</p>
           </div>
+        </div>
+        <div class="form-group form-check">
+          <input type="checkbox" class="form-check-input" id="termsOfService" required [checked]="termsOfServiceChecked" (change)="termsOfServiceChecked = !termsOfServiceChecked">
+          <label class="form-check-label" for="termsOfService">I accept <a target="_blank" [routerLink]="['/terms-of-service']">Terms and Conditions</a> of service</label>
         </div>
         <re-captcha (captchaResponse)="handleCorrectCaptcha($event)"
                     site_key="{{_site_key}}" #ReCaptchaComponent></re-captcha>
         <div class="text-right">
           <button type="submit"
                   class="btn btn-primary my-2"
-                  [disabled]="f.invalid ||  loading || !recaptchaToken ||phoneNumberLength <10" >Sign Up
+                  [disabled]="f.invalid ||  loading || !recaptchaToken || phoneNumberLength<10 || !termsOfServiceChecked" >Sign Up
           </button>
           <img *ngIf="loading"
                src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=="/>
