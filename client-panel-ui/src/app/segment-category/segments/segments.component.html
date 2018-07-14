@@ -28,7 +28,7 @@
           </span>
         </td>
         <td>{{segment.type}}</td>
-        <td>{{segment.creationDate | date:'medium'}}</td>
+        <td>{{segment.creationDate+"Z" | date:'medium'}}</td>
         <td></td>
       </tr>
       <tr *ngIf="toggleSegmentDetails[segment.id]">

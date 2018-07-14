@@ -34,7 +34,7 @@ export class MessageService {
     var that = this;
     setTimeout(function () {
       that.clear(message.id);
-    }, 2000);
+    }, 4000);
   }
 
   clearAll() {

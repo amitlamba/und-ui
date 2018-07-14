@@ -46,27 +46,11 @@ export class LoginComponent implements OnInit {
         this.router.navigate(['/dashboard']);
       },
       (error: HttpErrorResponse) => {
-        this.error = 'Error: Some Error Occurred while logging in. Please confirm, you are entering correct email and password.';
+        this.error = error.error.message;
         this.loading = false;
-        console.log("this.error: " + this.error + ", this.loading: " + this.loading);
+        console.log("this.error: " + JSON.stringify(error) + ", this.loading: " + this.loading);
       }
     );
-    /*this.http
-      .post(AppSettings.API_ENDPOINT_AUTH+'/auth', body)
-      .subscribe(
-        (response: any) => {
-          let token = response.data.value.token;
-          if (token) {
-            this.token = token;
-            localStorage.setItem('currentUser', JSON.stringify({username: this.model.username, token: token}));
-            this.router.navigate(['/']);
-          } else {
-            this.error = 'Username or password is incorrect';
-            this.loading = false;
-            return false;
-          }
-        }
-      );*/
   }
 
 

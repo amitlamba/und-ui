@@ -4,6 +4,7 @@ import {AuthenticationService} from "../_services/authentication.service";
 import {Router} from "@angular/router";
 import {ReCaptchaComponent} from "angular2-recaptcha";
 import {_RECAPTCHA_KEY} from "../_settings/app-settings";
+import {HttpErrorResponse} from "@angular/common/http";
 
 @Component({
   selector: 'app-register',
@@ -17,6 +18,7 @@ export class RegisterComponent implements OnInit {
   recaptchaToken: string = null;
   preferredCountries = ['in', 'us', 'ru', 'gb'];
   phoneNumberLength: number;
+  termsOfServiceChecked: boolean = false;
 
   _site_key = _RECAPTCHA_KEY;
 
@@ -45,8 +47,14 @@ export class RegisterComponent implements OnInit {
           response => {
             this.router.navigate(['/login']);
           },
-          (error: Error) => {
-            this.error = "Not Registered. Server Error: " + error.message;
+          (error: HttpErrorResponse) => {
+            if(error.status == 400) {
+              this.error = "Not Registered. Server Error: ";
+              (<any[]>(error.error)).forEach((v)=> this.error += v.field +":"+ v.message + ", ");
+            } else {
+              this.error = "Not Registered. Server Error: " + JSON.stringify(error.error);
+            }
+            console.log("error: " + JSON.stringify(error.error));
             this.loading = false;
           }
         );

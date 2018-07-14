@@ -4,6 +4,8 @@ import {AuthenticationService} from "../_services/authentication.service";
 import {ContactUs, ContactUsComponent} from "../contact-us/contact-us.component";
 import {RegisterService} from "../_services/register.service";
 import {_RECAPTCHA_KEY} from "../_settings/app-settings";
+import {MessageService} from "../_services/message.service";
+import {HttpErrorResponse} from "@angular/common/http";
 
 @Component({
   selector: 'app-demo-form',
@@ -18,7 +20,7 @@ export class DemoFormComponent implements OnInit {
   _site_key = _RECAPTCHA_KEY;
   recaptchaToken: string = null;
 
-  constructor(private registerService : RegisterService) {
+  constructor(private registerService : RegisterService, private messageService: MessageService) {
   }
 
   ngOnInit() {
@@ -33,6 +35,10 @@ export class DemoFormComponent implements OnInit {
           console.log(response);
           this.contactUs = new ContactUs();
           this.recaptchaToken = null;
+          this.messageService.addSuccessMessage("Message sent successfully");
+        },
+        (error: HttpErrorResponse) => {
+          this.messageService.addDangerMessage("There is an error scheduling demo. "+ error.error.message);
         }
       )
   }
