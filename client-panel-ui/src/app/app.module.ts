@@ -79,7 +79,7 @@ import {AboutUsComponent} from './about-us/about-us.component';
 import {TermsOfServiceComponent} from './terms-of-service/terms-of-service.component';
 import {NgxIntlTelInputModule} from "./ngx-intl-tel-input/src";
 import {ContactUsComponent} from "./contact-us/contact-us.component";
-import { NewVsExistingUsersGraphComponent} from "./graphs/new-vs-existing-users-graph/new-vs-existing-users-graph.component";
+import {NewVsExistingUsersGraphComponent} from "./graphs/new-vs-existing-users-graph/new-vs-existing-users-graph.component";
 import {ReCaptchaModule} from "angular2-recaptcha";
 import {TimerangeComponent} from './segment-category/timerange/timerange.component';
 import {ConversionEventsGraphComponent} from "./graphs/conversion-events-graph/conversion-events-graph.component";
@@ -91,8 +91,9 @@ import {KeysPipe, UserProfileComponent} from './user-profile/user-profile.compon
 import {TooltipModule} from "ngx-bootstrap";
 import {CampaignsInfoComponent} from './campaigns-info/campaigns-info.component';
 import {Select2Module} from "ng2-select2";
-import { BaseGraphComponent } from './graphs/base-graph/base-graph.component';
-import { EventUserListComponent } from './segment-category/event-user-list/event-user-list.component';
+import {BaseGraphComponent} from './graphs/base-graph/base-graph.component';
+import {EventUserListComponent} from './segment-category/event-user-list/event-user-list.component';
+import {InputTrimDirective} from "./_directives/input-trim.directive";
 
 
 @NgModule({
@@ -177,7 +178,8 @@ import { EventUserListComponent } from './segment-category/event-user-list/event
     CampaignsInfoComponent,
     KeysPipe,
     BaseGraphComponent,
-    EventUserListComponent
+    EventUserListComponent,
+    InputTrimDirective
   ],
   providers: [
     AuthGuard,

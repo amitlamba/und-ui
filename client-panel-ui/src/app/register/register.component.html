@@ -9,7 +9,7 @@
           <div class="form-group my-3">
             <label>First Name<sup>*</sup></label>
             <input type="text" class="form-control" name="firstName" [(ngModel)]="model.firstName" required
-                   #firstName="ngModel" placeholder="First Name">
+                   #firstName="ngModel" placeholder="First Name" trim="blur" >
             <div class="feedback text-danger"
                  *ngIf="firstName.errors && (firstName.dirty || firstName.touched)">
               <p *ngIf="firstName.errors.required">First name is required</p>
@@ -21,7 +21,9 @@
             <input type="text" class="form-control" name="lastName" [(ngModel)]="model.lastName"
                    required
                    #lastName="ngModel"
-                   placeholder="Last Name">
+                   placeholder="Last Name"
+                   trim="blur"
+            >
             <div class="feedback text-danger"
                  *ngIf="lastName.errors && (lastName.dirty || lastName.touched)">
               <p *ngIf="lastName.errors.required">Last name is required</p>
@@ -30,14 +32,17 @@
 
 
         <div class="form-group my-3">
-          <label>Company Name<sup>*</sup></label>
+          <label for="company">Company Name<sup>*</sup></label>
           <input type="text"
                  class="form-control"
                  name="company"
+                 id="company"
                  [(ngModel)]="model.name"
                  required
                  #company="ngModel"
-                 placeholder="Company Name">
+                 placeholder="Company Name"
+                 trim="blur"
+          >
           <div class="feedback text-danger"
                *ngIf="company.errors && (company.dirty || company.touched)">
             <p *ngIf="company.errors.required">Company name is required</p>
@@ -46,7 +51,8 @@
 
         <div class="form-group my-3">
           <label for="phoneNumber">Mobile number<sup>*</sup></label>
-          <ngx-intl-tel-input [(value)]="model.phone"
+          <ngx-intl-tel-input id="phoneNumber"
+                              [(value)]="model.phone"
                               [preferredCountries]="preferredCountries"
                               (checkPhoneNumberLength)="phoneNumberLengthCheck($event)"
                               (getSelectedCountryName)="saveCountryName($event)"></ngx-intl-tel-input>
@@ -101,7 +107,8 @@
                  [(ngModel)]="model.address"
                  required
                  #address="ngModel"
-                 placeholder="Address">
+                 placeholder="Address"
+                 trim="blur">
           <div class="feedback text-danger"
                *ngIf="address.errors && (address.dirty || address.touched)">
             <p *ngIf="address.errors.required">Address required</p>
