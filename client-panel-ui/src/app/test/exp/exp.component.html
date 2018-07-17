@@ -1,0 +1,26 @@
+<form novalidate>
+  <div class="row">
+    <div class="col-md-4">
+      <input type="text"
+             placeholder="Language"
+             class="form-control"
+             [(ngModel)]="language"
+             name="language">
+    </div>
+    <div class="col-md-2">
+      <input type="text"
+             placeholder="Years"
+             class="form-control"
+             [(ngModel)]="experience"
+             name="experience">
+    </div>
+    <div class="col-md-6">
+      <button type="submit" class="btn btn-primary"
+              (click)="save()"> Save
+      </button>
+      <button type="button" class="btn btn-default"
+              (click)="removeObject()"> Remove
+      </button>
+    </div>
+  </div>
+</form>

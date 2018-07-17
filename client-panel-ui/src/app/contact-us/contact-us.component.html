@@ -1,0 +1,119 @@
+<div id="homepage">
+  <header>
+    <div class="contact-us-heading">
+      <h1 class="text-white font-weight-bold">Contact Us</h1>
+    </div>
+  </header>
+  <section class="py-5 px-4 container">
+    <div class="row justify-content-center py-3 mt-4">
+      <h2 class="display-4 text-uppercase text-center col-12">Get in touch</h2>
+      <span class="d-block bg-primary mt-3" style="height: 3px;width: 70px;"></span>
+    </div>
+    <div class="row py-2 justify-content-center text-center">
+      <p class="section-title text-capitalize px-2">Got a question?
+        We’d love to hear from you. Send us a message and we’ll respond as soon as possible.</p>
+    </div>
+    <div class="row mt-2 mb-3 justify-content-center mt-2">
+      <div class="col-md-5 col-xs-12 px-3 mt-3 mx-2">
+        <h3>Digicologies Software Pvt Ltd.</h3>
+        <p><i class="fas fa-phone fa-lg mr-4 fa-rotate-90 icon-light"></i><span class="address-text">8882774104</span>
+        </p>
+        <p><i class="far fa-envelope-open fa-lg mr-4 icon-light"></i><span
+          class="address-text"><a href="mailto:support@userndot.com">support@userndot.com</a></span></p>
+        <p><i class="fas fa-map-marker-alt fa-lg mr-4 icon-light"></i><span class="address-text">F-424, Phase 2, New Palam Vihar, Sector 112, Gurugram</span>
+        </p>
+      </div>
+      <form class="col-md-4 col-xs-12 px-3 mt-3 mx-2"
+            #contactUsForm="ngForm">
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text"><i class="far fa-user"></i></span>
+          </div>
+          <input type="text"
+                 class="form-control"
+                 name="name"
+                 placeholder="Your Name"
+                 aria-label="Your Name"
+                 [(ngModel)]="contactUs.name"
+                 pattern="[A-Za-z0-9-_][A-Za-z0-9\s-_]*"
+                 #contactUserName="ngModel"
+                 [ngClass]="{'border-danger': contactUserName.invalid && (contactUserName.touched || contactUserName.dirty)}"
+                 required>
+          <div class="alert alert-danger col-12 mb-0 py-2"
+               *ngIf="contactUserName.errors && (contactUserName.dirty || contactUserName.touched)">
+            <div *ngIf="contactUserName.errors.required">
+              Name is required.
+            </div>
+            <div *ngIf="contactUserName.errors.pattern">
+              Name cannot contain any special characters and cannot start with the space.
+            </div>
+          </div>
+        </div>
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text"><i class="fas fa-envelope-square"></i></span>
+          </div>
+          <input type="email"
+                 class="form-control"
+                 name="email"
+                 placeholder="Email Address"
+                 aria-label="Email Address"
+                 [(ngModel)]="contactUs.email"
+                 #email="ngModel"
+                 [ngClass]="{'border-danger':email.invalid && (email.touched || email.dirty)}"
+                 email
+                 required>
+          <div class="alert alert-danger col-12 mb-0 py-2" *ngIf="email.errors && (email.dirty || email.touched)">
+            <div *ngIf="email.invalid || email.errors.required">
+              Invalid Email.
+            </div>
+          </div>
+        </div>
+        <div class="mb-3">
+          <ngx-intl-tel-input [(value)]="contactUs.mobileNo"
+                              [preferredCountries]="preferredCountries"
+                              (checkPhoneNumberLength)="phoneNumberLengthCheck($event)"></ngx-intl-tel-input>
+          <div class="alert alert-danger col-12 mb-0 py-2"
+               *ngIf='phoneNumberLength <10'>
+            Invalid Phone Number.
+          </div>
+        </div>
+        <div>
+          <textarea name="message" id="" cols="60"
+                    rows="3"
+                    placeholder="Your Message"
+                    class="form-control"
+                    minlength="50"
+                    maxlength="200"
+                    [(ngModel)]="contactUs.message"
+                    #contactUsMessage="ngModel"
+                    [ngClass]="{'border-danger':contactUsMessage.invalid && (contactUsMessage.touched || contactUsMessage.dirty)}"
+                    required></textarea>
+          <div class="alert alert-danger col-12 mb-0 py-2"
+               *ngIf="contactUsMessage.errors && (contactUsMessage.dirty || contactUsMessage.touched)">
+            <div *ngIf="contactUsMessage.invalid">
+              Message Length should be Between 50 - 200.
+            </div>
+          </div>
+        </div>
+        <div class="my-3">
+          <re-captcha (captchaResponse)="handleCorrectCaptcha($event)"
+                      site_key="{{_site_key}}" #ReCaptchaComponent></re-captcha>
+        </div>
+        <div class="text-center my-3">
+          <img *ngIf="loading" style="width:20px"
+               src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=="/>
+        </div>
+        <div class="alert alert-success col-12 mb-0 py-2 my-3 text-center" *ngIf="showSubmitMessage">
+          <p *ngIf="showSuccessMessage" class="mb-0">Submitted Successfully.</p>
+          <p *ngIf="showErrorMessage" class="mb-0">{{errorMessage}}</p>
+        </div>
+        <button class="btn btn-primary w-100"
+                (click)="submitContactUsForm()"
+                [disabled]="contactUsForm.invalid || loading || !recaptchaToken || phoneNumberLength <10">Submit
+        </button>
+      </form>
+    </div>
+  </section>
+</div>
+

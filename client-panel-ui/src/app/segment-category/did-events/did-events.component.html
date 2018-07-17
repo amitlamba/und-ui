@@ -1,0 +1,18 @@
+<div class="form-group d-inline-flex mt-3" *ngIf="!didNotEvent && components.length">
+    <div class="mr-2">
+      <select class="form-control" id="andOr" [(ngModel)]="didEvents.joinCondition.conditionType">
+        <option value="AllOf">All (AND)</option>
+        <option value="AnyOf">Any (OR)</option>
+      </select>
+    </div>
+    <div class="mt-2">
+      <p>of these events</p>
+    </div>
+</div>
+<!--<app-did-event [hideWhere]="didNotEvent"></app-did-event>-->
+<ng-template #container></ng-template>
+<div>
+  <button class="btn btn-success  mt-3" (click)="addComponent()"><i class="fa fa-plus-circle"></i> Add Event</button>
+</div>
+
+

@@ -1,0 +1,142 @@
+<div class="container-fluid campaigns">
+  <div class="row mt-4 px-3">
+    <div class="btn-group ml-auto">
+      <button type="button"
+              class="btn btn-primary dropdown-toggle"
+              data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <i class="fas fa-plus mr-1"></i> Create New Campaign
+      </button>
+      <div class="dropdown-menu py-0 my-0">
+        <a class="dropdown-item list-group-item list-group-item-action"
+           [routerLink]="['sms']"
+           [routerLinkActive]="['active']">
+          <i class="fas fa-mobile-alt mr-2 "></i>SMS</a>
+        <a class="dropdown-item list-group-item list-group-item-action"
+           [routerLink]="['email']"
+           [routerLinkActive]="['active']">
+          <i class="far fa-envelope mr-2"></i>Email</a>
+        <a class="dropdown-item list-group-item list-group-item-action disabled">
+          <i class="fal fa-mobile mr-2"></i> Mobile Push</a>
+        <a class="dropdown-item list-group-item list-group-item-action disabled">
+          <i class="fab fa-chrome mr-2"></i> Web Push</a>
+      </div>
+    </div>
+  </div>
+  <div class="table-responsive mt-1">
+    <table class="table table-bordered my-3">
+      <thead style="background-color: rgba(0, 0, 0, .03);">
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Campaign Name</th>
+        <th scope="col">Campaign Type</th>
+        <th scope="col">Created On</th>
+        <th scope="col">Frequency</th>
+        <th scope="col">Status</th>
+        <th scope="col">Action</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let campaignItem of campaigns;">
+        <th scope="row">{{campaignItem.id}}</th>
+        <td>
+          {{campaignItem.name.charAt(0).toUpperCase()+ campaignItem.name.slice(1).toLowerCase()}}
+          <a (click)="getCampaignItem(campaignItem)" data-toggle="modal" data-target="#campaignInfoModal"
+             tooltip="Campaign Info">
+            <i class="far fa-question-circle text-primary ml-2"></i></a></td>
+        <td>{{campaignItem.campaignType}}</td>
+        <td>{{campaignItem.dateCreated+"Z" | date:'medium'}}</td>
+        <td>
+          <span *ngIf="campaignItem.schedule.oneTime!==null">One Time</span>
+          <span *ngIf="campaignItem.schedule.multipleDates!==null">Multiple Dates</span>
+          <span *ngIf="campaignItem.schedule.recurring!==null">Recurring</span>
+        </td>
+        <td>{{(campaignItem.status=='CREATED'|| campaignItem.status=='RESUMED' ) ? ("Running") : ( campaignItem.status
+          )}}
+        </td>
+        <td class="text-center">
+          <button *ngIf="campaignItem.status=='PAUSED' "
+                  class="border-0 bg-light"
+                  tooltip="Resume Campaign"
+                  data-toggle="modal" data-target="#campaignActionConfirmationDialog"
+                  (click)="getCampaignId(campaignItem,'resume')"
+                  id="resumeCampaignButton"><i class="fas fa-play text-primary"></i>
+          </button>
+          <button *ngIf="campaignItem.status=='CREATED' || campaignItem.status=='RESUMED'"
+                  class="border-0 bg-light"
+                  data-toggle="modal" data-target="#campaignActionConfirmationDialog"
+                  (click)="getCampaignId(campaignItem,'pause')"
+                  tooltip="Pause Campaign"
+                  id="pauseCampaignButton"><i class="far fa-pause-circle text-primary"></i>
+          </button>
+          <button class="border-0 bg-light"
+                  data-toggle="modal" data-target="#campaignActionConfirmationDialog"
+                  (click)="getCampaignId(campaignItem,'stop')"
+                  [disabled]="campaignItem.status=='DELETED' || campaignItem.status=='STOPPED'"
+                  tooltip="Stop Campaign"
+                  id="stopCampaignButton"><i class="far fa-stop-circle text-primary"
+                                             [ngClass]="{'text-muted':campaignItem.status=='DELETED'|| campaignItem.status=='STOPPED'}"></i>
+          </button>
+          <button class="border-0 bg-light"
+                  data-toggle="modal" data-target="#campaignActionConfirmationDialog"
+                  (click)="getCampaignId(campaignItem,'delete')"
+                  [disabled]="campaignItem.status=='DELETED'"
+                  tooltip="Delete Campaign"
+                  id="deleteCampaignButton"><i class="far fa-trash-alt text-primary"
+                                               [ngClass]="{'text-muted':campaignItem.status=='DELETED'}"></i>
+          </button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <!-- Campaign Information Modal -->
+  <div #campaignInformationModal *ngIf="showCampaignInfoModal"
+       class="modal fade " id="campaignInfoModal" tabindex="-1" role="dialog" aria-labelledby="campaignInfoModalTitle"
+       aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title ml-auto" id="campaignInfoModalTitle">
+            {{modalCampaignInfoObject.name.charAt(0).toUpperCase()+
+            modalCampaignInfoObject.name.slice(1).toLowerCase()}}
+          </h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body bg-light">
+          <app-campaigns-info></app-campaigns-info>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Okay</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pause,resume, stop ,delete Campaign Modal -->
+
+  <div class="modal fade" id="campaignActionConfirmationDialog" tabindex="-1" role="dialog" aria-labelledby="campaignConfirmationModalLabel"
+       aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title font-weight-bold text-capitalize ml-auto" id="campaignConfirmationModalLabel">{{campaignConfirmationDialogText}} Campaign</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body" style="font-size: 1.2rem;">
+          Are you sure you want to {{campaignConfirmationDialogText}} the campaign?
+        </div>
+        `
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary"  data-dismiss="modal" (click)="executeCampaignFunction()">Yes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+

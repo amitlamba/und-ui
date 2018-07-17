@@ -1,0 +1,88 @@
+<form (ngSubmit)="onSave(emailTemplateForm)" #emailTemplateForm="ngForm">
+  <div class="form-group col-sm-12">
+    <label for="name">Name</label>
+    <input type="text" class="form-control" maxlength="100" id="name" name="name"
+           placeholder="Name (Will help you in searching templates)" [(ngModel)]="emailTemplate.name"
+           required>
+  </div>
+  <div class="form-group col-sm-8 col-md-6 col-lg-5">
+    <label for="messageType">Email Message Type</label>
+    <select type="text" class="form-control" id="messageType" name="messageType"
+            [(ngModel)]="emailTemplate.messageType"
+            required>
+      <option value="" disabled selected>Select your option</option>
+      <option value="PROMOTIONAL">PROMOTIONAL</option>
+      <option value="TRANSACTIONAL">TRANSACTIONAL</option>
+    </select>
+  </div>
+  <div class="form-group col-sm-8 col-md-6 col-lg-5">
+    <label for="fromEmailAddress">From Email address</label>
+    <select class="form-control" id="fromEmailAddress" name="fromEmailAddress"
+            [(ngModel)]="emailTemplate.from" required>
+      <option value="" disabled selected>Select your option</option>
+      <option *ngFor="let sendersInfo of sendersInfoList;"
+              [value]="sendersInfo.address">{{sendersInfo.address}}
+      </option>
+    </select>
+    <button class="btn btn-link"
+            (click)="redirectToSendersInfoPage()"
+            data-toggle="modal"
+            data-target="#exampleModalLong">Add Email
+    </button>
+  </div>
+  <div class="form-group col-sm-12">
+    <label for="emailSubject">Email Subject</label>
+    <input type="text"
+           class="form-control"
+           id="emailSubject"
+           name="emailSubject"
+           placeholder="Email Subject"
+           [mention]="mentionItems"
+           [(ngModel)]="emailTemplate.emailTemplateSubject"
+           required>
+  </div>
+  <div class="form-group col-sm-12">
+    <input type="radio"
+           id="tinymceEmailBody"
+           class="mr-2"
+           name="EmailBody"
+           value="tinymceEditor"
+           [(ngModel)]="emailTemplate.editorSelected"
+           (click)="changeEditorType($event.target.value)">
+    <label for="tinymceEmailBody" class="mb-3">Text Editor</label>
+    <input type="radio"
+           id="textareaEmailBody"
+           class="mx-2"
+           name="EmailBody"
+           value="textareaEditor"
+           [(ngModel)]="emailTemplate.editorSelected"
+           (click)="changeEditorType($event.target.value)">
+    <label for="textareaEmailBody" class="mb-3">I have an HTML Template</label>
+    <app-demo-tinymce *ngIf="emailTemplate.editorSelected=='tinymceEditor'"
+                      id="emailBody"
+                      [(htmlContent)]="emailTemplate.emailTemplateBody"></app-demo-tinymce>
+    <textarea *ngIf="emailTemplate.editorSelected =='textareaEditor'"
+              type="text"
+              class="form-control"
+              name="EmailBodyTextArea"
+              placeholder="Email Body"
+              [mention]="mentionItems"
+              [mentionConfig]="{triggerChar:'$'}"
+              rows="6"
+              [(ngModel)]="emailTemplate.emailTemplateBody"
+              required></textarea>
+    <button *ngIf="emailTemplate.editorSelected=='textareaEditor'"
+            class="btn btn-primary my-3"
+            (click)="addUnsubscribeLink($event)">{{unsubscribeButtonText}}
+    </button>
+    <!--<div class="text-right"><i class="fa fa-user" aria-hidden="true"></i></div>-->
+  </div>
+  <div class="text-right col-sm-12">
+    <button type="submit"
+            class="btn btn-primary"
+            data-toggle="modal"
+            data-target="#exampleModalLong"
+            [disabled]="!emailTemplateForm.valid || emailTemplate.emailTemplateBody=='' || emailTemplate.emailTemplateBody==undefined">Save
+    </button>
+  </div>
+</form>

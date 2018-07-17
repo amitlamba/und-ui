@@ -1,0 +1,61 @@
+
+<form #f="ngForm" (ngSubmit)="submitDemoForm(f)" novalidate>
+  <div>
+    <div class="form-group row">
+      <label for="name" class="col-sm-5 col-form-label">Name</label>
+      <div class="col-sm-7">
+        <input type="text" class="form-control" id="name"
+               placeholder="Name"
+               name="visitorName"
+               pattern="[A-Za-z0-9-_][A-Za-z0-9\s-_]*"
+               #nameOfVisitor="ngModel"
+               [ngClass]="{'border-danger':nameOfVisitor.touched }"
+               [(ngModel)]="contactUs.name">
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="email" class="col-sm-5 col-form-label">Email</label>
+      <div class="col-sm-7">
+        <input type="email" class="form-control" id="email"
+               placeholder="Email"
+               name="email"
+               [(ngModel)]="contactUs.email"
+               [ngClass]="{'border-danger':demoRequestEmail.invalid && (demoRequestEmail.touched || demoRequestEmail.dirty)}"
+               #demoRequestEmail="ngModel"
+               email>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="companyName" class="col-sm-5 col-form-label">Company Name</label>
+      <div class="col-sm-7">
+        <input type="text" class="form-control" id="companyName"
+               placeholder="Company Name"
+               name="Company Name"
+              [(ngModel)]="contactUs.companyName"
+               pattern="[A-Za-z0-9-_][A-Za-z0-9\s-_]*"
+               #companyName="ngModel"
+               [ngClass]="{'border-danger':companyName.invalid && (companyName.touched || companyName.dirty)}">
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-sm-5 col-form-label">Phone Number</label>
+      <div class="col-sm-7" style="width: 300px">
+        <ngx-intl-tel-input [(value)]="contactUs.mobileNo" [preferredCountries]="preferredCountries"></ngx-intl-tel-input>
+      </div>
+    </div>
+    <div class="form-group row">
+      <re-captcha class="mx-3 ml-auto" (captchaResponse)="handleCorrectCaptcha($event)"
+                  site_key="{{_site_key}}" #ReCaptchaComponent></re-captcha>
+    </div>
+    <div class="modal-footer" *ngIf="modalDemoButton">
+      <button type="button" class="btn btn-primary text-capitalize w-100 h-25"
+              data-dismiss="modal"
+              (click)="submitDemoForm(f)"
+              [disabled]="f.invalid">Get your free demo now !</button>
+    </div>
+    <div class="form-group row col-sm-7 pull-right pl-0" *ngIf="!modalDemoButton">
+      <button type="button" class="btn btn-primary "
+              (click)="submitDemoForm(f)">Schedule a Demo</button>
+    </div>
+  </div>
+</form>

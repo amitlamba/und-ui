@@ -1,0 +1,105 @@
+<div class="row justify-content-center">
+  <div class="col-sm-5">
+    <!--suppress ALL -->
+    <form novalidate
+          (ngSubmit)="onSubmit(f)"
+          #f="ngForm">
+
+      <div class="form-group">
+        <label>Email<sup class="text-danger">*</sup></label>
+        <input type="email"
+               class="form-control"
+               name="email"
+               [(ngModel)]="username"
+               placeholder="test@test.com"
+               readonly
+               #email="ngModel">
+        <div class="feedback text-danger"
+             *ngIf="email.errors && (email.dirty || email.touched)">
+          <p *ngIf="email.errors.required">Email is required</p>
+        </div>
+      </div>
+
+      <fieldset ngModelGroup="name">
+        <div class="form-group">
+          <label>First Name<sup class="text-danger">*</sup></label>
+          <input type="text"
+                 class="form-control"
+                 name="firstName"
+                 [(ngModel)]="userProfile.firstname"
+                 required
+                 #firstName="ngModel" placeholder="First Name">
+          <div class="feedback text-danger"
+               *ngIf="firstName.errors && (firstName.dirty || firstName.touched)">
+            <p *ngIf="firstName.errors.required">First name is required</p>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Last Name<sup class="text-danger">*</sup></label>
+          <input type="text"
+                 class="form-control"
+                 name="lastName"
+                 [(ngModel)]="userProfile.lastname"
+                 required
+                 #lastName="ngModel" placeholder="Last Name">
+          <div class="feedback text-danger"
+               *ngIf="lastName.errors && (lastName.dirty || lastName.touched)">
+            <p *ngIf="lastName.errors.required">Last name is required</p>
+          </div>
+        </div>
+      </fieldset>
+
+
+      <!--<div class="form-group">
+        <label>Company Name</label>
+        <input type="text"
+               class="form-control"
+               name="company"
+               [(ngModel)]="model.company"
+               required
+               #company="ngModel">
+        <div class="feedback"
+             *ngIf="company.errors && (company.dirty || company.touched)">
+          <p *ngIf="company.errors.required">Company name is required</p>
+        </div>
+      </div>-->
+
+
+      <div class="form-group">
+        <label>Mobile number<sup class="text-danger">*</sup></label>
+        <input type="number"
+               class="form-control"
+               name="mobile"
+               [(ngModel)]="userProfile.phone"
+               required
+               #mobile="ngModel" placeholder="Mobile Number">
+        <div class="feedback text-danger"
+             *ngIf="mobile.errors && (mobile.dirty || mobile.touched)">
+          <p *ngIf="mobile.errors.required">Mobile is required</p>
+        </div>
+      </div>
+
+
+      <div class="form-group">
+        <label>Address</label>
+        <textarea type="text"
+                  class="form-control"
+                  name="address"
+                  [(ngModel)]="userProfile.address"
+                  required
+                  #address="ngModel" placeholder="Address"></textarea>
+
+      </div>
+
+      <div class="text-right">
+        <button type="submit"
+                class="btn btn-success"
+                [disabled]="f.invalid">Update
+        </button>
+      </div>
+      <div class="alert-success" *ngIf="successMessage">{{successMessage}}</div>
+    </form>
+
+  </div>
+</div>

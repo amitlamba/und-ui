@@ -1,0 +1,39 @@
+.user-profile-image{
+  width:  75px;
+  height: 75px;
+  border-radius: 50%;
+  position: relative;
+  bottom: 30px;
+}
+.user-profile-header {
+  background: #eef1f3;
+}
+.profile-box {
+  box-shadow: 0 2px 6px 2px #c6cfd7;
+}
+.icon-size {
+  width: 18px;
+  height: 18px;
+}
+.client-id {
+  font-size: 11px;
+}
+.border-right {
+  border-right: 1px solid #d0d7de;
+}
+.user-info-icon {
+  font-size: 20px;
+  color: #8a9dad;
+}
+.longitude {
+  margin-left: 41px;
+}
+.user-profile-tabs.active {
+  background-color:#EEF1F3;
+}
+.user-profile-buttons.active, .user-profile-buttons:hover{
+  background-color: #117a8b;
+}
+.event-count {
+  background:#D4D4E3
+}

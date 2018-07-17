@@ -1,0 +1,59 @@
+<div class="container-fluid" *ngIf='emailTemplateObjectPresent && segmentObjectPresent'>
+  <section class="bg-white p-4 mb-4 rounded section-box-shadow">
+    <i class="fas fa-check-circle text-success fa-2x mr-3"></i>
+    <p class="text-uppercase mb-1 section-property d-inline-block">
+      When
+    </p>
+    <div class="mb-0" *ngIf="campaignInfoObject.schedule.oneTime">
+      <p *ngIf="campaignInfoObject.schedule.oneTime.nowOrLater=='Now'">
+        Run the campaign on {{campaignInfoObject.dateCreated | date:'medium'}}
+      </p>
+      <p *ngIf="campaignInfoObject.schedule.oneTime.nowOrLater=='Later'">
+        Run the campaign on {{campaignInfoObject.schedule.oneTime.campaignDateTime.date|date}} at
+        {{campaignInfoObject.schedule.oneTime.campaignDateTime.hours}}:{{campaignInfoObject.schedule.oneTime.campaignDateTime.minutes}}
+        {{campaignInfoObject.schedule.oneTime.campaignDateTime.ampm}}
+      </p>
+    </div>
+    <div class="mb-0" *ngIf="campaignInfoObject.schedule.multipleDates">
+      <p>Run the campaign on
+        <span class="mx-1"
+              *ngFor="let campaignDateTime of campaignInfoObject.schedule.multipleDates.campaignDateTimeList;let i=index;">
+        [ {{campaignDateTime.date|date}} at {{campaignDateTime.hours}}:{{campaignDateTime.minutes}} {{campaignDateTime.ampm}} ]
+        <span class="mx-1" *ngIf="i!=campaignInfoObject.schedule.multipleDates.campaignDateTimeList.length-1">,</span>
+      </span>
+      </p>
+    </div>
+    <div class="mb-0" *ngIf="campaignInfoObject.schedule.recurring">
+      <p class="text-capitalize mb-0">Start Date : <span>{{campaignInfoObject.schedule.recurring.scheduleStartDate|date}}</span>
+      </p>
+      <p>Run the campaign {{getCronExpressionSummary()}}.</p>
+    </div>
+  </section>
+  <section class="bg-white p-4 mb-4 rounded section-box-shadow">
+    <i class="fas fa-check-circle text-success fa-2x mr-3"></i>
+
+    <p class="text-uppercase mb-1 section-property d-inline-block">
+      Who
+    </p>
+    <p class="mb-0">
+      <app-segment-nlp [segment]="segment"></app-segment-nlp>
+    </p>
+  </section>
+  <section class="bg-white p-4 mb-4 rounded section-box-shadow">
+    <i class="fas fa-check-circle text-success fa-2x mr-3"></i>
+
+    <p class="text-uppercase mb-1 section-property d-inline-block">
+      What
+    </p>
+    <div class="card mb-0 mt-1" style="width: 21rem;">
+      <div class="card-header">
+        {{emailTemplate.name}}
+      </div>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item">From &mdash; {{emailTemplate.from}}</li>
+        <li class="list-group-item">Messaage Type &mdash; {{emailTemplate.messageType}}</li>
+        <li class="list-group-item">Subject &mdash; {{emailTemplate.emailTemplateSubject}}</li>
+      </ul>
+    </div>
+  </section>
+</div>

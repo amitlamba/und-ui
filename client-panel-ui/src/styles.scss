@@ -1,0 +1,14 @@
+
+@import "styles/scss/custombootstrap";
+@import "~bootstrap/scss/bootstrap";
+
+body, html {
+  font-size: 14.2px;
+  line-height: 1.5;
+  overflow-x: hidden;
+  color: #35384d;
+}
+
+.icon-light {
+  opacity: 0.4;
+}

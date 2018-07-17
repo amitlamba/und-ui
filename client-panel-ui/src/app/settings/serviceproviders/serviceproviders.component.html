@@ -1,0 +1,84 @@
+<!-- Button trigger modal -->
+<div class="text-right my-2 col-sm-11">
+  <button type="button"
+          class="btn btn-primary dropdown-toggle mb-3"
+          data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    <i class="fas fa-plus mr-1"></i> Add Service Provider
+  </button>
+  <div class="dropdown-menu my-0 py-0">
+    <a class="list-group-item list-group-item-action dropdown-item"
+       href="#serviceProviderModal"
+       data-toggle="modal"
+       *ngFor="let serviceProviderType of serviceProviderTypes"
+       (click)="onChangeServiceProviderType(serviceProviderType)">{{serviceProviderType}}</a>
+  </div>
+</div>
+<!-- Modal -->
+<div *ngIf=" serviceProviders.length>0 "
+     class="modal fade" id="serviceProviderModal" tabindex="-1" role="dialog"
+     aria-labelledby="serviceProviderModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="serviceProviderModalLabel">{{serviceProviderCredentials.serviceProviderType}}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body py-2 px-5">
+        <div>
+          <form novalidate (ngSubmit)="onSave(f)" #f="ngForm">
+            <div class="form-group">
+              <label for="serviceProvider">Service Provider</label>
+              <select required class="form-control" id="serviceProvider" name="serviceProvider"
+                      [(ngModel)]="serviceProviderCredentials.serviceProvider" (change)="onChangeServiceProvider()">
+                <option *ngFor="let serviceProvider of serviceProviders" value="{{serviceProvider}}">{{serviceProvider}}
+                </option>
+              </select>
+            </div>
+            <div *ngFor="let field of serviceProviderFields" class="form-group">
+              <label for="{{field.fieldName}}">{{field.fieldDisplayName}}</label>
+              <input required type="text" placeholder="{{field.fieldDisplayName}}" class="form-control"
+                     id="{{field.fieldName}}" name="{{field.fieldName}}"
+                     [(ngModel)]="serviceProviderCredentials.credentialsMap[field.fieldName]">
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary"
+                data-toggle="modal"
+                data-target="#serviceProviderModal"
+                [disabled]="f.invalid" (click)="onSave()">Save
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row justify-content-center">
+
+  <div class="col-sm-10">
+    <table class="table">
+      <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Service Provider Type</th>
+        <th scope="col">Service Provider</th>
+        <th scope="col">Status</th>
+        <th scope="col">Action</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let serviceProviderCredential of serviceProviderCredentialsList">
+        <th scope="row">{{serviceProviderCredential.id}}</th>
+        <td>{{serviceProviderCredential.serviceProviderType}}</td>
+        <td>{{serviceProviderCredential.serviceProvider}}</td>
+        <td>{{serviceProviderCredential.status}}</td>
+        <td>@Instagram</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
