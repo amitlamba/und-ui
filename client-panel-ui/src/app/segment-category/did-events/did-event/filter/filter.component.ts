@@ -55,6 +55,7 @@ export class FilterComponent implements OnInit {
       multiple: true,
       placeholder: "Please Select a Value"
     };
+    this.filterFirstDropdown(this.defaultProperties[0]);
   }
 
 
