@@ -69,6 +69,7 @@ subprojects {
 
     ext {
         swaggerVersion = '2.7.0'
+        jedisVersion = '2.9.0'
         springCloudVersion = 'Finchley.RELEASE'
     }
 
@@ -107,7 +108,12 @@ subprojects {
         // https://mvnrepository.com/artifact/com.github.danielwegener/logback-kafka-appender
         //compile group: 'com.github.danielwegener', name: 'logback-kafka-appender', version: '0.2.0-RC1'
 
+        compile(
+                "org.springframework.boot:spring-boot-starter-data-redis",
+                "redis.clients:jedis:$jedisVersion",
 
+
+        )
         compile group: 'org.codehaus.janino', name: 'janino', version: '3.0.8'
 
         runtime('org.springframework.boot:spring-boot-devtools')
