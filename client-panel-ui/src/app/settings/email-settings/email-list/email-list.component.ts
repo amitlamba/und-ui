@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {SendersInfo} from "../../_models/client";
-import {SettingsService} from "../../_services/settings.service";
+import {SendersInfo} from "../../../_models/client";
+import {SettingsService} from "../../../_services/settings.service";
 
 @Component({
   selector: 'app-email-list',

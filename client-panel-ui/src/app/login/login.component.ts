@@ -1,9 +1,10 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import 'rxjs/add/operator/map';
 import {AuthenticationService} from "../_services/authentication.service";
 import {_RECAPTCHA_KEY} from "../_settings/app-settings";
+import {MessageService} from "../_services/message.service";
 
 
 @Component({
@@ -19,12 +20,14 @@ export class LoginComponent implements OnInit {
   public token: string;
   _site_key = _RECAPTCHA_KEY;
   recaptchaToken: string = null;
+  returnUrl: string;
 
   @Output() loginEvent = new EventEmitter();
 
-  constructor(private http: HttpClient,
+  constructor(private route: ActivatedRoute,
               private router: Router,
-              private authenticationService: AuthenticationService) {
+              private authenticationService: AuthenticationService,
+              private messageService: MessageService) {
     var currentUser = JSON.parse(localStorage.getItem('currentUser'));
     this.token = currentUser && currentUser.token;
 
@@ -33,6 +36,8 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
 
     this.authenticationService.logout();
+
+    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/dashboard';
   }
 
   login() {
@@ -43,7 +48,8 @@ export class LoginComponent implements OnInit {
       (response) => {
         console.log(response);
         this.loginEvent.emit();
-        this.router.navigate(['/dashboard']);
+        this.router.navigate([this.returnUrl]);
+        this.messageService.addSuccessMessage("Logged In successfully.");
       },
       (error: HttpErrorResponse) => {
         this.error = error.error.message;

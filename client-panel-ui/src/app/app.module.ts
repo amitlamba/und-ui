@@ -71,7 +71,7 @@ import {DemoTinymceComponent} from "./_helpers/demo-tinymce/demo-tinymce.compone
 import {CampaignService} from "./_services/campaign.service";
 import {AccountSettingsComponent} from './settings/account-settings/account-settings.component';
 import {TimezonePickerModule} from 'ng2-timezone-selector';
-import {EmailListComponent} from './settings/email-list/email-list.component';
+import {EmailListComponent} from './settings/email-settings/email-list/email-list.component';
 import {LandingPageUndComponent} from './landing-page-und/landing-page-und.component';
 import {BsDropdownModule} from 'ngx-bootstrap/dropdown';
 import {DemoFormComponent} from './demo-form/demo-form.component';
@@ -94,6 +94,7 @@ import {Select2Module} from "ng2-select2";
 import {BaseGraphComponent} from './graphs/base-graph/base-graph.component';
 import {EventUserListComponent} from './segment-category/event-user-list/event-user-list.component';
 import {InputTrimDirective} from "./_directives/input-trim.directive";
+import { EmailSettingsComponent } from './settings/email-settings/email-settings.component';
 
 
 @NgModule({
@@ -179,7 +180,8 @@ import {InputTrimDirective} from "./_directives/input-trim.directive";
     KeysPipe,
     BaseGraphComponent,
     EventUserListComponent,
-    InputTrimDirective
+    InputTrimDirective,
+    EmailSettingsComponent
   ],
   providers: [
     AuthGuard,

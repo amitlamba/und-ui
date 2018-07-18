@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div class="container-fluid" xmlns="http://www.w3.org/1999/html">
   <div class="text-right mt-3 mb-1">
     <!-- Button trigger modal -->
     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong" (click)="onCreateNew()">
@@ -8,7 +8,6 @@
   <table class="table table-bordered my-3">
     <thead style="background-color: rgba(0, 0, 0, .03);">
     <tr>
-      <th scope="col">#</th>
       <th scope="col">Segment Name</th>
       <th scope="col">Segment Type</th>
       <th scope="col">Created On</th>
@@ -18,7 +17,6 @@
     <tbody>
     <ng-template ngFor let-segment [ngForOf]="segments.reverse()">
       <tr>
-        <th scope="row">{{segment.id}}</th>
         <td (click)="toggleSegmentDetail(segment.id)">
           <span class="segment-name text-primary">{{segment.name}} &nbsp;&nbsp;&nbsp;
             <span *ngIf="toggleSegmentDetails[segment.id]"><i class="far fa-minus-square"></i>
@@ -29,10 +27,10 @@
         </td>
         <td>{{segment.type}}</td>
         <td>{{segment.creationDate+"Z" | date:'medium'}}</td>
-        <td></td>
+        <td><button class="btn btn-sm btn-outline-primary" data-toggle="tooltip" data-placement="top" title="View Reports"><i class="far fa-chart-bar"></i></button></td>
       </tr>
       <tr *ngIf="toggleSegmentDetails[segment.id]">
-        <td colspan="5">
+        <td colspan="4">
           <app-segment-nlp [segment]="segment"></app-segment-nlp>
         </td>
       </tr>
