@@ -45,6 +45,11 @@
       </button>
     </div>
     <br>
+    <div class="form-group" *ngIf="showCodeBlock">
+      <label>Account ID:</label>
+      <div><textarea rows="7" class="form-control" readonly>{{tokenValue}}</textarea></div>
+    </div>
+    <br>
     <figure class="mt-5" style="background: #EBEBE4;" *ngIf="showCodeBlock">
       <pre>
            <code id="codeValue">
@@ -52,6 +57,9 @@
           </code>
         </pre>
     </figure>
+
+    <br class="mt-5">
+    <hr>
     <form novalidate
           #unsubscribeLinkForm="ngForm"
           class="my-4">

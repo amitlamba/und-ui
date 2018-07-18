@@ -24,6 +24,7 @@ export class EmailTemplate {
   from: string;
   editorSelected: EditorSelected;
   tags: string;
+  dateCreated: Date;
 }
 
 export enum EditorSelected {

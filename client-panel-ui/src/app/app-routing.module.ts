@@ -22,12 +22,13 @@ import {CampaignsComponent} from "./campaigns/campaigns.component";
 import {SetupCampaignComponent} from "./campaigns/setup-campaign/setup-campaign.component";
 import {CampaignsListComponent} from "./campaigns/campaigns-list/campaigns-list.component";
 import {AccountSettingsComponent} from "./settings/account-settings/account-settings.component";
-import {EmailListComponent} from "./settings/email-list/email-list.component";
+import {EmailListComponent} from "./settings/email-settings/email-list/email-list.component";
 import {LandingPageUndComponent} from "./landing-page-und/landing-page-und.component";
 import {AboutUsComponent} from "./about-us/about-us.component";
 import {TermsOfServiceComponent} from "./terms-of-service/terms-of-service.component";
 import {ContactUsComponent} from "./contact-us/contact-us.component";
 import {UserProfileComponent} from "./user-profile/user-profile.component";
+import {EmailSettingsComponent} from "./settings/email-settings/email-settings.component";
 
 const routes: Routes = [
   {path: 'login', component: LoginComponent},
@@ -43,7 +44,9 @@ const routes: Routes = [
       {path: 'profile', component: ProfileComponent},
       {path: 'service-provider-settings', component: ServiceprovidersComponent},
       {path: 'account-settings', component: AccountSettingsComponent},
-      {path: 'email-list', component: EmailListComponent}
+      {path: 'email-settings', component: EmailSettingsComponent, children: [
+        {path: 'email-list', component: EmailListComponent}
+      ]}
     ]
   },
   {path: 'segment', redirectTo: "segment/segments", canActivate: [AuthGuard], pathMatch: "full"},

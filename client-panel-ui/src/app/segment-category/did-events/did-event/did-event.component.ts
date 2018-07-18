@@ -130,7 +130,7 @@ export class DidEventComponent implements OnInit {
     if (!this.hideWhere) {
       this.didEvent.whereFilter = new WhereFilter();
       this.didEvent.whereFilter.operator = NumberOperator.GreaterThan;
-      this.didEvent.whereFilter.values = [];
+      this.didEvent.whereFilter.values = [0];
       this.countDropdown("Count");
     }
   }

@@ -1,0 +1,69 @@
+<h3 class="text-center my-3">Authorized From Email Addresses</h3>
+<hr class="my-3">
+<h4 class="my-3">Add a new From Email Address</h4>
+<form class="form-row mx-0" novalidate>
+  <input type="text"
+         name="name"
+         placeholder="Name*"
+         class="form-control  col-md-4 mr-4 mt-2"
+         [ngClass]="{'border-danger':name.invalid && (name.touched || name.dirty)}"
+         [(ngModel)]="sendersInfo.personal"
+         pattern="[A-Za-z0-9-_][A-Za-z0-9\s-_]*"
+         #name="ngModel"
+         required>
+  <input type="email"
+         name="email"
+         placeholder="Email*"
+         class="form-control col-md-5 mr-auto mt-2"
+         [(ngModel)]="sendersInfo.address"
+         [ngClass]="{'border-danger':email.invalid && (email.touched || email.dirty)}"
+         #email="ngModel"
+         required
+         email>
+  <button class="btn btn-primary mt-2 info-add"
+          type="add"
+          (click)="addSendersInfo()"
+          [disabled]="email.invalid || name.invalid">Add
+  </button>
+</form>
+<div class="feedback text-danger" *ngIf="name.invalid && (name.touched || name.dirty)">
+  <div *ngIf="name.errors.required">
+    Name is required.
+  </div>
+  <div *ngIf="name.errors.pattern">
+    Name cannot contain any special characters and cannot start with the space.
+  </div>
+</div>
+<div class="feedback text-danger" *ngIf="email.invalid && (email.touched || email.dirty)">
+  <div *ngIf="email.errors.required">
+    Email is required.
+  </div>
+  <div *ngIf="email.invalid">
+    Email field should have a valid Email Address.
+  </div>
+</div>
+<hr class="my-3">
+<div class="table-responsive-sm mt-4">
+  <h4 class="my-4">List of Authorized From Email Addresses</h4>
+  <table class="table table-bordered">
+    <thead>
+    <tr class="bg-primary">
+      <th scope="col" style="color: rgba(255, 255, 255, 0.5);">Name</th>
+      <th scope="col" style="color: rgba(255, 255, 255, 0.5);">Email Id</th>
+      <th scope="col" style="color: rgba(255, 255, 255, 0.5);">Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let senderInfo of sendersInfoList">
+      <td>{{senderInfo.personal}}</td>
+      <td>{{senderInfo.address}}
+      <td>
+        <button class="border-0"
+                (click)="deleteSendersInfo(senderInfo)"
+                id="deleteButton"><i class="far fa-trash-alt text-primary"></i>
+        </button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>

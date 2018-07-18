@@ -38,7 +38,7 @@
                  pattern="[A-Za-z0-9-_][A-Za-z0-9\s-_]*"
                  #contactUserName="ngModel"
                  [ngClass]="{'border-danger': contactUserName.invalid && (contactUserName.touched || contactUserName.dirty)}"
-                 required>
+                 required trim="blur">
           <div class="alert alert-danger col-12 mb-0 py-2"
                *ngIf="contactUserName.errors && (contactUserName.dirty || contactUserName.touched)">
             <div *ngIf="contactUserName.errors.required">
@@ -62,7 +62,8 @@
                  #email="ngModel"
                  [ngClass]="{'border-danger':email.invalid && (email.touched || email.dirty)}"
                  email
-                 required>
+                 required
+                 trim="blur">
           <div class="alert alert-danger col-12 mb-0 py-2" *ngIf="email.errors && (email.dirty || email.touched)">
             <div *ngIf="email.invalid || email.errors.required">
               Invalid Email.
@@ -88,7 +89,7 @@
                     [(ngModel)]="contactUs.message"
                     #contactUsMessage="ngModel"
                     [ngClass]="{'border-danger':contactUsMessage.invalid && (contactUsMessage.touched || contactUsMessage.dirty)}"
-                    required></textarea>
+                    required trim="blur"></textarea>
           <div class="alert alert-danger col-12 mb-0 py-2"
                *ngIf="contactUsMessage.errors && (contactUsMessage.dirty || contactUsMessage.touched)">
             <div *ngIf="contactUsMessage.invalid">

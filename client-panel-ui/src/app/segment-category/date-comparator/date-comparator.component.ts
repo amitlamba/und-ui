@@ -112,24 +112,24 @@ export class DateComparatorComponent implements OnInit {
     console.log(value);
     console.log(daterange);
     let values = [];
-    values[0] = value.start;
-    values[1] = value.end;
+    values[0] = (<moment.Moment>value.start).format("YYYY-MM-DD");
+    values[1] = (<moment.Moment>value.end).format("YYYY-MM-DD");
     this.localValues = values;
     this.values = this.localValues;
   }
   singleSelect(value: any) {
     console.log(value);
     let values = [];
-    values[0] = value.start;
+    values[0] = (<moment.Moment>value.start).format("YYYY-MM-DD");
     this.localValues = values;
     this.values = this.localValues;
   }
 
   ngOnInit() {
     this.operator = DateOperator.Before;
-    this.values = [moment().startOf('day')];
+    this.values = [moment().startOf('day').format("YYYY-MM-DD")];
     this.changeDetectorRef.detectChanges();
-    console.log(moment().startOf('day'));
+    console.log(moment().startOf('day').format("YYYY-MM-DD"));
   }
 
   resetOperatorValuesArray() {

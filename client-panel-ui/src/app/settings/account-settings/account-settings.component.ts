@@ -53,9 +53,8 @@ export class AccountSettingsComponent implements OnInit {
       (response) => {
         console.log(response.data.value.token);
         this.tokenValue = response.data.value.token;
-        this.codeSnippet = "var _und = _und || {event: [], profile: [], account: [], onUserLogin: [], notifications: []};\n" +
-          "    // replace with the UND_ACCOUNT_ID with the actual ACCOUNT ID value from your Dashboard -> Settings page\n" +
-          "    _und.account.push({\"id\":" + this.tokenValue + "});\n" +
+        this.codeSnippet = "var _und = _und || {event: [], profile: [], account: [], login: [], notifications: []};\n" +
+          "    _und.account.push({\"id\":\"" + this.tokenValue + "\"});\n" +
           "    (function () {\n" +
           "        var dsft = document.createElement('script');\n" +
           "        dsft.type = 'text/javascript';\n" +
@@ -64,7 +63,7 @@ export class AccountSettingsComponent implements OnInit {
           "        dsft.src = 'build/main.min.js';\n" +
           "        var s = document.getElementsByTagName('script')[0];\n" +
           "        s.parentNode.insertBefore(dsft, s);\n" +
-          "    })();"
+          "    })();";
       }
     );
     this.settingsService.getUnSubscribeLink()
