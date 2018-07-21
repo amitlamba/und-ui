@@ -1,6 +1,6 @@
 import {
   Component, ElementRef, NgZone, Input, ViewChild, EventEmitter, Output, OnDestroy,
-  AfterViewInit
+  AfterViewInit, OnInit
 } from '@angular/core';
 import {MentionDirective} from "../mention/mention.directive";
 import {UserParams} from "../../_models/user";
@@ -20,13 +20,13 @@ declare var tinymce: any;
     <div class="form-group" style="position:relative">
       <div [mention]="items"></div>
       <div>
-        <textarea class="hidden" cols="60" rows="4" id="tmce" >{{htmlContent}}
+        <textarea class="hidden" cols="60" rows="10" id="tmce" >{{htmlContent}}
         </textarea>
         <button class="btn btn-primary my-3" (click)="addUnsubscribeLink($event)" type="button">{{unsubscribeButtonText}}</button>
       </div>
     </div>`
 })
-export class DemoTinymceComponent implements OnDestroy, AfterViewInit{
+export class DemoTinymceComponent implements OnDestroy, AfterViewInit, OnInit{
   @ViewChild('tmce') tmce: ElementRef;
 
   unsubscribeButtonText = "Add Unsubscribe";
@@ -47,17 +47,21 @@ export class DemoTinymceComponent implements OnDestroy, AfterViewInit{
   constructor(private _elementRef: ElementRef, private _zone: NgZone) {
   }
 
-  ngOnDestroy() {
-    tinymce.remove();
-  }
-
-  ngAfterViewInit() {
+  ngOnInit() {
     console.log(this.htmlContent);
     if (this.htmlContent && this.htmlContent.indexOf('##UND_UNSUBSCRIBE_LINK##') >= 0) {
       this.unsubscribeButtonText = "Remove Unsubscribe";
     } else {
       this.unsubscribeButtonText = "Add Unsubscribe";
     }
+  }
+
+  ngOnDestroy() {
+    tinymce.remove();
+  }
+
+  ngAfterViewInit() {
+
     tinymce.init({
       mode: 'exact',
       height: 100,

@@ -95,6 +95,7 @@ import {BaseGraphComponent} from './graphs/base-graph/base-graph.component';
 import {EventUserListComponent} from './segment-category/event-user-list/event-user-list.component';
 import {InputTrimDirective} from "./_directives/input-trim.directive";
 import { EmailSettingsComponent } from './settings/email-settings/email-settings.component';
+import { OrderByPipe } from './_pipes/order-by.pipe';
 
 
 @NgModule({
@@ -181,7 +182,8 @@ import { EmailSettingsComponent } from './settings/email-settings/email-settings
     BaseGraphComponent,
     EventUserListComponent,
     InputTrimDirective,
-    EmailSettingsComponent
+    EmailSettingsComponent,
+    OrderByPipe
   ],
   providers: [
     AuthGuard,

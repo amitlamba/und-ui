@@ -1,18 +1,24 @@
+<div class="container">
+  <h1 class="text-center" *ngIf="createNewTemplate">Create Email Template</h1>
+  <h1 class="text-center" *ngIf="!createNewTemplate">Edit Email Template</h1>
 <form (ngSubmit)="onSave(emailTemplateForm)" #emailTemplateForm="ngForm">
   <div class="form-group col-sm-12">
-    <label for="name">Name</label>
+    <label for="name">Name of the Template
+      <span class="text-primary" data-toggle="tooltip" data-placement="top" title="This will later help you identify and search for Templates">
+        <i class="fa fa-question-circle" aria-hidden="true"></i>
+      </span></label>
     <input type="text" class="form-control" maxlength="100" id="name" name="name"
            placeholder="Name (Will help you in searching templates)" [(ngModel)]="emailTemplate.name"
            required>
   </div>
   <div class="form-group col-sm-8 col-md-6 col-lg-5">
     <label for="messageType">Email Message Type</label>
-    <select type="text" class="form-control" id="messageType" name="messageType"
+    <select class="form-control" id="messageType" name="messageType"
             [(ngModel)]="emailTemplate.messageType"
             required>
-      <option value="" disabled selected>Select your option</option>
-      <option value="PROMOTIONAL">PROMOTIONAL</option>
-      <option value="TRANSACTIONAL">TRANSACTIONAL</option>
+      <!--<option value="" disabled [selected]="!emailTemplate.messageType">Select your option</option>-->
+      <option value='PROMOTIONAL' selected>PROMOTIONAL</option>
+      <option value='TRANSACTIONAL'>TRANSACTIONAL</option>
     </select>
   </div>
   <div class="form-group col-sm-8 col-md-6 col-lg-5">
@@ -21,7 +27,7 @@
             [(ngModel)]="emailTemplate.from" required>
       <option value="" disabled selected>Select your option</option>
       <option *ngFor="let sendersInfo of sendersInfoList;"
-              [value]="sendersInfo.address">{{sendersInfo.address}}
+              [value]="sendersInfo.address" [selected]="emailTemplate.from == sendersInfo.address">{{sendersInfo.address}}
       </option>
     </select>
     <button class="btn btn-link"
@@ -78,11 +84,12 @@
     <!--<div class="text-right"><i class="fa fa-user" aria-hidden="true"></i></div>-->
   </div>
   <div class="text-right col-sm-12">
+    <button class="btn btn-light" (click)="onCancel()">Cancel
+    </button>
     <button type="submit"
             class="btn btn-primary"
-            data-toggle="modal"
-            data-target="#exampleModalLong"
             [disabled]="!emailTemplateForm.valid || emailTemplate.emailTemplateBody=='' || emailTemplate.emailTemplateBody==undefined">Save
     </button>
   </div>
 </form>
+</div>
