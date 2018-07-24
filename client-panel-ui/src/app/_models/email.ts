@@ -20,9 +20,9 @@ export class EmailTemplate {
   emailTemplateBody: string;
   emailTemplateSubject: string;
   parentID: number;
-  messageType: string;
-  from: string;
-  editorSelected: EditorSelected;
+  messageType: string = '';
+  from: string = '';
+  editorSelected: EditorSelected = EditorSelected.tinymceEditor;
   tags: string;
   dateCreated: Date;
 }

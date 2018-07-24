@@ -1,4 +1,4 @@
-import {ComponentFactoryResolver, ViewContainerRef} from '@angular/core';
+import {ComponentFactoryResolver, OnChanges, SimpleChanges, ViewContainerRef} from '@angular/core';
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {SegmentService} from "../../_services/segment.service";
 import {DateTimeComponent} from "./date-time/date-time.component";
@@ -15,6 +15,7 @@ import * as moment from "moment";
 import {ActivatedRoute, Router} from "@angular/router";
 import {Email, EmailTemplate} from "../../_models/email";
 import {CampaignService} from "../../_services/campaign.service";
+import {MessageService} from "../../_services/message.service";
 
 @Component({
   selector: 'app-setup-campaign',
@@ -26,6 +27,7 @@ export class SetupCampaignComponent implements OnInit {
   showScheduleForm: boolean = false;
   showCloseButton: boolean = false;
   disableSubmit: boolean = false;
+  invalidCron: boolean = false;
   occurencesValueFalse: boolean = false;
   cronExpression = '0 0 10 1 1/1 ? *'; //FIXME
   isCronDisabled: boolean = false;
@@ -80,7 +82,8 @@ export class SetupCampaignComponent implements OnInit {
               private templatesService: TemplatesService,
               private route: ActivatedRoute,
               private router: Router,
-              private campaignService: CampaignService) {
+              private campaignService: CampaignService,
+              private messageService: MessageService) {
     // this.scheduleType = ScheduleType.oneTime;
     // this.schedule.oneTime = new ScheduleOneTime();
     // this.schedule.oneTime.nowOrLater = Now.Now;
@@ -127,6 +130,8 @@ export class SetupCampaignComponent implements OnInit {
   }
 
   onSubmit(): void {
+    if(this.disableSubmit)
+      this.messageService.addDangerMessage("Can not submit. Please correct and Submit");
     this.campaign.name = this.campaignName;
     if (this.scheduleType === ScheduleType.recurring) {
       this.schedule.recurring.cronExpression = this.cronExpression;
