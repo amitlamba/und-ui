@@ -16,6 +16,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {Email, EmailTemplate} from "../../_models/email";
 import {CampaignService} from "../../_services/campaign.service";
 import {MessageService} from "../../_services/message.service";
+import cronstrue from "cronstrue";
 
 @Component({
   selector: 'app-setup-campaign',
@@ -256,6 +257,9 @@ export class SetupCampaignComponent implements OnInit {
     this.schedule.recurring.scheduleEnd.occurrences = null;
   }
 
+  getCronExpressionSummary(){
+    return cronstrue.toString(this.cronExpression);
+  }
 }
 
 

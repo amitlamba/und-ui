@@ -91,19 +91,17 @@ export class DidEventComponent implements OnInit {
       alwaysShowCalendars: false
     };
     this.singleDate = Date.now();
-    this.segmentService.getEvents().subscribe(
-      (response) => {
-        this.segmentService.cachedRegisteredEvents = response;
-        this.registeredEvents = this.segmentService.cachedRegisteredEvents;
-        if(this.registeredEvents == null || this.registeredEvents.length==0) {
-          this.messageService.addDangerMessage("No Events Metadata available. Showing Dummy data.");
-          this.registeredEvents = this.segmentService.sampleEvents;
-        }
-        this.defaultProperties = this.segmentService.defaultEventProperties;
-        this.eventProperties = this.registeredEvents[0].properties;
-        this.eventNameChanged(0);
-      }
-    );
+    this.registeredEvents = this.segmentService.cachedRegisteredEvents;
+    if(this.registeredEvents == null || this.registeredEvents.length==0) {
+      this.messageService.addDangerMessage("No Events Metadata available. Showing Dummy data.");
+      this.registeredEvents = this.segmentService.sampleEvents;
+    }
+    this.defaultProperties = this.segmentService.defaultEventProperties;
+    this.eventProperties = this.registeredEvents[0].properties;
+  }
+
+  ngOnInit() {
+    this.eventNameChanged(0);
   }
 
   // private getCachedRegisteredEvents(): RegisteredEvent[] {
@@ -122,6 +120,7 @@ export class DidEventComponent implements OnInit {
     this.eventProperties = this.registeredEvents[val].properties;
     this.removeAllPropertyFilters();
     this.eventSelected = true;
+    console.log(this.registeredEvents[val].name);
     this.didEvent.name = this.registeredEvents[val].name;
     this.didEvent.dateFilter = new DateFilter();
     this.didEvent.dateFilter.operator = DateOperator.Before;
@@ -169,11 +168,6 @@ export class DidEventComponent implements OnInit {
     showDropdowns: true,
     opens: "right"
   };
-
-
-  ngOnInit() {
-  }
-
 
   model: any = {
     beginDate: {year: 2018, month: 10, day: 9},

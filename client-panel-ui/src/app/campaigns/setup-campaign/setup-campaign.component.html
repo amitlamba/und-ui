@@ -263,7 +263,7 @@
             </span>
             </p>
             <p *ngIf="scheduleType=='recurring'">
-              <b> {{cronExpression}} </b>
+              <b> {{getCronExpressionSummary()}} </b>
             </p>
           </div>
           <button class="btn btn-primary ml-3 px-4"

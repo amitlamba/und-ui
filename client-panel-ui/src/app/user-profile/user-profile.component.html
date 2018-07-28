@@ -7,9 +7,14 @@
         <h3 class="mb-2">{{ eventUser.firstName }} {{ eventUser.lastName }}</h3>
       </div>
       <div class="row">
-        <div class="form-group form-check ml-auto">
+        <div class="form-group form-check ml-auto mr-4">
           <input type="checkbox" class="form-check-input" id="testUser" required [checked]="markTestUser" (change)="markTestUser = !markTestUser; markTestUserChanged();">
-          <label class="form-check-label" for="testUser">Mark User as Test User</label>
+          <label class="form-check-label" for="testUser">
+            <a tooltip="If marked, this user could be used to send test messages.">
+              <i class="far fa-question-circle text-primary pb-1"></i>
+            </a>
+            Mark User as Test User
+          </label>
         </div>
       </div>
       <div class="row mx-4 py-3 my-2">
@@ -128,27 +133,52 @@
                 <tr>
                   <th scope="row">1</th>
                   <td>In App Notification</td>
-                  <td><i class="fas fa-check text-secondary"></i></td>
+                  <td><i class='fas' [ngClass]="{
+                    'fa-check':false,
+                    'fa-times':true,
+                    'text-success':false,
+                    'text-danger':true
+                  }"></i></td>
                 </tr>
                 <tr>
                   <th scope="row">2</th>
                   <td>Email</td>
-                  <td><i class="fas fa-check text-secondary"></i></td>
+                  <td><i class='fas' [ngClass]="{
+                    'fa-check':(!!eventUser.email),
+                    'fa-times':!eventUser.email,
+                    'text-success':(!!eventUser.email),
+                    'text-danger':!eventUser.email
+                  }"></i></td>
                 </tr>
                 <tr>
                   <th scope="row">3</th>
                   <td>Web Push Notifications</td>
-                  <td><i class="fas fa-times text-success"></i></td>
+                  <td><i class='fas' [ngClass]="{
+                    'fa-check':false,
+                    'fa-times':true,
+                    'text-success':false,
+                    'text-danger':true
+                  }"></i></td>
                 </tr>
                 <tr>
                   <th scope="row">4</th>
                   <td>SMS</td>
-                  <td><i class="fas fa-check text-secondary"></i></td>
+                  <td><i class='fas' [ngClass]="{
+                    'fa-check':(!!eventUser.mobile),
+                    'fa-times':!eventUser.mobile,
+                    'text-success':(!!eventUser.mobile),
+                    'text-danger':!eventUser.mobile
+                  }"></i></td>
                 </tr>
                 <tr>
                   <th scope="row">5</th>
                   <td>Push Notifications</td>
-                  <td><i class="fas fa-times text-success"></i></td>
+                  <td><i class='fas' [ngClass]="{
+                    'fa-check':false,
+                    'fa-times':true,
+                    'text-success':false,
+                    'text-danger':true
+                  }"></i></td>
                 </tr>
                 </tbody>
               </table>
@@ -194,8 +224,8 @@
                           <span class="pl-2">|</span>
                         </span>
                         <span *ngIf="!isEmptyObject(filteredEvent.event.attributes)">
-                          <span *ngFor="let key of filteredEvent.event.attributes | keys" tooltip="{{key.key}}">
-                            <span class="pr-1">{{key.value}}
+                          <span *ngFor="let attribute of filteredEvent.event.attributes | keys" tooltip="{{attribute.key}}">
+                            <span class="pr-1">{{attribute.value}}
                               <span class="pl-2">|</span>
                             </span>
                           </span>

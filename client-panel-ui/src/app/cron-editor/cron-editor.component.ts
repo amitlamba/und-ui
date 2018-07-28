@@ -116,9 +116,9 @@ export class CronGenComponent implements OnInit, OnChanges {
         switch (this.state.monthly.subTab) {
           case "specificDay":
             var specificDays = this.state.monthly.specificDay.days.map((value,index)=>{if(value) {return this.getSelectOptions().monthDaysWithLasts[index]} else return null}).filter((value, index)=>{if(value) return true;}).join(",");
-            if(specificDays.indexOf("L") != -1 && specificDays.indexOf(",") != -1) {
-              this.messageService.addDangerMessage("Last Day and Last Weekday are not suported with other days.");
-              this.state.monthly.specificDay.days[1] = this.state.monthly.specificDay.days[2] = false;
+            if((specificDays.indexOf("L") != -1 || specificDays.indexOf("W") != -1) && specificDays.indexOf(",") != -1) {
+              this.messageService.addDangerMessage("First Weekday, Last Day and Last Weekday are not suported with other days.");
+              this.state.monthly.specificDay.days[0] = this.state.monthly.specificDay.days[1] = this.state.monthly.specificDay.days[2] = false;
               specificDays = this.state.monthly.specificDay.days.map((value,index)=>{if(value) {return this.getSelectOptions().monthDaysWithLasts[index]} else return null}).filter((value, index)=>{if(value) return true;}).join(",");
             }
             console.log(this.state.monthly.specificDay.days);
@@ -126,17 +126,20 @@ export class CronGenComponent implements OnInit, OnChanges {
             this.cron = `${this.state.monthly.specificDay.seconds} ${this.state.monthly.specificDay.minutes} ${this.hourToCron(this.state.monthly.specificDay.hours, this.state.monthly.specificDay.hourType)} ${specificDays} 1/${this.state.monthly.specificDay.months} ? *`;
             break;
           case "specificWeekDay":
-            var specificWeekDay = this.state.monthly.specificWeekDay.days.map((value,index,array)=>{let d=index%7;let w=Math.floor(index/7); if(value) return this.myDays[d]+this.selectOptions.monthWeeks[w];}).filter((value, index)=>{console.log(value);if(value) return true;}).join(",");
-            if(specificWeekDay.indexOf(",") != -1) {
-              this.messageService.addDangerMessage("Multiple weekdays in a month not supported.");
-              var setIndex = 0;
-              this.state.monthly.specificWeekDay.days.forEach((v,k,a)=>{if(v==true) {a[k]=false; setIndex = k;} else {a[k]=false;}});
-              this.state.monthly.specificWeekDay.days[setIndex] = true;
-              specificWeekDay = this.state.monthly.specificWeekDay.days.map((value,index,array)=>{let d=index%7;let w=Math.floor(index/7); if(value) return this.myDays[d]+this.selectOptions.monthWeeks[w];}).filter((value, index)=>{console.log(value);if(value) return true;}).join(",");
-            }
-            console.log("Specific Week Day: " + specificWeekDay);
-            console.log("Specific Week Days: " + this.state.monthly.specificWeekDay.days);
-            this.cron = `${this.state.monthly.specificWeekDay.seconds} ${this.state.monthly.specificWeekDay.minutes} ${this.hourToCron(this.state.monthly.specificWeekDay.hours, this.state.monthly.specificWeekDay.hourType)} ? 1/${this.state.monthly.specificWeekDay.months} ${specificWeekDay} *`;
+            // var specificWeekDay = this.state.monthly.specificWeekDay.days.map((value,index,array)=>{let d=index%7;let w=Math.floor(index/7); if(value) return this.myDays[d]+this.selectOptions.monthWeeks[w];}).filter((value, index)=>{console.log(value);if(value) return true;}).join(",");
+            // if(specificWeekDay.indexOf(",") != -1) {
+            //   this.messageService.addDangerMessage("Multiple weekdays in a month not supported.");
+            //   var setIndex = 0;
+            //   this.state.monthly.specificWeekDay.days.forEach((v,k,a)=>{console.log(k+"=>"+v);if(v===true) {a[k]=false; setIndex = setIndex?setIndex:k;} else {a[k]=false;}});
+            //   this.state.monthly.specificWeekDay.days = new Array<boolean>();
+            //   this.state.monthly.specificWeekDay.days[setIndex] = true;
+            //   specificWeekDay = this.state.monthly.specificWeekDay.days.map((value,index,array)=>{let d=index%7;let w=Math.floor(index/7); if(value) return this.myDays[d]+this.selectOptions.monthWeeks[w];}).filter((value, index)=>{console.log(value);if(value) return true;}).join(",");
+            // }
+            // console.log("Specific Week Day: " + specificWeekDay);
+            // console.log("Specific Week Days: " + this.state.monthly.specificWeekDay.days);
+            // this.cron = `${this.state.monthly.specificWeekDay.seconds} ${this.state.monthly.specificWeekDay.minutes} ${this.hourToCron(this.state.monthly.specificWeekDay.hours, this.state.monthly.specificWeekDay.hourType)} ? 1/${this.state.monthly.specificWeekDay.months} ${specificWeekDay} *`;
+            this.cron = `${this.state.monthly.specificWeekDay.seconds} ${this.state.monthly.specificWeekDay.minutes} ${this.hourToCron(this.state.monthly.specificWeekDay.hours, this.state.monthly.specificWeekDay.hourType)} ? 1/${this.state.monthly.specificWeekDay.months} ${this.state.monthly.specificWeekDay.day}${this.state.monthly.specificWeekDay.monthWeek} *`;
+            console.log(this.cron);
             break;
           default:
             throw "Invalid cron monthly subtab selection";
@@ -338,7 +341,7 @@ export class CronGenComponent implements OnInit, OnChanges {
       monthly: {
         subTab: "specificDay",
         specificDay: {
-          days: [false, true],
+          days: [false, false, false, true],
           months: 1,
           hours: this.getAmPmHour(defaultHours),
           minutes: defaultMinutes,
@@ -347,7 +350,7 @@ export class CronGenComponent implements OnInit, OnChanges {
         },
         specificWeekDay: {
           monthWeek: "#1",
-          days: [true],
+          day: "MON",
           months: 1,
           hours: this.getAmPmHour(defaultHours),
           minutes: defaultMinutes,
