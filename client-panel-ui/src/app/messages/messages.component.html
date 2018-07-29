@@ -1,4 +1,4 @@
-<div *ngIf="messageService.messages.length" id="message-alert-bottom" class = col-sm-12>
+<div *ngIf="messageService.messages.length" id="message-alert-bottom" class = "col-sm-12 mx-auto">
 
   <div class="alert alert-dismissible fade show" role="alert"
        *ngFor='let message of messageService.messages' [ngClass]="'alert-'+message.messageStatus">

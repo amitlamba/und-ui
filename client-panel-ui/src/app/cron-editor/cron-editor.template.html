@@ -155,24 +155,36 @@
               </div>
             </div>
             <div class="row">
-              <div class="well well-small my-4" *ngIf="state.monthly.subTab=='specificWeekDay'">
+              <div class="well well-small my-4 mx-3" *ngIf="state.monthly.subTab=='specificWeekDay'">
                 <!--<input type="radio" name="monthly-radio" value="specificWeekDay" [disabled]="disabled"-->
                 <!--(change)="regenerateCron($event)"-->
                 <!--[(ngModel)]="state.monthly.subTab" [ngClass]="state.formRadioClass"> <span class="ml-2">By Day Of the Week</span>-->
-                <div class="select-size px-3 ml-1"
-                     *ngFor="let monthWeek of selectOptions.monthWeeks;let i=index">
-                  <span id="weekLabels">{{monthWeekDisplay(monthWeek)}}</span>
-                  <div class="d-inline-flex"
-                       *ngFor="let monthlyDay of myDays;let j=index">
-                    <input type="checkbox"
-                           [disabled]="disabled || activeTab !== 'monthly' || state.monthly.subTab !== 'specificWeekDay'"
-                           (change)="regenerateCron($event)"
-                           class="checkbox-btn"
-                           [(ngModel)]="state.monthly.specificWeekDay.days[7*i+j]"
-                           id="{{monthlyDay+monthWeek}}">
-                    <label class="checkbox-btn" for="{{monthlyDay+monthWeek}}">{{monthlyDay|slice:0:1}}</label>
-                  </div>
-                </div>
+                <!--<div class="select-size px-3 ml-1"-->
+                     <!--*ngFor="let monthWeek of selectOptions.monthWeeks;let i=index">-->
+                  <!--<span id="weekLabels">{{monthWeekDisplay(monthWeek)}}</span>-->
+                  <!--<div class="d-inline-flex"-->
+                       <!--*ngFor="let monthlyDay of myDays;let j=index">-->
+                    <!--<input type="checkbox"-->
+                           <!--[disabled]="disabled || activeTab !== 'monthly' || state.monthly.subTab !== 'specificWeekDay'"-->
+                           <!--(change)="regenerateCron($event)"-->
+                           <!--class="checkbox-btn"-->
+                           <!--[(ngModel)]="state.monthly.specificWeekDay.days[7*i+j]"-->
+                           <!--id="{{monthlyDay+monthWeek}}">-->
+                    <!--<label class="checkbox-btn" for="{{monthlyDay+monthWeek}}">{{monthlyDay|slice:0:1}}</label>-->
+                  <!--</div>-->
+                <!--</div>-->
+                <select class="day-order-in-month" [disabled]="disabled || activeTab !== 'monthly' || state.monthly.subTab !== 'specificWeekDay'"
+                        (change)="regenerateCron($event)" [(ngModel)]="state.monthly.specificWeekDay.monthWeek" [ngClass]="options.formSelectClass">
+                  <option *ngFor="let monthWeek of selectOptions.monthWeeks" [ngValue]="monthWeek">
+                    {{monthWeekDisplay(monthWeek)}}
+                  </option>
+                </select>
+                <select class="week-days" [disabled]="disabled || activeTab !== 'monthly' || state.monthly.subTab !== 'specificWeekDay'"
+                        (change)="regenerateCron($event)" [(ngModel)]="state.monthly.specificWeekDay.day" [ngClass]="options.formSelectClass">
+                  <option *ngFor="let day of selectOptions.days" [ngValue]="day">
+                    {{dayDisplay(day)}}
+                  </option>
+                </select>
                 <div class="col-md-12 my-4">
                   of every
                   <select class="months-small"

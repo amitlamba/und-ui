@@ -7,6 +7,7 @@ import {UserFields} from "../../../_settings/app-settings";
 import {UserParams} from "../../../_models/user";
 import {SettingsService} from "../../../_services/settings.service";
 import {SendersInfo} from "../../../_models/client";
+import {HttpErrorResponse} from "@angular/common/http";
 
 @Component({
   selector: 'app-create-email-template-form',
@@ -14,9 +15,9 @@ import {SendersInfo} from "../../../_models/client";
   styleUrls: ['./create-email-template-form.component.scss']
 })
 export class CreateEmailTemplateFormComponent implements OnInit, OnChanges {
-  emailTemplate: EmailTemplate;
+  emailTemplate: EmailTemplate = new EmailTemplate();
 
-  @Input() createNewTemplate: boolean = false;
+  createNewTemplate: boolean = false;
   unsubscribeButtonText = "Add Unsubscribe";
 
   sendersInfoList: SendersInfo[] = [];
@@ -32,7 +33,9 @@ export class CreateEmailTemplateFormComponent implements OnInit, OnChanges {
   constructor(private templatesService: TemplatesService, private messageService: MessageService,
               private settingsService: SettingsService, private router: Router,
               private route: ActivatedRoute) {
-    this.route.params.subscribe(params => this.createNewTemplate=params['newTemplate']);
+    this.route.params.subscribe((params) => {
+      this.createNewTemplate = params['newTemplate'] === 'true';
+    });
     this.state = this.router.routerState.snapshot;
   }
 
@@ -53,11 +56,6 @@ export class CreateEmailTemplateFormComponent implements OnInit, OnChanges {
         }
       );
     }
-    if (this.createNewTemplate) {
-      this.emailTemplate.from = "";                             // to set default value of Fromdropdown
-      this.emailTemplate.messageType = "";                    // to set default value of MessageTypedropdown
-      this.emailTemplate.editorSelected = EditorSelected.tinymceEditor;
-    }
     this.setUpUnsubscribeButtonText()
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/templates/email';
     // this.returnUrl = '/template/email';
@@ -73,6 +71,9 @@ export class CreateEmailTemplateFormComponent implements OnInit, OnChanges {
               this.templatesService.editEmailTemplate(this.emailTemplate);
               this.messageService.addSuccessMessage("Email Template Edited Successfully");
               this.router.navigateByUrl(this.returnUrl);
+            },
+            (error: HttpErrorResponse) => {
+              this.messageService.addDangerMessage(error.error.message);
             }
           );
       } else {
@@ -84,6 +85,9 @@ export class CreateEmailTemplateFormComponent implements OnInit, OnChanges {
               this.templatesService.addEmailTemplate(this.emailTemplate);
               this.messageService.addSuccessMessage("Email Template Created Successfully");
               this.router.navigateByUrl(this.returnUrl);
+            },
+            (error: HttpErrorResponse) => {
+              this.messageService.addDangerMessage(error.error.message);
             }
           );
       }

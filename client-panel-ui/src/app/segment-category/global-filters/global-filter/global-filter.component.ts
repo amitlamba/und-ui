@@ -53,7 +53,9 @@ export class GlobalFilterComponent implements OnInit {
   }
 
   constructor(private segmentService: SegmentService) {
-    this.globalFiltersMetadata = this.segmentService.globalFiltersMetadata;
+    this.globalFiltersMetadata = this.segmentService.cachedUserProperties.reduce(
+      (ac, p) => ({...ac, [p.name]: p.properties}), {}
+    );
   }
 
   ngOnInit() {
@@ -69,7 +71,7 @@ export class GlobalFilterComponent implements OnInit {
     this.firstFilterSelected = name;
     this.globalFilter.globalFilterType = GlobalFilterType[name];
     this.secondDropDown = this.getDropdownList(1);
-    this.secondFilterSelected = this.secondDropDown[0]['propertyName'];
+    this.secondFilterSelected = this.secondDropDown[0]['name'];
     this.globalFilter.name = this.secondFilterSelected;
     this.maxOrder = 1;
   }
@@ -80,8 +82,8 @@ export class GlobalFilterComponent implements OnInit {
     this.globalFilter.values = [];
     // console.log(this.globalFilter.values);
     for(let filter of this.globalFiltersMetadata[this.firstFilterSelected]) {
-      if(filter["propertyName"] == this.secondFilterSelected) {
-        this.secondFilterDataType = filter["propertyType"];
+      if(filter["name"] == this.secondFilterSelected) {
+        this.secondFilterDataType = filter["dataType"];
         this.options = filter["options"];
         this.globalFilter.type = this.secondFilterDataType;
       }

@@ -12,7 +12,7 @@ export class DateTimeComponent implements OnInit {
   _ref: any;
   campaignTime: CampaignDateTime = new CampaignDateTime();
   date = new Date();
-  campaignTimeAmpPmList: string[];
+  campaignTimeAmPmList: string[];
   time = {
     hours: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
     minutes: [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55]
@@ -42,7 +42,7 @@ export class DateTimeComponent implements OnInit {
   }
 
   constructor() {
-    this.campaignTimeAmpPmList = Object.keys(AmPm);
+    this.campaignTimeAmPmList = Object.keys(AmPm);
   }
 
   ngOnInit() {

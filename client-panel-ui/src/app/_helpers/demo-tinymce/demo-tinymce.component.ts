@@ -64,7 +64,8 @@ export class DemoTinymceComponent implements OnDestroy, AfterViewInit, OnInit{
 
     tinymce.init({
       mode: 'exact',
-      height: 100,
+      height: 500,
+      min_height: 500,
       theme: 'modern',
       branding: false,
       menubar: false,

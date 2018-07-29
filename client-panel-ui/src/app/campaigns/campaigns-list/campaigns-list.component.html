@@ -7,7 +7,7 @@
         <i class="fas fa-plus mr-1"></i> Create New Campaign
       </button>
       <div class="dropdown-menu py-0 my-0">
-        <a class="dropdown-item list-group-item list-group-item-action"
+        <a class="dropdown-item list-group-item list-group-item-action disabled"
            [routerLink]="['sms']"
            [routerLinkActive]="['active']">
           <i class="fas fa-mobile-alt mr-2 "></i>SMS</a>
@@ -15,9 +15,9 @@
            [routerLink]="['email']"
            [routerLinkActive]="['active']">
           <i class="far fa-envelope mr-2"></i>Email</a>
-        <a class="dropdown-item list-group-item list-group-item-action disabled">
-          <i class="fal fa-mobile mr-2"></i> Mobile Push</a>
-        <a class="dropdown-item list-group-item list-group-item-action disabled">
+        <a class="dropdown-item list-group-item list-group-item-action disabled text-muted">
+          <i class="fa fa-mobile mr-2"></i> Mobile Push</a>
+        <a class="dropdown-item list-group-item list-group-item-action disabled text-muted">
           <i class="fab fa-chrome mr-2"></i> Web Push</a>
       </div>
     </div>
@@ -26,7 +26,6 @@
     <table class="table table-bordered my-3">
       <thead style="background-color: rgba(0, 0, 0, .03);">
       <tr>
-        <th scope="col">#</th>
         <th scope="col">Campaign Name</th>
         <th scope="col">Campaign Type</th>
         <th scope="col">Created On</th>
@@ -36,8 +35,7 @@
       </tr>
       </thead>
       <tbody>
-      <tr *ngFor="let campaignItem of campaigns;">
-        <th scope="row">{{campaignItem.id}}</th>
+      <tr *ngFor="let campaignItem of campaigns | orderBy : 'dateCreated' : true;">
         <td>
           {{campaignItem.name.charAt(0).toUpperCase()+ campaignItem.name.slice(1).toLowerCase()}}
           <a (click)="getCampaignItem(campaignItem)" data-toggle="modal" data-target="#campaignInfoModal"
@@ -50,7 +48,12 @@
           <span *ngIf="campaignItem.schedule.multipleDates!==null">Multiple Dates</span>
           <span *ngIf="campaignItem.schedule.recurring!==null">Recurring</span>
         </td>
-        <td>{{(campaignItem.status=='CREATED'|| campaignItem.status=='RESUMED' ) ? ("Running") : ( campaignItem.status
+        <td *ngIf="campaignItem.status == 'ERROR'">
+          <a href="#" (click)="getCampaignError(campaignItem)" data-toggle="modal" data-target="#campaignErrorModal"
+                                                      tooltip="Campaign Error Info">
+          {{campaignItem.status}}</a>
+        </td>
+        <td *ngIf="campaignItem.status != 'ERROR'">{{(campaignItem.status=='CREATED'|| campaignItem.status=='RESUMED' ) ? ("Running") : ( campaignItem.status
           )}}
         </td>
         <td class="text-center">
@@ -71,18 +74,18 @@
           <button class="border-0 bg-light"
                   data-toggle="modal" data-target="#campaignActionConfirmationDialog"
                   (click)="getCampaignId(campaignItem,'stop')"
-                  [disabled]="campaignItem.status=='DELETED' || campaignItem.status=='STOPPED'"
+                  [disabled]="campaignItem.status=='DELETED' || campaignItem.status=='STOPPED' || campaignItem.status=='ERROR'"
                   tooltip="Stop Campaign"
                   id="stopCampaignButton"><i class="far fa-stop-circle text-primary"
-                                             [ngClass]="{'text-muted':campaignItem.status=='DELETED'|| campaignItem.status=='STOPPED'}"></i>
+                                             [ngClass]="{'text-muted':campaignItem.status=='DELETED'|| campaignItem.status=='STOPPED' || campaignItem.status=='ERROR'}"></i>
           </button>
           <button class="border-0 bg-light"
                   data-toggle="modal" data-target="#campaignActionConfirmationDialog"
                   (click)="getCampaignId(campaignItem,'delete')"
-                  [disabled]="campaignItem.status=='DELETED'"
+                  [disabled]="campaignItem.status=='DELETED' || campaignItem.status=='ERROR'"
                   tooltip="Delete Campaign"
                   id="deleteCampaignButton"><i class="far fa-trash-alt text-primary"
-                                               [ngClass]="{'text-muted':campaignItem.status=='DELETED'}"></i>
+                                               [ngClass]="{'text-muted':campaignItem.status=='DELETED' || campaignItem.status=='ERROR'}"></i>
           </button>
         </td>
       </tr>
@@ -115,6 +118,27 @@
   </div>
 
   <!-- Pause,resume, stop ,delete Campaign Modal -->
+
+  <div class="modal fade" id="campaignErrorModal" tabindex="-1" role="dialog" aria-labelledby="campaignErrorModalLabel"
+       aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title font-weight-bold text-capitalize ml-auto" id="campaignErrorModalLabel">Campaign Error</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="showCampaignErrorMessage = false">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body" style="font-size: 1.2rem;">
+          {{campaignErrorMessage}}
+        </div>
+        `
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="showCampaignErrorMessage = false">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <div class="modal fade" id="campaignActionConfirmationDialog" tabindex="-1" role="dialog" aria-labelledby="campaignConfirmationModalLabel"
        aria-hidden="true">
