@@ -6,17 +6,19 @@ import 'rxjs/add/operator/map'
 import {AuthenticationService} from "./authentication.service";
 import {HttpClient} from "@angular/common/http";
 import {AppSettings} from "../_settings/app-settings";
+import {MessageService} from "./message.service";
 
 @Injectable()
 export class UserService {
   constructor(private httpClient: HttpClient,
-              private authenticationService: AuthenticationService) {
+              private messageService: MessageService) {
   }
 
-  // getUsers(): Observable<EventUser[]> {
-  //
-  //   // get users from api
-  //   return this.httpClient.get<EventUser[]>(AppSettings.API_ENDPOINT_CLIENT_CLIENT_USERS_GETLIST);
-  // }
+  markTestUser(id: string): Observable<any> {
+    return this.httpClient.get(AppSettings.API_ENDPOINT_CLIENT_USER + "/testuser/" + id)
+  }
 
+  unmarkTestUser(id: string): Observable<any> {
+    return this.httpClient.post(AppSettings.API_ENDPOINT_CLIENT_USER + "/testuser/" + id, {})
+  }
 }

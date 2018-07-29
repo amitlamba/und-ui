@@ -1,5 +1,5 @@
 export class AppSettings {
-  public static API_ENDPOINT = "http://userndot.com";
+  public static API_ENDPOINT = "https://userndot.com";
 
 
   public static API_ENDPOINT_CLIENT = AppSettings.API_ENDPOINT + "/client";
@@ -68,6 +68,7 @@ export class AppSettings {
   public static API_ENDPOINT_CLIENT_CAMPAIGN_RESUME = AppSettings.API_ENDPOINT_CLIENT_CAMPAIGN + "/resume";
   public static API_ENDPOINT_CLIENT_CAMPAIGN_STOP = AppSettings.API_ENDPOINT_CLIENT_CAMPAIGN + "/stop";
   public static API_ENDPOINT_CLIENT_CAMPAIGN_DELETE = AppSettings.API_ENDPOINT_CLIENT_CAMPAIGN + "/delete";
+  public static API_ENDPOINT_CLIENT_CAMPAIGN_ERROR = AppSettings.API_ENDPOINT_CLIENT_CAMPAIGN + "/error";
 
 
   public static API_ENDPOINT_CLIENT_LOCATION = AppSettings.API_ENDPOINT_CLIENT + "/location";

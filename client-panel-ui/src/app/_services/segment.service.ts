@@ -23,6 +23,7 @@ export class SegmentService {
   countries: Country[];
   eventUser: EventUser = new EventUser();
   cachedRegisteredEvents: RegisteredEvent[] = null;
+  cachedUserProperties: RegisteredEvent[] = null;
   eventUserList: EventUser[] = [];
 
   constructor(private httpClient: HttpClient) {
@@ -75,6 +76,14 @@ export class SegmentService {
 
   getEvents(): Observable<RegisteredEvent[]> {
     return this.httpClient.get<RegisteredEvent[]>(AppSettings.API_ENDPOINT_CLIENT_SEGMENT_METADATA)
+      .pipe(
+        tap(next => {
+        })
+      );
+  }
+
+  getCommonProperties(): Observable<RegisteredEvent[]> {
+    return this.httpClient.get<RegisteredEvent[]>(AppSettings.API_ENDPOINT_CLIENT_SEGMENT_COMMONPROPERTIES)
       .pipe(
         tap(next => {
         })
@@ -255,101 +264,101 @@ export class SegmentService {
   globalFiltersMetadata = {
     "UserProperties": [
       {
-        "propertyName": "User Property Name",
-        "propertyType": "string",
+        "name": "User Property Name",
+        "dataType": "string",
         "options": [],
       },
       {
-        "propertyName": "User Property Name",
-        "propertyType": "string",
+        "name": "User Property Name",
+        "dataType": "string",
         "options": [],
       }
     ],
     "Demographics": [
       {
-        propertyName: "age",
-        propertyType: "string",
+        name: "age",
+        dataType: "string",
         options: ["0-18", "18-25", "25-35", "35-60", "60-75", "75 & above"]
       },
       {
-        propertyName: "gender",
-        propertyType: "string",
+        name: "gender",
+        dataType: "string",
         options: ["Male", "Female", "Other", "Not Known"]
       }
     ],
     "Technographics": [
       {
-        propertyName: "Browser",
-        propertyType: "string",
+        name: "Browser",
+        dataType: "string",
         options: ["Chrome", "Firefox", "Internet Explorer", "Mobile Application", "Opera", "Others", "Safari", "Sea Monkey", "UC Browser"]
       },
       {
-        propertyName: "Device",
-        propertyType: "string",
+        name: "Device",
+        dataType: "string",
         options: ["Desktop", "Mobile", "Tablet", "TV"]
       },
       {
-        propertyName: "OS",
-        propertyType: "string",
+        name: "OS",
+        dataType: "string",
         options: ["Android", "Blackberry", "Ios", "Linux", "Mac", "Others", "Windows"]
       }
     ],
     "Reachability": [
       {
-        propertyName: "hasDeviceToken",
-        propertyType: "string",
+        name: "hasDeviceToken",
+        dataType: "string",
         options: ["Yes"]
       },
       {
-        propertyName: "hasEmailAddress",
-        propertyType: "string",
+        name: "hasEmailAddress",
+        dataType: "string",
         options: ["Yes"]
       },
       {
-        propertyName: "hasPhoneNumber",
-        propertyType: "string",
+        name: "hasPhoneNumber",
+        dataType: "string",
         options: ["Yes"]
       },
       {
-        propertyName: "unsubscribedPush",
-        propertyType: "string",
+        name: "unsubscribedPush",
+        dataType: "string",
         options: ["Yes"]
       },
       {
-        propertyName: "unsubscribedEmail",
-        propertyType: "string",
+        name: "unsubscribedEmail",
+        dataType: "string",
         options: ["Yes"]
       },
       {
-        propertyName: "unsubscribedSMS",
-        propertyType: "string",
+        name: "unsubscribedSMS",
+        dataType: "string",
         options: ["Yes"]
       }
     ],
     "AppFields": [
       {
-        propertyName: "App Version",
-        propertyType: "number",
+        name: "App Version",
+        dataType: "number",
         options: [0, 1, 2, 3, 4]
       },
       {
-        propertyName: "Make",
-        propertyType: "string",
+        name: "Make",
+        dataType: "string",
         options: ["Apple", "Samsung", "Motorola", "Sony", "HTC", "Xiaomi"]
       },
       {
-        propertyName: "Models",
-        propertyType: "string",
+        name: "Models",
+        dataType: "string",
         options: ["Iphone 6", "Iphone 8", "Iphone 7", "Moto g3"]
       },
       {
-        propertyName: "OS Version",
-        propertyType: "string",
+        name: "OS Version",
+        dataType: "string",
         options: ["4.0.1", "4.4.1", "9.2", "9.1", "6.0.1"]
       },
       {
-        propertyName: "SDK Version",
-        propertyType: "string",
+        name: "SDK Version",
+        dataType: "string",
         options: ["9001", "9002", "9003", "9004"]
       }
     ]

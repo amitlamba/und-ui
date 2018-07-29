@@ -26,7 +26,10 @@
     <div class="mb-0" *ngIf="campaignInfoObject.schedule.recurring">
       <p class="text-capitalize mb-0">Start Date : <span>{{campaignInfoObject.schedule.recurring.scheduleStartDate|date}}</span>
       </p>
-      <p>Run the campaign {{getCronExpressionSummary()}}.</p>
+      <p>Run the campaign <b><span [innerHtml]="getCronExpressionSummary()"></span></b>.</p>
+      <p *ngIf="campaignInfoObject.schedule.recurring.scheduleEnd.endType == 'EndsOnDate'"> Ends On: <span >{{campaignInfoObject.schedule.recurring.scheduleEnd.endsOn}}</span></p>
+      <p *ngIf="campaignInfoObject.schedule.recurring.scheduleEnd.endType == 'Occurrences'"> Ends after: <span >{{campaignInfoObject.schedule.recurring.scheduleEnd.occurrences}} occurrences</span></p>
+      <p *ngIf="campaignInfoObject.schedule.recurring.scheduleEnd.endType == 'NeverEnd'"> Campaign Never Ends</p>
     </div>
   </section>
   <section class="bg-white p-4 mb-4 rounded section-box-shadow">

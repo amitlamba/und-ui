@@ -14,7 +14,7 @@
     </div>
     <p class="mt-3" style="font-size: 15px;">at</p>
   </div>
-  <div class="col-md-6 form-inline border-bottom" style="margin-left: -12px;">
+  <div class="col-md-6 col-sm-8 form-inline">
     <select name="hoursDropdown"
             id="hoursDropDown"
             class="form-control mr-2"
@@ -45,17 +45,19 @@
     <!--[(ngModel)]="campaignTime.minutes">-->
     <select class="form-control col-4" [(ngModel)]="campaignTime.ampm">
       <option name="ampm"
-              *ngFor="let AmPm of campaignTimeAmpPmList"
+              *ngFor="let AmPm of campaignTimeAmPmList"
               value="{{AmPm}}"
       >{{AmPm}}
       </option>
     </select>
+    <button type="button"
+            class="close ml-auto pl-3 pos"
+            aria-label="Close"
+            (click)="removeObject()"
+            *ngIf="showCloseButton"
+            tooltip="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
   </div>
-  <button type="button"
-          class="close ml-auto mr-4 pos"
-          aria-label="Close"
-          (click)="removeObject()"
-          *ngIf="showCloseButton">
-    <span aria-hidden="true">&times;</span>
-  </button>
 </div>
+<hr>
