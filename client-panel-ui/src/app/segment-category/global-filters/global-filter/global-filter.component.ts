@@ -56,15 +56,12 @@ export class GlobalFilterComponent implements OnInit {
     this.globalFiltersMetadata = this.segmentService.cachedUserProperties.reduce(
       (ac, p) => ({...ac, [p.name]: p.properties}), {}
     );
+    // this.globalFiltersMetadata = this.segmentService.globalFiltersMetadata;
   }
 
   ngOnInit() {
     this.firstDropDown = Object.keys(this.globalFiltersMetadata);
     console.log(this.firstDropDown);
-  }
-
-  getSecondFilters(): string[] {
-    return Object.keys(this.globalFiltersMetadata[this.firstFilterSelected]);
   }
 
   firstFilterChanged(name: string) {
@@ -73,6 +70,7 @@ export class GlobalFilterComponent implements OnInit {
     this.secondDropDown = this.getDropdownList(1);
     this.secondFilterSelected = this.secondDropDown[0]['name'];
     this.globalFilter.name = this.secondFilterSelected;
+    this.secondFilterChanged(this.globalFilter.name);
     this.maxOrder = 1;
   }
 
@@ -88,7 +86,7 @@ export class GlobalFilterComponent implements OnInit {
         this.globalFilter.type = this.secondFilterDataType;
       }
     }
-    this.maxOrder = 2;
+    // this.maxOrder = 2;
   }
 
 

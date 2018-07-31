@@ -57,6 +57,9 @@ export class AppSettings {
   public static API_ENDPOINT_CLIENT_USER_EMAIL_ID = AppSettings.API_ENDPOINT_CLIENT_USER + '/email';
   public static API_ENDPOINT_CLIENT_USER_MOBILE_NUMBER = AppSettings.API_ENDPOINT_CLIENT_USER + '/mobile';
   public static API_ENDPOINT_CLIENT_USER_USER_LIST_SEGMENT = AppSettings.API_ENDPOINT_CLIENT_USER + '/user-list/segment';
+  public static API_ENDPOINT_CLIENT_USER_SETTESTPROFILE = AppSettings.API_ENDPOINT_CLIENT_USER + "/setTestProfile";
+  public static API_ENDPOINT_CLIENT_USER_UNSETTESTPROFILE = AppSettings.API_ENDPOINT_CLIENT_USER + "/unsetTestProfile";
+
   public static API_ENDPOINT_CLIENT_EVENTS_LIST = AppSettings.API_ENDPOINT_CLIENT_USER + "/event-list";
   // public static API_ENDPOINT_CLIENT_EVENT_DETAILS_BY_EVENT_ID = AppSettings.API_ENDPOINT_CLIENT + "/event-details";
 
