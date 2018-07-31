@@ -1,6 +1,7 @@
+///<reference path="../../../_services/segment.service.ts"/>
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {SegmentService} from "../../../_services/segment.service";
-import {DidEvents, Segment} from "../../../_models/segment";
+import {DidEvents, RegisteredEventProperties, Segment} from "../../../_models/segment";
 import {HttpErrorResponse} from "@angular/common/http";
 import {MessageService} from "../../../_services/message.service";
 import {EventUser} from "../../../_models/user";
@@ -34,6 +35,24 @@ export class UsersByBehaviourComponent implements OnInit {
   @Output() eventUserList:EventEmitter<EventUser[]> = new EventEmitter();
 
   ngOnInit() {
+    this.getEventMetadata();
+    this.getUserPropertiesMetadata();
+  }
+
+  getEventMetadata() {
+    this.segmentService.getEvents().subscribe(
+      (response) => {
+        this.segmentService.cachedRegisteredEvents = response;
+      }
+    );
+  }
+
+  getUserPropertiesMetadata() {
+    this.segmentService.getCommonProperties().subscribe(
+      (response) => {
+        this.segmentService.cachedUserProperties = response;
+      }
+    );
   }
 
   find() {

@@ -3,8 +3,19 @@
     <div class="col-lg-10 col-md-12 bg-white my-4 px-0 rounded profile-box"
          style="box-shadow: 0px 2px 6px 2px #c6cfd7;">
       <div class="user-profile-header text-center pb-3">
-        <img src="../../assets/img/user-profile.png" alt="user-profile-image" class="user-profile-image">
+        <img src="/assets/img/user-profile.png" alt="user-profile-image" class="user-profile-image">
         <h3 class="mb-2">{{ eventUser.firstName }} {{ eventUser.lastName }}</h3>
+      </div>
+      <div class="row">
+        <div class="form-group form-check ml-auto mr-4">
+          <input type="checkbox" class="form-check-input" id="testUser" required [checked]="markTestUser" (change)="markTestUser = !markTestUser; markTestUserChanged();">
+          <label class="form-check-label" for="testUser">
+            <a tooltip="If marked, this user could be used to send test messages.">
+              <i class="far fa-question-circle text-primary pb-1"></i>
+            </a>
+            Mark User as Test User
+          </label>
+        </div>
       </div>
       <div class="row mx-4 py-3 my-2">
         <div class="col-md-4 col-sm-6 py-2 border-right">
@@ -22,15 +33,16 @@
         </div>
         <div class="col-md-4 col-sm-6 py-2 border-right">
           <p>
-              <span tooltip="Location">
+            <span tooltip="Location">
               <i class="fas fa-map-marker-alt  mr-3 ml-1 user-info-icon"></i>
-             </span>
-            Gurugram ,Haryana, India
+            </span>
+            <span *ngIf="eventUser.address && eventUser.address != ''">{{eventUser.address}}</span>
+            <span *ngIf="!(eventUser.address && eventUser.address != '')">{{eventUser.city}}, {{eventUser.country}}</span>
           </p>
           <p>
             <span tooltip="Latitude and Longitude"><i class="far fa-compass  mr-3 ml-1 user-info-icon"></i></span>
-            <span class="d-inline-block">Lat - 17.284012</span>
-            <span class="d-block longitude">Lon - 56.007907</span>
+            <span class="d-inline-block">Lat - </span>
+            <span class="d-block longitude">Lon - </span>
           </p>
         </div>
         <div class="col-md-4 col-sm-6 py-2">
@@ -41,7 +53,7 @@
           <p>
             <span class="rounded font-weight-bold d-inline-block client-id p-1 mr-3"
                   style="background: #c6cfd7" tooltip="User ID">ID</span>
-            <span> - 54680048900005</span></p>
+            <span>{{eventUser.clientUserId}}</span></p>
         </div>
       </div>
     </div>
@@ -121,27 +133,52 @@
                 <tr>
                   <th scope="row">1</th>
                   <td>In App Notification</td>
-                  <td><i class="fas fa-check text-secondary"></i></td>
+                  <td><i class='fas' [ngClass]="{
+                    'fa-check':false,
+                    'fa-times':true,
+                    'text-success':false,
+                    'text-danger':true
+                  }"></i></td>
                 </tr>
                 <tr>
                   <th scope="row">2</th>
                   <td>Email</td>
-                  <td><i class="fas fa-check text-secondary"></i></td>
+                  <td><i class='fas' [ngClass]="{
+                    'fa-check':(!!eventUser.email),
+                    'fa-times':!eventUser.email,
+                    'text-success':(!!eventUser.email),
+                    'text-danger':!eventUser.email
+                  }"></i></td>
                 </tr>
                 <tr>
                   <th scope="row">3</th>
                   <td>Web Push Notifications</td>
-                  <td><i class="fas fa-times text-success"></i></td>
+                  <td><i class='fas' [ngClass]="{
+                    'fa-check':false,
+                    'fa-times':true,
+                    'text-success':false,
+                    'text-danger':true
+                  }"></i></td>
                 </tr>
                 <tr>
                   <th scope="row">4</th>
                   <td>SMS</td>
-                  <td><i class="fas fa-check text-secondary"></i></td>
+                  <td><i class='fas' [ngClass]="{
+                    'fa-check':(!!eventUser.mobile),
+                    'fa-times':!eventUser.mobile,
+                    'text-success':(!!eventUser.mobile),
+                    'text-danger':!eventUser.mobile
+                  }"></i></td>
                 </tr>
                 <tr>
                   <th scope="row">5</th>
                   <td>Push Notifications</td>
-                  <td><i class="fas fa-times text-success"></i></td>
+                  <td><i class='fas' [ngClass]="{
+                    'fa-check':false,
+                    'fa-times':true,
+                    'text-success':false,
+                    'text-danger':true
+                  }"></i></td>
                 </tr>
                 </tbody>
               </table>
@@ -187,8 +224,8 @@
                           <span class="pl-2">|</span>
                         </span>
                         <span *ngIf="!isEmptyObject(filteredEvent.event.attributes)">
-                          <span *ngFor="let key of filteredEvent.event.attributes | keys" tooltip="{{key.key}}">
-                            <span class="pr-1">{{key.value}}
+                          <span *ngFor="let attribute of filteredEvent.event.attributes | keys" tooltip="{{attribute.key}}">
+                            <span class="pr-1">{{attribute.value}}
                               <span class="pl-2">|</span>
                             </span>
                           </span>

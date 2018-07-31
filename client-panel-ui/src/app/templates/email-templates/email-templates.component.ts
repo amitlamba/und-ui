@@ -2,6 +2,7 @@ import {Component, ComponentFactoryResolver, OnInit, ViewChild, ViewContainerRef
 import {EditorSelected, EmailTemplate} from "../../_models/email";
 import {TemplatesService} from "../../_services/templates.service";
 import {CreateEmailTemplateFormComponent} from "./create-email-template-form/create-email-template-form.component";
+import {Router, RouterStateSnapshot} from "@angular/router";
 
 @Component({
   selector: 'app-email-templates',
@@ -14,8 +15,13 @@ export class EmailTemplatesComponent implements OnInit {
 
   @ViewChild('container', {read: ViewContainerRef}) container: ViewContainerRef;
   components = [];
+  state: RouterStateSnapshot;
 
-  constructor(public templatesService: TemplatesService, private componentFactoryResolver: ComponentFactoryResolver) {
+  constructor(
+    public templatesService: TemplatesService,
+    private componentFactoryResolver: ComponentFactoryResolver,
+    private router: Router) {
+    this.state = router.routerState.snapshot;
   }
 
   ngOnInit() {
@@ -41,7 +47,8 @@ export class EmailTemplatesComponent implements OnInit {
     this.removeComponent();
     console.log(JSON.parse(JSON.stringify(emailTemplate)));
     this.templatesService.emailTemplateForEdit.next(JSON.parse(JSON.stringify(emailTemplate)));
-    this.addComponent();
+    // this.addComponent();
+    this.router.navigate(['create-email-template',false], {queryParams: {returnUrl: this.state.url}});
   }
 
   onCancel() {
@@ -52,7 +59,8 @@ export class EmailTemplatesComponent implements OnInit {
   onCreateNew() {
     this.removeComponent();
     this.templatesService.emailTemplateForEdit.next(new EmailTemplate());
-    this.addComponent(true);
+    // this.addComponent(true);
+    this.router.navigate(['create-email-template',true], {queryParams: {returnUrl: this.state.url}});
   }
 
   addComponent(newTemplate: boolean = false) {

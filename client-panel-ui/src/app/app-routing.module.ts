@@ -29,6 +29,7 @@ import {TermsOfServiceComponent} from "./terms-of-service/terms-of-service.compo
 import {ContactUsComponent} from "./contact-us/contact-us.component";
 import {UserProfileComponent} from "./user-profile/user-profile.component";
 import {EmailSettingsComponent} from "./settings/email-settings/email-settings.component";
+import {CreateEmailTemplateFormComponent} from "./templates/email-templates/create-email-template-form/create-email-template-form.component";
 
 const routes: Routes = [
   {path: 'login', component: LoginComponent},
@@ -58,10 +59,11 @@ const routes: Routes = [
       {path: 'user-profile', component: UserProfileComponent}
     ]
   },
+  {path: 'create-email-template/:newTemplate', component: CreateEmailTemplateFormComponent, canActivate: [AuthGuard], pathMatch: 'full'},
   {path: 'templates', redirectTo: "templates/email", canActivate: [AuthGuard], pathMatch: "full"},
   {
     path: 'templates', component: TemplatesComponent, canActivate: [AuthGuard], children: [
-      {path: 'email', component: EmailTemplatesComponent},
+      {path: 'email', component: EmailTemplatesComponent, pathMatch: 'full'},
       {path: 'sms', component: SmsTemplatesComponent}
     ]
   },

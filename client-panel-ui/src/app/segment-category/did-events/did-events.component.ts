@@ -7,8 +7,9 @@ import {
   ViewContainerRef, Input, Output, EventEmitter
 } from '@angular/core';
 import {DidEventComponent} from "./did-event/did-event.component";
-import {DidEvents, Event, JoinCondition} from "../../_models/segment";
+import {DateFilter, DidEvents, Event, JoinCondition, WhereFilter} from "../../_models/segment";
 import {SegmentService} from "../../_services/segment.service";
+import {MessageService} from "../../_services/message.service";
 
 
 @Component({
@@ -37,8 +38,21 @@ export class DidEventsComponent implements OnInit {
   @ViewChild('container', {read: ViewContainerRef}) container: ViewContainerRef;
   components = [];
 
-  constructor(private componentFactoryResolver: ComponentFactoryResolver, private segmentService: SegmentService) {
-
+  constructor(private componentFactoryResolver: ComponentFactoryResolver, private segmentService: SegmentService,
+              private messageService: MessageService) {
+    // this.segmentService.getEvents().subscribe(
+    //   (response) => {
+    //     this.segmentService.cachedRegisteredEvents = response;
+    //     this.registeredEvents = this.segmentService.cachedRegisteredEvents;
+    //     if(this.registeredEvents == null || this.registeredEvents.length==0) {
+    //       this.messageService.addDangerMessage("No Events Metadata available. Will be Dummy data.");
+    //       this.registeredEvents = this.segmentService.sampleEvents;
+    //     }
+    //     this.defaultProperties = this.segmentService.defaultEventProperties;
+    //     this.eventProperties = this.registeredEvents[0].properties;
+    //     this.eventNameChanged(0);
+    //   }
+    // );
   }
   ngOnInit(){
     if(!this.didNotEvent) {
@@ -61,6 +75,8 @@ export class DidEventsComponent implements OnInit {
     component.instance.hideWhere = this.didNotEvent;
     component.instance._parentRef = this;
     var newDidEvent = new Event();
+    newDidEvent.dateFilter = new DateFilter();
+    newDidEvent.whereFilter = new WhereFilter();
     this.didEvents.events.push(newDidEvent);
     component.instance.didEvent = newDidEvent;
     component.instance.didEventChange.subscribe((didEvent) => {

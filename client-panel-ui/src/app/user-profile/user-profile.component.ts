@@ -3,6 +3,8 @@ import {SegmentService} from "../_services/segment.service";
 import {Event, EventSelected, EventUser} from "../_models/user";
 import {Router} from "@angular/router";
 import {HttpErrorResponse} from "@angular/common/http";
+import {UserService} from "../_services/user.service";
+import {MessageService} from "../_services/message.service";
 
 @Component({
   selector: 'app-user-profile',
@@ -14,9 +16,12 @@ export class UserProfileComponent implements OnInit {
   eventUser: EventUser = new EventUser();
   eventList: Event[] = [];
   eventsSelectedList: EventSelected[] = [];
+  markTestUser: boolean = false;
 
   constructor(private segmentService: SegmentService,
-              private router: Router) {
+              private router: Router,
+              private userService: UserService,
+              private messageService: MessageService) {
   }
 
   ngOnInit() {
@@ -25,6 +30,7 @@ export class UserProfileComponent implements OnInit {
     }
     else {
       this.eventUser = this.segmentService.eventUser;
+      this.markTestUser = this.eventUser.markTestUserProfile;
       this.segmentService.getEventsListByUserId(this.eventUser.undId).subscribe(
         (response: Event[]) => {
           console.log(response);
@@ -65,6 +71,14 @@ export class UserProfileComponent implements OnInit {
         a[i].selected = !v.selected
       }
     });
+  }
+
+  markTestUserChanged() {
+    this.userService.markTestUser(this.eventUser.undId).subscribe(
+      result => {
+        this.messageService.addSuccessMessage("Test User " + this.markTestUser?"marked":"unmarked" + " successfully.")
+      }
+    );
   }
 }
 @Pipe({name: 'keys'})

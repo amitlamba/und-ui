@@ -40,4 +40,8 @@ export class CampaignService {
   deleteCampaign(campId): Observable<number> {
     return this.httpClient.patch<number>(AppSettings.API_ENDPOINT_CLIENT_CAMPAIGN_DELETE + "/" + campId, "");
   }
+
+  getCampaignError(id: number): Observable<any> {
+    return this.httpClient.get<any>(AppSettings.API_ENDPOINT_CLIENT_CAMPAIGN_ERROR + "/" + id);
+  }
 }

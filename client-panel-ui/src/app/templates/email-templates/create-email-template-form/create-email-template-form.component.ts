@@ -1,13 +1,13 @@
-import {Component, ElementRef, Input, OnChanges, OnInit, ViewChild} from '@angular/core';
+import {Component, Input, OnChanges, OnInit, ViewChild} from '@angular/core';
 import {EditorSelected, EmailTemplate} from "../../../_models/email";
 import {TemplatesService} from "../../../_services/templates.service";
-import {isNullOrUndefined} from "util";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router, RouterStateSnapshot} from "@angular/router";
 import {MessageService} from "../../../_services/message.service";
 import {UserFields} from "../../../_settings/app-settings";
 import {UserParams} from "../../../_models/user";
 import {SettingsService} from "../../../_services/settings.service";
 import {SendersInfo} from "../../../_models/client";
+import {HttpErrorResponse} from "@angular/common/http";
 
 @Component({
   selector: 'app-create-email-template-form',
@@ -15,7 +15,8 @@ import {SendersInfo} from "../../../_models/client";
   styleUrls: ['./create-email-template-form.component.scss']
 })
 export class CreateEmailTemplateFormComponent implements OnInit, OnChanges {
-  emailTemplate: EmailTemplate;
+  emailTemplate: EmailTemplate = new EmailTemplate();
+
   createNewTemplate: boolean = false;
   unsubscribeButtonText = "Add Unsubscribe";
 
@@ -25,9 +26,17 @@ export class CreateEmailTemplateFormComponent implements OnInit, OnChanges {
   userFields = UserFields.USER_DETAIILS;
   public mentionItems: string[] = UserParams.params;
 
+  returnUrl: string;
+
+  private state: RouterStateSnapshot;
 
   constructor(private templatesService: TemplatesService, private messageService: MessageService,
-              private settingsService: SettingsService, private router: Router) {
+              private settingsService: SettingsService, private router: Router,
+              private route: ActivatedRoute) {
+    this.route.params.subscribe((params) => {
+      this.createNewTemplate = params['newTemplate'] === 'true';
+    });
+    this.state = this.router.routerState.snapshot;
   }
 
   ngOnChanges() {
@@ -47,12 +56,9 @@ export class CreateEmailTemplateFormComponent implements OnInit, OnChanges {
         }
       );
     }
-    if (this.createNewTemplate) {
-      this.emailTemplate.from = "";                             // to set default value of Fromdropdown
-      this.emailTemplate.messageType = "";                    // to set default value of MessageTypedropdown
-      this.emailTemplate.editorSelected = EditorSelected.tinymceEditor;
-    }
     this.setUpUnsubscribeButtonText()
+    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/templates/email';
+    // this.returnUrl = '/template/email';
   }
 
   onSave(form: FormData) {
@@ -64,6 +70,10 @@ export class CreateEmailTemplateFormComponent implements OnInit, OnChanges {
             response => {
               this.templatesService.editEmailTemplate(this.emailTemplate);
               this.messageService.addSuccessMessage("Email Template Edited Successfully");
+              this.router.navigateByUrl(this.returnUrl);
+            },
+            (error: HttpErrorResponse) => {
+              this.messageService.addDangerMessage(error.error.message);
             }
           );
       } else {
@@ -71,13 +81,21 @@ export class CreateEmailTemplateFormComponent implements OnInit, OnChanges {
           .subscribe(
             response => {
               console.log(response);
-              this.emailTemplate.id = response
+              this.emailTemplate.id = response;
               this.templatesService.addEmailTemplate(this.emailTemplate);
               this.messageService.addSuccessMessage("Email Template Created Successfully");
+              this.router.navigateByUrl(this.returnUrl);
+            },
+            (error: HttpErrorResponse) => {
+              this.messageService.addDangerMessage(error.error.message);
             }
           );
       }
     }
+  }
+
+  onCancel() {
+    this.router.navigateByUrl(this.returnUrl);
   }
 
   addUnsubscribeLink(event) {
@@ -110,7 +128,7 @@ export class CreateEmailTemplateFormComponent implements OnInit, OnChanges {
     $('body').removeClass('modal-open');
     $('body').addClass('pr-0');
     $('.modal-backdrop').remove();
-    this.router.navigate(['settings/email-list']);
+    this.router.navigate(['settings','email-settings','email-list'], {queryParams: {returnUrl: this.state.url}});
   }
 
   setUpUnsubscribeButtonText() {
@@ -119,5 +137,9 @@ export class CreateEmailTemplateFormComponent implements OnInit, OnChanges {
     } else {
       this.unsubscribeButtonText = "Add Unsubscribe";
     }
+  }
+
+  byString(item1: string, item2: string): boolean {
+    return item1 == item2
   }
 }

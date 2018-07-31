@@ -48,7 +48,7 @@ export class LoginComponent implements OnInit {
       (response) => {
         console.log(response);
         this.loginEvent.emit();
-        this.router.navigate([this.returnUrl]);
+        this.router.navigateByUrl(this.returnUrl);
         this.messageService.addSuccessMessage("Logged In successfully.");
       },
       (error: HttpErrorResponse) => {

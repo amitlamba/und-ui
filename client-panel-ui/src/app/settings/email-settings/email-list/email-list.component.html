@@ -20,11 +20,17 @@
          #email="ngModel"
          required
          email>
-  <button class="btn btn-primary mt-2 info-add"
-          type="add"
-          (click)="addSendersInfo()"
-          [disabled]="email.invalid || name.invalid">Add
-  </button>
+  <div>
+    <button *ngIf="returnUrl !== ''" class="btn btn-secondary mt-2 info-add"
+            type="add"
+            (click)="cancel()">Cancel
+    </button>
+    <button class="btn btn-primary mt-2 info-add"
+            type="add"
+            (click)="addSendersInfo()"
+            [disabled]="email.invalid || name.invalid">Add
+    </button>
+  </div>
 </form>
 <div class="feedback text-danger" *ngIf="name.invalid && (name.touched || name.dirty)">
   <div *ngIf="name.errors.required">

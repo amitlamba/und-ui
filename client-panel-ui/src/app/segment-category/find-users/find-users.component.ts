@@ -35,6 +35,7 @@ export class FindUsersComponent implements OnInit {
 
   ngOnInit() {
     this.inputPlaceholder = "Email";
+    this.eventUserList = this.segmentService.eventUserList;
   }
 
   findUserByIdentity() {

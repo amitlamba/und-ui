@@ -19,6 +19,8 @@ export class CampaignsListComponent implements OnInit {
   campaignConfirmationDialogText: string;
   initCampaignsInfoComponent: boolean = false;
   changeSegmentationId: boolean = false;
+  campaignErrorMessage: string;
+  showCampaignErrorMessage: boolean = false;
 
   constructor(private campaignService: CampaignService) {
   }
@@ -45,6 +47,21 @@ export class CampaignsListComponent implements OnInit {
     this.showCampaignInfoModal = true;
     // this.initCampaignsInfoComponent = true;
     console.log(campaignItem);
+  }
+
+  getCampaignError(campaignItem: Campaign) {
+    this.campaignService.getCampaignError(campaignItem.id).subscribe(
+      (response) => {
+        console.log(response);
+        this.campaignErrorMessage = response;
+        this.showCampaignErrorMessage = true;
+      },
+      (error: HttpErrorResponse) => {
+        console.log(JSON.stringify(error));
+        this.campaignErrorMessage = error.error.text;
+        this.showCampaignErrorMessage = true;
+      }
+    )
   }
 
   getCampaignId(campaignItem: Campaign, campaignConfirmationText: string) {

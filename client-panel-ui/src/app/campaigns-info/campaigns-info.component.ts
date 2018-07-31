@@ -54,6 +54,10 @@ export class CampaignsInfoComponent implements OnInit {
     );
   }
   getCronExpressionSummary(){
-    return cronstrue.toString(this.campaignInfoObject.schedule.recurring.cronExpression);
+    try {
+      return cronstrue.toString(this.campaignInfoObject.schedule.recurring.cronExpression);
+    } catch(e) {
+      return "<span class='text-danger'> Invalid recurring campaign schedule. "+ e + "</span>";
+    }
   }
 }
