@@ -15,10 +15,10 @@ export class UserService {
   }
 
   markTestUser(id: string): Observable<any> {
-    return this.httpClient.get(AppSettings.API_ENDPOINT_CLIENT_USER + "/testuser/" + id)
+    return this.httpClient.patch(AppSettings.API_ENDPOINT_CLIENT_USER_SETTESTPROFILE + "/" + id, {});
   }
 
   unmarkTestUser(id: string): Observable<any> {
-    return this.httpClient.post(AppSettings.API_ENDPOINT_CLIENT_USER + "/testuser/" + id, {})
+    return this.httpClient.patch(AppSettings.API_ENDPOINT_CLIENT_USER_UNSETTESTPROFILE + "/" + id, {});
   }
 }

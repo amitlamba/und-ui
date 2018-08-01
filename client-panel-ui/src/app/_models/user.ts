@@ -52,7 +52,7 @@ export class EventUser {
   gender: string;
   googleId: string;
   lastName: string;
-  markTestUserProfile: boolean;
+  testUser: boolean;
   mobile: string;
   undId: string;
 }

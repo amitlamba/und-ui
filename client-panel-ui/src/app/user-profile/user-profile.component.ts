@@ -30,7 +30,7 @@ export class UserProfileComponent implements OnInit {
     }
     else {
       this.eventUser = this.segmentService.eventUser;
-      this.markTestUser = this.eventUser.markTestUserProfile;
+      this.markTestUser = this.eventUser.testUser;
       this.segmentService.getEventsListByUserId(this.eventUser.undId).subscribe(
         (response: Event[]) => {
           console.log(response);
@@ -74,11 +74,23 @@ export class UserProfileComponent implements OnInit {
   }
 
   markTestUserChanged() {
-    this.userService.markTestUser(this.eventUser.undId).subscribe(
-      result => {
-        this.messageService.addSuccessMessage("Test User " + this.markTestUser?"marked":"unmarked" + " successfully.")
-      }
-    );
+    if(!this.markTestUser) {
+      this.markTestUser = true;
+      this.userService.markTestUser(this.eventUser.undId).subscribe(
+        result => {
+          this.eventUser.testUser = true;
+          this.messageService.addSuccessMessage("Test User marked successfully.")
+        }
+      );
+    } else {
+      this.markTestUser = false;
+      this.userService.unmarkTestUser(this.eventUser.undId).subscribe(
+        result => {
+          this.eventUser.testUser = false;
+          this.messageService.addSuccessMessage("Test User unmarked successfully.")
+        }
+      );
+    }
   }
 }
 @Pipe({name: 'keys'})

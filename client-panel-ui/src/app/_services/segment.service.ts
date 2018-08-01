@@ -264,14 +264,14 @@ export class SegmentService {
   globalFiltersMetadata = {
     "UserProperties": [
       {
-        "name": "User Property Name",
-        "dataType": "string",
-        "options": [],
+        name: "User Property Name",
+        dataType: "string",
+        options: [],
       },
       {
-        "name": "User Property Name",
-        "dataType": "string",
-        "options": [],
+        name: "User Property Name",
+        dataType: "string",
+        options: [],
       }
     ],
     "Demographics": [
@@ -512,4 +512,42 @@ export class SegmentService {
     }
   };
 
+  validate(segment: Segment): string[] {
+    var error: string[] = [];
+    try {
+      // if(!segment.name || segment.name == "") {
+      //   error.push("Segment Name can not be blank");
+      // }
+      if(segment.didEvents.events.length > 0) {
+        if(!segment.didEvents.joinCondition || !segment.didEvents.joinCondition.conditionType) {
+          error.push("Segment Did Events join condition can not be blank");
+        }
+        segment.didEvents.events.forEach(
+          (event, index) => {
+            if(!event.name) error.push("Event Name Must be specified for event number "+(index+1)+" in did events.");
+            if(!event.whereFilter) error.push("Where condition Must be specified for event "+event.name+" in did events.");
+            if(event.whereFilter && !event.whereFilter.whereFilterName) error.push("Where filter name Must be specified for event "+event.name+" in did events.");
+            if(event.whereFilter && !(event.whereFilter.operator || event.whereFilter.values || event.whereFilter.values.length || event.whereFilter.values[0] != null)) error.push("Where filter operator not specified for event "+event.name+" in did events.");
+            if(!event.dateFilter) error.push("Date condition Must be specified for event "+event.name+" in did events.");
+            if(event.dateFilter && !event.dateFilter.operator) error.push("Date condition operator Must be specified for event "+event.name+" in did events.");
+            if(event.dateFilter && !event.dateFilter.values.length && event.dateFilter.values[0] == null) error.push("Date condition values Must be specified for event event "+event.name+" in did events.");
+            if(event.propertyFilters && event.propertyFilters.length > 0) {
+              event.propertyFilters.forEach(
+                (pf, i) => {
+                  if(!pf.name) error.push("Event Property Name must be specified for event "+event.name+" and property number "+i+1+".");
+                  // if(!pf.filterType) error.push("Event Property Filter Type must be specified for event "+event.name+" and property "+pf.name+".");
+                  if(!pf.operator) error.push("Event Property Operator must be specified for event "+event.name+" and property "+pf.name+".");
+                  if(pf.values && !pf.values.length && pf.values[0] == null) error.push("Event Property Values must be specified for event "+event.name+" and property "+pf.name+".");
+                }
+              )
+            }
+          }
+        );
+      }
+    } finally {
+
+    }
+
+    return error;
+  }
 }

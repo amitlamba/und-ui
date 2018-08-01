@@ -56,6 +56,12 @@ export class UsersByBehaviourComponent implements OnInit {
   }
 
   find() {
+    // console.log(JSON.stringify(this.segment));
+    // let error = this.segmentService.validate(this.segment);
+    // if(error && error.length > 0) {
+    //   console.log(JSON.stringify(error));
+    //   return;
+    // }
     this.showSegmentInNl = true;
     this.segmentService.getEventUsersBySegment(this.segment)
       .subscribe(response => {
