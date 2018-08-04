@@ -3,7 +3,12 @@
   <div class="row d-flex flex-wrap flex-row">
     <div class="col-lg-10 col-sm-8  mt-2">
       <app-users-by-behaviour [(segment)]="newSegment"></app-users-by-behaviour>
-      <button class="btn btn-primary mt-2" data-toggle="modal" data-target="#segmentNameModal">Save</button>
+      <div *ngIf="segmentErrors && segmentErrors.length" class="mt-3 alert alert-danger">
+        <div *ngFor="let sError of segmentErrors">
+          {{sError}}
+        </div>
+      </div>
+      <button class="btn btn-primary mt-2" data-toggle="modal" data-target="#segmentNameModal" (click)="validateSegment()">Save</button>
     </div>
   </div>
   <!-- Modal -->

@@ -1,7 +1,7 @@
 <div class="container-fluid">
   <div class="row d-flex flex-wrap flex-row">
     <div class="col-lg-9 mt-5">
-      <app-users-by-behaviour (eventUserList)="receiveEventUserList($event)"></app-users-by-behaviour>
+      <app-users-by-behaviour [showFind]="true" (eventUserList)="receiveEventUserList($event)"></app-users-by-behaviour>
     </div>
     <div class="col-lg-3 mt-5">
       <div class="card">
@@ -34,7 +34,7 @@
           <div class="alert alert-info" *ngIf="invalidID">
             Invalid {{ inputPlaceholder }}
           </div>
-          <button class="btn btn-success mt-1"
+          <button class="btn btn-primary mt-1"
                   (click)="findUserByIdentity()"><i class="fas fa-search mr-2"></i>Find
           </button>
           <img *ngIf="loadingIcon" src="../../../assets/img/Spinner-small.svg" alt="" class="">
@@ -44,6 +44,7 @@
         </div>
       </div>
     </div>
+    <a id="event-user-list"></a>
     <div class="col-lg-9 mt-5" *ngIf="eventUserList.length!=0;">
       <app-event-user-list [eventUserList]="eventUserList"></app-event-user-list>
     </div>

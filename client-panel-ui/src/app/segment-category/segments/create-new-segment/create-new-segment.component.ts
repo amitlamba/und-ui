@@ -2,6 +2,7 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {SegmentService} from "../../../_services/segment.service";
 import {DidEvents, Geography, GlobalFilter, Segment} from "../../../_models/segment";
 import {Router} from "@angular/router";
+import {validate} from "codelyzer/walkerFactory/walkerFn";
 
 @Component({
   selector: 'app-create-new-segment',
@@ -11,6 +12,8 @@ import {Router} from "@angular/router";
 export class CreateNewSegmentComponent implements OnInit {
 
   newSegment: Segment;
+  segmentErrors: string[] = [];
+
   @ViewChild('segmentForm') segmentForm;
   constructor(private segmentService: SegmentService, private router: Router) {
     this.newSegment = new Segment();
@@ -26,9 +29,19 @@ export class CreateNewSegmentComponent implements OnInit {
   ngOnInit() {
   }
 
+  validateSegment(): boolean {
+    let error = this.segmentService.validateSegment(this.newSegment);
+    this.segmentErrors = error;
+    if(error && error.length > 0) {
+      error.forEach((value) => {console.error(value);});
+      return false;
+    }
+    return true;
+  }
+
   save() {
-    // console.log(this.newSegment);
-    // this.segmentForm.reset();
+    if(!this.validateSegment())
+      return;
     this.segmentService.saveSegment(this.newSegment).subscribe(
       (segment) => {
         this.segmentService.segments.push(segment);

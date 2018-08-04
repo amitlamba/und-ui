@@ -1,7 +1,7 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {SegmentService} from "../../_services/segment.service";
 import {Segment} from "../../_models/segment";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {identifierModuleUrl} from "@angular/compiler";
 import {EventUser} from "../../_models/user";
 import {HttpErrorResponse} from "@angular/common/http";
@@ -20,9 +20,11 @@ export class FindUsersComponent implements OnInit {
   showErrorMessage: boolean = false;
   errorMessage: string = '';
   eventUserList: EventUser[] = [];
+  fragment: string;
 
   constructor(private segmentService: SegmentService,
-              private router: Router) {
+              private router: Router,
+              private route: ActivatedRoute) {
     this.newSegment = new Segment();
     // this.newSegment.didEvents = new DidEvents();
     // this.newSegment.didNotEvents = new DidEvents();
@@ -36,6 +38,18 @@ export class FindUsersComponent implements OnInit {
   ngOnInit() {
     this.inputPlaceholder = "Email";
     this.eventUserList = this.segmentService.eventUserList;
+    this.route.fragment.subscribe(fragment => { this.fragment = fragment; });
+  }
+
+  ngAfterViewInit(): void {
+    this.scrollToFragment();
+  }
+
+  private scrollToFragment() {
+    try {
+      document.querySelector('#' + this.fragment).scrollIntoView();
+    } catch (e) {
+    }
   }
 
   findUserByIdentity() {
@@ -152,5 +166,8 @@ export class FindUsersComponent implements OnInit {
     this.segmentService.eventUserList = $event;
     this.eventUserList = this.segmentService.eventUserList;
     console.log($event);
+    this.router.navigate(["segment","find-users"],{fragment: "event-user-list"});
+    this.fragment = "event-user-list";
+    this.scrollToFragment();
   }
 }
