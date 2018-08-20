@@ -83,6 +83,10 @@ export class AuthenticationService {
       );
   }
 
+  verifyEmail(email: string, code: string): Observable<any> {
+    //${authUrl}/register/verifyemail/${client.email}/${client.clientVerification.emailCode}
+    return this.httpClient.get(AppSettings.API_ENDPOINT_AUTH_REGISTER_VERIFYEMAIL + "/" + email + "/" + code);
+  }
 
   getUserDetails(): Observable<any> {
     return this.httpClient.get<any>(AppSettings.API_ENDPOINT_AUTH_SETTING_USERDETAILS)

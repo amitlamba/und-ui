@@ -96,6 +96,7 @@ import {EventUserListComponent} from './segment-category/event-user-list/event-u
 import {InputTrimDirective} from "./_directives/input-trim.directive";
 import { EmailSettingsComponent } from './settings/email-settings/email-settings.component';
 import { OrderByPipe } from './_pipes/order-by.pipe';
+import { VerifyEmailComponent } from './login/verify-email/verify-email.component';
 
 
 @NgModule({
@@ -183,7 +184,8 @@ import { OrderByPipe } from './_pipes/order-by.pipe';
     EventUserListComponent,
     InputTrimDirective,
     EmailSettingsComponent,
-    OrderByPipe
+    OrderByPipe,
+    VerifyEmailComponent
   ],
   providers: [
     AuthGuard,

@@ -30,6 +30,7 @@ import {ContactUsComponent} from "./contact-us/contact-us.component";
 import {UserProfileComponent} from "./user-profile/user-profile.component";
 import {EmailSettingsComponent} from "./settings/email-settings/email-settings.component";
 import {CreateEmailTemplateFormComponent} from "./templates/email-templates/create-email-template-form/create-email-template-form.component";
+import {VerifyEmailComponent} from "./login/verify-email/verify-email.component";
 
 const routes: Routes = [
   {path: 'login', component: LoginComponent},
@@ -37,6 +38,7 @@ const routes: Routes = [
   {path: '', component: LandingPageUndComponent},
   {path: 'register', component: RegisterComponent},
   {path: 'resetpwd/:code', component: ResetPwdComponent},
+  {path: 'verifyemail/:email/:code', component: VerifyEmailComponent},
   {path: 'dummyJson', component: DummyComponent},
   {path: 'dashboard', component: HomeComponent, canActivate: [AuthGuard]},
   {path: 'settings', redirectTo: "settings/profile", pathMatch: "full", canActivate: [AuthGuard]},
