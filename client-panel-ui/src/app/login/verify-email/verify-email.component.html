@@ -1,0 +1,5 @@
+<div class="container text-center my-auto">
+  <div *ngIf="verified == null">Verifying your email address...</div>
+  <div *ngIf="verified && verified===true">Email Address verified Successfully. Redirecting you to login</div>
+  <div *ngIf="verified===false">There is an issue verifying your email.<br /> Please contact <a href='mailto:support@userndot.com'>support@userndot.com</a></div>
+</div>
