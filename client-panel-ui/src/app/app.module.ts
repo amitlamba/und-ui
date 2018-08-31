@@ -97,6 +97,8 @@ import {InputTrimDirective} from "./_directives/input-trim.directive";
 import { EmailSettingsComponent } from './settings/email-settings/email-settings.component';
 import { OrderByPipe } from './_pipes/order-by.pipe';
 import { VerifyEmailComponent } from './login/verify-email/verify-email.component';
+import { PrivacyPolicyComponent } from './terms-of-service/privacy-policy/privacy-policy.component';
+import { DrawChartComponent } from './graphs/highcharts/draw-chart/draw-chart.component';
 
 
 @NgModule({
@@ -185,7 +187,9 @@ import { VerifyEmailComponent } from './login/verify-email/verify-email.componen
     InputTrimDirective,
     EmailSettingsComponent,
     OrderByPipe,
-    VerifyEmailComponent
+    VerifyEmailComponent,
+    PrivacyPolicyComponent,
+    DrawChartComponent
   ],
   providers: [
     AuthGuard,

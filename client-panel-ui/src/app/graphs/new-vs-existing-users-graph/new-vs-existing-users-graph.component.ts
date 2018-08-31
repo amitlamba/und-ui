@@ -1,5 +1,5 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {Chart} from 'chart.js'
+import {Chart} from 'chart.js';
 import {ReportsService} from "../../_services/reports.service";
 
 @Component({
@@ -24,12 +24,53 @@ export class NewVsExistingUsersGraphComponent implements OnInit {
     this.newUsersChartData = this.reportsService.newUsersChartData;
     // this.newUsersChartLabels = this.reportsService.lineChartLabels;
     this.newUsersChartOptions = this.reportsService.lineChartOptions.options;
-    this.newUsersChartColors = this.reportsService.lineChartColors;
+    // this.newUsersChartColors = this.reportsService.lineChartColors;
     this.newUsersChartLegend = this.reportsService.lineChartLegend;
-    this.newUsersChartType = this.reportsService.lineChartType;
+    // this.newUsersChartType = this.reportsService.lineChartType;
+    this.newUsersChartType = "line";
+
+    this.drawGraphByJS();
   }
 
-  // https://valor-software.com/ng2-charts/ (Reference)
+
+  private drawGraphByJS() {
+    var canvas: HTMLCanvasElement = <HTMLCanvasElement>document.getElementById("canvas");
+    var ctx = canvas.getContext("2d");
+    var chart = new Chart(ctx, {
+      type: 'horizontalBar',
+      data: {
+        labels: ['Jan 01', 'Jan 02', 'Jan 03'],
+        datasets: [{
+          label: 'Apples Sold',
+          data: [3, 5, 1],
+          backgroundColor: 'rgba(255, 99, 132, 0.8)',
+          fill: false
+        }, {
+          label: 'Oranges Sold',
+          data: [0, 10, 2],
+          backgroundColor: 'rgba(255, 206, 86, 0.8)',
+          fill: false
+        }, {
+          label: 'Gallons of Milk Sold',
+          data: [5, 7, 4],
+          backgroundColor: 'rgba(54, 162, 235, 0.8)',
+          fill: false
+        }]
+      },
+      options: {
+        tooltips: {
+          mode: 'index',
+          intersect: false
+        },
+        hover: {
+          mode: 'index',
+          intersect: false
+        }
+      }
+    });
+  }
+
+// https://valor-software.com/ng2-charts/ (Reference)
   // Make the below function reusable by specifying it in Reports service instead of specifying it here in different components.
 
   getDailyOrWeeklyOrMonthlyReports($event) {
