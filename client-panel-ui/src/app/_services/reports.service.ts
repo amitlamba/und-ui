@@ -47,11 +47,13 @@ export class ReportsService {
   public newUsersChartData: Array<any> = [
     {
       data: [19, 35, 30, 71, 31, 87, 10, 50, 15, 36, 75, 57, 30, 50, 11, 55, 92, 15, 19, 62, 84, 48, 78, 36],
-      label: 'Users Acquired'
+      label: 'Users Acquired',
+      fill: false
     },
     {
       data: [45, 89, 60, 41, 96, 55, 40, 65, 49, 90, 21, 58, 54, 44, 56, 55, 40, 65, 49, 90, 21, 58, 48, 76],
-      label: 'Conversion Event'
+      label: 'Conversion Event',
+      fill: false
     }
   ];
   public eventsChartData: Array<any> = [
@@ -75,15 +77,18 @@ export class ReportsService {
   public conversionEventsChartData: Array<any> = [
     {
       data: [98, 48, 40, 19, 86, 27, 90, 35, 15, 36, 75, 57, 30, 50, 11, 55, 92, 15, 19, 62, 84, 48, 78, 36],
-      label: 'Conversion Rate'
+      label: 'Conversion Rate',
+      fill: false
     },
     {
       data: [50, 11, 55, 92, 15, 19, 62, 84, 49, 90, 21, 58, 54, 44, 56, 55, 40, 65, 49, 90, 21, 58, 48, 76],
-      label: 'Revenue'
+      label: 'Revenue',
+      fill: false
     },
     {
       data: [85, 59, 80, 81, 56, 55, 40, 65, 49, 90, 21, 58, 54, 44, 96, 75, 54, 72, 49, 95, 41, 58, 38, 96],
-      label: 'Conversion Event'
+      label: 'Conversion Event',
+      fill: false
     }
   ];
   // public xAxesLabels = {
@@ -108,10 +113,13 @@ export class ReportsService {
     responsive: true,
     options: {
       legend: {
-        position: 'right',
+        position: 'top',
         labels: {
           padding: 30
         }
+      },
+      tooltips: {
+        mode: 'index'
       },
       scales: {
         yAxes: [{
@@ -132,33 +140,33 @@ export class ReportsService {
             labelString: 'Time  (24 hrs)'
           }
         }]
-      },
+      }
     }
   };
   public lineChartColors: Array<any> = [
     { // grey
-      backgroundColor: '#aaf45c',
+      // backgroundColor: '#aaf45c',
       borderColor: 'rgba(148,159,177,1)',
-      pointBackgroundColor: 'rgba(148,159,177,1)',
-      pointBorderColor: '#fff',
-      pointHoverBackgroundColor: '#fff',
-      pointHoverBorderColor: 'rgba(148,159,177,0.8)'
+      // pointBackgroundColor: 'rgba(148,159,177,1)',
+      // pointBorderColor: '#fff',
+      // pointHoverBackgroundColor: '#fff',
+      // pointHoverBorderColor: 'rgba(148,159,177,0.8)'
     },
     { // dark grey
-      backgroundColor: '#1ba72f',
+      // backgroundColor: '#1ba72f',
       borderColor: 'rgba(77,83,96,1)',
-      pointBackgroundColor: 'rgba(77,83,96,1)',
-      pointBorderColor: '#fff',
-      pointHoverBackgroundColor: '#fff',
-      pointHoverBorderColor: 'rgba(77,83,96,1)'
+      // pointBackgroundColor: 'rgba(77,83,96,1)',
+      // pointBorderColor: '#fff',
+      // pointHoverBackgroundColor: '#fff',
+      // pointHoverBorderColor: 'rgba(77,83,96,1)'
     },
     { // grey
-      backgroundColor: 'rgba(148,159,177,0.2)',
+      // backgroundColor: 'rgba(148,159,177,0.2)',
       borderColor: 'rgba(148,159,177,1)',
-      pointBackgroundColor: 'rgba(148,159,177,1)',
-      pointBorderColor: '#fff',
-      pointHoverBackgroundColor: '#fff',
-      pointHoverBorderColor: 'rgba(148,159,177,0.8)'
+      // pointBackgroundColor: 'rgba(148,159,177,1)',
+      // pointBorderColor: '#fff',
+      // pointHoverBackgroundColor: '#fff',
+      // pointHoverBorderColor: 'rgba(148,159,177,0.8)'
     }
   ];
   public lineChartLegend: boolean = true;
