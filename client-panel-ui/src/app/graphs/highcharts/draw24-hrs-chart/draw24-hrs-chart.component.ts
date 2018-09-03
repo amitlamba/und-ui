@@ -1,20 +1,22 @@
 import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {chart, IndividualSeriesOptions} from 'highcharts';
 import * as Highcharts from 'highcharts';
-import {TrendTimeSeries} from "../../../_models/reports";
+import {ChartSeriesData} from "../../../_models/reports";
+import {formatDate} from "ngx-bootstrap/chronos";
 
 @Component({
-  selector: 'app-draw-chart',
-  templateUrl: './draw-chart.component.html',
-  styleUrls: ['./draw-chart.component.scss']
+  selector: 'app-draw24-hrs-chart',
+  templateUrl: './draw24-hrs-chart.component.html',
+  styleUrls: ['./draw24-hrs-chart.component.scss']
 })
-export class DrawChartComponent implements OnInit {
+export class Draw24HrsChartComponent implements OnInit {
 
   @Input() name: string = 'Users Data';
   @Input() xAxisTitle: string;
   @Input() yAxisTitle: string = '# of users';
-  @Input() dataSeries: Array<TrendTimeSeries>;
-  @Input() chartType: string = 'column';
+  @Input() timeStepInMins: number = 5;
+  @Input() dataSeries: Array<ChartSeriesData>;
+  @Input() chartType: string = 'line';
 
   @ViewChild('chartTarget') chartTarget: ElementRef;
   chart: Highcharts.ChartObject;
@@ -45,7 +47,7 @@ export class DrawChartComponent implements OnInit {
         headerFormat: '',
         formatter: function () {
           var timeX = new Date(this.x);
-          var s = '<b>At ' + timeX.getUTCHours()+':'+ timeX.getUTCMinutes() +' hours</b>';
+          var s = '<b>At ' + formatDate(timeX, 'hh:MM')+' hours</b>';
 
           $.each(this.points, function () {
             s += '<br/>On ' + this.series.name + ': ' +
@@ -61,6 +63,7 @@ export class DrawChartComponent implements OnInit {
         enabled: false
       },
       xAxis: {
+        // title: this.xAxisTitle,
         type: 'datetime',
         dateTimeLabelFormats: {
           day: '%H:%M'
@@ -86,8 +89,8 @@ export class DrawChartComponent implements OnInit {
 
     this.dataSeries.forEach((v,i,a) => {
       response.push({
-        name: v.date,
-        data: v.trenddata.map<number>((v1,i1,a1)=>{return v1.usercount})
+        name: v.seriesName,
+        data: v.data
       })
     })
 

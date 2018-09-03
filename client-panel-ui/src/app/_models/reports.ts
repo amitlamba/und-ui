@@ -53,3 +53,8 @@ export enum PERIOD {
 export enum EntityType {
   event="event", user="user"
 };
+
+export interface ChartSeriesData {
+  seriesName: string;
+  data: number[];
+}
