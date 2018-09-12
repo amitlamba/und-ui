@@ -12,7 +12,15 @@ import {moment} from "ngx-bootstrap/chronos/test/chain";
 
 @Component({
   selector: 'app-home',
-  templateUrl: 'home.component.html'
+  templateUrl: 'home.component.html',
+  styles: [
+    `
+      .card {
+        margin-top: 3rem;
+        margin-bottom: 2em;
+      }
+    `
+  ]
 })
 
 export class HomeComponent implements OnInit {
@@ -30,7 +38,7 @@ export class HomeComponent implements OnInit {
   viewType: string = 'graph';
   @ViewChild('formref') formRef:NgForm;
 
-  trendChartTitle = '';
+  trendChartTitle = 'Trends Report';
   trendChartSubTitle = '';
   trendChartXAxisTitle = '';
   trendChartYAxisTitle = 'users';
@@ -56,30 +64,15 @@ export class HomeComponent implements OnInit {
   userCountByEventData: Array<UserCountByEventTimeSeries> = [];
 
   trendCountName: string;
-  trendCountDataSeries: Array<[string, number]>
-  trendcountData: Array<TrendCount>
+  trendCountDataSeries: Array<[string, number]>;
+  // trendcountData: Array<TrendCount>
 
   constructor(private userService: UserService, private reportsService: ReportsService) {
-    console.log('inside constructor')
+    console.log('inside constructor');
     // this.userCountByEventData=this.reportsService.usercountbyeventsData;
-    var date = new Date();
-    var day = date.getDate();
-    var month = date.getMonth();
-    var year = date.getFullYear();
-    this.date1 = year + '-' + ('0' + (month + 1)).slice(-2) + '-' + ('0' + day).slice(-2);
-    console.log(this.date1)
-    date.setDate(date.getDate() - 1);
-    day = date.getDate();
-    month = date.getMonth();
-    year = date.getFullYear();
-    this.date2 = year + '-' + ('0' + (month + 1)).slice(-2) + '-' + ('0' + day).slice(-2);
-    console.log(this.date2)
-    date.setDate(date.getDate() - 7);
-    day = date.getDate();
-    month = date.getMonth();
-    year = date.getFullYear();
-    this.date3 = year + '-' + ('0' + (month + 1)).slice(-2) + '-' + ('0' + day).slice(-2);
-    console.log(this.date3)
+    this.date1 = this.createDateString(0);
+    this.date2 = this.createDateString(1);
+    this.date3 = this.createDateString(7);
     this.dates.push(this.date1, this.date2, this.date3);
 
     this.getDataFromApi(this.segmentId, this.dates, this.interval);
@@ -89,12 +82,16 @@ export class HomeComponent implements OnInit {
     //call segemnt list api
   }
 
-  ngOnInit() {
-    //wait until data is return
+  createDateString(daysBack: number = 0): string {
+    var date = new Date();
+    date.setDate(date.getDate() - daysBack);
+    var day = date.getDate();
+    var month = date.getMonth();
+    var year = date.getFullYear();
+    return year + '-' + ('0' + (month + 1)).slice(-2) + '-' + ('0' + day).slice(-2);
+  }
 
-    // this.trendChartGraphInitialization(this.trendchartData);
-    // this.newVsExistingData(this.newVsExistingObject);
-    // this.userCountByEventGraphInitialization(this.userCountByEventData);
+  ngOnInit() {
   }
 
   ngOnChanges() {
@@ -115,9 +112,8 @@ export class HomeComponent implements OnInit {
     }
   };
 
-  trendChartGraphInitialization(data: Array<TrendTimeSeries>) {
-
-    this.trendChartDataSeries = data.map<ChartSeriesData>(trenddata => {
+  convertDataToChartSeriesData(data: Array<TrendTimeSeries>): ChartSeriesData[] {
+    return data.map<ChartSeriesData>(trenddata => {
       return {
         showInLegend: true,
         seriesName: trenddata.date,
@@ -168,44 +164,30 @@ export class HomeComponent implements OnInit {
 
   }
 
-  newVsExistingData(data: Array<UserCountTimeSeries>) {
-    this.dates = data.map<string>(data => data.date);
-
-    this.getNewVsExistingDataByDate('2018-08-27');
-    // this.getNewVsExistingDataByDate(this.date1);
-  }
-
-
   getNewVsExistingDataByDate(date: string) {
     var trendTimeSeries = Array<TrendTimeSeries>();
     var result = this.newVsExistingObject.find(obj => obj.date === date);
     var date = result.date;
-    var usercountdata = result.userCountData;
-    var newusertrenddata = usercountdata.map<TrendByTime>(data => {
-      var obj = new TrendByTime();
-      obj.time = data.time;
-      obj.usercount = data.newusercount;
-      return obj
-    });
+    this.newVsExistingDataSeries = this.convertUserCountTimeSeriesToChartSeriesSeries(result);
+  }
 
-    var oldusertrenddata = usercountdata.map<TrendByTime>(data => {
-      var obj = new TrendByTime();
-      obj.time = data.time;
-      obj.usercount = data.oldusercount;
-      return obj
-    });
-
-    var newobj = new TrendTimeSeries();
-    newobj.date = 'new' + date;
-    newobj.trenddata = newusertrenddata;
-    trendTimeSeries.push(newobj);
-    newobj = new TrendTimeSeries();
-    newobj.date = 'old' + date;
-    newobj.trenddata = oldusertrenddata;
-    trendTimeSeries.push(newobj);
-
-    //call graph initializaation method pass object that are required
-    this.newVsExistingGraphInitialization(trendTimeSeries);
+  convertUserCountTimeSeriesToChartSeriesSeries(data: UserCountTimeSeries): ChartSeriesData[] {
+    let chartSeriesDataArr: ChartSeriesData[] = [];
+    chartSeriesDataArr[0] = {
+      showInLegend: true,
+      seriesName: "New Users",
+      data: data.userCountData.map<number>(v=> {
+        return v.newusercount;
+      })
+    };
+    chartSeriesDataArr[1] = {
+      showInLegend: true,
+      seriesName: "Existing Users",
+      data: data.userCountData.map<number>(v=> {
+        return v.oldusercount;
+      })
+    };
+    return chartSeriesDataArr;
   }
 
   onTable() {
@@ -236,16 +218,17 @@ export class HomeComponent implements OnInit {
   }
 
   getDataFromApi(segmentId, dates, interval) {
-    console.log('inside getDataFromApi')
-    console.log(segmentId+dates+interval);
+    console.log('inside getDataFromApi');
+    console.log("segmentId:"+segmentId+",dates:"+dates+",interval:"+interval);
     this.reportsService.getTrendChart(segmentId, dates, interval)
       .subscribe(response => {
-        this.trendChartGraphInitialization(response);
+        this.trendChartDataSeries = this.convertDataToChartSeriesData(response);
       });
     this.reportsService.getNewVsExisting(segmentId, dates, interval)
       .subscribe(response => {
         this.newVsExistingObject=response;
-        this.newVsExistingData(response);
+        this.dates = response.map<string>(data => data.date);
+        this.getNewVsExistingDataByDate(this.dates[this.dates.length-1]);
       });
     this.reportsService.getUserCountByEvent(segmentId, dates)
       .subscribe(response => {
@@ -263,7 +246,7 @@ export class HomeComponent implements OnInit {
           this.trendCountGraphInitialization(response);
         },
         (error) => {
-          console.log(error)
+          console.log(error);
         });
   }
 
