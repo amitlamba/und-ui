@@ -102,6 +102,8 @@ import { DrawChartComponent } from './graphs/highcharts/draw-chart/draw-chart.co
 import { DrawSemidonutChartComponent } from './graphs/highcharts/draw-semidonut-chart/draw-semidonut-chart.component';
 import { Draw24HrsChartComponent } from './graphs/highcharts/draw24-hrs-chart/draw24-hrs-chart.component';
 import { DrawSimpleChartComponent } from './graphs/highcharts/draw-simple-chart/draw-simple-chart.component';
+import { EventreportComponent } from './eventreport/eventreport.component';
+import { DrawTableComponent } from './graphs/draw-table/draw-table.component';
 
 
 @NgModule({
@@ -195,7 +197,9 @@ import { DrawSimpleChartComponent } from './graphs/highcharts/draw-simple-chart/
     DrawChartComponent,
     DrawSemidonutChartComponent,
     Draw24HrsChartComponent,
-    DrawSimpleChartComponent
+    DrawSimpleChartComponent,
+    EventreportComponent,
+    DrawTableComponent
   ],
   providers: [
     AuthGuard,

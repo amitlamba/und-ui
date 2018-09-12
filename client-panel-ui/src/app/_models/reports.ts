@@ -34,7 +34,10 @@ export class TrendCount {
   name: string;
 }
 
-
+export class EventUserTable{
+  eventName:string;
+  count:Array<number> = [];
+}
 export class PropertyFilter{name: string; value: string}
 export class EventReportFilter{segmentid:number; days: number; eventName: string; propFilter: Array<PropertyFilter>}
 
@@ -55,6 +58,7 @@ export enum EntityType {
 };
 
 export interface ChartSeriesData {
+  showInLegend:boolean;
   seriesName: string;
   data: number[];
 }

@@ -25,3 +25,77 @@
     <!--</div>-->
   <!--</div>-->
 <!--</div>-->
+
+<h1>Eventgraph</h1>
+
+<div class="container">
+  <!--<div class="col-md-6 col-md-offset-3">-->
+
+  <h1>Event Reports</h1>
+
+  <div class="card">
+    <div class="card-body">
+      <app-draw24-hrs-chart [title]="trendChartTitle"
+                            [subtitle]="trendChartSubTitle"
+                            [xAxisTitle]="trendChartXAxisTitle"
+                            [yAxisTitle]="trendChartYAxisTitle"
+                            [chartType]="trendChartGraphType"
+                            [dataSeries]="trendChartDataSeries">
+
+      </app-draw24-hrs-chart>
+    </div>
+  </div>
+  <hr>
+  <div class="card">
+    <div class="card-body">
+      <app-draw24-hrs-chart [title]="newVsExistingTitle"
+                            [subtitle]="newVsExistingSubTitle"
+                            [xAxisTitle]="newVsExistingXAxisTitle"
+                            [yAxisTitle]="newVsExistingYAxisTitle"
+                            [chartType]="newVsExistingGraphType"
+                            [dataSeries]="newVsExistingDataSeries">
+
+      </app-draw24-hrs-chart>
+    </div>
+  </div>
+  <hr>
+  <div class="">
+    <app-draw-simple-chart [title]="userCountByEventTitle"
+                           [subtitle]="userCountByEventSubTitle"
+                           [yAxisTitle]="userCountByEventYAxisTitle"
+                           [chartType]="userCountByEventChartType"
+                           [categories]="userCountByEventCategory"
+                           [dataSeries]="userCountByEventDataSeries">
+
+    </app-draw-simple-chart>
+  </div>
+  <div class="card">
+    <div class="card-body">
+      <app-draw-semidonut-chart [name]="trendCountName" [dataSeries]="trendCountDataSeries"></app-draw-semidonut-chart>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-body">
+      <app-draw-semidonut-chart [name]="trendCountName" [dataSeries]="trendCountDataSeries"></app-draw-semidonut-chart>
+    </div>
+  </div>
+
+
+
+  <!--<div class="">-->
+  <!--<app-new-vs-existing-users-graph></app-new-vs-existing-users-graph>-->
+  <!--</div>-->
+  <!--<div class="my-5">-->
+  <!--<app-draw-chart [dataSeries]="trendChartData"></app-draw-chart>-->
+  <!--</div>-->
+  <!---->
+  <!--<div class="my-5">-->
+  <!--<app-events-graph></app-events-graph>-->
+  <!--</div>-->
+  <!--<div class="my-5">-->
+  <!--<app-conversion-events-graph></app-conversion-events-graph>-->
+  <!--</div>-->
+</div>
+
+

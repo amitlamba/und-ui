@@ -11,7 +11,7 @@ import {ChartSeriesData} from "../../../_models/reports";
 export class DrawSimpleChartComponent implements OnInit {
   @Input() title: string = "Dummy Title";
   @Input() subtitle: string = "";
-  @Input() charttype: string = "column";
+  @Input() chartType: string = "column";
   @Input() xAxisTitle: string;
   @Input() yAxisTitle: string;
   @Input() categories: string[];
@@ -39,7 +39,7 @@ export class DrawSimpleChartComponent implements OnInit {
     });
     this.chart = chart(this.chartTarget.nativeElement, {
       chart: {
-        type: this.charttype
+        type: this.chartType
       },
       title: {
         text: this.title
@@ -57,10 +57,13 @@ export class DrawSimpleChartComponent implements OnInit {
           text: this.yAxisTitle
         }
       },
+      credits: {
+        enabled: false
+      },
       tooltip: {
         headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
         pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-        '<td style="padding:0"><b>{point.y:.1f} mm</b></td></tr>',
+        '<td style="padding:0"><b>{point.y}</b></td></tr>',
         footerFormat: '</table>',
         shared: true,
         useHTML: true
@@ -75,11 +78,12 @@ export class DrawSimpleChartComponent implements OnInit {
     });
   }
 
-  series(): IndividualSeriesOptions[] {
-    let response = new Array<IndividualSeriesOptions>();
+  series(): any[] {
+    let response = new Array<any>();
 
     this.dataSeries.forEach((v,i,a) => {
       response.push({
+        showInLegend:v.showInLegend,
         name: v.seriesName,
         data: v.data
       })

@@ -1,12 +1,98 @@
 import {Injectable} from "@angular/core";
 import {
+  Aggregate,
   EventCount, EventPeriodCount, EventTimeFrequency, EventUserFrequency, TrendCount, TrendTimeSeries,
   UserCountByEventTimeSeries,
   UserCountTimeSeries
 } from "../_models/reports";
+import {HttpClient, HttpParams} from "@angular/common/http";
+import {Observable} from "rxjs/Observable";
+import {of} from "rxjs/observable/of";
+import {AppSettings} from "../_settings/app-settings";
 
 @Injectable()
 export class ReportsService {
+
+
+
+
+  constructor(private httpClient:HttpClient){}
+
+  getTrendCount(segmentid,groupby,interval):Observable<TrendCount[]>{
+    console.log('trendcount')
+    var data=this.trendcountData;
+    return of(data)
+
+    // const params = new HttpParams().set("segmentid", segmentid).set("groupby",groupby).set("interval",interval);
+    // return this.httpClient.get<TrendCount[]>(AppSettings.API_ENDPOINT_CLIENT_CLIENT_DASHBOARD_TRENDCOUNT,{params});
+  }
+
+  getTrendChart(segmentid,dates,interval):Observable<TrendTimeSeries[]>{
+    console.log('trendchart')
+    var data=this.trendchartData;
+    return of(data);
+
+    // const params = new HttpParams().set("segmentid", segmentid).set("dates",dates).set("interval",interval);
+    // return this.httpClient.get<TrendTimeSeries[]>(AppSettings.API_ENDPOINT_CLIENT_CLIENT_DASHBOARD_TRENDCHART,{params});
+  }
+
+  getNewVsExisting(segmentid,dates,interval):Observable<UserCountTimeSeries[]>{
+    //create custom observable
+    console.log('newvsexisting')
+    var data=this.newvsexistingData;
+    return of(data);
+
+    // const params = new HttpParams().set("segmentid", segmentid).set("dates",dates).set("interval",interval);
+    // return this.httpClient.get<UserCountTimeSeries[]>(AppSettings.API_ENDPOINT_CLIENT_CLIENT_DASHBOARD_NEWVSEXISTING,{params});
+  }
+
+  getUserCountByEvent(segmentid,dates):Observable<UserCountByEventTimeSeries[]>{
+    console.log('usercountbyevent')
+    var data=this.usercountbyeventsData;
+    return of(data);
+
+    // const params = new HttpParams().set("segmentid", segmentid).set("dates",dates);
+    // return this.httpClient.get<UserCountByEventTimeSeries[]>(AppSettings.API_ENDPOINT_CLIENT_CLIENT_DASHBOARD_USERCOUNTBYEVENTS,{params});
+  }
+
+  getSampleUsersByEvent(date,segmentid):Observable<any[]>{
+    const params = new HttpParams().set("date",date).set("segmentid", segmentid);
+    return this.httpClient.get<any[]>(AppSettings.API_ENDPOINT_CLIENT_CLIENT_DASHBOARD_SAMPLEUSERBYEVENT,{params});
+  }
+  //event report api call
+
+  getCountTrendC(eventReportFilter,entitytype,groupby=null):Observable<EventCount[]>{
+    //group by optional  os
+    const params=new HttpParams().set("ftr",eventReportFilter).set("entityType",entitytype);
+    if(groupby!=null){
+      params.set("groupby",groupby);
+    }
+    return this.httpClient.get<EventCount[]>(AppSettings.API_ENDPOINT_CLIENT_CLIENT_REPORT_EVENT_EVENTCOUNT,{params});
+  }
+
+  getTimePeriodTrend(eventReportFilter,entityType,period):Observable<EventPeriodCount[]>{
+    const params=new HttpParams().set("ftr",eventReportFilter).set("entityType",entityType).set("period",period);
+    return this.httpClient.get<EventPeriodCount[]>(AppSettings.API_ENDPOINT_CLIENT_CLIENT_REPORT_EVENT_TRENDBYTIMEPERIOD,{params});
+  }
+
+  getEventUserTrend(eventReportFilter):Observable<EventUserFrequency[]>{
+    const params=new HttpParams().set("ftr",eventReportFilter);
+    return this.httpClient.get<EventUserFrequency[]>(AppSettings.API_ENDPOINT_CLIENT_CLIENT_REPORT_EVENT_EVENTUSERTREND,{params});
+  }
+
+  getEventTimeTrend(eventReportFilter):Observable<EventTimeFrequency[]>{
+    const params=new HttpParams().set("ftr",eventReportFilter);
+    return this.httpClient.get<EventTimeFrequency[]>(AppSettings.API_ENDPOINT_CLIENT_CLIENT_REPORT_EVENT_EVENTTIMETREND,{params});
+  }
+
+  getEventAggregateTrend(eventReportFilter,period,aggregateOn=null):Observable<Aggregate[]>{
+    //aggregate are unrequire
+    const params=new HttpParams().set("ftr",eventReportFilter).set("period",period);
+    if(aggregateOn!=null){
+      params.set("aggregateOn",aggregateOn);
+    }
+    return this.httpClient.get<Aggregate[]>(AppSettings.API_ENDPOINT_CLIENT_CLIENT_REPORT_EVENT_EVENTAGGREGATETREND,{params});
+  }
 
   reportsDataFormat = [
     {
@@ -3673,294 +3759,1444 @@ export class ReportsService {
       "date": "2018-08-27",
       "userCountData": [
         {
-          "newusercount": 10000,
-          "oldusercount": 15000,
+          "newusercount": 5207,
+          "oldusercount": 20830,
           "time": 0
         },
         {
-          "newusercount": 10025,
-          "oldusercount": 15025,
+          "newusercount": 5410,
+          "oldusercount": 21644,
           "time": 5
         },
         {
-          "newusercount": 10100,
-          "oldusercount": 15100,
+          "newusercount": 5377,
+          "oldusercount": 21510,
           "time": 10
         },
         {
-          "newusercount": 10225,
-          "oldusercount": 15225,
+          "newusercount": 5463,
+          "oldusercount": 21854,
           "time": 15
         },
         {
-          "newusercount": 10400,
-          "oldusercount": 15400,
+          "newusercount": 5713,
+          "oldusercount": 22855,
           "time": 20
         },
         {
-          "newusercount": 10625,
-          "oldusercount": 15625,
+          "newusercount": 5733,
+          "oldusercount": 22936,
           "time": 25
         },
         {
-          "newusercount": 10900,
-          "oldusercount": 15900,
+          "newusercount": 5599,
+          "oldusercount": 22399,
           "time": 30
         },
         {
-          "newusercount": 11225,
-          "oldusercount": 16225,
+          "newusercount": 5409,
+          "oldusercount": 21636,
           "time": 35
         },
         {
-          "newusercount": 11600,
-          "oldusercount": 16600,
+          "newusercount": 5574,
+          "oldusercount": 22297,
           "time": 40
         },
         {
-          "newusercount": 12025,
-          "oldusercount": 17025,
+          "newusercount": 5794,
+          "oldusercount": 23179,
           "time": 45
         },
         {
-          "newusercount": 12500,
-          "oldusercount": 17500,
+          "newusercount": 5560,
+          "oldusercount": 22240,
           "time": 50
         },
         {
-          "newusercount": 13025,
-          "oldusercount": 18025,
+          "newusercount": 5301,
+          "oldusercount": 21203,
           "time": 55
         },
         {
-          "newusercount": 13600,
-          "oldusercount": 18600,
+          "newusercount": 5473,
+          "oldusercount": 21893,
           "time": 60
         },
         {
-          "newusercount": 14225,
-          "oldusercount": 19225,
+          "newusercount": 5393,
+          "oldusercount": 21570,
           "time": 65
         },
         {
-          "newusercount": 14900,
-          "oldusercount": 19900,
+          "newusercount": 5628,
+          "oldusercount": 22511,
           "time": 70
         },
         {
-          "newusercount": 15625,
-          "oldusercount": 20625,
+          "newusercount": 5836,
+          "oldusercount": 23344,
           "time": 75
         },
         {
-          "newusercount": 16400,
-          "oldusercount": 21400,
+          "newusercount": 5577,
+          "oldusercount": 22305,
           "time": 80
         },
         {
-          "newusercount": 17225,
-          "oldusercount": 22225,
+          "newusercount": 5430,
+          "oldusercount": 21717,
           "time": 85
         },
         {
-          "newusercount": 18100,
-          "oldusercount": 23100,
+          "newusercount": 5402,
+          "oldusercount": 21603,
           "time": 90
         },
         {
-          "newusercount": 19025,
-          "oldusercount": 24025,
+          "newusercount": 5469,
+          "oldusercount": 21872,
           "time": 95
         },
         {
-          "newusercount": 20000,
-          "oldusercount": 25000,
+          "newusercount": 5666,
+          "oldusercount": 22661,
           "time": 100
         },
         {
-          "newusercount": 21025,
-          "oldusercount": 26025,
+          "newusercount": 5898,
+          "oldusercount": 23589,
           "time": 105
         },
         {
-          "newusercount": 22100,
-          "oldusercount": 27100,
+          "newusercount": 5828,
+          "oldusercount": 23308,
           "time": 110
         },
         {
-          "newusercount": 23225,
-          "oldusercount": 28225,
+          "newusercount": 5920,
+          "oldusercount": 23679,
           "time": 115
         },
         {
-          "newusercount": 24400,
-          "oldusercount": 29400,
+          "newusercount": 5666,
+          "oldusercount": 22661,
           "time": 120
         },
         {
-          "newusercount": 25625,
-          "oldusercount": 30625,
+          "newusercount": 5530,
+          "oldusercount": 22115,
           "time": 125
         },
         {
-          "newusercount": 26900,
-          "oldusercount": 31900,
+          "newusercount": 5418,
+          "oldusercount": 21666,
           "time": 130
         },
         {
-          "newusercount": 28225,
-          "oldusercount": 33225,
+          "newusercount": 5590,
+          "oldusercount": 22356,
           "time": 135
         },
         {
-          "newusercount": 29600,
-          "oldusercount": 34600,
+          "newusercount": 5643,
+          "oldusercount": 22570,
           "time": 140
         },
         {
-          "newusercount": 31025,
-          "oldusercount": 36025,
+          "newusercount": 5686,
+          "oldusercount": 22744,
           "time": 145
         },
         {
-          "newusercount": 32500,
-          "oldusercount": 37500,
+          "newusercount": 5757,
+          "oldusercount": 23028,
           "time": 150
         },
         {
-          "newusercount": 34025,
-          "oldusercount": 39025,
+          "newusercount": 5567,
+          "oldusercount": 22265,
           "time": 155
         },
         {
-          "newusercount": 35600,
-          "oldusercount": 40600,
+          "newusercount": 5427,
+          "oldusercount": 21705,
           "time": 160
         },
         {
-          "newusercount": 37225,
-          "oldusercount": 42225,
+          "newusercount": 5669,
+          "oldusercount": 22673,
           "time": 165
         },
         {
-          "newusercount": 38900,
-          "oldusercount": 43900,
+          "newusercount": 5586,
+          "oldusercount": 22339,
           "time": 170
         },
         {
-          "newusercount": 40625,
-          "oldusercount": 45625,
+          "newusercount": 5547,
+          "oldusercount": 22183,
           "time": 175
         },
         {
-          "newusercount": 42400,
-          "oldusercount": 47400,
+          "newusercount": 5517,
+          "oldusercount": 22060,
           "time": 180
         },
         {
-          "newusercount": 44225,
-          "oldusercount": 49225,
+          "newusercount": 5437,
+          "oldusercount": 21739,
           "time": 185
         },
         {
-          "newusercount": 46100,
-          "oldusercount": 51100,
+          "newusercount": 5510,
+          "oldusercount": 22031,
           "time": 190
         },
         {
-          "newusercount": 48025,
-          "oldusercount": 53025,
+          "newusercount": 5455,
+          "oldusercount": 21811,
           "time": 195
         },
         {
-          "newusercount": 50000,
-          "oldusercount": 55000,
+          "newusercount": 5638,
+          "oldusercount": 22542,
           "time": 200
         },
         {
-          "newusercount": 52025,
-          "oldusercount": 57025,
+          "newusercount": 5527,
+          "oldusercount": 22098,
           "time": 205
         },
         {
-          "newusercount": 54100,
-          "oldusercount": 59100,
+          "newusercount": 5566,
+          "oldusercount": 22257,
           "time": 210
         },
         {
-          "newusercount": 56225,
-          "oldusercount": 61225,
+          "newusercount": 5784,
+          "oldusercount": 23130,
           "time": 215
         },
         {
-          "newusercount": 58400,
-          "oldusercount": 63400,
+          "newusercount": 5927,
+          "oldusercount": 23704,
           "time": 220
         },
         {
-          "newusercount": 60625,
-          "oldusercount": 65625,
+          "newusercount": 6066,
+          "oldusercount": 24263,
           "time": 225
         },
         {
-          "newusercount": 62900,
-          "oldusercount": 67900,
+          "newusercount": 5808,
+          "oldusercount": 23228,
           "time": 230
         },
         {
-          "newusercount": 65225,
-          "oldusercount": 70225,
+          "newusercount": 6069,
+          "oldusercount": 24272,
           "time": 235
         },
         {
-          "newusercount": 67600,
-          "oldusercount": 72600,
+          "newusercount": 6239,
+          "oldusercount": 24955,
           "time": 240
         },
         {
-          "newusercount": 70025,
-          "oldusercount": 75025,
+          "newusercount": 6182,
+          "oldusercount": 24727,
           "time": 245
         },
         {
-          "newusercount": 72500,
-          "oldusercount": 77500,
+          "newusercount": 6487,
+          "oldusercount": 25948,
           "time": 250
         },
         {
-          "newusercount": 75025,
-          "oldusercount": 80025,
+          "newusercount": 6786,
+          "oldusercount": 27145,
           "time": 255
         },
         {
-          "newusercount": 77600,
-          "oldusercount": 82600,
+          "newusercount": 6503,
+          "oldusercount": 26012,
           "time": 260
         },
         {
-          "newusercount": 80225,
-          "oldusercount": 85225,
+          "newusercount": 6438,
+          "oldusercount": 25750,
           "time": 265
         },
         {
-          "newusercount": 82900,
-          "oldusercount": 87900,
+          "newusercount": 6440,
+          "oldusercount": 25759,
           "time": 270
         },
         {
-          "newusercount": 85625,
-          "oldusercount": 90625,
+          "newusercount": 6647,
+          "oldusercount": 26590,
           "time": 275
         },
         {
-          "newusercount": 88400,
-          "oldusercount": 93400,
+          "newusercount": 6481,
+          "oldusercount": 25925,
           "time": 280
         },
         {
-          "newusercount": 91225,
-          "oldusercount": 96225,
+          "newusercount": 6261,
+          "oldusercount": 25045,
           "time": 285
+        },
+        {
+          "newusercount": 6546,
+          "oldusercount": 26188,
+          "time": 290
+        },
+        {
+          "newusercount": 6455,
+          "oldusercount": 25821,
+          "time": 295
+        },
+        {
+          "newusercount": 6455,
+          "oldusercount": 25818,
+          "time": 300
+        },
+        {
+          "newusercount": 6712,
+          "oldusercount": 26846,
+          "time": 305
+        },
+        {
+          "newusercount": 6937,
+          "oldusercount": 27748,
+          "time": 310
+        },
+        {
+          "newusercount": 7188,
+          "oldusercount": 28754,
+          "time": 315
+        },
+        {
+          "newusercount": 7500,
+          "oldusercount": 30003,
+          "time": 320
+        },
+        {
+          "newusercount": 7196,
+          "oldusercount": 28786,
+          "time": 325
+        },
+        {
+          "newusercount": 7306,
+          "oldusercount": 29227,
+          "time": 330
+        },
+        {
+          "newusercount": 7134,
+          "oldusercount": 28536,
+          "time": 335
+        },
+        {
+          "newusercount": 7425,
+          "oldusercount": 29700,
+          "time": 340
+        },
+        {
+          "newusercount": 7259,
+          "oldusercount": 29035,
+          "time": 345
+        },
+        {
+          "newusercount": 7062,
+          "oldusercount": 28245,
+          "time": 350
+        },
+        {
+          "newusercount": 6853,
+          "oldusercount": 27408,
+          "time": 355
+        },
+        {
+          "newusercount": 6661,
+          "oldusercount": 26638,
+          "time": 360
+        },
+        {
+          "newusercount": 6594,
+          "oldusercount": 26369,
+          "time": 365
+        },
+        {
+          "newusercount": 6775,
+          "oldusercount": 27096,
+          "time": 370
+        },
+        {
+          "newusercount": 7007,
+          "oldusercount": 28027,
+          "time": 375
+        },
+        {
+          "newusercount": 6926,
+          "oldusercount": 27702,
+          "time": 380
+        },
+        {
+          "newusercount": 6934,
+          "oldusercount": 27737,
+          "time": 385
+        },
+        {
+          "newusercount": 6867,
+          "oldusercount": 27469,
+          "time": 390
+        },
+        {
+          "newusercount": 7133,
+          "oldusercount": 28535,
+          "time": 395
+        },
+        {
+          "newusercount": 7322,
+          "oldusercount": 29292,
+          "time": 400
+        },
+        {
+          "newusercount": 7246,
+          "oldusercount": 28987,
+          "time": 405
+        },
+        {
+          "newusercount": 7164,
+          "oldusercount": 28659,
+          "time": 410
+        },
+        {
+          "newusercount": 6955,
+          "oldusercount": 27820,
+          "time": 415
+        },
+        {
+          "newusercount": 7198,
+          "oldusercount": 28795,
+          "time": 420
+        },
+        {
+          "newusercount": 7038,
+          "oldusercount": 28153,
+          "time": 425
+        },
+        {
+          "newusercount": 7376,
+          "oldusercount": 29506,
+          "time": 430
+        },
+        {
+          "newusercount": 7114,
+          "oldusercount": 28457,
+          "time": 435
+        },
+        {
+          "newusercount": 7263,
+          "oldusercount": 29053,
+          "time": 440
+        },
+        {
+          "newusercount": 7424,
+          "oldusercount": 29698,
+          "time": 445
+        },
+        {
+          "newusercount": 7297,
+          "oldusercount": 29188,
+          "time": 450
+        },
+        {
+          "newusercount": 7187,
+          "oldusercount": 28745,
+          "time": 455
+        },
+        {
+          "newusercount": 6877,
+          "oldusercount": 27503,
+          "time": 460
+        },
+        {
+          "newusercount": 6818,
+          "oldusercount": 27266,
+          "time": 465
+        },
+        {
+          "newusercount": 6738,
+          "oldusercount": 26943,
+          "time": 470
+        },
+        {
+          "newusercount": 6977,
+          "oldusercount": 27900,
+          "time": 475
+        },
+        {
+          "newusercount": 6793,
+          "oldusercount": 27163,
+          "time": 480
+        },
+        {
+          "newusercount": 6677,
+          "oldusercount": 26697,
+          "time": 485
+        },
+        {
+          "newusercount": 6812,
+          "oldusercount": 27240,
+          "time": 490
+        },
+        {
+          "newusercount": 6690,
+          "oldusercount": 26751,
+          "time": 495
+        },
+        {
+          "newusercount": 6639,
+          "oldusercount": 26545,
+          "time": 500
+        },
+        {
+          "newusercount": 6688,
+          "oldusercount": 26741,
+          "time": 505
+        },
+        {
+          "newusercount": 6915,
+          "oldusercount": 27652,
+          "time": 510
+        },
+        {
+          "newusercount": 7090,
+          "oldusercount": 28355,
+          "time": 515
+        },
+        {
+          "newusercount": 7161,
+          "oldusercount": 28639,
+          "time": 520
+        },
+        {
+          "newusercount": 7172,
+          "oldusercount": 28685,
+          "time": 525
+        },
+        {
+          "newusercount": 6852,
+          "oldusercount": 27404,
+          "time": 530
+        },
+        {
+          "newusercount": 6981,
+          "oldusercount": 27922,
+          "time": 535
+        },
+        {
+          "newusercount": 6738,
+          "oldusercount": 26947,
+          "time": 540
+        },
+        {
+          "newusercount": 6695,
+          "oldusercount": 26775,
+          "time": 545
+        },
+        {
+          "newusercount": 6730,
+          "oldusercount": 26918,
+          "time": 550
+        },
+        {
+          "newusercount": 6985,
+          "oldusercount": 27941,
+          "time": 555
+        },
+        {
+          "newusercount": 6655,
+          "oldusercount": 26620,
+          "time": 560
+        },
+        {
+          "newusercount": 6570,
+          "oldusercount": 26278,
+          "time": 565
+        },
+        {
+          "newusercount": 6706,
+          "oldusercount": 26822,
+          "time": 570
+        },
+        {
+          "newusercount": 6658,
+          "oldusercount": 26627,
+          "time": 575
+        },
+        {
+          "newusercount": 6677,
+          "oldusercount": 26706,
+          "time": 580
+        },
+        {
+          "newusercount": 6711,
+          "oldusercount": 26844,
+          "time": 585
+        },
+        {
+          "newusercount": 6926,
+          "oldusercount": 27706,
+          "time": 590
+        },
+        {
+          "newusercount": 6751,
+          "oldusercount": 27005,
+          "time": 595
+        },
+        {
+          "newusercount": 6770,
+          "oldusercount": 27084,
+          "time": 600
+        },
+        {
+          "newusercount": 6477,
+          "oldusercount": 25909,
+          "time": 605
+        },
+        {
+          "newusercount": 6698,
+          "oldusercount": 26795,
+          "time": 610
+        },
+        {
+          "newusercount": 6529,
+          "oldusercount": 26116,
+          "time": 615
+        },
+        {
+          "newusercount": 6695,
+          "oldusercount": 26780,
+          "time": 620
+        },
+        {
+          "newusercount": 6453,
+          "oldusercount": 25809,
+          "time": 625
+        },
+        {
+          "newusercount": 6473,
+          "oldusercount": 25892,
+          "time": 630
+        },
+        {
+          "newusercount": 6654,
+          "oldusercount": 26616,
+          "time": 635
+        },
+        {
+          "newusercount": 6860,
+          "oldusercount": 27440,
+          "time": 640
+        },
+        {
+          "newusercount": 6831,
+          "oldusercount": 27324,
+          "time": 645
+        },
+        {
+          "newusercount": 6571,
+          "oldusercount": 26284,
+          "time": 650
+        },
+        {
+          "newusercount": 6333,
+          "oldusercount": 25330,
+          "time": 655
+        },
+        {
+          "newusercount": 6022,
+          "oldusercount": 24086,
+          "time": 660
+        },
+        {
+          "newusercount": 5859,
+          "oldusercount": 23433,
+          "time": 665
+        },
+        {
+          "newusercount": 5879,
+          "oldusercount": 23516,
+          "time": 670
+        },
+        {
+          "newusercount": 5959,
+          "oldusercount": 23837,
+          "time": 675
+        },
+        {
+          "newusercount": 5928,
+          "oldusercount": 23712,
+          "time": 680
+        },
+        {
+          "newusercount": 6173,
+          "oldusercount": 24693,
+          "time": 685
+        },
+        {
+          "newusercount": 6125,
+          "oldusercount": 24498,
+          "time": 690
+        },
+        {
+          "newusercount": 6087,
+          "oldusercount": 24346,
+          "time": 695
+        },
+        {
+          "newusercount": 6284,
+          "oldusercount": 25134,
+          "time": 700
+        },
+        {
+          "newusercount": 6517,
+          "oldusercount": 26068,
+          "time": 705
+        },
+        {
+          "newusercount": 6294,
+          "oldusercount": 25173,
+          "time": 710
+        },
+        {
+          "newusercount": 6555,
+          "oldusercount": 26219,
+          "time": 715
+        },
+        {
+          "newusercount": 6342,
+          "oldusercount": 25366,
+          "time": 720
+        },
+        {
+          "newusercount": 6061,
+          "oldusercount": 24239,
+          "time": 725
+        },
+        {
+          "newusercount": 6286,
+          "oldusercount": 25141,
+          "time": 730
+        },
+        {
+          "newusercount": 6031,
+          "oldusercount": 24120,
+          "time": 735
+        },
+        {
+          "newusercount": 6156,
+          "oldusercount": 24623,
+          "time": 740
+        },
+        {
+          "newusercount": 6071,
+          "oldusercount": 24283,
+          "time": 745
+        },
+        {
+          "newusercount": 5905,
+          "oldusercount": 23619,
+          "time": 750
+        },
+        {
+          "newusercount": 6016,
+          "oldusercount": 24065,
+          "time": 755
+        },
+        {
+          "newusercount": 5963,
+          "oldusercount": 23850,
+          "time": 760
+        },
+        {
+          "newusercount": 5721,
+          "oldusercount": 22880,
+          "time": 765
+        },
+        {
+          "newusercount": 5933,
+          "oldusercount": 23731,
+          "time": 770
+        },
+        {
+          "newusercount": 6024,
+          "oldusercount": 24098,
+          "time": 775
+        },
+        {
+          "newusercount": 5805,
+          "oldusercount": 23221,
+          "time": 780
+        },
+        {
+          "newusercount": 6066,
+          "oldusercount": 24268,
+          "time": 785
+        },
+        {
+          "newusercount": 5868,
+          "oldusercount": 23474,
+          "time": 790
+        },
+        {
+          "newusercount": 6051,
+          "oldusercount": 24208,
+          "time": 795
+        },
+        {
+          "newusercount": 5915,
+          "oldusercount": 23661,
+          "time": 800
+        },
+        {
+          "newusercount": 5742,
+          "oldusercount": 22969,
+          "time": 805
+        },
+        {
+          "newusercount": 5686,
+          "oldusercount": 22745,
+          "time": 810
+        },
+        {
+          "newusercount": 5901,
+          "oldusercount": 23605,
+          "time": 815
+        },
+        {
+          "newusercount": 5645,
+          "oldusercount": 22578,
+          "time": 820
+        },
+        {
+          "newusercount": 5718,
+          "oldusercount": 22873,
+          "time": 825
+        },
+        {
+          "newusercount": 5735,
+          "oldusercount": 22941,
+          "time": 830
+        },
+        {
+          "newusercount": 5741,
+          "oldusercount": 22965,
+          "time": 835
+        },
+        {
+          "newusercount": 5715,
+          "oldusercount": 22859,
+          "time": 840
+        },
+        {
+          "newusercount": 5890,
+          "oldusercount": 23560,
+          "time": 845
+        },
+        {
+          "newusercount": 5779,
+          "oldusercount": 23114,
+          "time": 850
+        },
+        {
+          "newusercount": 6023,
+          "oldusercount": 24092,
+          "time": 855
+        },
+        {
+          "newusercount": 6227,
+          "oldusercount": 24911,
+          "time": 860
+        },
+        {
+          "newusercount": 6206,
+          "oldusercount": 24825,
+          "time": 865
+        },
+        {
+          "newusercount": 6037,
+          "oldusercount": 24146,
+          "time": 870
+        },
+        {
+          "newusercount": 6247,
+          "oldusercount": 24989,
+          "time": 875
+        },
+        {
+          "newusercount": 6110,
+          "oldusercount": 24440,
+          "time": 880
+        },
+        {
+          "newusercount": 5985,
+          "oldusercount": 23937,
+          "time": 885
+        },
+        {
+          "newusercount": 6177,
+          "oldusercount": 24705,
+          "time": 890
+        },
+        {
+          "newusercount": 6048,
+          "oldusercount": 24189,
+          "time": 895
+        },
+        {
+          "newusercount": 6311,
+          "oldusercount": 25242,
+          "time": 900
+        },
+        {
+          "newusercount": 6197,
+          "oldusercount": 24784,
+          "time": 905
+        },
+        {
+          "newusercount": 6268,
+          "oldusercount": 25070,
+          "time": 910
+        },
+        {
+          "newusercount": 6232,
+          "oldusercount": 24924,
+          "time": 915
+        },
+        {
+          "newusercount": 6075,
+          "oldusercount": 24295,
+          "time": 920
+        },
+        {
+          "newusercount": 6262,
+          "oldusercount": 25045,
+          "time": 925
+        },
+        {
+          "newusercount": 6005,
+          "oldusercount": 24016,
+          "time": 930
+        },
+        {
+          "newusercount": 5854,
+          "oldusercount": 23411,
+          "time": 935
+        },
+        {
+          "newusercount": 6081,
+          "oldusercount": 24320,
+          "time": 940
+        },
+        {
+          "newusercount": 5986,
+          "oldusercount": 23937,
+          "time": 945
+        },
+        {
+          "newusercount": 5956,
+          "oldusercount": 23814,
+          "time": 950
+        },
+        {
+          "newusercount": 5907,
+          "oldusercount": 23615,
+          "time": 955
+        },
+        {
+          "newusercount": 5891,
+          "oldusercount": 23550,
+          "time": 960
+        },
+        {
+          "newusercount": 6069,
+          "oldusercount": 24263,
+          "time": 965
+        },
+        {
+          "newusercount": 6096,
+          "oldusercount": 24374,
+          "time": 970
+        },
+        {
+          "newusercount": 6177,
+          "oldusercount": 24699,
+          "time": 975
+        },
+        {
+          "newusercount": 5895,
+          "oldusercount": 23569,
+          "time": 980
+        },
+        {
+          "newusercount": 6161,
+          "oldusercount": 24636,
+          "time": 985
+        },
+        {
+          "newusercount": 6425,
+          "oldusercount": 25694,
+          "time": 990
+        },
+        {
+          "newusercount": 6386,
+          "oldusercount": 25537,
+          "time": 995
+        },
+        {
+          "newusercount": 6636,
+          "oldusercount": 26538,
+          "time": 1000
+        },
+        {
+          "newusercount": 6531,
+          "oldusercount": 26115,
+          "time": 1005
+        },
+        {
+          "newusercount": 6581,
+          "oldusercount": 26315,
+          "time": 1010
+        },
+        {
+          "newusercount": 6856,
+          "oldusercount": 27415,
+          "time": 1015
+        },
+        {
+          "newusercount": 6958,
+          "oldusercount": 27825,
+          "time": 1020
+        },
+        {
+          "newusercount": 7199,
+          "oldusercount": 28792,
+          "time": 1025
+        },
+        {
+          "newusercount": 7046,
+          "oldusercount": 28177,
+          "time": 1030
+        },
+        {
+          "newusercount": 7064,
+          "oldusercount": 28249,
+          "time": 1035
+        },
+        {
+          "newusercount": 6984,
+          "oldusercount": 27929,
+          "time": 1040
+        },
+        {
+          "newusercount": 7028,
+          "oldusercount": 28108,
+          "time": 1045
+        },
+        {
+          "newusercount": 7189,
+          "oldusercount": 28755,
+          "time": 1050
+        },
+        {
+          "newusercount": 7247,
+          "oldusercount": 28989,
+          "time": 1055
+        },
+        {
+          "newusercount": 6904,
+          "oldusercount": 27617,
+          "time": 1060
+        },
+        {
+          "newusercount": 6575,
+          "oldusercount": 26298,
+          "time": 1065
+        },
+        {
+          "newusercount": 6735,
+          "oldusercount": 26940,
+          "time": 1070
+        },
+        {
+          "newusercount": 6481,
+          "oldusercount": 25922,
+          "time": 1075
+        },
+        {
+          "newusercount": 6357,
+          "oldusercount": 25425,
+          "time": 1080
+        },
+        {
+          "newusercount": 6450,
+          "oldusercount": 25799,
+          "time": 1085
+        },
+        {
+          "newusercount": 6472,
+          "oldusercount": 25890,
+          "time": 1090
+        },
+        {
+          "newusercount": 6665,
+          "oldusercount": 26663,
+          "time": 1095
+        },
+        {
+          "newusercount": 6739,
+          "oldusercount": 26960,
+          "time": 1100
+        },
+        {
+          "newusercount": 6469,
+          "oldusercount": 25879,
+          "time": 1105
+        },
+        {
+          "newusercount": 6220,
+          "oldusercount": 24882,
+          "time": 1110
+        },
+        {
+          "newusercount": 6078,
+          "oldusercount": 24311,
+          "time": 1115
+        },
+        {
+          "newusercount": 6226,
+          "oldusercount": 24905,
+          "time": 1120
+        },
+        {
+          "newusercount": 6104,
+          "oldusercount": 24415,
+          "time": 1125
+        },
+        {
+          "newusercount": 5869,
+          "oldusercount": 23475,
+          "time": 1130
+        },
+        {
+          "newusercount": 5762,
+          "oldusercount": 23047,
+          "time": 1135
+        },
+        {
+          "newusercount": 5791,
+          "oldusercount": 23166,
+          "time": 1140
+        },
+        {
+          "newusercount": 5680,
+          "oldusercount": 22721,
+          "time": 1145
+        },
+        {
+          "newusercount": 5936,
+          "oldusercount": 23745,
+          "time": 1150
+        },
+        {
+          "newusercount": 6086,
+          "oldusercount": 24348,
+          "time": 1155
+        },
+        {
+          "newusercount": 5989,
+          "oldusercount": 23957,
+          "time": 1160
+        },
+        {
+          "newusercount": 5768,
+          "oldusercount": 23071,
+          "time": 1165
+        },
+        {
+          "newusercount": 5751,
+          "oldusercount": 23001,
+          "time": 1170
+        },
+        {
+          "newusercount": 5583,
+          "oldusercount": 22326,
+          "time": 1175
+        },
+        {
+          "newusercount": 5663,
+          "oldusercount": 22648,
+          "time": 1180
+        },
+        {
+          "newusercount": 5612,
+          "oldusercount": 22441,
+          "time": 1185
+        },
+        {
+          "newusercount": 5806,
+          "oldusercount": 23219,
+          "time": 1190
+        },
+        {
+          "newusercount": 5697,
+          "oldusercount": 22783,
+          "time": 1195
+        },
+        {
+          "newusercount": 5438,
+          "oldusercount": 21746,
+          "time": 1200
+        },
+        {
+          "newusercount": 5544,
+          "oldusercount": 22171,
+          "time": 1205
+        },
+        {
+          "newusercount": 5617,
+          "oldusercount": 22463,
+          "time": 1210
+        },
+        {
+          "newusercount": 5635,
+          "oldusercount": 22535,
+          "time": 1215
+        },
+        {
+          "newusercount": 5902,
+          "oldusercount": 23606,
+          "time": 1220
+        },
+        {
+          "newusercount": 5896,
+          "oldusercount": 23580,
+          "time": 1225
+        },
+        {
+          "newusercount": 5974,
+          "oldusercount": 23893,
+          "time": 1230
+        },
+        {
+          "newusercount": 5800,
+          "oldusercount": 23195,
+          "time": 1235
+        },
+        {
+          "newusercount": 5993,
+          "oldusercount": 23969,
+          "time": 1240
+        },
+        {
+          "newusercount": 6027,
+          "oldusercount": 24106,
+          "time": 1245
+        },
+        {
+          "newusercount": 6046,
+          "oldusercount": 24183,
+          "time": 1250
+        },
+        {
+          "newusercount": 5933,
+          "oldusercount": 23731,
+          "time": 1255
+        },
+        {
+          "newusercount": 5710,
+          "oldusercount": 22838,
+          "time": 1260
+        },
+        {
+          "newusercount": 5427,
+          "oldusercount": 21704,
+          "time": 1265
+        },
+        {
+          "newusercount": 5673,
+          "oldusercount": 22687,
+          "time": 1270
+        },
+        {
+          "newusercount": 5523,
+          "oldusercount": 22085,
+          "time": 1275
+        },
+        {
+          "newusercount": 5629,
+          "oldusercount": 22511,
+          "time": 1280
+        },
+        {
+          "newusercount": 5890,
+          "oldusercount": 23556,
+          "time": 1285
+        },
+        {
+          "newusercount": 6071,
+          "oldusercount": 24280,
+          "time": 1290
+        },
+        {
+          "newusercount": 6050,
+          "oldusercount": 24193,
+          "time": 1295
+        },
+        {
+          "newusercount": 6307,
+          "oldusercount": 25222,
+          "time": 1300
+        },
+        {
+          "newusercount": 6479,
+          "oldusercount": 25912,
+          "time": 1305
+        },
+        {
+          "newusercount": 6438,
+          "oldusercount": 25747,
+          "time": 1310
+        },
+        {
+          "newusercount": 6256,
+          "oldusercount": 25017,
+          "time": 1315
+        },
+        {
+          "newusercount": 6365,
+          "oldusercount": 25453,
+          "time": 1320
+        },
+        {
+          "newusercount": 6388,
+          "oldusercount": 25545,
+          "time": 1325
+        },
+        {
+          "newusercount": 6397,
+          "oldusercount": 25583,
+          "time": 1330
+        },
+        {
+          "newusercount": 6652,
+          "oldusercount": 26606,
+          "time": 1335
+        },
+        {
+          "newusercount": 6674,
+          "oldusercount": 26694,
+          "time": 1340
+        },
+        {
+          "newusercount": 6534,
+          "oldusercount": 26133,
+          "time": 1345
+        },
+        {
+          "newusercount": 6371,
+          "oldusercount": 25479,
+          "time": 1350
+        },
+        {
+          "newusercount": 6061,
+          "oldusercount": 24240,
+          "time": 1355
+        },
+        {
+          "newusercount": 5996,
+          "oldusercount": 23977,
+          "time": 1360
+        },
+        {
+          "newusercount": 5850,
+          "oldusercount": 23393,
+          "time": 1365
+        },
+        {
+          "newusercount": 5678,
+          "oldusercount": 22703,
+          "time": 1370
+        },
+        {
+          "newusercount": 5946,
+          "oldusercount": 23778,
+          "time": 1375
+        },
+        {
+          "newusercount": 5690,
+          "oldusercount": 22754,
+          "time": 1380
+        },
+        {
+          "newusercount": 5686,
+          "oldusercount": 22736,
+          "time": 1385
+        },
+        {
+          "newusercount": 5898,
+          "oldusercount": 23586,
+          "time": 1390
+        },
+        {
+          "newusercount": 5898,
+          "oldusercount": 23587,
+          "time": 1395
+        },
+        {
+          "newusercount": 5715,
+          "oldusercount": 22852,
+          "time": 1400
+        },
+        {
+          "newusercount": 5612,
+          "oldusercount": 22438,
+          "time": 1405
+        },
+        {
+          "newusercount": 5598,
+          "oldusercount": 22382,
+          "time": 1410
+        },
+        {
+          "newusercount": 5542,
+          "oldusercount": 22155,
+          "time": 1415
+        },
+        {
+          "newusercount": 5484,
+          "oldusercount": 21923,
+          "time": 1420
+        },
+        {
+          "newusercount": 5754,
+          "oldusercount": 23004,
+          "time": 1425
+        },
+        {
+          "newusercount": 5925,
+          "oldusercount": 23689,
+          "time": 1430
+        },
+        {
+          "newusercount": 5768,
+          "oldusercount": 23060,
+          "time": 1435
         }
       ]
     },
@@ -3968,589 +5204,904 @@ export class ReportsService {
       "date": "2018-08-28",
       "userCountData": [
         {
-          "newusercount": 10000,
-          "oldusercount": 15000,
+          "newusercount": 4959,
+          "oldusercount": 19833,
           "time": 0
         },
         {
-          "newusercount": 10030,
-          "oldusercount": 15030,
+          "newusercount": 4810,
+          "oldusercount": 19235,
           "time": 5
         },
         {
-          "newusercount": 10110,
-          "oldusercount": 15110,
+          "newusercount": 4676,
+          "oldusercount": 18699,
           "time": 10
         },
         {
-          "newusercount": 10240,
-          "oldusercount": 15240,
+          "newusercount": 4593,
+          "oldusercount": 18367,
           "time": 15
         },
         {
-          "newusercount": 10420,
-          "oldusercount": 15420,
+          "newusercount": 4501,
+          "oldusercount": 17997,
           "time": 20
         },
         {
-          "newusercount": 10650,
-          "oldusercount": 15650,
+          "newusercount": 4656,
+          "oldusercount": 18616,
           "time": 25
         },
         {
-          "newusercount": 10930,
-          "oldusercount": 15930,
+          "newusercount": 4542,
+          "oldusercount": 18157,
           "time": 30
         },
         {
-          "newusercount": 11260,
-          "oldusercount": 16260,
+          "newusercount": 4657,
+          "oldusercount": 18618,
           "time": 35
         },
         {
-          "newusercount": 11640,
-          "oldusercount": 16640,
+          "newusercount": 4793,
+          "oldusercount": 19165,
           "time": 40
         },
         {
-          "newusercount": 12070,
-          "oldusercount": 17070,
+          "newusercount": 4756,
+          "oldusercount": 19015,
           "time": 45
         },
         {
-          "newusercount": 12550,
-          "oldusercount": 17550,
+          "newusercount": 4865,
+          "oldusercount": 19453,
           "time": 50
         },
         {
-          "newusercount": 13080,
+          "newusercount": 5047,
+          "oldusercount": 20183,
+          "time": 55
+        },
+        {
+          "newusercount": 5228,
+          "oldusercount": 20907,
+          "time": 60
+        },
+        {
+          "newusercount": 5337,
+          "oldusercount": 21345,
+          "time": 65
+        },
+        {
+          "newusercount": 5145,
+          "oldusercount": 20576,
+          "time": 70
+        },
+        {
+          "newusercount": 5034,
+          "oldusercount": 20131,
+          "time": 75
+        },
+        {
+          "newusercount": 5104,
+          "oldusercount": 20414,
+          "time": 80
+        },
+        {
+          "newusercount": 5186,
+          "oldusercount": 20742,
+          "time": 85
+        },
+        {
+          "newusercount": 5036,
+          "oldusercount": 20140,
+          "time": 90
+        },
+        {
+          "newusercount": 5029,
+          "oldusercount": 20110,
+          "time": 95
+        },
+        {
+          "newusercount": 4960,
+          "oldusercount": 19832,
+          "time": 100
+        },
+        {
+          "newusercount": 4737,
+          "oldusercount": 18938,
+          "time": 105
+        },
+        {
+          "newusercount": 4901,
+          "oldusercount": 19596,
+          "time": 110
+        },
+        {
+          "newusercount": 5080,
+          "oldusercount": 20315,
+          "time": 115
+        },
+        {
+          "newusercount": 5102,
+          "oldusercount": 20406,
+          "time": 120
+        },
+        {
+          "newusercount": 5079,
+          "oldusercount": 20313,
+          "time": 125
+        },
+        {
+          "newusercount": 5192,
+          "oldusercount": 20767,
+          "time": 130
+        },
+        {
+          "newusercount": 5111,
+          "oldusercount": 20441,
+          "time": 135
+        },
+        {
+          "newusercount": 5207,
+          "oldusercount": 20826,
+          "time": 140
+        },
+        {
+          "newusercount": 5221,
+          "oldusercount": 20885,
+          "time": 145
+        },
+        {
+          "newusercount": 5053,
+          "oldusercount": 20212,
+          "time": 150
+        },
+        {
+          "newusercount": 5018,
+          "oldusercount": 20070,
+          "time": 155
+        },
+        {
+          "newusercount": 4866,
+          "oldusercount": 19459,
+          "time": 160
+        },
+        {
+          "newusercount": 4638,
+          "oldusercount": 18548,
+          "time": 165
+        },
+        {
+          "newusercount": 4587,
+          "oldusercount": 18342,
+          "time": 170
+        },
+        {
+          "newusercount": 4753,
+          "oldusercount": 19006,
+          "time": 175
+        },
+        {
+          "newusercount": 4882,
+          "oldusercount": 19522,
+          "time": 180
+        },
+        {
+          "newusercount": 5082,
+          "oldusercount": 20322,
+          "time": 185
+        },
+        {
+          "newusercount": 4879,
+          "oldusercount": 19510,
+          "time": 190
+        },
+        {
+          "newusercount": 4982,
+          "oldusercount": 19924,
+          "time": 195
+        },
+        {
+          "newusercount": 5039,
+          "oldusercount": 20153,
+          "time": 200
+        },
+        {
+          "newusercount": 4981,
+          "oldusercount": 19921,
+          "time": 205
+        },
+        {
+          "newusercount": 4899,
+          "oldusercount": 19593,
+          "time": 210
+        },
+        {
+          "newusercount": 5130,
+          "oldusercount": 20520,
+          "time": 215
+        },
+        {
+          "newusercount": 4877,
+          "oldusercount": 19506,
+          "time": 220
+        },
+        {
+          "newusercount": 4968,
+          "oldusercount": 19872,
+          "time": 225
+        },
+        {
+          "newusercount": 4782,
+          "oldusercount": 19127,
+          "time": 230
+        },
+        {
+          "newusercount": 4831,
+          "oldusercount": 19324,
+          "time": 235
+        },
+        {
+          "newusercount": 4969,
+          "oldusercount": 19879,
+          "time": 240
+        },
+        {
+          "newusercount": 4916,
+          "oldusercount": 19666,
+          "time": 245
+        },
+        {
+          "newusercount": 4688,
+          "oldusercount": 18751,
+          "time": 250
+        },
+        {
+          "newusercount": 4521,
           "oldusercount": 18080,
-          "time": 55
-        },
-        {
-          "newusercount": 13660,
-          "oldusercount": 18660,
-          "time": 60
-        },
-        {
-          "newusercount": 14290,
-          "oldusercount": 19290,
-          "time": 65
-        },
-        {
-          "newusercount": 14970,
-          "oldusercount": 19970,
-          "time": 70
-        },
-        {
-          "newusercount": 15700,
-          "oldusercount": 20700,
-          "time": 75
-        },
-        {
-          "newusercount": 16480,
-          "oldusercount": 21480,
-          "time": 80
-        },
-        {
-          "newusercount": 17310,
-          "oldusercount": 22310,
-          "time": 85
-        },
-        {
-          "newusercount": 18190,
-          "oldusercount": 23190,
-          "time": 90
-        },
-        {
-          "newusercount": 19120,
-          "oldusercount": 24120,
-          "time": 95
-        },
-        {
-          "newusercount": 20100,
-          "oldusercount": 25100,
-          "time": 100
-        },
-        {
-          "newusercount": 21130,
-          "oldusercount": 26130,
-          "time": 105
-        },
-        {
-          "newusercount": 22210,
-          "oldusercount": 27210,
-          "time": 110
-        },
-        {
-          "newusercount": 23340,
-          "oldusercount": 28340,
-          "time": 115
-        },
-        {
-          "newusercount": 24520,
-          "oldusercount": 29520,
-          "time": 120
-        },
-        {
-          "newusercount": 25750,
-          "oldusercount": 30750,
-          "time": 125
-        },
-        {
-          "newusercount": 27030,
-          "oldusercount": 32030,
-          "time": 130
-        },
-        {
-          "newusercount": 28360,
-          "oldusercount": 33360,
-          "time": 135
-        },
-        {
-          "newusercount": 29740,
-          "oldusercount": 34740,
-          "time": 140
-        },
-        {
-          "newusercount": 31170,
-          "oldusercount": 36170,
-          "time": 145
-        },
-        {
-          "newusercount": 32650,
-          "oldusercount": 37650,
-          "time": 150
-        },
-        {
-          "newusercount": 34180,
-          "oldusercount": 39180,
-          "time": 155
-        },
-        {
-          "newusercount": 35760,
-          "oldusercount": 40760,
-          "time": 160
-        },
-        {
-          "newusercount": 37390,
-          "oldusercount": 42390,
-          "time": 165
-        },
-        {
-          "newusercount": 39070,
-          "oldusercount": 44070,
-          "time": 170
-        },
-        {
-          "newusercount": 40800,
-          "oldusercount": 45800,
-          "time": 175
-        },
-        {
-          "newusercount": 42580,
-          "oldusercount": 47580,
-          "time": 180
-        },
-        {
-          "newusercount": 44410,
-          "oldusercount": 49410,
-          "time": 185
-        },
-        {
-          "newusercount": 46290,
-          "oldusercount": 51290,
-          "time": 190
-        },
-        {
-          "newusercount": 48220,
-          "oldusercount": 53220,
-          "time": 195
-        },
-        {
-          "newusercount": 50200,
-          "oldusercount": 55200,
-          "time": 200
-        },
-        {
-          "newusercount": 52230,
-          "oldusercount": 57230,
-          "time": 205
-        },
-        {
-          "newusercount": 54310,
-          "oldusercount": 59310,
-          "time": 210
-        },
-        {
-          "newusercount": 56440,
-          "oldusercount": 61440,
-          "time": 215
-        },
-        {
-          "newusercount": 58620,
-          "oldusercount": 63620,
-          "time": 220
-        },
-        {
-          "newusercount": 60850,
-          "oldusercount": 65850,
-          "time": 225
-        },
-        {
-          "newusercount": 63130,
-          "oldusercount": 68130,
-          "time": 230
-        },
-        {
-          "newusercount": 65460,
-          "oldusercount": 70460,
-          "time": 235
-        },
-        {
-          "newusercount": 67840,
-          "oldusercount": 72840,
-          "time": 240
-        },
-        {
-          "newusercount": 70270,
-          "oldusercount": 75270,
-          "time": 245
-        },
-        {
-          "newusercount": 72750,
-          "oldusercount": 77750,
-          "time": 250
-        },
-        {
-          "newusercount": 75280,
-          "oldusercount": 80280,
           "time": 255
         },
         {
-          "newusercount": 77860,
-          "oldusercount": 82860,
+          "newusercount": 4611,
+          "oldusercount": 18442,
           "time": 260
         },
         {
-          "newusercount": 80490,
-          "oldusercount": 85490,
+          "newusercount": 4587,
+          "oldusercount": 18345,
           "time": 265
         },
         {
-          "newusercount": 83170,
-          "oldusercount": 88170,
+          "newusercount": 4401,
+          "oldusercount": 17598,
           "time": 270
         },
         {
-          "newusercount": 85900,
-          "oldusercount": 90900,
+          "newusercount": 4437,
+          "oldusercount": 17744,
           "time": 275
         },
         {
-          "newusercount": 88680,
-          "oldusercount": 93680,
+          "newusercount": 4466,
+          "oldusercount": 17863,
           "time": 280
         },
         {
-          "newusercount": 91510,
-          "oldusercount": 96510,
+          "newusercount": 4486,
+          "oldusercount": 17946,
           "time": 285
-        }
-      ]
-    },
-    {
-      "date": "2018-08-29",
-      "userCountData": [
-        {
-          "newusercount": 10000,
-          "oldusercount": 15000,
-          "time": 0
         },
         {
-          "newusercount": 10035,
-          "oldusercount": 15035,
-          "time": 5
+          "newusercount": 4642,
+          "oldusercount": 18573,
+          "time": 290
         },
         {
-          "newusercount": 10120,
-          "oldusercount": 15120,
-          "time": 10
+          "newusercount": 4785,
+          "oldusercount": 19146,
+          "time": 295
         },
         {
-          "newusercount": 10255,
-          "oldusercount": 15255,
-          "time": 15
+          "newusercount": 4979,
+          "oldusercount": 19924,
+          "time": 300
         },
         {
-          "newusercount": 10440,
-          "oldusercount": 15440,
-          "time": 20
+          "newusercount": 4808,
+          "oldusercount": 19240,
+          "time": 305
         },
         {
-          "newusercount": 10675,
-          "oldusercount": 15675,
-          "time": 25
+          "newusercount": 4730,
+          "oldusercount": 18925,
+          "time": 310
         },
         {
-          "newusercount": 10960,
-          "oldusercount": 15960,
-          "time": 30
+          "newusercount": 4853,
+          "oldusercount": 19417,
+          "time": 315
         },
         {
-          "newusercount": 11295,
+          "newusercount": 4705,
+          "oldusercount": 18824,
+          "time": 320
+        },
+        {
+          "newusercount": 4499,
+          "oldusercount": 17998,
+          "time": 325
+        },
+        {
+          "newusercount": 4687,
+          "oldusercount": 18751,
+          "time": 330
+        },
+        {
+          "newusercount": 4640,
+          "oldusercount": 18560,
+          "time": 335
+        },
+        {
+          "newusercount": 4818,
+          "oldusercount": 19274,
+          "time": 340
+        },
+        {
+          "newusercount": 4955,
+          "oldusercount": 19823,
+          "time": 345
+        },
+        {
+          "newusercount": 4727,
+          "oldusercount": 18910,
+          "time": 350
+        },
+        {
+          "newusercount": 4837,
+          "oldusercount": 19351,
+          "time": 355
+        },
+        {
+          "newusercount": 4716,
+          "oldusercount": 18864,
+          "time": 360
+        },
+        {
+          "newusercount": 4724,
+          "oldusercount": 18897,
+          "time": 365
+        },
+        {
+          "newusercount": 4849,
+          "oldusercount": 19397,
+          "time": 370
+        },
+        {
+          "newusercount": 4980,
+          "oldusercount": 19922,
+          "time": 375
+        },
+        {
+          "newusercount": 4841,
+          "oldusercount": 19365,
+          "time": 380
+        },
+        {
+          "newusercount": 4784,
+          "oldusercount": 19135,
+          "time": 385
+        },
+        {
+          "newusercount": 4966,
+          "oldusercount": 19865,
+          "time": 390
+        },
+        {
+          "newusercount": 4841,
+          "oldusercount": 19365,
+          "time": 395
+        },
+        {
+          "newusercount": 4652,
+          "oldusercount": 18607,
+          "time": 400
+        },
+        {
+          "newusercount": 4492,
+          "oldusercount": 17966,
+          "time": 405
+        },
+        {
+          "newusercount": 4375,
+          "oldusercount": 17495,
+          "time": 410
+        },
+        {
+          "newusercount": 4259,
+          "oldusercount": 17031,
+          "time": 415
+        },
+        {
+          "newusercount": 4399,
+          "oldusercount": 17592,
+          "time": 420
+        },
+        {
+          "newusercount": 4466,
+          "oldusercount": 17860,
+          "time": 425
+        },
+        {
+          "newusercount": 4599,
+          "oldusercount": 18392,
+          "time": 430
+        },
+        {
+          "newusercount": 4775,
+          "oldusercount": 19097,
+          "time": 435
+        },
+        {
+          "newusercount": 4593,
+          "oldusercount": 18367,
+          "time": 440
+        },
+        {
+          "newusercount": 4743,
+          "oldusercount": 18968,
+          "time": 445
+        },
+        {
+          "newusercount": 4888,
+          "oldusercount": 19551,
+          "time": 450
+        },
+        {
+          "newusercount": 5090,
+          "oldusercount": 20360,
+          "time": 455
+        },
+        {
+          "newusercount": 4929,
+          "oldusercount": 19715,
+          "time": 460
+        },
+        {
+          "newusercount": 4983,
+          "oldusercount": 19934,
+          "time": 465
+        },
+        {
+          "newusercount": 4819,
+          "oldusercount": 19277,
+          "time": 470
+        },
+        {
+          "newusercount": 4599,
+          "oldusercount": 18394,
+          "time": 475
+        },
+        {
+          "newusercount": 4421,
+          "oldusercount": 17681,
+          "time": 480
+        },
+        {
+          "newusercount": 4338,
+          "oldusercount": 17348,
+          "time": 485
+        },
+        {
+          "newusercount": 4371,
+          "oldusercount": 17482,
+          "time": 490
+        },
+        {
+          "newusercount": 4364,
+          "oldusercount": 17451,
+          "time": 495
+        },
+        {
+          "newusercount": 4371,
+          "oldusercount": 17480,
+          "time": 500
+        },
+        {
+          "newusercount": 4224,
+          "oldusercount": 16892,
+          "time": 505
+        },
+        {
+          "newusercount": 4140,
+          "oldusercount": 16556,
+          "time": 510
+        },
+        {
+          "newusercount": 4069,
+          "oldusercount": 16271,
+          "time": 515
+        },
+        {
+          "newusercount": 3884,
+          "oldusercount": 15528,
+          "time": 520
+        },
+        {
+          "newusercount": 3852,
+          "oldusercount": 15400,
+          "time": 525
+        },
+        {
+          "newusercount": 4032,
+          "oldusercount": 16120,
+          "time": 530
+        },
+        {
+          "newusercount": 4061,
+          "oldusercount": 16237,
+          "time": 535
+        },
+        {
+          "newusercount": 3942,
+          "oldusercount": 15760,
+          "time": 540
+        },
+        {
+          "newusercount": 3798,
+          "oldusercount": 15185,
+          "time": 545
+        },
+        {
+          "newusercount": 3872,
+          "oldusercount": 15483,
+          "time": 550
+        },
+        {
+          "newusercount": 3700,
+          "oldusercount": 14794,
+          "time": 555
+        },
+        {
+          "newusercount": 3741,
+          "oldusercount": 14958,
+          "time": 560
+        },
+        {
+          "newusercount": 3860,
+          "oldusercount": 15436,
+          "time": 565
+        },
+        {
+          "newusercount": 4014,
+          "oldusercount": 16052,
+          "time": 570
+        },
+        {
+          "newusercount": 4139,
+          "oldusercount": 16555,
+          "time": 575
+        },
+        {
+          "newusercount": 4340,
+          "oldusercount": 17360,
+          "time": 580
+        },
+        {
+          "newusercount": 4152,
+          "oldusercount": 16607,
+          "time": 585
+        },
+        {
+          "newusercount": 4238,
+          "oldusercount": 16951,
+          "time": 590
+        },
+        {
+          "newusercount": 4359,
+          "oldusercount": 17436,
+          "time": 595
+        },
+        {
+          "newusercount": 4449,
+          "oldusercount": 17796,
+          "time": 600
+        },
+        {
+          "newusercount": 4514,
+          "oldusercount": 18056,
+          "time": 605
+        },
+        {
+          "newusercount": 4410,
+          "oldusercount": 17639,
+          "time": 610
+        },
+        {
+          "newusercount": 4575,
+          "oldusercount": 18299,
+          "time": 615
+        },
+        {
+          "newusercount": 4420,
+          "oldusercount": 17679,
+          "time": 620
+        },
+        {
+          "newusercount": 4393,
+          "oldusercount": 17571,
+          "time": 625
+        },
+        {
+          "newusercount": 4307,
+          "oldusercount": 17227,
+          "time": 630
+        },
+        {
+          "newusercount": 4465,
+          "oldusercount": 17861,
+          "time": 635
+        },
+        {
+          "newusercount": 4276,
+          "oldusercount": 17103,
+          "time": 640
+        },
+        {
+          "newusercount": 4313,
+          "oldusercount": 17254,
+          "time": 645
+        },
+        {
+          "newusercount": 4492,
+          "oldusercount": 17972,
+          "time": 650
+        },
+        {
+          "newusercount": 4491,
+          "oldusercount": 17968,
+          "time": 655
+        },
+        {
+          "newusercount": 4388,
+          "oldusercount": 17552,
+          "time": 660
+        },
+        {
+          "newusercount": 4201,
+          "oldusercount": 16802,
+          "time": 665
+        },
+        {
+          "newusercount": 4345,
+          "oldusercount": 17381,
+          "time": 670
+        },
+        {
+          "newusercount": 4363,
+          "oldusercount": 17453,
+          "time": 675
+        },
+        {
+          "newusercount": 4206,
+          "oldusercount": 16823,
+          "time": 680
+        },
+        {
+          "newusercount": 3997,
+          "oldusercount": 15987,
+          "time": 685
+        },
+        {
+          "newusercount": 4090,
+          "oldusercount": 16360,
+          "time": 690
+        },
+        {
+          "newusercount": 3927,
+          "oldusercount": 15708,
+          "time": 695
+        },
+        {
+          "newusercount": 4063,
+          "oldusercount": 16255,
+          "time": 700
+        },
+        {
+          "newusercount": 3881,
+          "oldusercount": 15527,
+          "time": 705
+        },
+        {
+          "newusercount": 3801,
+          "oldusercount": 15204,
+          "time": 710
+        },
+        {
+          "newusercount": 3912,
+          "oldusercount": 15650,
+          "time": 715
+        },
+        {
+          "newusercount": 3798,
+          "oldusercount": 15193,
+          "time": 720
+        },
+        {
+          "newusercount": 3761,
+          "oldusercount": 15042,
+          "time": 725
+        },
+        {
+          "newusercount": 3686,
+          "oldusercount": 14741,
+          "time": 730
+        },
+        {
+          "newusercount": 3553,
+          "oldusercount": 14208,
+          "time": 735
+        },
+        {
+          "newusercount": 3633,
+          "oldusercount": 14528,
+          "time": 740
+        },
+        {
+          "newusercount": 3635,
+          "oldusercount": 14539,
+          "time": 745
+        },
+        {
+          "newusercount": 3642,
+          "oldusercount": 14570,
+          "time": 750
+        },
+        {
+          "newusercount": 3493,
+          "oldusercount": 13971,
+          "time": 755
+        },
+        {
+          "newusercount": 3367,
+          "oldusercount": 13467,
+          "time": 760
+        },
+        {
+          "newusercount": 3287,
+          "oldusercount": 13146,
+          "time": 765
+        },
+        {
+          "newusercount": 3348,
+          "oldusercount": 13393,
+          "time": 770
+        },
+        {
+          "newusercount": 3315,
+          "oldusercount": 13260,
+          "time": 775
+        },
+        {
+          "newusercount": 3288,
+          "oldusercount": 13152,
+          "time": 780
+        },
+        {
+          "newusercount": 3444,
+          "oldusercount": 13779,
+          "time": 785
+        },
+        {
+          "newusercount": 3399,
+          "oldusercount": 13597,
+          "time": 790
+        },
+        {
+          "newusercount": 3563,
+          "oldusercount": 14254,
+          "time": 795
+        },
+        {
+          "newusercount": 3734,
+          "oldusercount": 14939,
+          "time": 800
+        },
+        {
+          "newusercount": 3857,
+          "oldusercount": 15431,
+          "time": 805
+        },
+        {
+          "newusercount": 3763,
+          "oldusercount": 15053,
+          "time": 810
+        },
+        {
+          "newusercount": 3786,
+          "oldusercount": 15148,
+          "time": 815
+        },
+        {
+          "newusercount": 3890,
+          "oldusercount": 15566,
+          "time": 820
+        },
+        {
+          "newusercount": 3781,
+          "oldusercount": 15126,
+          "time": 825
+        },
+        {
+          "newusercount": 3881,
+          "oldusercount": 15526,
+          "time": 830
+        },
+        {
+          "newusercount": 3917,
+          "oldusercount": 15670,
+          "time": 835
+        },
+        {
+          "newusercount": 3938,
+          "oldusercount": 15755,
+          "time": 840
+        },
+        {
+          "newusercount": 4102,
+          "oldusercount": 16413,
+          "time": 845
+        },
+        {
+          "newusercount": 3967,
+          "oldusercount": 15871,
+          "time": 850
+        },
+        {
+          "newusercount": 4077,
+          "oldusercount": 16313,
+          "time": 855
+        },
+        {
+          "newusercount": 4093,
+          "oldusercount": 16378,
+          "time": 860
+        },
+        {
+          "newusercount": 3985,
+          "oldusercount": 15945,
+          "time": 865
+        },
+        {
+          "newusercount": 3829,
+          "oldusercount": 15319,
+          "time": 870
+        },
+        {
+          "newusercount": 3665,
+          "oldusercount": 14663,
+          "time": 875
+        },
+        {
+          "newusercount": 3826,
+          "oldusercount": 15310,
+          "time": 880
+        },
+        {
+          "newusercount": 3886,
+          "oldusercount": 15552,
+          "time": 885
+        },
+        {
+          "newusercount": 4071,
           "oldusercount": 16295,
-          "time": 35
+          "time": 890
         },
         {
-          "newusercount": 11680,
-          "oldusercount": 16680,
-          "time": 40
-        },
-        {
-          "newusercount": 12115,
-          "oldusercount": 17115,
-          "time": 45
-        },
-        {
-          "newusercount": 12600,
-          "oldusercount": 17600,
-          "time": 50
-        },
-        {
-          "newusercount": 13135,
-          "oldusercount": 18135,
-          "time": 55
-        },
-        {
-          "newusercount": 13720,
-          "oldusercount": 18720,
-          "time": 60
-        },
-        {
-          "newusercount": 14355,
-          "oldusercount": 19355,
-          "time": 65
-        },
-        {
-          "newusercount": 15040,
-          "oldusercount": 20040,
-          "time": 70
-        },
-        {
-          "newusercount": 15775,
-          "oldusercount": 20775,
-          "time": 75
-        },
-        {
-          "newusercount": 16560,
-          "oldusercount": 21560,
-          "time": 80
-        },
-        {
-          "newusercount": 17395,
-          "oldusercount": 22395,
-          "time": 85
-        },
-        {
-          "newusercount": 18280,
-          "oldusercount": 23280,
-          "time": 90
-        },
-        {
-          "newusercount": 19215,
-          "oldusercount": 24215,
-          "time": 95
-        },
-        {
-          "newusercount": 20200,
-          "oldusercount": 25200,
-          "time": 100
-        },
-        {
-          "newusercount": 21235,
-          "oldusercount": 26235,
-          "time": 105
-        },
-        {
-          "newusercount": 22320,
-          "oldusercount": 27320,
-          "time": 110
-        },
-        {
-          "newusercount": 23455,
-          "oldusercount": 28455,
-          "time": 115
-        },
-        {
-          "newusercount": 24640,
-          "oldusercount": 29640,
-          "time": 120
-        },
-        {
-          "newusercount": 25875,
-          "oldusercount": 30875,
-          "time": 125
-        },
-        {
-          "newusercount": 27160,
-          "oldusercount": 32160,
-          "time": 130
-        },
-        {
-          "newusercount": 28495,
-          "oldusercount": 33495,
-          "time": 135
-        },
-        {
-          "newusercount": 29880,
-          "oldusercount": 34880,
-          "time": 140
-        },
-        {
-          "newusercount": 31315,
-          "oldusercount": 36315,
-          "time": 145
-        },
-        {
-          "newusercount": 32800,
-          "oldusercount": 37800,
-          "time": 150
-        },
-        {
-          "newusercount": 34335,
-          "oldusercount": 39335,
-          "time": 155
-        },
-        {
-          "newusercount": 35920,
-          "oldusercount": 40920,
-          "time": 160
-        },
-        {
-          "newusercount": 37555,
-          "oldusercount": 42555,
-          "time": 165
-        },
-        {
-          "newusercount": 39240,
-          "oldusercount": 44240,
-          "time": 170
-        },
-        {
-          "newusercount": 40975,
-          "oldusercount": 45975,
-          "time": 175
-        },
-        {
-          "newusercount": 42760,
-          "oldusercount": 47760,
-          "time": 180
-        },
-        {
-          "newusercount": 44595,
-          "oldusercount": 49595,
-          "time": 185
-        },
-        {
-          "newusercount": 46480,
-          "oldusercount": 51480,
-          "time": 190
-        },
-        {
-          "newusercount": 48415,
-          "oldusercount": 53415,
-          "time": 195
-        },
-        {
-          "newusercount": 50400,
-          "oldusercount": 55400,
-          "time": 200
-        },
-        {
-          "newusercount": 52435,
-          "oldusercount": 57435,
-          "time": 205
-        },
-        {
-          "newusercount": 54520,
-          "oldusercount": 59520,
-          "time": 210
-        },
-        {
-          "newusercount": 56655,
-          "oldusercount": 61655,
-          "time": 215
-        },
-        {
-          "newusercount": 58840,
-          "oldusercount": 63840,
-          "time": 220
-        },
-        {
-          "newusercount": 61075,
-          "oldusercount": 66075,
-          "time": 225
-        },
-        {
-          "newusercount": 63360,
-          "oldusercount": 68360,
-          "time": 230
-        },
-        {
-          "newusercount": 65695,
-          "oldusercount": 70695,
-          "time": 235
-        },
-        {
-          "newusercount": 68080,
-          "oldusercount": 73080,
-          "time": 240
-        },
-        {
-          "newusercount": 70515,
-          "oldusercount": 75515,
-          "time": 245
-        },
-        {
-          "newusercount": 73000,
-          "oldusercount": 78000,
-          "time": 250
-        },
-        {
-          "newusercount": 75535,
-          "oldusercount": 80535,
-          "time": 255
-        },
-        {
-          "newusercount": 78120,
-          "oldusercount": 83120,
-          "time": 260
-        },
-        {
-          "newusercount": 80755,
-          "oldusercount": 85755,
-          "time": 265
-        },
-        {
-          "newusercount": 83440,
-          "oldusercount": 88440,
-          "time": 270
-        },
-        {
-          "newusercount": 86175,
-          "oldusercount": 91175,
-          "time": 275
-        },
-        {
-          "newusercount": 88960,
-          "oldusercount": 93960,
-          "time": 280
-        },
-        {
-          "newusercount": 91795,
-          "oldusercount": 96795,
-          "time": 285
+          "newusercount": 4231,
+          "oldusercount": 16937,
+          "time": 895
         }
       ]
     }

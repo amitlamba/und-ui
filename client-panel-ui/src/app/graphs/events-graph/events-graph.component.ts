@@ -16,6 +16,11 @@ export class EventsGraphComponent implements OnInit {
   public eventsChartLegend: boolean;
   public eventsChartType: string;
 
+
+
+
+  // -----------------------------------------------------------
+  eventCount
   constructor(private reportsService: ReportsService) {
   }
 
@@ -95,4 +100,7 @@ export class EventsGraphComponent implements OnInit {
       this.eventsChartData = _lineChartData;
     }
   }
+
+
+
 }

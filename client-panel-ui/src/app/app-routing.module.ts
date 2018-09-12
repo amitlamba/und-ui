@@ -31,8 +31,11 @@ import {UserProfileComponent} from "./user-profile/user-profile.component";
 import {EmailSettingsComponent} from "./settings/email-settings/email-settings.component";
 import {CreateEmailTemplateFormComponent} from "./templates/email-templates/create-email-template-form/create-email-template-form.component";
 import {VerifyEmailComponent} from "./login/verify-email/verify-email.component";
+import {EventsGraphComponent} from "./graphs/events-graph/events-graph.component";
+import {EventreportComponent} from "./eventreport/eventreport.component";
 
 const routes: Routes = [
+  {path:'eventreport',component:EventreportComponent},
   {path: 'login', component: LoginComponent},
   {path: 'test', component: TestComponent},
   {path: '', component: LandingPageUndComponent},
