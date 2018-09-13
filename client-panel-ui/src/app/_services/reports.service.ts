@@ -1,9 +1,11 @@
 import {Injectable} from "@angular/core";
 import {
-  Aggregate,
-  EventCount, EventPeriodCount, EventTimeFrequency, EventUserFrequency, TrendCount, TrendTimeSeries,
-  UserCountByEventTimeSeries,
-  UserCountTimeSeries
+  Aggregate, EntityType,
+  EventCount, EventPeriodCount, EventReportFilter, EventTimeFrequency, EventUserFrequency, GroupBy, TrendCount,
+  TrendTimeSeries,
+  UserCountByEventForDate,
+  UserCountByEventTimeSeries, UserCountForProperty,
+  UserCountTimeSeries, UserCountTrendForDate, UserTypeTrendForDate
 } from "../_models/reports";
 import {HttpClient, HttpParams} from "@angular/common/http";
 import {Observable} from "rxjs/Observable";
@@ -14,85 +16,126 @@ import {AppSettings} from "../_settings/app-settings";
 export class ReportsService {
 
 
+  constructor(private httpClient: HttpClient) {
+  }
 
-
-  constructor(private httpClient:HttpClient){}
-
-  getTrendCount(segmentid,groupby,interval):Observable<TrendCount[]>{
+  /*
+  DASHBOARD APIs
+   */
+  getTrendCount(segmentid, groupby, interval): Observable<TrendCount[]> {
     console.log('trendcount')
-    var data=this.trendcountData;
+    var data = this.trendcountData;
     return of(data)
 
     // const params = new HttpParams().set("segmentid", segmentid).set("groupby",groupby).set("interval",interval);
     // return this.httpClient.get<TrendCount[]>(AppSettings.API_ENDPOINT_CLIENT_CLIENT_DASHBOARD_TRENDCOUNT,{params});
   }
 
-  getTrendChart(segmentid,dates,interval):Observable<TrendTimeSeries[]>{
+  getTrendCount_1(segmentid: number, groupby: GroupBy, interval: number): Observable<UserCountForProperty[]> {
+    const params = new HttpParams().set("segmentid", segmentid.toString()).set("groupBy", groupby.toString()).set("interval", interval.toString());
+    return this.httpClient.get<UserCountForProperty[]>(AppSettings.API_ENDPOINT_CLIENT_DASHBOARD_LIVEUSERS, {
+      params: params
+    });
+  }
+
+  getTrendChart(segmentid, dates, interval): Observable<TrendTimeSeries[]> {
     console.log('trendchart')
-    var data=this.trendchartData;
+    var data = this.trendchartData;
     return of(data);
 
     // const params = new HttpParams().set("segmentid", segmentid).set("dates",dates).set("interval",interval);
     // return this.httpClient.get<TrendTimeSeries[]>(AppSettings.API_ENDPOINT_CLIENT_CLIENT_DASHBOARD_TRENDCHART,{params});
   }
 
-  getNewVsExisting(segmentid,dates,interval):Observable<UserCountTimeSeries[]>{
+  getTrendChart_1(segmentid, dates, interval): Observable<UserCountTrendForDate[]> {
+    const params = new HttpParams().set("segmentid", segmentid.toString()).set("dates", dates.toString()).set("interval", interval.toString());
+    return this.httpClient.get<UserCountTrendForDate[]>(AppSettings.API_ENDPOINT_CLIENT_DASHBOARD_LIVEUSERTREND, {
+      params: params
+    });
+  }
+
+  getNewVsExisting(segmentid, dates, interval): Observable<UserCountTimeSeries[]> {
     //create custom observable
     console.log('newvsexisting')
-    var data=this.newvsexistingData;
+    var data = this.newvsexistingData;
     return of(data);
 
     // const params = new HttpParams().set("segmentid", segmentid).set("dates",dates).set("interval",interval);
     // return this.httpClient.get<UserCountTimeSeries[]>(AppSettings.API_ENDPOINT_CLIENT_CLIENT_DASHBOARD_NEWVSEXISTING,{params});
   }
 
-  getUserCountByEvent(segmentid,dates):Observable<UserCountByEventTimeSeries[]>{
+  getNewVsExtsting_1(segmentid, dates, interval): Observable<UserTypeTrendForDate[]> {
+    const params = new HttpParams().set("segmentid", segmentid.toString()).set("dates", dates.toString()).set("interval", interval.toString());
+    return this.httpClient.get<UserTypeTrendForDate[]>(AppSettings.API_ENDPOINT_CLIENT_DASHBOARD_LIVEUSERTYPETREND, {
+      params: params
+    });
+  }
+
+  getUserCountByEvent(segmentid, dates): Observable<UserCountByEventTimeSeries[]> {
     console.log('usercountbyevent')
-    var data=this.usercountbyeventsData;
+    var data = this.usercountbyeventsData;
     return of(data);
 
     // const params = new HttpParams().set("segmentid", segmentid).set("dates",dates);
     // return this.httpClient.get<UserCountByEventTimeSeries[]>(AppSettings.API_ENDPOINT_CLIENT_CLIENT_DASHBOARD_USERCOUNTBYEVENTS,{params});
   }
 
-  getSampleUsersByEvent(date,segmentid):Observable<any[]>{
-    const params = new HttpParams().set("date",date).set("segmentid", segmentid);
-    return this.httpClient.get<any[]>(AppSettings.API_ENDPOINT_CLIENT_CLIENT_DASHBOARD_SAMPLEUSERBYEVENT,{params});
+  getUserCountByEvent_1(segmentid, dates): Observable<UserCountByEventForDate[]> {
+    const params = new HttpParams().set("segmentid", segmentid.toString()).set("dates", dates.toString());
+    return this.httpClient.get<UserCountByEventForDate[]>(AppSettings.API_ENDPOINT_CLIENT_DASHBOARD_USERCOUNTBYEVENTS, {
+      params: params
+    });
   }
+
+  getSampleUsersByEvent(date: string, segmentid: number): Observable<any[]> {
+    const params = new HttpParams().set("date", date).set("segmentid", segmentid.toString());
+    return this.httpClient.get<any[]>(AppSettings.API_ENDPOINT_CLIENT_DASHBOARD_SAMPLEUSERSBYEVENT, {params});
+  }
+  /*
+  DASHBOARD APIs end
+   */
+
+
+  /*
+  EVENT APIs Begin
+   */
   //event report api call
 
-  getCountTrendC(eventReportFilter,entitytype,groupby=null):Observable<EventCount[]>{
+  getCountTrend(eventReportFilter: EventReportFilter, entitytype: EntityType, groupby = null): Observable<EventCount[]> {
     //group by optional  os
-    const params=new HttpParams().set("ftr",eventReportFilter).set("entityType",entitytype);
-    if(groupby!=null){
-      params.set("groupby",groupby);
+    const params = new HttpParams().set("ftr", eventReportFilter.toString()).set("entityType", entitytype);
+    if (groupby != null) {
+      params.set("groupby", groupby);
     }
-    return this.httpClient.get<EventCount[]>(AppSettings.API_ENDPOINT_CLIENT_CLIENT_REPORT_EVENT_EVENTCOUNT,{params});
+    return this.httpClient.post<EventCount[]>(AppSettings.API_ENDPOINT_CLIENT_REPORT_EVENT_EVENTCOUNT, {params});
   }
 
-  getTimePeriodTrend(eventReportFilter,entityType,period):Observable<EventPeriodCount[]>{
-    const params=new HttpParams().set("ftr",eventReportFilter).set("entityType",entityType).set("period",period);
-    return this.httpClient.get<EventPeriodCount[]>(AppSettings.API_ENDPOINT_CLIENT_CLIENT_REPORT_EVENT_TRENDBYTIMEPERIOD,{params});
+  getTimePeriodTrend(eventReportFilter, entityType: EntityType, period): Observable<EventPeriodCount[]> {
+    const params = new HttpParams().set("ftr", eventReportFilter).set("entityType", entityType).set("period", period);
+    return this.httpClient.get<EventPeriodCount[]>(AppSettings.API_ENDPOINT_CLIENT_REPORT_EVENT_TRENDBYTIMEPERIOD, {params});
   }
 
-  getEventUserTrend(eventReportFilter):Observable<EventUserFrequency[]>{
-    const params=new HttpParams().set("ftr",eventReportFilter);
-    return this.httpClient.get<EventUserFrequency[]>(AppSettings.API_ENDPOINT_CLIENT_CLIENT_REPORT_EVENT_EVENTUSERTREND,{params});
+  getEventUserTrend(eventReportFilter): Observable<EventUserFrequency[]> {
+    const params = new HttpParams().set("ftr", eventReportFilter);
+    return this.httpClient.get<EventUserFrequency[]>(AppSettings.API_ENDPOINT_CLIENT_REPORT_EVENT_EVENTUSERTREND, {params});
   }
 
-  getEventTimeTrend(eventReportFilter):Observable<EventTimeFrequency[]>{
-    const params=new HttpParams().set("ftr",eventReportFilter);
-    return this.httpClient.get<EventTimeFrequency[]>(AppSettings.API_ENDPOINT_CLIENT_CLIENT_REPORT_EVENT_EVENTTIMETREND,{params});
+  getEventTimeTrend(eventReportFilter): Observable<EventTimeFrequency[]> {
+    const params = new HttpParams().set("ftr", eventReportFilter);
+    return this.httpClient.get<EventTimeFrequency[]>(AppSettings.API_ENDPOINT_CLIENT_REPORT_EVENT_EVENTTIMETREND, {params});
   }
 
-  getEventAggregateTrend(eventReportFilter,period,aggregateOn=null):Observable<Aggregate[]>{
+  getEventAggregateTrend(eventReportFilter, period, aggregateOn = null): Observable<Aggregate[]> {
     //aggregate are unrequire
-    const params=new HttpParams().set("ftr",eventReportFilter).set("period",period);
-    if(aggregateOn!=null){
-      params.set("aggregateOn",aggregateOn);
+    const params = new HttpParams().set("ftr", eventReportFilter).set("period", period);
+    if (aggregateOn != null) {
+      params.set("aggregateOn", aggregateOn);
     }
-    return this.httpClient.get<Aggregate[]>(AppSettings.API_ENDPOINT_CLIENT_CLIENT_REPORT_EVENT_EVENTAGGREGATETREND,{params});
+    return this.httpClient.get<Aggregate[]>(AppSettings.API_ENDPOINT_CLIENT_REPORT_EVENT_EVENTAGGREGATETREND, {params});
   }
+  /*
+  EVENT APIs end
+   */
 
   reportsDataFormat = [
     {
@@ -259,19 +302,16 @@ export class ReportsService {
   public lineChartType: string = 'bar';
 
 
+  public trendcountData: Array<TrendCount> = [
 
-
-
-  public trendcountData: Array<TrendCount>=[
-
-      {
-        "name": "android",
-        "usercount": 12245
-      },
-      {
-        "name": "ios",
-        "usercount": 34003
-      },
+    {
+      "name": "android",
+      "usercount": 12245
+    },
+    {
+      "name": "ios",
+      "usercount": 34003
+    },
     {
       "name": "window",
       "usercount": 12453
@@ -283,7 +323,7 @@ export class ReportsService {
 
 
   ]
-  public trendchartData:Array<TrendTimeSeries>=[
+  public trendchartData: Array<TrendTimeSeries> = [
     {
       "date": "2018-08-27",
       "trenddata": [
@@ -1440,7 +1480,7 @@ export class ReportsService {
           "time": 1435
         }
       ]
-    },{
+    }, {
       "date": "2018-08-28",
       "trenddata": [
         {
@@ -2596,7 +2636,7 @@ export class ReportsService {
           "time": 1435
         }
       ]
-    },{
+    }, {
       "date": "2018-08-29",
       "trenddata": [
         {
@@ -3754,7 +3794,7 @@ export class ReportsService {
       ]
     }
   ]
-  public newvsexistingData:Array<UserCountTimeSeries>=[
+  public newvsexistingData: Array<UserCountTimeSeries> = [
     {
       "date": "2018-08-27",
       "userCountData": [
@@ -6107,7 +6147,7 @@ export class ReportsService {
     }
   ]
 
-  public usercountbyeventsData:Array<UserCountByEventTimeSeries>=[
+  public usercountbyeventsData: Array<UserCountByEventTimeSeries> = [
 
     {
       "date": "2018-08-29",
@@ -6175,31 +6215,31 @@ export class ReportsService {
 
   ]
 
-  public samepleusersbyevent:Array<string>=[]
+  public samepleusersbyevent: Array<string> = []
 
-  public eventcountData:Array<EventCount>=[
+  public eventcountData: Array<EventCount> = [
     {
-      usercount:12050,
-      eventcount:23866,
-      name:"Android"
+      usercount: 12050,
+      eventcount: 23866,
+      name: "Android"
     },
     {
-      usercount:9000,
-      eventcount:5000,
-      name:"Ios"
+      usercount: 9000,
+      eventcount: 5000,
+      name: "Ios"
     },
     {
-      usercount:12990,
-      eventcount:25006,
-      name:"Window"
+      usercount: 12990,
+      eventcount: 25006,
+      name: "Window"
     },
     {
-      usercount:90000,
-      eventcount:50000,
-      name:"Linux"
+      usercount: 90000,
+      eventcount: 50000,
+      name: "Linux"
     }
   ]
-  public trendBytimePeriodData:Array<EventPeriodCount>=[
+  public trendBytimePeriodData: Array<EventPeriodCount> = [
     {
       "eventcount": 12000,
       "period": "20 aug",
@@ -6218,10 +6258,10 @@ export class ReportsService {
     {
       "eventcount": 30000,
       "period": "23 aug",
-      "usercount":30000
+      "usercount": 30000
     },
     {
-      "eventcount":30000,
+      "eventcount": 30000,
       "period": "24 aug",
       "usercount": 20000
     },
@@ -6251,47 +6291,47 @@ export class ReportsService {
       "usercount": 13000
     }
   ]
-  public eventUserTrendData:Array<EventUserFrequency>=[
+  public eventUserTrendData: Array<EventUserFrequency> = [
     {
-      eventcount:1,
-      usercount:12000
+      eventcount: 1,
+      usercount: 12000
     },
     {
-      eventcount:2,
-      usercount:12000
+      eventcount: 2,
+      usercount: 12000
     },
     {
-      eventcount:3,
-      usercount:1000
+      eventcount: 3,
+      usercount: 1000
     },
     {
-      eventcount:4,
-      usercount:800
+      eventcount: 4,
+      usercount: 800
     },
     {
-      eventcount:5,
-      usercount:1200
+      eventcount: 5,
+      usercount: 1200
     },
     {
-      eventcount:6,
-      usercount:100
+      eventcount: 6,
+      usercount: 100
     },
 
     {
-      eventcount:7,
-      usercount:80
+      eventcount: 7,
+      usercount: 80
     },
     {
-      eventcount:8,
-      usercount:120
+      eventcount: 8,
+      usercount: 120
     },
     {
-      eventcount:9,
-      usercount:10
+      eventcount: 9,
+      usercount: 10
     }
   ]
 
-  public eventTimeTrend:Array<EventTimeFrequency>=[
+  public eventTimeTrend: Array<EventTimeFrequency> = [
     {
       "eventCount": 1200,
       "timeRange": "00-03"

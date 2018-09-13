@@ -1,5 +1,5 @@
 export class AppSettings {
-  public static API_ENDPOINT = "";
+  public static API_ENDPOINT = "https://userndot.com";
 
 
   public static API_ENDPOINT_CLIENT = AppSettings.API_ENDPOINT + "/client";
@@ -7,6 +7,21 @@ export class AppSettings {
   // public static API_ENDPOINT_CLIENT = "http://localhost:9201";
 
   public static API_ENDPOINT_CLIENT_CLIENT = AppSettings.API_ENDPOINT_CLIENT + "/client";
+
+  public static API_ENDPOINT_CLIENT_DASHBOARD = AppSettings.API_ENDPOINT_CLIENT+ "/dashboard";
+  public static API_ENDPOINT_CLIENT_DASHBOARD_LIVEUSERS=AppSettings.API_ENDPOINT_CLIENT_DASHBOARD+"/liveusers";
+  public static API_ENDPOINT_CLIENT_DASHBOARD_LIVEUSERTREND=AppSettings.API_ENDPOINT_CLIENT_DASHBOARD+"/liveusertrend";
+  public static API_ENDPOINT_CLIENT_DASHBOARD_LIVEUSERTYPETREND=AppSettings.API_ENDPOINT_CLIENT_DASHBOARD+"/liveusertypetrend";
+  public static API_ENDPOINT_CLIENT_DASHBOARD_USERCOUNTBYEVENTS=AppSettings.API_ENDPOINT_CLIENT_DASHBOARD+"/usercountbyevents";
+  public static API_ENDPOINT_CLIENT_DASHBOARD_SAMPLEUSERSBYEVENT=AppSettings.API_ENDPOINT_CLIENT_DASHBOARD+"/samepleusersbyevent";
+
+  public static API_ENDPOINT_CLIENT_REPORT_EVENT = AppSettings.API_ENDPOINT_CLIENT_CLIENT + "/report/event";
+  public static API_ENDPOINT_CLIENT_REPORT_EVENT_EVENTCOUNT = AppSettings.API_ENDPOINT_CLIENT_REPORT_EVENT + "/eventcount";
+  public static API_ENDPOINT_CLIENT_REPORT_EVENT_TRENDBYTIMEPERIOD = AppSettings.API_ENDPOINT_CLIENT_REPORT_EVENT + "/trendBytimePeriod";
+  public static API_ENDPOINT_CLIENT_REPORT_EVENT_EVENTUSERTREND = AppSettings.API_ENDPOINT_CLIENT_REPORT_EVENT + "/eventuserTrend";
+  public static API_ENDPOINT_CLIENT_REPORT_EVENT_EVENTTIMETREND = AppSettings.API_ENDPOINT_CLIENT_REPORT_EVENT + "/eventTimeTrend";
+  public static API_ENDPOINT_CLIENT_REPORT_EVENT_EVENTAGGREGATETREND = AppSettings.API_ENDPOINT_CLIENT_REPORT_EVENT + "/eventAggregateTrend";
+
 
   public static API_ENDPOINT_CLIENT_CLIENT_DASHBOARD = AppSettings.API_ENDPOINT_CLIENT_CLIENT + "/dashboard";
   public static API_ENDPOINT_CLIENT_CLIENT_DASHBOARD_TRENDCOUNT=AppSettings.API_ENDPOINT_CLIENT_CLIENT_DASHBOARD+"/trendcount";
@@ -94,8 +109,6 @@ export class AppSettings {
   public static API_ENDPOINT_CLIENT_LOCATION_COUNTRIES = AppSettings.API_ENDPOINT_CLIENT_LOCATION + "/countries";
   public static API_ENDPOINT_CLIENT_LOCATION_STATES = AppSettings.API_ENDPOINT_CLIENT_LOCATION + "/states";
   public static API_ENDPOINT_CLIENT_LOCATION_CITIES = AppSettings.API_ENDPOINT_CLIENT_LOCATION + "/cities";
-
-  public static API_ENDPOINT_CLIENT_CONTACT_US_SAVE = AppSettings.API_ENDPOINT_CLIENT + "/contactUs/save";
 
 
   public static API_ENDPOINT_AUTH = AppSettings.API_ENDPOINT + "/auth";
