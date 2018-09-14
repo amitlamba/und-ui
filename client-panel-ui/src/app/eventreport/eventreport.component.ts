@@ -11,6 +11,8 @@ import {ChartSeriesData} from "../_models/reports";
 export class EventreportComponent implements OnInit {
 
   segmentId:string;
+  events:string[]=['Add to cart','Search','View'];
+  segments:number[]=[1,2,3,4,5];
 
   eventCountChartTitle:string;
   eventCountChartSubTitle:string;

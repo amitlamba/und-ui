@@ -1,18 +1,34 @@
 <div class="container">
-  <h1>Event</h1>
-  <form class="form-inline">
-    <div class="form-group mb-2">
-      <label for="segment" class="sr-only">Select Segment</label>
-      <input type="text" class="form-control-plaintext" id="segment" value="1">
+  <div class="row">
+    <div class="col-3 col-md-2">
+      <select class="form-control" name="eventName">
+        <option *ngFor="let event of events" value="{{event}}">{{event}}</option>
+      </select>
     </div>
-    <div class="form-group mx-sm-3 mb-2">
-      <label for="" class="sr-only">Password</label>
-      <input type="password" class="form-control" id="inputPassword2" placeholder="Password">
+  </div>
+  <div class="row" style="padding-top: 10px">
+    <div class="col-3 col-md-2">
+      <select class="form-control" name="segmentId">
+        <option *ngFor="let segment of segments" value="{{segment}}">{{segment}}</option>
+      </select>
     </div>
-    <button type="submit" class="btn btn-primary mb-2">Confirm identity</button>
-  </form>
+  </div>
   <div class="card">
+    <div class="card-header">
+      <div class="col-md-2">Event Trend</div>
+    </div>
     <div class="card-body">
+      <div class="row mb-3">
+        <div class="col-sm-3">Total user 5000</div>
+        <div class="col-sm-3">Total Event 6000</div>
+        <div class="col-sm-3 ml-auto">
+          <select class="form-control" name="groupBy" (focus)="os">
+            <option value="os">Os</option>
+            <option value="browser">Browser</option>
+            <option value="appversion">App version</option>
+          </select>
+        </div>
+      </div>
       <app-draw-simple-chart [title]="eventCountChartTitle"
                              [subtitle]="eventCountChartSubTitle"
                              [xAxisTitle]="eventCountChartXAxisTitle"
@@ -25,55 +41,79 @@
   </div>
   <hr>
   <div class="card">
+    <div class="card-header">
+      <div class="row">
+        <div class="col">
+          Trend By Time Period
+        </div>
+        <div class="col">
+          <select class="form-control" name="entityType" (select)="os">
+            <option value="event">Event</option>
+            <option value="user">User</option>
+          </select>
+        </div>
+        <div class="col">
+          <select class="form-control" name="Period">
+            <option value="daily">Daily</option>
+            <option value="weekly">Weekly</option>
+            <option value="monthly">Monthly</option>
+          </select>
+        </div>
+      </div>
+    </div>
     <div class="card-body">
-      <app-draw-simple-chart  [title]="eventTimeTrendChartTitle"
-                              [subtitle]="eventTimeTrendChartSubTitle"
-                              [xAxisTitle]="eventTimeTrendChartXAxisTitle"
-                              [yAxisTitle]="eventTimeTrendChartYAxisTitle"
-                              [chartType]="eventTimeTrendChartGraphType"
-                              [categories]="eventTimeTrendChartCategory"
-                              [dataSeries]="eventTimeTrendChartDataSeries">
+      <app-draw-simple-chart [title]="eventTimeTrendChartTitle"
+                             [subtitle]="eventTimeTrendChartSubTitle"
+                             [xAxisTitle]="eventTimeTrendChartXAxisTitle"
+                             [yAxisTitle]="eventTimeTrendChartYAxisTitle"
+                             [chartType]="eventTimeTrendChartGraphType"
+                             [categories]="eventTimeTrendChartCategory"
+                             [dataSeries]="eventTimeTrendChartDataSeries">
 
       </app-draw-simple-chart>
     </div>
   </div>
   <hr>
   <div class="card">
+    <div class="card-header">Event Time Trend</div>
     <div class="card-body">
-      <div>
-        <select name="attributes">
-          <option value="Item">Item</option>
-          <option value="Color">Color</option>
-          <option value="Size">Size</option>
-        </select>
-      </div>
-      <app-draw-simple-chart  [title]="eventUserTimeTrendChartTitle"
-                              [subtitle]="eventUserTimeTrendChartSubTitle"
-                              [xAxisTitle]="eventUserTimeTrendChartXAxisTitle"
-                              [yAxisTitle]="eventUserTimeTrendChartYAxisTitle"
-                              [chartType]="eventUserTimeTrendChartGraphType"
-                              [categories]="eventUserTimeTrendChartCategory"
-                              [dataSeries]="eventUserTimeTrendChartDataSeries">
+      <!--<div>-->
+      <!--<select name="attributes">-->
+      <!--<option value="Item">Item</option>-->
+      <!--<option value="Color">Color</option>-->
+      <!--<option value="Size">Size</option>-->
+      <!--</select>-->
+      <!--</div>-->
+      <app-draw-simple-chart [title]="eventUserTimeTrendChartTitle"
+                             [subtitle]="eventUserTimeTrendChartSubTitle"
+                             [xAxisTitle]="eventUserTimeTrendChartXAxisTitle"
+                             [yAxisTitle]="eventUserTimeTrendChartYAxisTitle"
+                             [chartType]="eventUserTimeTrendChartGraphType"
+                             [categories]="eventUserTimeTrendChartCategory"
+                             [dataSeries]="eventUserTimeTrendChartDataSeries">
 
       </app-draw-simple-chart>
     </div>
   </div>
-  <hr>
-  <div class="">
-    <app-draw-simple-chart [title]="eventUserTrendChartTitle"
-                           [subtitle]="eventUserTrendChartSubTitle"
-                           [xAxisTitle]="eventUserTrendChartXAxisTitle"
-                           [yAxisTitle]="eventUserTrendChartYAxisTitle"
-                           [chartType]="eventUserTrendChartGraphType"
-                           [categories]="eventUserTrendChartCategory"
-                           [dataSeries]="eventUserTrendChartDataSeries">
 
-    </app-draw-simple-chart>
+  <div class="card">
+    <div class="card-header">Frequency</div>
+    <div class="card-body">
+      <app-draw-simple-chart [title]="eventUserTrendChartTitle"
+                             [subtitle]="eventUserTrendChartSubTitle"
+                             [xAxisTitle]="eventUserTrendChartXAxisTitle"
+                             [yAxisTitle]="eventUserTrendChartYAxisTitle"
+                             [chartType]="eventUserTrendChartGraphType"
+                             [categories]="eventUserTrendChartCategory"
+                             [dataSeries]="eventUserTrendChartDataSeries">
+
+      </app-draw-simple-chart>
+    </div>
   </div>
   <!--<div class="card">-->
-    <!--<div class="card-body">-->
-      <!--<app-draw-semidonut-chart [name]="trendCountName" [dataSeries]="trendCountDataSeries"></app-draw-semidonut-chart>-->
-    <!--</div>-->
+  <!--<div class="card-body">-->
+  <!--<app-draw-semidonut-chart [name]="trendCountName" [dataSeries]="trendCountDataSeries"></app-draw-semidonut-chart>-->
+  <!--</div>-->
   <!--</div>-->
 
 </div>
