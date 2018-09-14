@@ -9,7 +9,7 @@
   </thead>
   <tbody>
   <tr *ngFor="let data of eventUserTableData">
-    <td>{{data.eventName}}</td>
+    <td><a routerLink="/eventreport">{{data.eventName}}</a></td>
     <td>{{data.count[0]}}</td>
     <td>{{data.count[1]}}</td>
     <td>{{data.count[2]}}</td>

@@ -232,6 +232,7 @@ export class HomeComponent implements OnInit {
       });
     this.reportsService.getUserCountByEvent(segmentId, dates)
       .subscribe(response => {
+        this.userCountByEventData=response;
         this.userCountByEventGraphInitialization(response);
       });
 

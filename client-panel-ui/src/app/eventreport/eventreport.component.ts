@@ -10,6 +10,8 @@ import {ChartSeriesData} from "../_models/reports";
 })
 export class EventreportComponent implements OnInit {
 
+  segmentId:string;
+
   eventCountChartTitle:string;
   eventCountChartSubTitle:string;
   eventCountChartXAxisTitle:string;

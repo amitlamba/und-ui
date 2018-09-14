@@ -1,6 +1,16 @@
 <div class="container">
   <h1>Event</h1>
-
+  <form class="form-inline">
+    <div class="form-group mb-2">
+      <label for="segment" class="sr-only">Select Segment</label>
+      <input type="text" class="form-control-plaintext" id="segment" value="1">
+    </div>
+    <div class="form-group mx-sm-3 mb-2">
+      <label for="" class="sr-only">Password</label>
+      <input type="password" class="form-control" id="inputPassword2" placeholder="Password">
+    </div>
+    <button type="submit" class="btn btn-primary mb-2">Confirm identity</button>
+  </form>
   <div class="card">
     <div class="card-body">
       <app-draw-simple-chart [title]="eventCountChartTitle"

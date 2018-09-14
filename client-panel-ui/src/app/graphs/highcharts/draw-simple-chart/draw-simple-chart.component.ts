@@ -2,6 +2,7 @@ import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {chart, IndividualSeriesOptions} from 'highcharts';
 import * as Highcharts from 'highcharts';
 import {ChartSeriesData} from "../../../_models/reports";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
   selector: 'app-draw-simple-chart',
@@ -20,9 +21,10 @@ export class DrawSimpleChartComponent implements OnInit {
   @ViewChild('chartTarget') chartTarget: ElementRef;
   chart: Highcharts.ChartObject;
 
-  constructor() { }
+  constructor(private router:Router) { }
 
   ngOnInit() {
+    var that=this;
     Highcharts.setOptions({
       colors: ['#50B432', '#ED561B', '#DDDF00', '#24CBE5', '#64E572', '#FF9655', '#FFF263', '#6AF9C4'],
       plotOptions: {
@@ -39,7 +41,12 @@ export class DrawSimpleChartComponent implements OnInit {
     });
     this.chart = chart(this.chartTarget.nativeElement, {
       chart: {
-        type: this.chartType
+        type: this.chartType,
+        events:{
+          click: function (event) {
+            that.changeRoute(event);
+          }
+        }
       },
       title: {
         text: this.title
@@ -90,6 +97,10 @@ export class DrawSimpleChartComponent implements OnInit {
     })
 
     return response;
+  }
+
+  changeRoute(event){
+    this.router.navigate(['/eventreport']);
   }
 
 }
