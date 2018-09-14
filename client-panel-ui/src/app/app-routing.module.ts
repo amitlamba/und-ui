@@ -31,11 +31,15 @@ import {UserProfileComponent} from "./user-profile/user-profile.component";
 import {EmailSettingsComponent} from "./settings/email-settings/email-settings.component";
 import {CreateEmailTemplateFormComponent} from "./templates/email-templates/create-email-template-form/create-email-template-form.component";
 import {VerifyEmailComponent} from "./login/verify-email/verify-email.component";
-import {EventsGraphComponent} from "./graphs/events-graph/events-graph.component";
+// import {EventsGraphComponent} from "./graphs/events-graph/events-graph.component";
 import {EventreportComponent} from "./eventreport/eventreport.component";
+import {EventreportOverallComponent} from "./eventreport/eventreport-overall/eventreport-overall.component";
+import {EventreportDemographicsComponent} from "./eventreport/eventreport-demographics/eventreport-demographics.component";
+import {EventreportGeographicsComponent} from "./eventreport/eventreport-geographics/eventreport-geographics.component";
+import {EventreportTechnographicsComponent} from "./eventreport/eventreport-technographics/eventreport-technographics.component";
+import {EventreportReachabilityComponent} from "./eventreport/eventreport-reachability/eventreport-reachability.component";
 
 const routes: Routes = [
-  {path:'eventreport',component:EventreportComponent},
   {path: 'login', component: LoginComponent},
   {path: 'test', component: TestComponent},
   {path: '', component: LandingPageUndComponent},
@@ -44,6 +48,16 @@ const routes: Routes = [
   {path: 'verifyemail/:email/:code', component: VerifyEmailComponent},
   {path: 'dummyJson', component: DummyComponent},
   {path: 'dashboard', component: HomeComponent, canActivate: [AuthGuard]},
+  {path: 'reports/event', redirectTo: "reports/event/overall", pathMatch: "full", canActivate: [AuthGuard]},
+  {
+    path: 'reports/event', component: EventreportComponent, canActivate: [AuthGuard], children: [
+    {path: 'overall', component: EventreportOverallComponent},
+    {path: 'demographics', component: EventreportDemographicsComponent},
+    {path: 'geographics', component: EventreportGeographicsComponent},
+    {path: 'technographics', component: EventreportTechnographicsComponent},
+    {path: 'reachability', component: EventreportReachabilityComponent}
+  ]
+  },
   {path: 'settings', redirectTo: "settings/profile", pathMatch: "full", canActivate: [AuthGuard]},
   {
     path: 'settings', component: SettingsComponent, canActivate: [AuthGuard], children: [

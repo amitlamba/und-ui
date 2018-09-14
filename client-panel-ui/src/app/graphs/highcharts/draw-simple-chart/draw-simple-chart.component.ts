@@ -1,4 +1,4 @@
-import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {chart, IndividualSeriesOptions} from 'highcharts';
 import * as Highcharts from 'highcharts';
 import {ChartSeriesData} from "../../../_models/reports";
@@ -17,6 +17,7 @@ export class DrawSimpleChartComponent implements OnInit {
   @Input() yAxisTitle: string;
   @Input() categories: string[];
   @Input() dataSeries: Array<ChartSeriesData>;
+  @Output() cloumnClicked: EventEmitter<any>;
 
   @ViewChild('chartTarget') chartTarget: ElementRef;
   chart: Highcharts.ChartObject;
@@ -44,7 +45,7 @@ export class DrawSimpleChartComponent implements OnInit {
         type: this.chartType,
         events:{
           click: function (event) {
-            that.changeRoute(event);
+            that.cloumnClicked.emit(event);
           }
         }
       },
@@ -97,10 +98,6 @@ export class DrawSimpleChartComponent implements OnInit {
     })
 
     return response;
-  }
-
-  changeRoute(event){
-    this.router.navigate(['/eventreport']);
   }
 
 }
