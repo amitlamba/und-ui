@@ -97,6 +97,11 @@ import {InputTrimDirective} from "./_directives/input-trim.directive";
 import { EmailSettingsComponent } from './settings/email-settings/email-settings.component';
 import { OrderByPipe } from './_pipes/order-by.pipe';
 import { VerifyEmailComponent } from './login/verify-email/verify-email.component';
+import { PrivacyPolicyComponent } from './terms-of-service/privacy-policy/privacy-policy.component';
+import { DrawChartComponent } from './graphs/highcharts/draw-chart/draw-chart.component';
+import { DrawSemidonutChartComponent } from './graphs/highcharts/draw-semidonut-chart/draw-semidonut-chart.component';
+import { Draw24HrsChartComponent } from './graphs/highcharts/draw24-hrs-chart/draw24-hrs-chart.component';
+import { DrawSimpleChartComponent } from './graphs/highcharts/draw-simple-chart/draw-simple-chart.component';
 
 
 @NgModule({
@@ -185,7 +190,12 @@ import { VerifyEmailComponent } from './login/verify-email/verify-email.componen
     InputTrimDirective,
     EmailSettingsComponent,
     OrderByPipe,
-    VerifyEmailComponent
+    VerifyEmailComponent,
+    PrivacyPolicyComponent,
+    DrawChartComponent,
+    DrawSemidonutChartComponent,
+    Draw24HrsChartComponent,
+    DrawSimpleChartComponent
   ],
   providers: [
     AuthGuard,
