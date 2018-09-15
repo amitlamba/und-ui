@@ -3,8 +3,37 @@ $primary:       #005c99;
 $secondary:     #ffbf00;
 $success:       #1f7a1f;
 $danger:        #990033;
-$body-bg:       #f8f9fa;
+//$body-bg:       #f8f9fa;
+$info:#7ebcfa;
+$warning:#ff9b37;
+$light:#eef0f2;
+$dark:#3c4055;
+$spacer:1rem;
+$border-width:1px;
+$btn-border-radius:.25rem;
 
 @import url("https://fonts.googleapis.com/css?family=Lato:100,300,300i,400");
 $font-family-sans-serif: 'Lato', sans-serif;
 
+///*! `Custom` Bootstrap 4 theme */
+//@import url(https://cdnjs.cloudflare.com/ajax/libs/ionicons/3.0.0/css/ionicons.min.css);
+//@import url(https://fonts.googleapis.com/css?family=Lato:200,300,400,700);
+//$font-family-base:Lato;
+//@import url(https://fonts.googleapis.com/css?family=Lato:200,300,400,700);
+//$headings-font-family:Lato;
+//
+////$enable-grid-classes:false;
+//$primary:#27a2fc;
+//$secondary:#a0b7bc;
+//$success:#37bd74;
+//$danger:#e8286b;
+//$info:#7ebcfa;
+//$warning:#ff9b37;
+//$light:#eef0f2;
+//$dark:#3c4055;
+//$spacer:1rem;
+//$border-width:1px;
+//$btn-border-radius:.25rem;
+////@import "bootstrap";
+//
+//// Add SASS theme customizations here..
