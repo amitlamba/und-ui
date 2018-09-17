@@ -109,6 +109,8 @@ import { EventreportDemographicsComponent } from './eventreport/eventreport-demo
 import { EventreportGeographicsComponent } from './eventreport/eventreport-geographics/eventreport-geographics.component';
 import { EventreportTechnographicsComponent } from './eventreport/eventreport-technographics/eventreport-technographics.component';
 import { EventreportReachabilityComponent } from './eventreport/eventreport-reachability/eventreport-reachability.component';
+import { AppLayoutComponent } from './layouts/app-layout/app-layout.component';
+import { SiteLayoutComponent } from './layouts/site-layout/site-layout.component';
 
 
 @NgModule({
@@ -209,7 +211,9 @@ import { EventreportReachabilityComponent } from './eventreport/eventreport-reac
     EventreportDemographicsComponent,
     EventreportGeographicsComponent,
     EventreportTechnographicsComponent,
-    EventreportReachabilityComponent
+    EventreportReachabilityComponent,
+    AppLayoutComponent,
+    SiteLayoutComponent
   ],
   providers: [
     AuthGuard,

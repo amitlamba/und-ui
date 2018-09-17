@@ -19,11 +19,16 @@ import {moment} from "ngx-bootstrap/chronos/test/chain";
         margin-top: 3rem;
         margin-bottom: 2em;
       }
+      .dropdown .dropdown-menu .dropdown-item {
+        cursor: pointer;
+      }
     `
   ]
 })
 
 export class HomeComponent implements OnInit {
+
+  selectedSegment = "All Users";
 
   segments: Array<string> = [];
   segmentId = 1;
@@ -33,7 +38,7 @@ export class HomeComponent implements OnInit {
   date3: string;
   dates: string[] = [];
   groupByAttributes: Array<string> = ['os', 'device', 'browser'];
-  groupBy = 'os'
+  groupBy = 'os';
 
   viewType: string = 'graph';
   @ViewChild('formref') formRef:NgForm;

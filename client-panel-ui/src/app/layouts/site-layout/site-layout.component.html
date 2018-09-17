@@ -1,0 +1,16 @@
+<!--<div class="jumbotron">-->
+<div class="fluid">
+  <!--<div class="col-sm-8 col-sm-offset-2">-->
+  <div>
+  <app-logout-header></app-logout-header><!--(loginEvent)="login()"-->
+  </div>
+
+  <div style="min-height: 70vh">
+    <router-outlet></router-outlet>
+  </div>
+
+  <!--<div *ngIf="isLoggedIn()"></div>-->
+
+  <app-footer></app-footer>
+  <app-messages></app-messages>
+</div>
