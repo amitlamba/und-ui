@@ -1,15 +1,17 @@
-import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild} from '@angular/core';
 import {chart, IndividualSeriesOptions} from 'highcharts';
 import * as Highcharts from 'highcharts';
 import {ChartSeriesData} from "../../../_models/reports";
 import {ActivatedRoute, Router} from "@angular/router";
+import {ReportsService} from "../../../_services/reports.service";
+import {getPluralCategory} from "@angular/common/src/i18n/localization";
 
 @Component({
   selector: 'app-draw-simple-chart',
   templateUrl: './draw-simple-chart.component.html',
   styleUrls: ['./draw-simple-chart.component.scss']
 })
-export class DrawSimpleChartComponent implements OnInit {
+export class DrawSimpleChartComponent implements OnInit ,OnChanges{
   @Input() title: string = "Dummy Title";
   @Input() subtitle: string = "";
   @Input() chartType: string = "column";
@@ -17,15 +19,12 @@ export class DrawSimpleChartComponent implements OnInit {
   @Input() yAxisTitle: string;
   @Input() categories: string[];
   @Input() dataSeries: Array<ChartSeriesData>;
-  @Output() cloumnClicked: EventEmitter<any>;
-
   @ViewChild('chartTarget') chartTarget: ElementRef;
   chart: Highcharts.ChartObject;
 
-  constructor(private router:Router) { }
+  constructor(private router:Router,private reportService:ReportsService) { }
 
   ngOnInit() {
-    var that=this;
     Highcharts.setOptions({
       colors: ['#50B432', '#ED561B', '#DDDF00', '#24CBE5', '#64E572', '#FF9655', '#FFF263', '#6AF9C4'],
       plotOptions: {
@@ -40,14 +39,12 @@ export class DrawSimpleChartComponent implements OnInit {
         crosshairs: true
       }
     });
+  }
+  ngOnChanges(){
+    var that = this;
     this.chart = chart(this.chartTarget.nativeElement, {
       chart: {
-        type: this.chartType,
-        events:{
-          click: function (event) {
-            that.cloumnClicked.emit(event);
-          }
-        }
+        type: this.chartType
       },
       title: {
         text: this.title
@@ -79,7 +76,12 @@ export class DrawSimpleChartComponent implements OnInit {
       plotOptions: {
         column: {
           pointPadding: 0.2,
-          borderWidth: 0
+          borderWidth: 0,
+          events:{
+            click: function (event) {
+              that.reportService.graphClick.emit(event.point.category.toString());
+            }
+          }
         }
       },
       series: this.series()

@@ -16,21 +16,16 @@ export class EventsGraphComponent implements OnInit {
   public eventsChartLegend: boolean;
   public eventsChartType: string;
 
-
-
-
-  // -----------------------------------------------------------
-  eventCount
   constructor(private reportsService: ReportsService) {
   }
 
   ngOnInit() {
-    this.eventsChartData = this.reportsService.eventsChartData;
-    // this.eventsChartLabels = this.reportsService.lineChartLabels;
-    this.eventsChartOptions = this.reportsService.lineChartOptions.options;
-    this.eventsChartColors = this.reportsService.lineChartColors;
-    this.eventsChartLegend = this.reportsService.lineChartLegend;
-    this.eventsChartType = this.reportsService.lineChartType;
+    // this.eventsChartData = this.reportsService.eventsChartData;
+    // // this.eventsChartLabels = this.reportsService.lineChartLabels;
+    // this.eventsChartOptions = this.reportsService.lineChartOptions.options;
+    // this.eventsChartColors = this.reportsService.lineChartColors;
+    // this.eventsChartLegend = this.reportsService.lineChartLegend;
+    // this.eventsChartType = this.reportsService.lineChartType;
   }
 
   // https://valor-software.com/ng2-charts/ (Reference)

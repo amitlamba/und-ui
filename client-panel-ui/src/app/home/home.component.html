@@ -1,7 +1,8 @@
 <div class="container">
 
   <div class="dropdown">
-    <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
       {{selectedSegment}}
     </button>
     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -10,39 +11,28 @@
       <a class="dropdown-item" (click)="selectedSegment='Add To Cart'">Add To Cart</a>
     </div>
   </div>
-
-  <div class="card">
-    <div class="card-body">
-      <div>
-        <select class="form-control col-sm-4 col-md-3 col-lg-2" name="groupby" (change)="onGroupByChange($event)">
-          <option value="os">os</option>
-          <option value="brower">browser</option>
-          <option value="device">device</option>
-        </select>
-      </div>
-      <app-draw-semidonut-chart [name]="trendCountName"
-                                [dataSeries]="trendCountDataSeries"></app-draw-semidonut-chart>
+  <div class="col-12">
+    <div class="row">
+      <div class="col-md-2">Select Segment</div>
+      <div class="col-md-2">Date1</div>
+      <div class="col-md-2">Date2</div>
+      <div class="col-2">Date3</div>
     </div>
-  </div>
 
-  <div class="row">
-    <div class="col-md-2">Select Segment</div>
-    <div class="col-md-2">Date1</div>
-    <div class="col-md-2">Date2</div>
-    <div class="col-2">Date3</div>
-  </div>
-  <form #formref="ngForm">
     <div class="row">
       <div class="col-2">
+        <div class="form-group">
+          <select class="form-control" ng-init="segmentId= '1003'" (change)="segmentChange($event)">
+            <option *ngFor="let segment of segments" [ngValue]="segment.id">{{segment.name}}</option>
+          </select>
+        </div>
       </div>
       <div class="col-2">
         <div class="form-group">
           <input type="text"
                  class="form-control"
-                 [(ngModel)]="date1"
-                 name="date1"
+                 [ngModel]="date1"
                  required
-                 #date1Idref
                  daterangepicker
                  [options]="singlePicker"
                  (selected)="date1Select($event)"
@@ -53,10 +43,8 @@
         <div class="form-group">
           <input type="text"
                  class="form-control"
-                 [(ngModel)]="date2"
-                 name="date2"
+                 [ngModel]="date2"
                  required
-                 #date2Idref
                  daterangepicker
                  [options]="singlePicker"
                  (selected)="date2Select($event)">
@@ -66,10 +54,8 @@
         <div class="form-group">
           <input type="text"
                  class="form-control"
-                 [(ngModel)]="date3"
-                 name="date3"
+                 [ngModel]="date3"
                  required
-                 #date3Idref
                  daterangepicker
                  [options]="singlePicker"
                  (selected)="date3Select($event)">
@@ -77,16 +63,15 @@
       </div>
       <div class="col-2">
         <div class="form-group">
-          <select class="form-control" name="interval" [ngModel]="">
+          <select class="form-control" name="interval" ng-init="interval='5'" (change)="intervalChange($event)">
             <option value="5">Interval</option>
             <option value="10">10 Min</option>
             <option value="20">20 Min</option>
           </select>
         </div>
       </div>
-      <button class="btn btn-primary" type="button" (click)="onSubmit(formref)">Submit</button>
     </div>
-  </form>
+  </div>
   <div class="card my-3">
     <div class="card-header">{{trendChartTitle}}</div>
     <div class="card-body">
@@ -108,13 +93,13 @@
           <option *ngFor="let date of dates" value={{date}}>{{date}}</option>
         </select>
       </div>
-      <app-draw24-hrs-chart (reflow)="onreflow($event)"
-                            [title]="newVsExistingTitle"
-                            [subtitle]="newVsExistingSubTitle"
-                            [xAxisTitle]="newVsExistingXAxisTitle"
-                            [yAxisTitle]="newVsExistingYAxisTitle"
-                            [chartType]="newVsExistingGraphType"
-                            [dataSeries]="newVsExistingDataSeries"
+      <app-draw24-hrs-chart
+        [title]="newVsExistingTitle"
+        [subtitle]="newVsExistingSubTitle"
+        [xAxisTitle]="newVsExistingXAxisTitle"
+        [yAxisTitle]="newVsExistingYAxisTitle"
+        [chartType]="newVsExistingGraphType"
+        [dataSeries]="newVsExistingDataSeries"
       >
 
       </app-draw24-hrs-chart>
@@ -137,6 +122,21 @@
     </div>
   </div>
 
+  <div class="card">
+    <div class="card-body">
+      <div>
+        <select class="form-control col-sm-4 col-md-3 col-lg-2" name="groupby" (change)="onGroupByChange($event)">
+          <option value="os">os</option>
+          <option value="brower">browser</option>
+          <option value="device">device</option>
+        </select>
+      </div>
+      <app-draw-semidonut-chart [name]="trendCountName"
+                                [dataSeries]="trendCountDataSeries"></app-draw-semidonut-chart>
+    </div>
+  </div>
+
 </div>
+
 
 

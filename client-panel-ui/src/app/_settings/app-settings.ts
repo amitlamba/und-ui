@@ -1,5 +1,5 @@
 export class AppSettings {
-  public static API_ENDPOINT = "https://userndot.com";
+  public static API_ENDPOINT = "http://userndot.com";
 
 
   public static API_ENDPOINT_CLIENT = AppSettings.API_ENDPOINT + "/client";
@@ -15,10 +15,10 @@ export class AppSettings {
   public static API_ENDPOINT_CLIENT_DASHBOARD_USERCOUNTBYEVENTS=AppSettings.API_ENDPOINT_CLIENT_DASHBOARD+"/usercountbyevents";
   public static API_ENDPOINT_CLIENT_DASHBOARD_SAMPLEUSERSBYEVENT=AppSettings.API_ENDPOINT_CLIENT_DASHBOARD+"/samepleusersbyevent";
 
-  public static API_ENDPOINT_CLIENT_REPORT_EVENT = AppSettings.API_ENDPOINT_CLIENT_CLIENT + "/report/event";
+  public static API_ENDPOINT_CLIENT_REPORT_EVENT = AppSettings.API_ENDPOINT_CLIENT + "/report/event";
   public static API_ENDPOINT_CLIENT_REPORT_EVENT_EVENTCOUNT = AppSettings.API_ENDPOINT_CLIENT_REPORT_EVENT + "/eventcount";
   public static API_ENDPOINT_CLIENT_REPORT_EVENT_TRENDBYTIMEPERIOD = AppSettings.API_ENDPOINT_CLIENT_REPORT_EVENT + "/trendBytimePeriod";
-  public static API_ENDPOINT_CLIENT_REPORT_EVENT_EVENTUSERTREND = AppSettings.API_ENDPOINT_CLIENT_REPORT_EVENT + "/eventuserTrend";
+  public static API_ENDPOINT_CLIENT_REPORT_EVENT_EVENTUSERTREND = AppSettings.API_ENDPOINT_CLIENT_REPORT_EVENT + "/eventUserTrend";
   public static API_ENDPOINT_CLIENT_REPORT_EVENT_EVENTTIMETREND = AppSettings.API_ENDPOINT_CLIENT_REPORT_EVENT + "/eventTimeTrend";
   public static API_ENDPOINT_CLIENT_REPORT_EVENT_EVENTAGGREGATETREND = AppSettings.API_ENDPOINT_CLIENT_REPORT_EVENT + "/eventAggregateTrend";
 

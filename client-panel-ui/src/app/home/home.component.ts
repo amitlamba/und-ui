@@ -4,11 +4,13 @@ import {User} from "../_models/user";
 import {UserService} from "../_services/user.service";
 import {ReportsService} from "../_services/reports.service";
 import {
-  ChartSeriesData, TrendByTime, TrendCount, TrendTimeSeries, UserCountByEventTimeSeries,
-  UserCountTimeSeries
+  ChartSeriesData, TrendByTime, TrendCount, TrendTimeSeries, UserCountByEventForDate, UserCountByEventTimeSeries,
+  UserCountForProperty,
+  UserCountTimeSeries, UserCountTrendForDate, UserTypeTrendForDate
 } from "../_models/reports";
 import {NgForm} from "@angular/forms";
 import {moment} from "ngx-bootstrap/chronos/test/chain";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-home',
@@ -30,9 +32,9 @@ export class HomeComponent implements OnInit {
 
   selectedSegment = "All Users";
 
-  segments: Array<string> = [];
-  segmentId = 1;
-  interval = 5;
+  segments= [{id:1003,name:'All User'},{id:1,name:'segment 1'},{id:2,name:'segment 2'}];
+  segmentId:number;
+  interval:number;
   date1: string;
   date2: string;
   date3: string;
@@ -41,7 +43,6 @@ export class HomeComponent implements OnInit {
   groupBy = 'os';
 
   viewType: string = 'graph';
-  @ViewChild('formref') formRef:NgForm;
 
   trendChartTitle = 'Trends Report';
   trendChartSubTitle = '';
@@ -57,7 +58,7 @@ export class HomeComponent implements OnInit {
   newVsExistingYAxisTitle: string = 'users';
   newVsExistingDataSeries: ChartSeriesData[];
   newVsExistingGraphType: string = 'line';
-  newVsExistingObject: Array<UserCountTimeSeries>;
+  newVsExistingObject: Array<UserTypeTrendForDate>;
 
 
   userCountByEventTitle: string;
@@ -72,14 +73,22 @@ export class HomeComponent implements OnInit {
   trendCountDataSeries: Array<[string, number]>;
   // trendcountData: Array<TrendCount>
 
-  constructor(private userService: UserService, private reportsService: ReportsService) {
+  constructor(private userService: UserService, private reportsService: ReportsService,private router:Router) {
     console.log('inside constructor');
+    this.segmentId=1003;
+    this.interval=5;
     // this.userCountByEventData=this.reportsService.usercountbyeventsData;
     this.date1 = this.createDateString(0);
+    console.log(this.date1);
     this.date2 = this.createDateString(1);
+    console.log(this.date2);
     this.date3 = this.createDateString(7);
-    this.dates.push(this.date1, this.date2, this.date3);
+    console.log(this.date3);
+    // this.dates.push(this.date1, this.date2, this.date3);
 
+    //for demo
+    this.dates.push('2018-08-20','2018-08-10','2018-08-19');
+    console.log(this.dates);
     this.getDataFromApi(this.segmentId, this.dates, this.interval);
     this.getTrendCountDataFromApi(this.segmentId, this.groupBy, this.interval);
     //stop function untill result is not return.
@@ -97,6 +106,11 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.reportsService.graphClick.subscribe(
+      data=>{
+        this.router.navigate(['/reports/event'],{queryParams:{event:data}})
+      }
+    );
   }
 
   ngOnChanges() {
@@ -117,7 +131,7 @@ export class HomeComponent implements OnInit {
     }
   };
 
-  convertDataToChartSeriesData(data: Array<TrendTimeSeries>): ChartSeriesData[] {
+  convertDataToChartSeriesData(data: Array<UserCountTrendForDate>): ChartSeriesData[] {
     return data.map<ChartSeriesData>(trenddata => {
       return {
         showInLegend: true,
@@ -131,13 +145,13 @@ export class HomeComponent implements OnInit {
     this.getNewVsExistingDataByDate(event.target.value);
   }
 
-  newVsExistingGraphInitialization(trendTimeSeries: Array<TrendTimeSeries>) {
-    this.newVsExistingDataSeries = trendTimeSeries.map<ChartSeriesData>(trenddata => {
-      return {showInLegend: true, seriesName: trenddata.date, data: trenddata.trenddata.map(count => count.usercount)}
-    });
-  }
+  // newVsExistingGraphInitialization(trendTimeSeries: Array<TrendTimeSeries>) {
+  //   this.newVsExistingDataSeries = trendTimeSeries.map<ChartSeriesData>(trenddata => {
+  //     return {showInLegend: true, seriesName: trenddata.date, data: trenddata.trenddata.map(count => count.usercount)}
+  //   });
+  // }
 
-  userCountByEventGraphInitialization(data: Array<UserCountByEventTimeSeries>) {
+  userCountByEventGraphInitialization(data: Array<UserCountByEventForDate>) {
 
     this.userCountByEventTitle = '';
     this.userCountByEventSubTitle = '';
@@ -160,23 +174,22 @@ export class HomeComponent implements OnInit {
 
   }
 
-  trendCountGraphInitialization(data: Array<TrendCount>) {
+  trendCountGraphInitialization(data: Array<UserCountForProperty>) {
 
     this.trendCountName = this.groupBy;
     this.trendCountDataSeries = data.map<[string, number]>((tcData) => {
-      return [tcData.name, tcData.usercount]
+      return [tcData.groupedBy['name'], tcData.usercount]
     });
 
   }
 
   getNewVsExistingDataByDate(date: string) {
-    var trendTimeSeries = Array<TrendTimeSeries>();
     var result = this.newVsExistingObject.find(obj => obj.date === date);
-    var date = result.date;
+    console.log(result);
     this.newVsExistingDataSeries = this.convertUserCountTimeSeriesToChartSeriesSeries(result);
   }
 
-  convertUserCountTimeSeriesToChartSeriesSeries(data: UserCountTimeSeries): ChartSeriesData[] {
+  convertUserCountTimeSeriesToChartSeriesSeries(data: UserTypeTrendForDate): ChartSeriesData[] {
     let chartSeriesDataArr: ChartSeriesData[] = [];
     chartSeriesDataArr[0] = {
       showInLegend: true,
@@ -203,39 +216,28 @@ export class HomeComponent implements OnInit {
     this.viewType = 'graph';
   }
 
-  onSubmit(formRef) {
-    console.log(formRef)
-    console.log(this.segmentId+this.date1+this.date2+this.date3+this.interval);
-    this.segmentId=this.formRef.value.segmentId;
-    this.date1=this.formRef.value.date1;
-    this.date2=this.formRef.value.date2;
-    this.date3=this.formRef.value.date3;
-    this.interval=this.formRef.value.interval;
-    console.log('second data')
-    console.log(this.segmentId+this.date1+this.date2+this.date3+this.interval);
-    // this.getDataFromApi(this.segmentId,this.dates,this.interval);
-    // this.getTrendCountDataFromApi(this.segmentId,this.groupBy,this.interval);
-  }
-
   onGroupByChange(event) {
     this.groupBy = event.target.value
     this.getTrendCountDataFromApi(this.segmentId, this.groupBy, this.interval);
   }
 
   getDataFromApi(segmentId, dates, interval) {
-    console.log('inside getDataFromApi');
-    console.log("segmentId:"+segmentId+",dates:"+dates+",interval:"+interval);
-    this.reportsService.getTrendChart(segmentId, dates, interval)
+
+    this.reportsService.getTrendChart_1(segmentId, dates, interval)
       .subscribe(response => {
         this.trendChartDataSeries = this.convertDataToChartSeriesData(response);
       });
-    this.reportsService.getNewVsExisting(segmentId, dates, interval)
+
+
+    this.reportsService.getNewVsExisting_1(segmentId, dates, interval)
       .subscribe(response => {
         this.newVsExistingObject=response;
         this.dates = response.map<string>(data => data.date);
         this.getNewVsExistingDataByDate(this.dates[this.dates.length-1]);
       });
-    this.reportsService.getUserCountByEvent(segmentId, dates)
+
+
+    this.reportsService.getUserCountByEvent_1(segmentId, dates)
       .subscribe(response => {
         this.userCountByEventData=response;
         this.userCountByEventGraphInitialization(response);
@@ -247,7 +249,7 @@ export class HomeComponent implements OnInit {
     console.log('inside getTrendCountData');
     console.log(segmentId+groupBy+interval);
 
-    this.reportsService.getTrendCount(segmentId, groupBy, interval)
+    this.reportsService.getTrendCount_1(segmentId, groupBy, interval)
       .subscribe(response => {
           this.trendCountGraphInitialization(response);
         },
@@ -257,12 +259,33 @@ export class HomeComponent implements OnInit {
   }
 
   date1Select(event){
-    console.log(event);
+    console.log((event.start).format("YYYY-MM-DD"));
+    this.dates[0]=(event.start).format("YYYY-MM-DD");
+    this.getDataFromApi(this.segmentId,this.dates,this.interval);
+    this.getTrendCountDataFromApi(this.segmentId,this.groupBy,this.interval);
   }
   date2Select(event){
-    console.log(event);
+    console.log((event.start).format("YYYY-MM-DD"));
+    this.dates[1]=(event.start).format("YYYY-MM-DD");
+    this.getDataFromApi(this.segmentId,this.dates,this.interval);
+    this.getTrendCountDataFromApi(this.segmentId,this.groupBy,this.interval);
   }date3Select(event){
-    console.log(event);
+    console.log((event.start).format("YYYY-MM-DD"));
+    this.dates[2]=(event.start).format("YYYY-MM-DD");
+    this.getDataFromApi(this.segmentId,this.dates,this.interval);
+    this.getTrendCountDataFromApi(this.segmentId,this.groupBy,this.interval);
   }
 
+  segmentChange(event){
+    console.log(event.target.value);
+    this.segmentId=event.target.value;
+    this.getDataFromApi(this.segmentId,this.dates,this.interval);
+    this.getTrendCountDataFromApi(this.segmentId,this.groupBy,this.interval);
+  }
+  intervalChange(event){
+    console.log(event.target.value);
+    this.interval=event.target.value;
+    this.getDataFromApi(this.segmentId,this.dates,this.interval);
+    this.getTrendCountDataFromApi(this.segmentId,this.groupBy,this.interval);
+  }
 }

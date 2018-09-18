@@ -41,11 +41,6 @@ export class UserCountForProperty {
   groupedBy: Map<string, any>;
 }
 
-export class GroupBy {
-  globalFilterType: string;
-  name: string;
-}
-
 export class UserCountTrendForDate {
   date: string;
   trenddata: Array<UserCountForTime>;
@@ -76,16 +71,34 @@ export class EventUserTable{
   eventName:string;
   count:Array<number> = [];
 }
-export class PropertyFilter{name: string; value: string}
+
+
+
 export class EventReportFilter{segmentid:number; fromDate: string; toDate: string; eventName: string; propFilter: Array<GlobalFilter>}
 
 
-export class EventCount{usercount: number;eventcount: number; name: string}
-export class EventPeriodCount{ usercount: number;  eventcount: number;period: string}
-export class EventUserFrequency{usercount:number;eventcount: number}
-export class EventTimeFrequency{ eventCount:number; timeRange: string}
+export class EventCount{
+  count:number;
+  groupedBy: Map<string, any>
+};
+export class EventPeriodCount{
+  count: number;
+  period: Map<string, any>
+}
 
-export class Aggregate{sum:number; period:string}
+export class EventUserFrequency{
+  usercount:number;
+  eventcount:number;
+}
+export class EventTimeFrequency {
+  eventCount: number;
+  hour: number;
+}
+
+export class Aggregate {
+  sum: number;
+  period: Map<string,any>;
+}
 
 export enum PERIOD {
   daily="daily", weekly="weekly", monthly="monthly"
@@ -94,6 +107,11 @@ export enum PERIOD {
 export enum EntityType {
   event="event", user="user"
 };
+
+export class GroupBy {
+  globalFilterType: string;
+  name: string;
+}
 
 export interface ChartSeriesData {
   showInLegend:boolean;

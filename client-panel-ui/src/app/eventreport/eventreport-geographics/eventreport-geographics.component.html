@@ -1,3 +1,42 @@
-<p>
-  eventreport-geographics works!
-</p>
+<div class="card">
+  <div class="card-header">Country</div>
+  <div class="card-body">
+    <app-draw-simple-chart *ngIf="countryChart"
+                           [title]="countryChart.title"
+                           [subtitle]="countryChart.subTitle"
+                           [xAxisTitle]="countryChart.xAxisTitle"
+                           [yAxisTitle]="countryChart.yAxisTitle"
+                           [chartType]="countryChart.graphType"
+                           [categories]="countryChart.category"
+                           [dataSeries]="countryChart.dataSeries">
+    </app-draw-simple-chart>
+  </div>
+</div>
+<div class="card">
+  <div class="card-header">State</div>
+  <div class="card-body">
+    <app-draw-simple-chart  *ngIf="stateChart"
+                            [title]="stateChart.title"
+                            [subtitle]="stateChart.subTitle"
+                            [xAxisTitle]="stateChart.xAxisTitle"
+                            [yAxisTitle]="stateChart.yAxisTitle"
+                            [chartType]="stateChart.graphType"
+                            [categories]="stateChart.category"
+                            [dataSeries]="stateChart.dataSeries">
+    </app-draw-simple-chart>
+  </div>
+</div>
+<div class="card">
+  <div class="card-header">City</div>
+  <div class="card-body">
+    <app-draw-simple-chart  *ngIf="cityChart"
+                            [title]="cityChart.title"
+                            [subtitle]="cityChart.subTitle"
+                            [xAxisTitle]="cityChart.xAxisTitle"
+                            [yAxisTitle]="cityChart.yAxisTitle"
+                            [chartType]="cityChart.graphType"
+                            [categories]="cityChart.category"
+                            [dataSeries]="cityChart.dataSeries">
+    </app-draw-simple-chart>
+  </div>
+</div>

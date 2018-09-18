@@ -1,7 +1,7 @@
-import {Injectable} from "@angular/core";
+import {EventEmitter, Injectable} from "@angular/core";
 import {
   Aggregate, EntityType,
-  EventCount, EventPeriodCount, EventReportFilter, EventTimeFrequency, EventUserFrequency, GroupBy, TrendCount,
+  EventCount, EventPeriodCount, EventReportFilter, EventTimeFrequency, EventUserFrequency, GroupBy, PERIOD, TrendCount,
   TrendTimeSeries,
   UserCountByEventForDate,
   UserCountByEventTimeSeries, UserCountForProperty,
@@ -11,6 +11,7 @@ import {HttpClient, HttpParams} from "@angular/common/http";
 import {Observable} from "rxjs/Observable";
 import {of} from "rxjs/observable/of";
 import {AppSettings} from "../_settings/app-settings";
+import {GlobalFilter} from "../_models/segment";
 
 @Injectable()
 export class ReportsService {
@@ -19,6 +20,10 @@ export class ReportsService {
   constructor(private httpClient: HttpClient) {
   }
 
+  /*
+  Lisinging the click on draw simple graph on /dashboard route
+   */
+  graphClick=new EventEmitter<string>();
   /*
   DASHBOARD APIs
    */
@@ -48,6 +53,7 @@ export class ReportsService {
   }
 
   getTrendChart_1(segmentid, dates, interval): Observable<UserCountTrendForDate[]> {
+    console.log(dates.toString());
     const params = new HttpParams().set("segmentid", segmentid.toString()).set("dates", dates.toString()).set("interval", interval.toString());
     return this.httpClient.get<UserCountTrendForDate[]>(AppSettings.API_ENDPOINT_CLIENT_DASHBOARD_LIVEUSERTREND, {
       params: params
@@ -64,7 +70,7 @@ export class ReportsService {
     // return this.httpClient.get<UserCountTimeSeries[]>(AppSettings.API_ENDPOINT_CLIENT_CLIENT_DASHBOARD_NEWVSEXISTING,{params});
   }
 
-  getNewVsExtsting_1(segmentid, dates, interval): Observable<UserTypeTrendForDate[]> {
+  getNewVsExisting_1(segmentid, dates, interval): Observable<UserTypeTrendForDate[]> {
     const params = new HttpParams().set("segmentid", segmentid.toString()).set("dates", dates.toString()).set("interval", interval.toString());
     return this.httpClient.get<UserTypeTrendForDate[]>(AppSettings.API_ENDPOINT_CLIENT_DASHBOARD_LIVEUSERTYPETREND, {
       params: params
@@ -101,37 +107,67 @@ export class ReportsService {
    */
   //event report api call
 
-  getCountTrend(eventReportFilter: EventReportFilter, entitytype: EntityType, groupby = null): Observable<EventCount[]> {
+  getCountTrend(erf: EventReportFilter, entitytype: EntityType, groupby:GroupBy): Observable<EventCount[]> {
     //group by optional  os
-    const params = new HttpParams().set("ftr", eventReportFilter.toString()).set("entityType", entitytype);
-    if (groupby != null) {
-      params.set("groupby", groupby);
-    }
-    return this.httpClient.post<EventCount[]>(AppSettings.API_ENDPOINT_CLIENT_REPORT_EVENT_EVENTCOUNT, {params});
+    // const params = new HttpParams().set("ftr", eventReportFilter.toString()).set("entityType", entitytype);
+    const params=new HttpParams()
+      .set("entityType",entitytype)
+      .set("segmentid",erf.segmentid.toString())
+      .set("fromDate",erf.fromDate)
+      .set("toDate",erf.toDate)
+      .set("eventName",erf.eventName)
+      .set("groupFilterType",groupby.globalFilterType)
+      .set("groupName",groupby.name);
+    const propFilter=erf.propFilter;
+    return this.httpClient.post<EventCount[]>(AppSettings.API_ENDPOINT_CLIENT_REPORT_EVENT_EVENTCOUNT, propFilter,{params:params});
   }
 
-  getTimePeriodTrend(eventReportFilter, entityType: EntityType, period): Observable<EventPeriodCount[]> {
-    const params = new HttpParams().set("ftr", eventReportFilter).set("entityType", entityType).set("period", period);
-    return this.httpClient.get<EventPeriodCount[]>(AppSettings.API_ENDPOINT_CLIENT_REPORT_EVENT_TRENDBYTIMEPERIOD, {params});
+  getTimePeriodTrend(erf: EventReportFilter, entitytype: EntityType,period:PERIOD): Observable<EventPeriodCount[]> {
+
+    const params=new HttpParams()
+      .set("entityType",entitytype)
+      .set("segmentid",erf.segmentid.toString())
+      .set("fromDate",erf.fromDate)
+      .set("toDate",erf.toDate)
+      .set("eventName",erf.eventName)
+      .set("period",period);
+    const propFilter=erf.propFilter;
+    return this.httpClient.post<EventPeriodCount[]>(AppSettings.API_ENDPOINT_CLIENT_REPORT_EVENT_TRENDBYTIMEPERIOD, propFilter,{params});
   }
 
-  getEventUserTrend(eventReportFilter): Observable<EventUserFrequency[]> {
-    const params = new HttpParams().set("ftr", eventReportFilter);
-    return this.httpClient.get<EventUserFrequency[]>(AppSettings.API_ENDPOINT_CLIENT_REPORT_EVENT_EVENTUSERTREND, {params});
+  getEventUserTrend(erf: EventReportFilter): Observable<EventUserFrequency[]> {
+    const params=new HttpParams()
+      .set("segmentid",erf.segmentid.toString())
+      .set("fromDate",erf.fromDate)
+      .set("toDate",erf.toDate)
+      .set("eventName",erf.eventName);
+    const propFilter=erf.propFilter;
+    return this.httpClient.post<EventUserFrequency[]>(AppSettings.API_ENDPOINT_CLIENT_REPORT_EVENT_EVENTUSERTREND, propFilter,{params});
   }
 
-  getEventTimeTrend(eventReportFilter): Observable<EventTimeFrequency[]> {
-    const params = new HttpParams().set("ftr", eventReportFilter);
-    return this.httpClient.get<EventTimeFrequency[]>(AppSettings.API_ENDPOINT_CLIENT_REPORT_EVENT_EVENTTIMETREND, {params});
+  getEventTimeTrend(erf: EventReportFilter): Observable<EventTimeFrequency[]> {
+    const params=new HttpParams()
+      .set("segmentid",erf.segmentid.toString())
+      .set("fromDate",erf.fromDate)
+      .set("toDate",erf.toDate)
+      .set("eventName",erf.eventName);
+    const propFilter=erf.propFilter;
+    return this.httpClient.post<EventTimeFrequency[]>(AppSettings.API_ENDPOINT_CLIENT_REPORT_EVENT_EVENTTIMETREND, propFilter,{params});
   }
 
-  getEventAggregateTrend(eventReportFilter, period, aggregateOn = null): Observable<Aggregate[]> {
+  getEventAggregateTrend(erf: EventReportFilter, period:PERIOD, aggregateOn = null): Observable<Aggregate[]> {
     //aggregate are unrequire
-    const params = new HttpParams().set("ftr", eventReportFilter).set("period", period);
+    const params=new HttpParams()
+      .set("segmentid",erf.segmentid.toString())
+      .set("fromDate",erf.fromDate)
+      .set("toDate",erf.toDate)
+      .set("eventName",erf.eventName)
+      .set("period",period);
+    const propFilter=erf.propFilter;
     if (aggregateOn != null) {
       params.set("aggregateOn", aggregateOn);
     }
-    return this.httpClient.get<Aggregate[]>(AppSettings.API_ENDPOINT_CLIENT_REPORT_EVENT_EVENTAGGREGATETREND, {params});
+    return this.httpClient.post<Aggregate[]>(AppSettings.API_ENDPOINT_CLIENT_REPORT_EVENT_EVENTAGGREGATETREND,propFilter, {params});
   }
   /*
   EVENT APIs end
@@ -6217,80 +6253,80 @@ export class ReportsService {
 
   public samepleusersbyevent: Array<string> = []
 
-  public eventcountData: Array<EventCount> = [
-    {
-      usercount: 12050,
-      eventcount: 23866,
-      name: "Android"
-    },
-    {
-      usercount: 9000,
-      eventcount: 5000,
-      name: "Ios"
-    },
-    {
-      usercount: 12990,
-      eventcount: 25006,
-      name: "Window"
-    },
-    {
-      usercount: 90000,
-      eventcount: 50000,
-      name: "Linux"
-    }
-  ]
-  public trendBytimePeriodData: Array<EventPeriodCount> = [
-    {
-      "eventcount": 12000,
-      "period": "20 aug",
-      "usercount": 9000
-    },
-    {
-      "eventcount": 15000,
-      "period": "21 aug",
-      "usercount": 8000
-    },
-    {
-      "eventcount": 20000,
-      "period": "22 aug",
-      "usercount": 12000
-    },
-    {
-      "eventcount": 30000,
-      "period": "23 aug",
-      "usercount": 30000
-    },
-    {
-      "eventcount": 30000,
-      "period": "24 aug",
-      "usercount": 20000
-    },
-    {
-      "eventcount": 25000,
-      "period": "25 aug",
-      "usercount": 12000
-    },
-    {
-      "eventcount": 12000,
-      "period": "26 aug",
-      "usercount": 1200
-    },
-    {
-      "eventcount": 9000,
-      "period": "27 aug",
-      "usercount": 8000
-    },
-    {
-      "eventcount": 17000,
-      "period": "28 aug",
-      "usercount": 12000
-    },
-    {
-      "eventcount": 16000,
-      "period": "29 aug",
-      "usercount": 13000
-    }
-  ]
+  // public eventcountData: Array<EventCount> = [
+  //   {
+  //     usercount: 12050,
+  //     eventcount: 23866,
+  //     name: "Android"
+  //   },
+  //   {
+  //     usercount: 9000,
+  //     eventcount: 5000,
+  //     name: "Ios"
+  //   },
+  //   {
+  //     usercount: 12990,
+  //     eventcount: 25006,
+  //     name: "Window"
+  //   },
+  //   {
+  //     usercount: 90000,
+  //     eventcount: 50000,
+  //     name: "Linux"
+  //   }
+  // ]
+  // public trendBytimePeriodData: Array<EventPeriodCount> = [
+  //   {
+  //     // "eventcount": 12000,
+  //     "period": "20 aug",
+  //     "usercount": 9000
+  //   },
+  //   {
+  //     "eventcount": 15000,
+  //     "period": "21 aug",
+  //     "usercount": 8000
+  //   },
+  //   {
+  //     "eventcount": 20000,
+  //     "period": "22 aug",
+  //     "usercount": 12000
+  //   },
+  //   {
+  //     "eventcount": 30000,
+  //     "period": "23 aug",
+  //     "usercount": 30000
+  //   },
+  //   {
+  //     "eventcount": 30000,
+  //     "period": "24 aug",
+  //     "usercount": 20000
+  //   },
+  //   {
+  //     "eventcount": 25000,
+  //     "period": "25 aug",
+  //     "usercount": 12000
+  //   },
+  //   {
+  //     "eventcount": 12000,
+  //     "period": "26 aug",
+  //     "usercount": 1200
+  //   },
+  //   {
+  //     "eventcount": 9000,
+  //     "period": "27 aug",
+  //     "usercount": 8000
+  //   },
+  //   {
+  //     "eventcount": 17000,
+  //     "period": "28 aug",
+  //     "usercount": 12000
+  //   },
+  //   {
+  //     "eventcount": 16000,
+  //     "period": "29 aug",
+  //     "usercount": 13000
+  //   }
+  // ]
   public eventUserTrendData: Array<EventUserFrequency> = [
     {
       eventcount: 1,
@@ -6331,40 +6367,40 @@ export class ReportsService {
     }
   ]
 
-  public eventTimeTrend: Array<EventTimeFrequency> = [
-    {
-      "eventCount": 1200,
-      "timeRange": "00-03"
-    },
-    {
-      "eventCount": 15000,
-      "timeRange": "03-06"
-    },
-    {
-      "eventCount": 12000,
-      "timeRange": "06-09"
-    },
-    {
-      "eventCount": 3000,
-      "timeRange": "09-12"
-    },
-    {
-      "eventCount": 5000,
-      "timeRange": "12-03"
-    },
-    {
-      "eventCount": 10000,
-      "timeRange": "03-06"
-    },
-    {
-      "eventCount": 15000,
-      "timeRange": "06-09"
-    },
-    {
-      "eventCount": 12000,
-      "timeRange": "09-12"
-    }
-  ]
+  // public eventTimeTrend: Array<EventTimeFrequency> = [
+  //   {
+  //     "eventCount": 1200,
+  //     "timeRange": "00-03"
+  //   },
+  //   {
+  //     "eventCount": 15000,
+  //     "timeRange": "03-06"
+  //   },
+  //   {
+  //     "eventCount": 12000,
+  //     "timeRange": "06-09"
+  //   },
+  //   {
+  //     "eventCount": 3000,
+  //     "timeRange": "09-12"
+  //   },
+  //   {
+  //     "eventCount": 5000,
+  //     "timeRange": "12-03"
+  //   },
+  //   {
+  //     "eventCount": 10000,
+  //     "timeRange": "03-06"
+  //   },
+  //   {
+  //     "eventCount": 15000,
+  //     "timeRange": "06-09"
+  //   },
+  //   {
+  //     "eventCount": 12000,
+  //     "timeRange": "09-12"
+  //   }
+  // ]
 
 
 }

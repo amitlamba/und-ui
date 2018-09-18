@@ -1,101 +1,101 @@
-<!--<div class="card">-->
-  <!--<div class="card-header">-->
-    <!--Events-->
-  <!--</div>-->
-  <!--<div class="card-body p-3">-->
-    <!--<div class="row">-->
-      <!--<div class="col-md-4 col-sm-6 col-xs-8 ml-5 my-5">-->
-        <!--<select name="chartFilterDropDown" id=""-->
-                <!--class="form-control ml-1 "-->
-                <!--(change)="getDailyOrWeeklyOrMonthlyReports($event.target.value)">-->
-          <!--<option value="Daily">Daily</option>-->
-          <!--<option value="Weekly">Weekly</option>-->
-          <!--<option value="Monthly">Monthly</option>-->
-        <!--</select>-->
-      <!--</div>-->
+<!--&lt;!&ndash;<div class="card">&ndash;&gt;-->
+  <!--&lt;!&ndash;<div class="card-header">&ndash;&gt;-->
+    <!--&lt;!&ndash;Events&ndash;&gt;-->
+  <!--&lt;!&ndash;</div>&ndash;&gt;-->
+  <!--&lt;!&ndash;<div class="card-body p-3">&ndash;&gt;-->
+    <!--&lt;!&ndash;<div class="row">&ndash;&gt;-->
+      <!--&lt;!&ndash;<div class="col-md-4 col-sm-6 col-xs-8 ml-5 my-5">&ndash;&gt;-->
+        <!--&lt;!&ndash;<select name="chartFilterDropDown" id=""&ndash;&gt;-->
+                <!--&lt;!&ndash;class="form-control ml-1 "&ndash;&gt;-->
+                <!--&lt;!&ndash;(change)="getDailyOrWeeklyOrMonthlyReports($event.target.value)">&ndash;&gt;-->
+          <!--&lt;!&ndash;<option value="Daily">Daily</option>&ndash;&gt;-->
+          <!--&lt;!&ndash;<option value="Weekly">Weekly</option>&ndash;&gt;-->
+          <!--&lt;!&ndash;<option value="Monthly">Monthly</option>&ndash;&gt;-->
+        <!--&lt;!&ndash;</select>&ndash;&gt;-->
+      <!--&lt;!&ndash;</div>&ndash;&gt;-->
+    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+    <!--&lt;!&ndash;<div style="display: block;margin: 0 auto;">&ndash;&gt;-->
+      <!--&lt;!&ndash;<canvas baseChart&ndash;&gt;-->
+              <!--&lt;!&ndash;[datasets]="eventsChartData"&ndash;&gt;-->
+              <!--&lt;!&ndash;[labels]="eventsChartLabels"&ndash;&gt;-->
+              <!--&lt;!&ndash;[options]="eventsChartOptions"&ndash;&gt;-->
+              <!--&lt;!&ndash;[colors]="eventsChartColors"&ndash;&gt;-->
+              <!--&lt;!&ndash;[legend]="eventsChartLegend"&ndash;&gt;-->
+              <!--&lt;!&ndash;[chartType]="eventsChartType"></canvas>&ndash;&gt;-->
+    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+  <!--&lt;!&ndash;</div>&ndash;&gt;-->
+<!--&lt;!&ndash;</div>&ndash;&gt;-->
+
+<!--<h1>Eventgraph</h1>-->
+
+<!--<div class="container">-->
+  <!--&lt;!&ndash;<div class="col-md-6 col-md-offset-3">&ndash;&gt;-->
+
+  <!--<h1>Event Reports</h1>-->
+
+  <!--<div class="card">-->
+    <!--<div class="card-body">-->
+      <!--<app-draw24-hrs-chart [title]="trendChartTitle"-->
+                            <!--[subtitle]="trendChartSubTitle"-->
+                            <!--[xAxisTitle]="trendChartXAxisTitle"-->
+                            <!--[yAxisTitle]="trendChartYAxisTitle"-->
+                            <!--[chartType]="trendChartGraphType"-->
+                            <!--[dataSeries]="trendChartDataSeries">-->
+
+      <!--</app-draw24-hrs-chart>-->
     <!--</div>-->
-    <!--<div style="display: block;margin: 0 auto;">-->
-      <!--<canvas baseChart-->
-              <!--[datasets]="eventsChartData"-->
-              <!--[labels]="eventsChartLabels"-->
-              <!--[options]="eventsChartOptions"-->
-              <!--[colors]="eventsChartColors"-->
-              <!--[legend]="eventsChartLegend"-->
-              <!--[chartType]="eventsChartType"></canvas>-->
+  <!--</div>-->
+  <!--<hr>-->
+  <!--<div class="card">-->
+    <!--<div class="card-body">-->
+      <!--<app-draw24-hrs-chart [title]="newVsExistingTitle"-->
+                            <!--[subtitle]="newVsExistingSubTitle"-->
+                            <!--[xAxisTitle]="newVsExistingXAxisTitle"-->
+                            <!--[yAxisTitle]="newVsExistingYAxisTitle"-->
+                            <!--[chartType]="newVsExistingGraphType"-->
+                            <!--[dataSeries]="newVsExistingDataSeries">-->
+
+      <!--</app-draw24-hrs-chart>-->
     <!--</div>-->
   <!--</div>-->
-<!--</div>-->
-
-<h1>Eventgraph</h1>
-
-<div class="container">
-  <!--<div class="col-md-6 col-md-offset-3">-->
-
-  <h1>Event Reports</h1>
-
-  <div class="card">
-    <div class="card-body">
-      <app-draw24-hrs-chart [title]="trendChartTitle"
-                            [subtitle]="trendChartSubTitle"
-                            [xAxisTitle]="trendChartXAxisTitle"
-                            [yAxisTitle]="trendChartYAxisTitle"
-                            [chartType]="trendChartGraphType"
-                            [dataSeries]="trendChartDataSeries">
-
-      </app-draw24-hrs-chart>
-    </div>
-  </div>
-  <hr>
-  <div class="card">
-    <div class="card-body">
-      <app-draw24-hrs-chart [title]="newVsExistingTitle"
-                            [subtitle]="newVsExistingSubTitle"
-                            [xAxisTitle]="newVsExistingXAxisTitle"
-                            [yAxisTitle]="newVsExistingYAxisTitle"
-                            [chartType]="newVsExistingGraphType"
-                            [dataSeries]="newVsExistingDataSeries">
-
-      </app-draw24-hrs-chart>
-    </div>
-  </div>
-  <hr>
-  <div class="">
-    <app-draw-simple-chart [title]="userCountByEventTitle"
-                           [subtitle]="userCountByEventSubTitle"
-                           [yAxisTitle]="userCountByEventYAxisTitle"
-                           [chartType]="userCountByEventChartType"
-                           [categories]="userCountByEventCategory"
-                           [dataSeries]="userCountByEventDataSeries">
-
-    </app-draw-simple-chart>
-  </div>
-  <div class="card">
-    <div class="card-body">
-      <app-draw-semidonut-chart [name]="trendCountName" [dataSeries]="trendCountDataSeries"></app-draw-semidonut-chart>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-body">
-      <app-draw-semidonut-chart [name]="trendCountName" [dataSeries]="trendCountDataSeries"></app-draw-semidonut-chart>
-    </div>
-  </div>
-
-
-
+  <!--<hr>-->
   <!--<div class="">-->
-  <!--<app-new-vs-existing-users-graph></app-new-vs-existing-users-graph>-->
+    <!--<app-draw-simple-chart [title]="userCountByEventTitle"-->
+                           <!--[subtitle]="userCountByEventSubTitle"-->
+                           <!--[yAxisTitle]="userCountByEventYAxisTitle"-->
+                           <!--[chartType]="userCountByEventChartType"-->
+                           <!--[categories]="userCountByEventCategory"-->
+                           <!--[dataSeries]="userCountByEventDataSeries">-->
+
+    <!--</app-draw-simple-chart>-->
   <!--</div>-->
-  <!--<div class="my-5">-->
-  <!--<app-draw-chart [dataSeries]="trendChartData"></app-draw-chart>-->
+  <!--<div class="card">-->
+    <!--<div class="card-body">-->
+      <!--<app-draw-semidonut-chart [name]="trendCountName" [dataSeries]="trendCountDataSeries"></app-draw-semidonut-chart>-->
+    <!--</div>-->
   <!--</div>-->
-  <!---->
-  <!--<div class="my-5">-->
-  <!--<app-events-graph></app-events-graph>-->
+
+  <!--<div class="card">-->
+    <!--<div class="card-body">-->
+      <!--<app-draw-semidonut-chart [name]="trendCountName" [dataSeries]="trendCountDataSeries"></app-draw-semidonut-chart>-->
+    <!--</div>-->
   <!--</div>-->
-  <!--<div class="my-5">-->
-  <!--<app-conversion-events-graph></app-conversion-events-graph>-->
-  <!--</div>-->
-</div>
+
+
+
+  <!--&lt;!&ndash;<div class="">&ndash;&gt;-->
+  <!--&lt;!&ndash;<app-new-vs-existing-users-graph></app-new-vs-existing-users-graph>&ndash;&gt;-->
+  <!--&lt;!&ndash;</div>&ndash;&gt;-->
+  <!--&lt;!&ndash;<div class="my-5">&ndash;&gt;-->
+  <!--&lt;!&ndash;<app-draw-chart [dataSeries]="trendChartData"></app-draw-chart>&ndash;&gt;-->
+  <!--&lt;!&ndash;</div>&ndash;&gt;-->
+  <!--&lt;!&ndash;&ndash;&gt;-->
+  <!--&lt;!&ndash;<div class="my-5">&ndash;&gt;-->
+  <!--&lt;!&ndash;<app-events-graph></app-events-graph>&ndash;&gt;-->
+  <!--&lt;!&ndash;</div>&ndash;&gt;-->
+  <!--&lt;!&ndash;<div class="my-5">&ndash;&gt;-->
+  <!--&lt;!&ndash;<app-conversion-events-graph></app-conversion-events-graph>&ndash;&gt;-->
+  <!--&lt;!&ndash;</div>&ndash;&gt;-->
+<!--</div>-->
 
 

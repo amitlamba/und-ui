@@ -1,3 +1,28 @@
-<p>
-  eventreport-demographics works!
-</p>
+<div class="card">
+  <div class="card-header">Gender</div>
+  <div class="card-body">
+    <app-draw-simple-chart *ngIf="genderChart"
+                           [title]="genderChart.title"
+                           [subtitle]="genderChart.subTitle"
+                           [xAxisTitle]="genderChart.xAxisTitle"
+                           [yAxisTitle]="genderChart.yAxisTitle"
+                           [chartType]="genderChart.graphType"
+                           [categories]="genderChart.category"
+                           [dataSeries]="genderChart.dataSeries">
+    </app-draw-simple-chart>
+  </div>
+</div>
+<div class="card">
+  <div class="card-header">Age</div>
+  <div class="card-body">
+    <app-draw-simple-chart  *ngIf="ageChart"
+                           [title]="ageChart.title"
+                           [subtitle]="ageChart.subTitle"
+                           [xAxisTitle]="ageChart.xAxisTitle"
+                           [yAxisTitle]="ageChart.yAxisTitle"
+                           [chartType]="ageChart.graphType"
+                           [categories]="ageChart.category"
+                           [dataSeries]="ageChart.dataSeries">
+    </app-draw-simple-chart>
+  </div>
+</div>

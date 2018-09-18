@@ -1,3 +1,42 @@
-<p>
-  eventreport-technographics works!
-</p>
+<div class="card">
+  <div class="card-header">Operating System</div>
+  <div class="card-body">
+    <app-draw-simple-chart *ngIf="osChart"
+                           [title]="osChart.title"
+                           [subtitle]="osChart.subTitle"
+                           [xAxisTitle]="osChart.xAxisTitle"
+                           [yAxisTitle]="osChart.yAxisTitle"
+                           [chartType]="osChart.graphType"
+                           [categories]="osChart.category"
+                           [dataSeries]="osChart.dataSeries">
+    </app-draw-simple-chart>
+  </div>
+</div>
+<div class="card">
+  <div class="card-header">Popular Browser</div>
+  <div class="card-body">
+    <app-draw-simple-chart  *ngIf="browserChart"
+                            [title]="browserChart.title"
+                            [subtitle]="browserChart.subTitle"
+                            [xAxisTitle]="browserChart.xAxisTitle"
+                            [yAxisTitle]="browserChart.yAxisTitle"
+                            [chartType]="browserChart.graphType"
+                            [categories]="browserChart.category"
+                            [dataSeries]="browserChart.dataSeries">
+    </app-draw-simple-chart>
+  </div>
+</div>
+<div class="card">
+  <div class="card-header">Most Used Device</div>
+  <div class="card-body">
+    <app-draw-simple-chart  *ngIf="deviceChart"
+                            [title]="deviceChart.title"
+                            [subtitle]="deviceChart.subTitle"
+                            [xAxisTitle]="deviceChart.xAxisTitle"
+                            [yAxisTitle]="deviceChart.yAxisTitle"
+                            [chartType]="deviceChart.graphType"
+                            [categories]="deviceChart.category"
+                            [dataSeries]="deviceChart.dataSeries">
+    </app-draw-simple-chart>
+  </div>
+</div>
