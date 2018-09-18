@@ -38,65 +38,83 @@ import {EventreportDemographicsComponent} from "./eventreport/eventreport-demogr
 import {EventreportGeographicsComponent} from "./eventreport/eventreport-geographics/eventreport-geographics.component";
 import {EventreportTechnographicsComponent} from "./eventreport/eventreport-technographics/eventreport-technographics.component";
 import {EventreportReachabilityComponent} from "./eventreport/eventreport-reachability/eventreport-reachability.component";
+import {SiteLayoutComponent} from "./layouts/site-layout/site-layout.component";
+import {AppLayoutComponent} from "./layouts/app-layout/app-layout.component";
 
 const routes: Routes = [
-  {path: 'login', component: LoginComponent},
-  {path: 'test', component: TestComponent},
+  //Pages without layout goes here
   {path: '', component: LandingPageUndComponent},
-  {path: 'register', component: RegisterComponent},
-  {path: 'resetpwd/:code', component: ResetPwdComponent},
-  {path: 'verifyemail/:email/:code', component: VerifyEmailComponent},
-  {path: 'dummyJson', component: DummyComponent},
-  {path: 'dashboard', component: HomeComponent, canActivate: [AuthGuard]},
-  {path: 'reports/event', redirectTo: "reports/event/overall", pathMatch: "full", canActivate: [AuthGuard]},
+
+  // App Routes goes here
   {
-    path: 'reports/event', component: EventreportComponent, canActivate: [AuthGuard], children: [
-    {path: 'overall', component: EventreportOverallComponent},
-    {path: 'demographics', component: EventreportDemographicsComponent},
-    {path: 'geographics', component: EventreportGeographicsComponent},
-    {path: 'technographics', component: EventreportTechnographicsComponent},
-    {path: 'reachability', component: EventreportReachabilityComponent}
-  ]
-  },
-  {path: 'settings', redirectTo: "settings/profile", pathMatch: "full", canActivate: [AuthGuard]},
-  {
-    path: 'settings', component: SettingsComponent, canActivate: [AuthGuard], children: [
-      {path: 'profile', component: ProfileComponent},
-      {path: 'service-provider-settings', component: ServiceprovidersComponent},
-      {path: 'account-settings', component: AccountSettingsComponent},
-      {path: 'email-settings', component: EmailSettingsComponent, children: [
-        {path: 'email-list', component: EmailListComponent}
-      ]}
+    path: '', component: AppLayoutComponent,
+    children: [
+      {path: 'dashboard', component: HomeComponent, canActivate: [AuthGuard]},
+      {path: 'reports/event', redirectTo: "reports/event/overall", pathMatch: "full", canActivate: [AuthGuard]},
+      {
+        path: 'reports/event', component: EventreportComponent, canActivate: [AuthGuard], children: [
+        {path: 'overall', component: EventreportOverallComponent},
+        {path: 'demographics', component: EventreportDemographicsComponent},
+        {path: 'geographics', component: EventreportGeographicsComponent},
+        {path: 'technographics', component: EventreportTechnographicsComponent},
+        {path: 'reachability', component: EventreportReachabilityComponent}
+      ]
+      },
+      {path: 'settings', redirectTo: "settings/profile", pathMatch: "full", canActivate: [AuthGuard]},
+      {
+        path: 'settings', component: SettingsComponent, canActivate: [AuthGuard], children: [
+        {path: 'profile', component: ProfileComponent},
+        {path: 'service-provider-settings', component: ServiceprovidersComponent},
+        {path: 'account-settings', component: AccountSettingsComponent},
+        {path: 'email-settings', component: EmailSettingsComponent, children: [
+          {path: 'email-list', component: EmailListComponent}
+        ]}
+      ]
+      },
+      {path: 'segment', redirectTo: "segment/segments", canActivate: [AuthGuard], pathMatch: "full"},
+      {
+        path: 'segment', component: SegmentCategoryComponent, canActivate: [AuthGuard], children: [
+        {path: 'find-users', component: FindUsersComponent},
+        {path: 'create-new-segment', component: CreateNewSegmentComponent},
+        {path: 'segments', component: SegmentsComponent},
+        {path: 'user-profile', component: UserProfileComponent}
+      ]
+      },
+      {path: 'create-email-template/:newTemplate', component: CreateEmailTemplateFormComponent, canActivate: [AuthGuard], pathMatch: 'full'},
+      {path: 'templates', redirectTo: "templates/email", canActivate: [AuthGuard], pathMatch: "full"},
+      {
+        path: 'templates', component: TemplatesComponent, canActivate: [AuthGuard], children: [
+        {path: 'email', component: EmailTemplatesComponent, pathMatch: 'full'},
+        {path: 'sms', component: SmsTemplatesComponent}
+      ]
+      },
+      {path: 'campaigns', component: CampaignsListComponent, canActivate: [AuthGuard], pathMatch: "full"},
+      {
+        path: 'campaigns', component: CampaignsComponent, canActivate: [AuthGuard], children: [
+        {path: 'sms', component: SetupCampaignComponent},
+        {path: 'email', component: SetupCampaignComponent}
+      ]
+      },
     ]
   },
-  {path: 'segment', redirectTo: "segment/segments", canActivate: [AuthGuard], pathMatch: "full"},
+  //Site Routes goes here
   {
-    path: 'segment', component: SegmentCategoryComponent, canActivate: [AuthGuard], children: [
-      {path: 'find-users', component: FindUsersComponent},
-      {path: 'create-new-segment', component: CreateNewSegmentComponent},
-      {path: 'segments', component: SegmentsComponent},
-      {path: 'user-profile', component: UserProfileComponent}
+    path: '', component: SiteLayoutComponent,
+    children: [
+      {path: 'login', component: LoginComponent},
+      {path: 'test', component: TestComponent},
+      {path: 'home', component: LandingPageUndComponent},
+      {path: 'register', component: RegisterComponent},
+      {path: 'resetpwd/:code', component: ResetPwdComponent},
+      {path: 'verifyemail/:email/:code', component: VerifyEmailComponent},
+      {path: 'dummyJson', component: DummyComponent},
+      {path: 'aboutus', component: AboutUsComponent},
+      {path: 'terms-of-service', component: TermsOfServiceComponent},
+      {path: 'contact-us', component: ContactUsComponent},
+      {path: '**', component: PageNotFoundComponent},
     ]
   },
-  {path: 'create-email-template/:newTemplate', component: CreateEmailTemplateFormComponent, canActivate: [AuthGuard], pathMatch: 'full'},
-  {path: 'templates', redirectTo: "templates/email", canActivate: [AuthGuard], pathMatch: "full"},
-  {
-    path: 'templates', component: TemplatesComponent, canActivate: [AuthGuard], children: [
-      {path: 'email', component: EmailTemplatesComponent, pathMatch: 'full'},
-      {path: 'sms', component: SmsTemplatesComponent}
-    ]
-  },
-  {path: 'campaigns', component: CampaignsListComponent, canActivate: [AuthGuard], pathMatch: "full"},
-  {
-    path: 'campaigns', component: CampaignsComponent, canActivate: [AuthGuard], children: [
-      {path: 'sms', component: SetupCampaignComponent},
-      {path: 'email', component: SetupCampaignComponent}
-    ]
-  },
-  {path: 'aboutus', component: AboutUsComponent},
-  {path: 'terms-of-service', component: TermsOfServiceComponent},
-  {path: 'contact-us', component: ContactUsComponent},
-  {path: '**', component: PageNotFoundComponent},
+
 ];
 
 @NgModule({

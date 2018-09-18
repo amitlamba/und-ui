@@ -1,42 +1,55 @@
 <div class="container">
-  <div class="row">
 
-    <div class="col-12">
-      <li>
-        <a [routerLink]="['/reports/event']">Event</a>
-      </li>
-      <div class="row">
-        <div class="col-md-2">Select Segment</div>
-        <div class="col-md-2">Date1</div>
-        <div class="col-md-2">Date2</div>
-        <div class="col-2">Date3</div>
+  <div class="dropdown">
+    <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      {{selectedSegment}}
+    </button>
+    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+      <a class="dropdown-item" (click)="selectedSegment='All Users'">All Users</a>
+      <a class="dropdown-item" (click)="selectedSegment='Search Category Men'">Search Category Men</a>
+      <a class="dropdown-item" (click)="selectedSegment='Add To Cart'">Add To Cart</a>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-body">
+      <div>
+        <select class="form-control col-sm-4 col-md-3 col-lg-2" name="groupby" (change)="onGroupByChange($event)">
+          <option value="os">os</option>
+          <option value="brower">browser</option>
+          <option value="device">device</option>
+        </select>
       </div>
-      <form  #formref="ngForm">
-        <div class="row">
-          <div class="col-2">
+      <app-draw-semidonut-chart [name]="trendCountName"
+                                [dataSeries]="trendCountDataSeries"></app-draw-semidonut-chart>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-2">Select Segment</div>
+    <div class="col-md-2">Date1</div>
+    <div class="col-md-2">Date2</div>
+    <div class="col-2">Date3</div>
+  </div>
+  <form #formref="ngForm">
+    <div class="row">
+      <div class="col-2">
+      </div>
+      <div class="col-2">
         <div class="form-group">
-          <select class="form-control" name="segmentId" [ngModel]="">
-            <option value="1" >All user</option>
-            <option value="2">Search Category Men</option>
-            <option value="3">Add TO Cart</option>
-          </select>
+          <input type="text"
+                 class="form-control"
+                 [(ngModel)]="date1"
+                 name="date1"
+                 required
+                 #date1Idref
+                 daterangepicker
+                 [options]="singlePicker"
+                 (selected)="date1Select($event)"
+          >
         </div>
-          </div>
-          <div class="col-2">
-          <div class="form-group">
-            <input type="text"
-                   class="form-control"
-                   [(ngModel)]="date1"
-                   name="date1"
-                   required
-                   #date1Idref
-                   daterangepicker
-                   [options]="singlePicker"
-                   (selected)="date1Select($event)"
-            >
-          </div>
-          </div>
-          <div class="col-2">
+      </div>
+      <div class="col-2">
         <div class="form-group">
           <input type="text"
                  class="form-control"
@@ -48,8 +61,8 @@
                  [options]="singlePicker"
                  (selected)="date2Select($event)">
         </div>
-          </div>
-          <div class="col-2">
+      </div>
+      <div class="col-2">
         <div class="form-group">
           <input type="text"
                  class="form-control"
@@ -61,84 +74,69 @@
                  [options]="singlePicker"
                  (selected)="date3Select($event)">
         </div>
-          </div>
-          <div class="col-2">
+      </div>
+      <div class="col-2">
         <div class="form-group">
-          <select  class="form-control" name="interval" [ngModel]="">
+          <select class="form-control" name="interval" [ngModel]="">
             <option value="5">Interval</option>
             <option value="10">10 Min</option>
             <option value="20">20 Min</option>
           </select>
         </div>
-          </div>
-        <button class="btn btn-primary" type="button" (click)="onSubmit(formref)">Submit</button>
-        </div>
-      </form>
-      <div class="card my-3">
-        <div class="card-header">{{trendChartTitle}}</div>
-        <div class="card-body">
-          <app-draw24-hrs-chart [title]="trendChartTitle"
-                                [subtitle]="trendChartSubTitle"
-                                [xAxisTitle]="trendChartXAxisTitle"
-                                [yAxisTitle]="trendChartYAxisTitle"
-                                [chartType]="trendChartGraphType"
-                                [dataSeries]="trendChartDataSeries">
-
-          </app-draw24-hrs-chart>
-        </div>
       </div>
-      <div class="card">
-        <div class="card-body">
-          <!--insert a drop down to select date-->
-          <div>
-            <select class="form-control col-sm-4 col-md-3 col-lg-2" (change)="changeDate($event)">
-              <option *ngFor="let date of dates" value={{date}}>{{date}}</option>
-            </select>
-          </div>
-          <app-draw24-hrs-chart (reflow)="onreflow($event)"
-                                [title]="newVsExistingTitle"
-                                [subtitle]="newVsExistingSubTitle"
-                                [xAxisTitle]="newVsExistingXAxisTitle"
-                                [yAxisTitle]="newVsExistingYAxisTitle"
-                                [chartType]="newVsExistingGraphType"
-                                [dataSeries]="newVsExistingDataSeries"
-          >
+      <button class="btn btn-primary" type="button" (click)="onSubmit(formref)">Submit</button>
+    </div>
+  </form>
+  <div class="card my-3">
+    <div class="card-header">{{trendChartTitle}}</div>
+    <div class="card-body">
+      <app-draw24-hrs-chart [title]="trendChartTitle"
+                            [subtitle]="trendChartSubTitle"
+                            [xAxisTitle]="trendChartXAxisTitle"
+                            [yAxisTitle]="trendChartYAxisTitle"
+                            [chartType]="trendChartGraphType"
+                            [dataSeries]="trendChartDataSeries">
 
-          </app-draw24-hrs-chart>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-body">
-          <button class="btn btn-primary" (click)="onTable()">Table</button>
-          <button class="btn btn-primary" (click)="onGraph()">Graph</button>
-          <app-draw-table *ngIf="viewType ==='table'" [eventUserData]="userCountByEventData"></app-draw-table>
-          <app-draw-simple-chart *ngIf="viewType==='graph' "
-                                 [title]="userCountByEventTitle"
-                                 [subtitle]="userCountByEventSubTitle"
-                                 [yAxisTitle]="userCountByEventYAxisTitle"
-                                 [chartType]="userCountByEventChartType"
-                                 [categories]="userCountByEventCategory"
-                                 [dataSeries]="userCountByEventDataSeries">
-
-          </app-draw-simple-chart>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-body">
-          <div>
-            <select class="form-control col-sm-4 col-md-3 col-lg-2" name="groupby" (change)="onGroupByChange($event)">
-              <option value="os">os</option>
-              <option value="brower">browser</option>
-              <option value="device">device</option>
-            </select>
-          </div>
-          <app-draw-semidonut-chart [name]="trendCountName"
-                                    [dataSeries]="trendCountDataSeries"></app-draw-semidonut-chart>
-        </div>
-      </div>
+      </app-draw24-hrs-chart>
     </div>
   </div>
+  <div class="card">
+    <div class="card-body">
+      <!--insert a drop down to select date-->
+      <div>
+        <select class="form-control col-sm-4 col-md-3 col-lg-2" (change)="changeDate($event)">
+          <option *ngFor="let date of dates" value={{date}}>{{date}}</option>
+        </select>
+      </div>
+      <app-draw24-hrs-chart (reflow)="onreflow($event)"
+                            [title]="newVsExistingTitle"
+                            [subtitle]="newVsExistingSubTitle"
+                            [xAxisTitle]="newVsExistingXAxisTitle"
+                            [yAxisTitle]="newVsExistingYAxisTitle"
+                            [chartType]="newVsExistingGraphType"
+                            [dataSeries]="newVsExistingDataSeries"
+      >
+
+      </app-draw24-hrs-chart>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-body">
+      <button class="btn btn-primary" (click)="onTable()">Table</button>
+      <button class="btn btn-primary" (click)="onGraph()">Graph</button>
+      <app-draw-table *ngIf="viewType ==='table'" [eventUserData]="userCountByEventData"></app-draw-table>
+      <app-draw-simple-chart *ngIf="viewType==='graph' "
+                             [title]="userCountByEventTitle"
+                             [subtitle]="userCountByEventSubTitle"
+                             [yAxisTitle]="userCountByEventYAxisTitle"
+                             [chartType]="userCountByEventChartType"
+                             [categories]="userCountByEventCategory"
+                             [dataSeries]="userCountByEventDataSeries">
+
+      </app-draw-simple-chart>
+    </div>
+  </div>
+
 </div>
 
 
