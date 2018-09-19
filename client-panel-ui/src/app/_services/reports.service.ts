@@ -37,7 +37,12 @@ export class ReportsService {
   }
 
   getTrendCount_1(segmentid: number, groupby: GroupBy, interval: number): Observable<UserCountForProperty[]> {
-    const params = new HttpParams().set("segmentid", segmentid.toString()).set("groupBy", groupby.toString()).set("interval", interval.toString());
+    const params = new HttpParams().
+    set("segmentid", segmentid.toString()).
+    set("groupName",groupby.name).
+    set("interval", interval.toString()).
+    set("groupFilterType",groupby.globalFilterType);
+
     return this.httpClient.get<UserCountForProperty[]>(AppSettings.API_ENDPOINT_CLIENT_DASHBOARD_LIVEUSERS, {
       params: params
     });

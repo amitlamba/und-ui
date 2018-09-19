@@ -128,12 +128,13 @@ export class EventreportOverallComponent implements OnInit ,OnChanges,OnDestroy,
       );
     //calling eventuser trend api
 
-    this.eventUserTrendChart.dataSeries=[];
+
 
     this.reportService.getEventUserTrend(this.eventReportFilterParam)
       .subscribe(
         (response)=>{
           this.eventUserTrendChart.category=response.map(data=>data.eventcount.toString());
+          this.eventUserTrendChart.dataSeries=[];
           this.eventUserTrendChart.dataSeries.push({
             showInLegend:false,
             seriesName:'users',

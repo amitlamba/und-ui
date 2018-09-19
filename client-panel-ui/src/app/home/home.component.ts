@@ -4,7 +4,8 @@ import {User} from "../_models/user";
 import {UserService} from "../_services/user.service";
 import {ReportsService} from "../_services/reports.service";
 import {
-  ChartSeriesData, TrendByTime, TrendCount, TrendTimeSeries, UserCountByEventForDate, UserCountByEventTimeSeries,
+  ChartSeriesData, GroupBy, TrendByTime, TrendCount, TrendTimeSeries, UserCountByEventForDate,
+  UserCountByEventTimeSeries,
   UserCountForProperty,
   UserCountTimeSeries, UserCountTrendForDate, UserTypeTrendForDate
 } from "../_models/reports";
@@ -40,7 +41,7 @@ export class HomeComponent implements OnInit {
   date3: string;
   dates: string[] = [];
   groupByAttributes: Array<string> = ['os', 'device', 'browser'];
-  groupBy = 'os';
+  groupBy:GroupBy;
 
   viewType: string = 'graph';
 
@@ -77,6 +78,9 @@ export class HomeComponent implements OnInit {
     console.log('inside constructor');
     this.segmentId=1003;
     this.interval=5;
+    this.groupBy=new GroupBy();
+    this.groupBy.globalFilterType="Technographics";
+    this.groupBy.name='os';
     // this.userCountByEventData=this.reportsService.usercountbyeventsData;
     this.date1 = this.createDateString(0);
     console.log(this.date1);
@@ -84,10 +88,10 @@ export class HomeComponent implements OnInit {
     console.log(this.date2);
     this.date3 = this.createDateString(7);
     console.log(this.date3);
-    // this.dates.push(this.date1, this.date2, this.date3);
+    this.dates.push(this.date1, this.date2, this.date3);
 
     //for demo
-    this.dates.push('2018-08-20','2018-08-10','2018-08-19');
+    // this.dates.push('2018-08-20','2018-08-10','2018-08-19');
     console.log(this.dates);
     this.getDataFromApi(this.segmentId, this.dates, this.interval);
     this.getTrendCountDataFromApi(this.segmentId, this.groupBy, this.interval);
@@ -176,7 +180,7 @@ export class HomeComponent implements OnInit {
 
   trendCountGraphInitialization(data: Array<UserCountForProperty>) {
 
-    this.trendCountName = this.groupBy;
+    this.trendCountName = this.groupBy.name;
     this.trendCountDataSeries = data.map<[string, number]>((tcData) => {
       return [tcData.groupedBy['name'], tcData.usercount]
     });
@@ -217,7 +221,7 @@ export class HomeComponent implements OnInit {
   }
 
   onGroupByChange(event) {
-    this.groupBy = event.target.value
+    this.groupBy.name = event.target.value
     this.getTrendCountDataFromApi(this.segmentId, this.groupBy, this.interval);
   }
 

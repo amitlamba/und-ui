@@ -15,7 +15,8 @@
         </select>
       </div>
     </div>
-    <app-draw-simple-chart [title]="eventCountChart.title"
+    <app-draw-simple-chart *ngIf="eventCountChart.dataSeries.length==2"
+                           [title]="eventCountChart.title"
                            [subtitle]="eventCountChart.subTitle"
                            [xAxisTitle]="eventCountChart.xAxisTitle"
                            [yAxisTitle]="eventCountChart.yAxisTitle"
