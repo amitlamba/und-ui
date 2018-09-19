@@ -40,6 +40,7 @@ import {EventreportTechnographicsComponent} from "./eventreport/eventreport-tech
 import {EventreportReachabilityComponent} from "./eventreport/eventreport-reachability/eventreport-reachability.component";
 import {SiteLayoutComponent} from "./layouts/site-layout/site-layout.component";
 import {AppLayoutComponent} from "./layouts/app-layout/app-layout.component";
+import {CreateSmsTemplateFormComponent} from "./templates/sms-templates/create-sms-template-form/create-sms-template-form.component";
 
 const routes: Routes = [
   //Pages without layout goes here
@@ -81,6 +82,7 @@ const routes: Routes = [
       ]
       },
       {path: 'create-email-template/:newTemplate', component: CreateEmailTemplateFormComponent, canActivate: [AuthGuard], pathMatch: 'full'},
+      {path: 'create-sms-template/:newTemplate', component: CreateSmsTemplateFormComponent, canActivate: [AuthGuard], pathMatch: 'full'},
       {path: 'templates', redirectTo: "templates/email", canActivate: [AuthGuard], pathMatch: "full"},
       {
         path: 'templates', component: TemplatesComponent, canActivate: [AuthGuard], children: [
