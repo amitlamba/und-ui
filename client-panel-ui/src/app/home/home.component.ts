@@ -98,6 +98,11 @@ export class HomeComponent implements OnInit {
     //stop function untill result is not return.
 
     //call segemnt list api
+    this.trendChartDataSeries=[];
+    this.userCountByEventDataSeries=[];
+    this.trendCountDataSeries=[];
+    this.newVsExistingDataSeries=[];
+
   }
 
   createDateString(daysBack: number = 0): string {
@@ -180,10 +185,10 @@ export class HomeComponent implements OnInit {
 
   trendCountGraphInitialization(data: Array<UserCountForProperty>) {
 
-    this.trendCountName = this.groupBy.name;
     this.trendCountDataSeries = data.map<[string, number]>((tcData) => {
       return [tcData.groupedBy['name'], tcData.usercount]
     });
+    this.trendCountName = this.groupBy.name;
 
   }
 

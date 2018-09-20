@@ -114,13 +114,16 @@ export enum GlobalFilterType {
   Technographics="Technographics",
   Reachability="Reachability",
   AppFields="AppFields",
+  UserIdentity="UserIdentity",
 
   //FIXME: To be reviewed, if it wourk well in UI, copied from the BE
   EventProperties="EventProperties",
-  EventAttributes="EventAttributes",
+  EventAttributeProperties="EventAttributeProperties",
   EventTimeProperties="EventTimeProperties",
-  EventComputed="EventComputed",
-  UserComputed="UserComputed"
+  EventComputedProperties="EventComputed",
+  UserComputedProperties="UserComputed"
+
+
 }
 
 export class Geography {

@@ -15,7 +15,16 @@ export class EventreportComponent implements OnInit ,OnChanges,DoCheck{
   fromDate:string;
   toDate:string;
 
-  events:string[]=['Add to cart','Search','View'];
+  events:string[]=[
+    "Search",
+    "View",
+    "Support",
+    "Add to WishList",
+    "Check Review",
+    "Search Category",
+    "Ask Question",
+    "Add to Cart"]
+
   segments:any[]=[{id:1,name:"Segment 1"},{id:2,name:"Segment 2"},{id:3,name:"Segment 3"},{id:4,name:"Segment 4"},{id:5,name:"Segment 5"}];
 
 
@@ -30,9 +39,12 @@ export class EventreportComponent implements OnInit ,OnChanges,DoCheck{
     var day=date.getDate();
     var month=date.getMonth()+1;
     var year=date.getFullYear();
-    this.fromDate=(year+'-'+('0'+month).slice(-2)+'-'+('0'+day).slice(-2));
-    // date.setDate(date.getDate()-30);
     this.toDate=(year+'-'+('0'+month).slice(-2)+'-'+('0'+day).slice(-2));
+    date.setDate(date.getDate()-30);
+    day=date.getDate();
+    month=date.getMonth()+1;
+    year=date.getFullYear();
+    this.fromDate=(year+'-'+('0'+month).slice(-2)+'-'+('0'+day).slice(-2));
   }
 
   ngOnInit() {
