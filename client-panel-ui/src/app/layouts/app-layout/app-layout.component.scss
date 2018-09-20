@@ -14,10 +14,8 @@ aside {
 .sidebar li a i{ padding-right:5px;}
 .sidebar ul li .sub-menu li a{ position:relative}
 .sidebar ul li .sub-menu li a:before{
-  font-family: FontAwesome;
-  content: "\f105";
-  display: inline-block;
-  padding-left: 0px;
+  content: " ";
+  padding-left: 20px;
   padding-right: 10px;
   vertical-align: middle;
 }
@@ -60,7 +58,7 @@ aside {
   }
   .sidebar li a .nav-label,.sidebar li a .nav-label+span{ display:none;transition: all 0.5s  ease-in-out}
   .sidebar {
-    width: 42px;transition: all 0.5s  ease-in-out;
+    width: 49px;transition: all 0.5s  ease-in-out;
   }
 
   .sidebar > ul > li > a > .icon {
