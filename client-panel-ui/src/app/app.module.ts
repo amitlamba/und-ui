@@ -112,6 +112,8 @@ import { EventreportReachabilityComponent } from './eventreport/eventreport-reac
 import { AppLayoutComponent } from './layouts/app-layout/app-layout.component';
 import { SiteLayoutComponent } from './layouts/site-layout/site-layout.component';
 import { CreateReactiveSegmentComponent } from './segment-category/segments/create-reactive-segment/create-reactive-segment.component';
+import { FilterReactiveComponent } from './segment-category/segments/create-reactive-segment/filter-reactive/filter-reactive.component';
+import { GeographyReactiveComponent } from './segment-category/segments/create-reactive-segment/geography-reactive/geography-reactive.component';
 
 
 @NgModule({
@@ -216,7 +218,9 @@ import { CreateReactiveSegmentComponent } from './segment-category/segments/crea
     EventreportReachabilityComponent,
     AppLayoutComponent,
     SiteLayoutComponent,
-    CreateReactiveSegmentComponent
+    CreateReactiveSegmentComponent,
+    FilterReactiveComponent,
+    GeographyReactiveComponent
   ],
   providers: [
     AuthGuard,

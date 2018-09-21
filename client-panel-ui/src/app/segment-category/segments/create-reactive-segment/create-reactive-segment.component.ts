@@ -2,13 +2,16 @@ import {Component, OnInit} from '@angular/core';
 import {SegmentService} from "../../../_services/segment.service";
 import {Router} from "@angular/router";
 import {
-  DateFilter, DidEvents, Event, GlobalFilter, JoinCondition, PropertyFilter, RegisteredEvent, RegisteredEventProperties,
+  DateFilter, DateOperator, DidEvents, Event, Geography, GlobalFilter, JoinCondition, NumberOperator, PropertyFilter,
+  RegisteredEvent,
+  RegisteredEventProperties,
   Segment,
   WhereFilter
 } from "../../../_models/segment";
 import {Form, FormArray, FormBuilder, FormGroup} from "@angular/forms";
 import {MessageService} from "../../../_services/message.service";
 import {DaterangepickerConfig} from "ng2-daterangepicker";
+import * as moment from "moment";
 
 @Component({
   selector: 'app-create-reactive-segment',
@@ -21,10 +24,12 @@ export class CreateReactiveSegmentComponent implements OnInit {
   segmentErrors: string[] = [];
   segmentForm: FormGroup;
 
-  registeredEvents:RegisteredEvent[] = [];
+  registeredEvents: RegisteredEvent[] = [];
   defaultProperties: RegisteredEventProperties[];
   eventProperties: RegisteredEventProperties[];
   public singleDate: any;
+
+  hidePropertySumFilter=true;
 
   constructor(private segmentService: SegmentService, private fb: FormBuilder,
               private messageService: MessageService,
@@ -50,7 +55,7 @@ export class CreateReactiveSegmentComponent implements OnInit {
     };
     this.singleDate = Date.now();
     this.registeredEvents = this.segmentService.cachedRegisteredEvents;
-    if(this.registeredEvents == null || this.registeredEvents.length==0) {
+    if (this.registeredEvents == null || this.registeredEvents.length == 0) {
       this.messageService.addDangerMessage("No Events Metadata available. Showing Dummy data.");
       this.registeredEvents = this.segmentService.sampleEvents;
     }
@@ -74,36 +79,49 @@ export class CreateReactiveSegmentComponent implements OnInit {
         }),
         events: this.fb.array(this.createEventsForm(this.segment.didNotEvents.events)),
       }),
-      userProperties: this.fb.array(this.segment.globalFilters),
+      globalFilters: this.fb.array(this.createGlobalFiltersForm(this.segment.globalFilters)),
       geoLocations: this.fb.array(this.segment.geographyFilters)
     });
   }
 
-  /*
-  globalFilterType: GlobalFilterType;
-  name: string;
-  type: string;
-  operator: string;
-  values: any[] = [];
-  valueUnit: string;
-   */
+  createGeographyFiltersForm(geographies: Geography[]): FormGroup[] {
+    if(geographies && geographies.length) {
+      return geographies.map((v,i,a)=> {
+        return this.createGeographyFilterForm(v);
+      })
+    } else return [];
+  }
+
+  createGeographyFilterForm(geography: Geography): FormGroup {
+    return this.fb.group({
+      country: [geography.country],
+      state: [geography.state],
+      city: [geography.city]
+    });
+  }
+
   createGlobalFiltersForm(globalFilters: GlobalFilter[]): FormGroup[] {
     if (globalFilters && globalFilters.length)
       return globalFilters.map((v, i, a) => {
-        return this.fb.group({
-          globalFilterType: [v.globalFilterType],
-          name: [v.name],
-          type: [v.type],
-          operator: [v.operator],
-          values: [v.values]
-        });
+        return this.createGlobalFilterForm(v);
       });
     else return [];
   }
 
+  createGlobalFilterForm(globalFilter: GlobalFilter): FormGroup {
+    return this.fb.group({
+      globalFilterType: [globalFilter.globalFilterType],
+      name: [globalFilter.name],
+      type: [globalFilter.type],
+      operator: [globalFilter.operator],
+      values: [globalFilter.values],
+      valueUnit: [globalFilter.valueUnit]
+    });
+  }
+
   createEventsForm(events: Event[]): FormGroup[] {
     if (events && events.length) {
-      return events.map((v, i, a) => {
+      return events.map<FormGroup>((v, i, a) => {
         return this.createEventForm(v);
       });
     }
@@ -129,11 +147,16 @@ export class CreateReactiveSegmentComponent implements OnInit {
 
   createPropertyFilters(propertyFilters: PropertyFilter[]): FormGroup[] {
     return propertyFilters.map((v, i, a) => {
-      return this.fb.group({
-        propertyFilterName: [v.name],
-        propertyFilterOperator: [v.operator],
-        propertyFilterValues: [v.values]
-      })
+      return this.createPropertyFilter(v);
+    });
+  }
+
+  createPropertyFilter(propertyFilter: PropertyFilter): FormGroup {
+    return this.fb.group({
+      propertyFilterName: [propertyFilter.name],
+      propertyFIlterType: [propertyFilter.type],
+      propertyFilterOperator: [propertyFilter.operator],
+      propertyFilterValues: [propertyFilter.values]
     });
   }
 
@@ -146,9 +169,14 @@ export class CreateReactiveSegmentComponent implements OnInit {
       this.segment.didEvents.events = [];
 
     let newEvent = new Event();
-    newEvent.whereFilter = new WhereFilter();
+    newEvent.name = this.registeredEvents[0].name;
     newEvent.dateFilter = new DateFilter();
+    newEvent.dateFilter.operator = DateOperator.Before;
+    newEvent.dateFilter.values = [this.getCurrentFormattedDate()];
     newEvent.propertyFilters = [];
+    newEvent.whereFilter = new WhereFilter();
+    newEvent.whereFilter.operator = NumberOperator.GreaterThan;
+    newEvent.whereFilter.values = [0];
     this.segment.didEvents.events.push(newEvent);
 
     let newEventForm = this.createEventForm(newEvent);
@@ -168,7 +196,53 @@ export class CreateReactiveSegmentComponent implements OnInit {
     return <FormArray>(<FormGroup>this.segmentForm.get('didEvents')).get('events');
   }
 
+  didEventPropertyFilterArray(index): FormArray {
+    return <FormArray>(this.didEventArray.at(index).get('propertyFilters'));
+  }
+
+  get globalFilterArray(): FormArray {
+    return <FormArray>this.segmentForm.get('globalFilters');
+  }
+
+  addGlobalFilter() {
+    let gf = new GlobalFilter();
+    this.globalFilterArray.push(this.createGlobalFilterForm(gf));
+  }
+
+  removeGlobalFilter(index) {
+    this.globalFilterArray.removeAt(index);
+  }
+
+  get geograpgyFilterArray(): FormArray {
+    return <FormArray>this.segmentForm.get('geoLocation');
+  }
+
+  addGeoLocation() {
+    let gl = new Geography();
+    this.geograpgyFilterArray.push(this.createGeographyFilterForm(gl));
+  }
+
+  removeGeoLocation(index) {
+    this.geograpgyFilterArray.removeAt(index);
+  }
+
+  addDidEventPropertyFilter(didEventIndex) {
+    let propertyFilter = new PropertyFilter();
+    this.didEventPropertyFilterArray(didEventIndex).push(this.createPropertyFilter(propertyFilter));
+  }
+
+  removeDidEventPropertyFilter(didEventIndex, propFilterIndex) {
+    this.didEventPropertyFilterArray(didEventIndex).removeAt(propFilterIndex);
+  }
+
   eventNameChanged(val) {
     console.log(val);
+  }
+
+  private getCurrentFormattedDate(): string {
+    return moment().format('YYYY-MM-DD')
+  }
+  private getNumberTypeEventProperties(): RegisteredEventProperties[] {
+    return this.eventProperties.filter((data)=>{return data.dataType=='number'});
   }
 }
