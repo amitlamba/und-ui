@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnInit, Output, ViewChild} from '@angular/core';
+import {Component, EventEmitter, OnChanges, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
 
 import {User} from "../_models/user";
 import {UserService} from "../_services/user.service";
@@ -12,6 +12,7 @@ import {
 import {NgForm} from "@angular/forms";
 import {moment} from "ngx-bootstrap/chronos/test/chain";
 import {Router} from "@angular/router";
+import {forEach} from "@angular/router/src/utils/collection";
 
 @Component({
   selector: 'app-home',
@@ -29,7 +30,7 @@ import {Router} from "@angular/router";
   ]
 })
 
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit,OnChanges,OnDestroy {
 
   selectedSegment = "All Users";
 
@@ -61,18 +62,17 @@ export class HomeComponent implements OnInit {
   newVsExistingGraphType: string = 'line';
   newVsExistingObject: Array<UserTypeTrendForDate>;
 
-
   userCountByEventTitle: string;
   userCountByEventSubTitle: string;
   userCountByEventYAxisTitle: string;
   userCountByEventDataSeries: ChartSeriesData[];
   userCountByEventChartType: string;
   userCountByEventCategory: string[];
-  userCountByEventData: Array<UserCountByEventTimeSeries> = [];
+  userCountByEventData: Array<UserCountByEventForDate> = [];
+  newdata:Map<string,number[]>;
 
   trendCountName: string;
   trendCountDataSeries: Array<[string, number]>;
-  // trendcountData: Array<TrendCount>
 
   constructor(private userService: UserService, private reportsService: ReportsService,private router:Router) {
     console.log('inside constructor');
@@ -81,7 +81,6 @@ export class HomeComponent implements OnInit {
     this.groupBy=new GroupBy();
     this.groupBy.globalFilterType="Technographics";
     this.groupBy.name='os';
-    // this.userCountByEventData=this.reportsService.usercountbyeventsData;
     this.date1 = this.createDateString(0);
     console.log(this.date1);
     this.date2 = this.createDateString(1);
@@ -90,8 +89,6 @@ export class HomeComponent implements OnInit {
     console.log(this.date3);
     this.dates.push(this.date1, this.date2, this.date3);
 
-    //for demo
-    // this.dates.push('2018-08-20','2018-08-10','2018-08-19');
     console.log(this.dates);
     this.getDataFromApi(this.segmentId, this.dates, this.interval);
     this.getTrendCountDataFromApi(this.segmentId, this.groupBy, this.interval);
@@ -154,12 +151,7 @@ export class HomeComponent implements OnInit {
     this.getNewVsExistingDataByDate(event.target.value);
   }
 
-  // newVsExistingGraphInitialization(trendTimeSeries: Array<TrendTimeSeries>) {
-  //   this.newVsExistingDataSeries = trendTimeSeries.map<ChartSeriesData>(trenddata => {
-  //     return {showInLegend: true, seriesName: trenddata.date, data: trenddata.trenddata.map(count => count.usercount)}
-  //   });
-  // }
-
+  //TODO Data Is Not Converting Properly In ChartSeriesData
   userCountByEventGraphInitialization(data: Array<UserCountByEventForDate>) {
 
     this.userCountByEventTitle = '';
@@ -176,10 +168,94 @@ export class HomeComponent implements OnInit {
         return {
           showInLegend: true,
           seriesName: data.date,
-          data: data.userCountData.map<number>(data => data.usercount)
+          data: data.userCountData.map<number>(data => {
+
+             return data.usercount
+          }
+        )
         };
       }
     );
+
+    // var dates=data.map(data=>data.date);
+    // var size=dates.length;
+    // var cat=new Set();
+    // var map=new Map<string,Array<number>>();
+    //
+    // data.forEach(data=>data.userCountData.
+    // forEach(data=>{
+    //   cat.add(data.eventname)
+    // }));
+
+
+    // data.forEach(data=>{
+    //   var catCopy= new Set(cat);
+    //   data.userCountData.forEach(data=>{
+    //     if(map.has(data.eventname)){
+    //       var list=map.get(data.eventname);
+    //       list.push(data.usercount);
+    //       map.set(data.eventname,list);
+    //       catCopy.delete(data.eventname);
+    //     }else{
+    //       var l=[];
+    //       l.push(data.usercount);
+    //       map.set(data.eventname,l);
+    //       catCopy.delete(data.eventname);
+    //     }
+    //   })
+    //   //add o to remaining
+    //   catCopy.forEach(event=>{
+    //     if(map.has(event)){
+    //       var list=map.get(event);
+    //       list.push(0);
+    //       map.set(event,list);
+    //     }else{
+    //       var l=[];
+    //       l.push(0);
+    //       map.set(event,l);
+    //     }
+    //   })
+    // });
+
+    // var key=map.keys();
+    // var obj=key.next();
+    // var events=[];
+    //
+    // while(obj){
+    //   events.push(obj.value);
+    //   obj=key.next();
+    // }
+    //
+    // events.forEach(data=>console.log("key are"+data));
+
+
+    // this.newdata=map;
+    //converting data for graph
+
+    // var dataseries=Array<ChartSeriesData>();
+    //
+    // dates.forEach((date,i,a)=>{
+    //   var key=map.keys();
+    //   var obj=key.next();
+    //   var data:number[][];
+    //   while(obj){
+    //     console.log(obj.value);
+    //     var list=map.get(obj.value);
+    //     console.log("elemnt at i"+list.forEach(data=>console.log(data)));
+    //     data[i].push(list[i]);
+    //     obj=key.next();
+    //   }
+    //
+    //   dataseries.push({
+    //     showInLegend:true,
+    //     seriesName:date,
+    //     data:data[i]
+    //   });
+    // });
+    //
+    // dataseries.forEach(data=>{
+    //   console.log(data.seriesName+" "+data.showInLegend+" "+data.data)
+    // });
 
   }
 
@@ -255,9 +331,6 @@ export class HomeComponent implements OnInit {
   }
 
   getTrendCountDataFromApi(segmentId, groupBy, interval) {
-    console.log('inside getTrendCountData');
-    console.log(segmentId+groupBy+interval);
-
     this.reportsService.getTrendCount_1(segmentId, groupBy, interval)
       .subscribe(response => {
           this.trendCountGraphInitialization(response);
@@ -270,31 +343,29 @@ export class HomeComponent implements OnInit {
   date1Select(event){
     console.log((event.start).format("YYYY-MM-DD"));
     this.dates[0]=(event.start).format("YYYY-MM-DD");
-    this.getDataFromApi(this.segmentId,this.dates,this.interval);
-    this.getTrendCountDataFromApi(this.segmentId,this.groupBy,this.interval);
   }
   date2Select(event){
     console.log((event.start).format("YYYY-MM-DD"));
     this.dates[1]=(event.start).format("YYYY-MM-DD");
-    this.getDataFromApi(this.segmentId,this.dates,this.interval);
-    this.getTrendCountDataFromApi(this.segmentId,this.groupBy,this.interval);
   }date3Select(event){
     console.log((event.start).format("YYYY-MM-DD"));
     this.dates[2]=(event.start).format("YYYY-MM-DD");
-    this.getDataFromApi(this.segmentId,this.dates,this.interval);
-    this.getTrendCountDataFromApi(this.segmentId,this.groupBy,this.interval);
   }
 
   segmentChange(event){
     console.log(event.target.value);
     this.segmentId=event.target.value;
-    this.getDataFromApi(this.segmentId,this.dates,this.interval);
-    this.getTrendCountDataFromApi(this.segmentId,this.groupBy,this.interval);
   }
   intervalChange(event){
     console.log(event.target.value);
     this.interval=event.target.value;
+  }
+  reloadApi(){
     this.getDataFromApi(this.segmentId,this.dates,this.interval);
     this.getTrendCountDataFromApi(this.segmentId,this.groupBy,this.interval);
+  }
+
+  ngOnDestroy(){
+
   }
 }
