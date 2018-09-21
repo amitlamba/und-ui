@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 //used to create fake backend
 import {MockBackend} from '@angular/http/testing';
 
@@ -111,12 +111,14 @@ import { EventreportTechnographicsComponent } from './eventreport/eventreport-te
 import { EventreportReachabilityComponent } from './eventreport/eventreport-reachability/eventreport-reachability.component';
 import { AppLayoutComponent } from './layouts/app-layout/app-layout.component';
 import { SiteLayoutComponent } from './layouts/site-layout/site-layout.component';
+import { CreateReactiveSegmentComponent } from './segment-category/segments/create-reactive-segment/create-reactive-segment.component';
 
 
 @NgModule({
   imports: [
     BrowserModule,
     FormsModule,
+    ReactiveFormsModule,
     HttpClientModule,
     InterceptorModule,
     AppRoutingModule,
@@ -213,7 +215,8 @@ import { SiteLayoutComponent } from './layouts/site-layout/site-layout.component
     EventreportTechnographicsComponent,
     EventreportReachabilityComponent,
     AppLayoutComponent,
-    SiteLayoutComponent
+    SiteLayoutComponent,
+    CreateReactiveSegmentComponent
   ],
   providers: [
     AuthGuard,

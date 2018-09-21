@@ -41,6 +41,7 @@ import {EventreportReachabilityComponent} from "./eventreport/eventreport-reacha
 import {SiteLayoutComponent} from "./layouts/site-layout/site-layout.component";
 import {AppLayoutComponent} from "./layouts/app-layout/app-layout.component";
 import {CreateSmsTemplateFormComponent} from "./templates/sms-templates/create-sms-template-form/create-sms-template-form.component";
+import {CreateReactiveSegmentComponent} from "./segment-category/segments/create-reactive-segment/create-reactive-segment.component";
 
 const routes: Routes = [
   //Pages without layout goes here
@@ -77,6 +78,7 @@ const routes: Routes = [
         path: 'segment', component: SegmentCategoryComponent, canActivate: [AuthGuard], children: [
         {path: 'find-users', component: FindUsersComponent},
         {path: 'create-new-segment', component: CreateNewSegmentComponent},
+        {path: 'create-reactive-segment', component: CreateReactiveSegmentComponent},
         {path: 'segments', component: SegmentsComponent},
         {path: 'user-profile', component: UserProfileComponent}
       ]

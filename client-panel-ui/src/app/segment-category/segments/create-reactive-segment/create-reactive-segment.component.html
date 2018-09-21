@@ -1,0 +1,143 @@
+<div class="container-fluid">
+  <h1 class="mt-2">Create New Segment</h1>
+  <div class="row d-flex flex-wrap flex-row">
+    <div class="col-lg-10 col-sm-8  mt-2">
+      <div class="card">
+        <div class="card-header">
+          <h4><i class="fas fa-users"></i> Users by behavior</h4>
+        </div>
+        <div class="card-body">
+          <form [formGroup]="segmentForm">
+            <div class="card" formGroupName="didEvents">
+              <div class="card-body">
+                <div class="card-title">
+                  <div class="d-inline">Users who did</div>
+                  <span class="small text-muted">(optional)</span>
+                </div>
+                <!--<app-did-events [didEvents]="segment.didEvents"></app-did-events>-->
+                <div class="form-group d-inline-flex mt-3" formGroupName="joinCondition">
+                  <div class="mr-2">
+                    <select class="form-control" id="andOr" formControlName="conditionType">
+                      <option value="AllOf">All (AND)</option>
+                      <option value="AnyOf">Any (OR)</option>
+                    </select>
+                  </div>
+                  <div class="mt-2">
+                    <p>of these events</p>
+                  </div>
+                </div>
+                <!--<app-did-event [hideWhere]="didNotEvent"></app-did-event>-->
+                <!--<ng-template #container></ng-template>-->
+                <!--Did Event Form Begins-->
+                <div  fromArrayName="events" >
+                <div class="event-widget my-3" *ngFor="let eventControl of segmentForm.get('didEvents').get('events').controls;let i = index;" [formGroupName]="i">
+                  <div class="row d-flex flex-row ml-2">
+                    <div class="form-group m-2 mr-4" >
+                      <select class="form-control" formControlName="eventName">
+                        <option [ngValue]="null" disabled selected>--Select--</option>
+                        <option *ngFor="let regEvent of registeredEvents;let r=index" [value]="regEvent.name">{{ regEvent.name }}
+                        </option>
+                      </select>
+                      <!--<input class="form-control" formControlName="eventName" placeholder="Event Name">-->
+                    </div>
+
+                    <!--<app-date-comparator [(operator)]="didEvent.dateFilter.operator"-->
+                                         <!--[(values)]="didEvent.dateFilter.values"-->
+                                         <!--[(valueUnit)]="didEvent.dateFilter.valueUnit"-->
+                                         <!--class="row d-flex flex-row" *ngIf="eventSelected"></app-date-comparator>-->
+                    <span formGroupName="eventDateFilter">
+                    <input class="form-control" formControlName="dateFilterOperator" placeholder="Date Range Comparator">
+                    <input class="form-control" formControlName="dateFilterValues" placeholder="Date Range Comparator">
+                    </span>
+
+                    <button type="button"
+                            class="close ml-auto mr-4 pos"
+                            aria-label="Close"
+                            (click)="removeDidEvent(i)">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <!--&lt;!&ndash;registeredEvents[0].eventProperties&ndash;&gt;-->
+                  <!--&lt;!&ndash;<app-filter [eventProperties]="eventProperties" [defaultProperties]="defaultProperties"></app-filter>&ndash;&gt;-->
+                  <!--<ng-template #container></ng-template>-->
+
+                  <!--<div class="ml-3 mb-3" *ngIf="eventSelected">-->
+                    <!--<button type="button" class="btn btn-link pt-0" (click)="addPropertyFilter()">-->
+                      <!--<i class="fa fa-plus " aria-hidden="true"></i>-->
+                      <!--Filter-->
+                    <!--</button>-->
+                  <!--</div>-->
+
+                  <!--<div class="ml-3" *ngIf="!hideWhere && eventSelected">-->
+                    <!--<p class="mb-1">where</p>-->
+                  <!--</div>-->
+                  <!--<div class="form-inline mb-4 mt-2" *ngIf="!hideWhere && eventSelected">-->
+                    <!--<div class="form-group pr-0 ml-3">-->
+                      <!--<select class="form-control" (change)="countDropdown($event.target.value)"-->
+                              <!--[(ngModel)]="didEvent.whereFilter.whereFilterName">-->
+                        <!--<option value="Count">Count</option>-->
+                        <!--<option value="SumOfValuesOf" *ngIf="getNumberTypeEventProperties().length>0">Property Sum Of-->
+                        <!--</option>-->
+                      <!--</select>-->
+                    <!--</div>-->
+                    <!--<div class="form-group ml-2"-->
+                         <!--*ngIf="!hidePropertySumFilter && getNumberTypeEventProperties().length>0">-->
+                      <!--<select class="form-control" [(ngModel)]="didEvent.whereFilter.propertyName">-->
+                        <!--<option *ngFor="let prop of getNumberTypeEventProperties()" [value]="prop.name">{{prop.name}}-->
+                        <!--</option>-->
+                      <!--</select>-->
+                    <!--</div>-->
+                    <!--<app-number-comparator class="ml-2"-->
+                                           <!--[(operator)]="didEvent.whereFilter.operator"-->
+                                           <!--[(values)]="didEvent.whereFilter.values"-->
+                                           <!--[numberComparatorOperators]="['Equals', 'Between', 'GreaterThan', 'LessThan']"></app-number-comparator>-->
+                  </div>
+                </div>
+                <div>
+                  <button class="btn btn-success  mt-3" (click)="addDidEvent()"><i class="fa fa-plus-circle"></i> Add
+                    Event
+                  </button>
+                </div>
+              </div>
+            </div>
+            AND
+            <div class="card">
+              <div class="card-body">
+                <div class="card-title">Users who did not do <span class="small text-muted">(optional)</span></div>
+                <!--<app-did-events [didEvents]="segment.didNotEvents" [didNotEvent]="true"></app-did-events>-->
+              </div>
+            </div>
+            AND
+            <div class="card">
+              <div class="card-body">
+                <div class="card-title">Users with these properties <span class="small text-muted">(optional)</span>
+                </div>
+                <!--<app-global-filters [(globalFilters)]="segment.globalFilters"></app-global-filters>-->
+              </div>
+            </div>
+            AND
+            <div class="card">
+              <div class="card-body">
+                <div class="card-title">Users with these Locations <span class="small text-muted">(optional)</span>
+                </div>
+                <!--<app-geography-filters [(geographyFilters)]="segment.geographyFilters"></app-geography-filters>-->
+              </div>
+            </div>
+            <div *ngIf="segmentErrors && segmentErrors.length" class="mt-3 alert alert-danger">
+              <div *ngFor="let sError of segmentErrors">
+                {{sError}}
+              </div>
+            </div>
+            <!--<button *ngIf="showFind" class="btn btn-primary mt-2" (click)="find()"><i class="fas fa-search mr-2"></i>Find</button>-->
+          </form>
+        </div>
+        <!--<app-segment-nlp *ngIf="showSegmentInNl" [segment]="segment"></app-segment-nlp>-->
+      </div>
+      <div *ngIf="segmentErrors && segmentErrors.length" class="mt-3 alert alert-danger">
+        <div *ngFor="let sError of segmentErrors">
+          {{sError}}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
