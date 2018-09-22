@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {PropertyFilter, PropertyType, RegisteredEventProperties} from "../../../../_models/segment";
 import {FormControl, FormGroup} from "@angular/forms";
 
@@ -18,6 +18,8 @@ export class FilterReactiveComponent implements OnInit {
 
   @Input() filterForm: FormGroup;
   @Input() filter: PropertyFilter;
+  @Input() filterIndex: number;
+  @Output() remove: EventEmitter<number> = new EventEmitter();
 
   constructor() {
   }
@@ -33,4 +35,7 @@ export class FilterReactiveComponent implements OnInit {
     return this.filterForm.get("propertyFilterType").value;
   }
 
+  removeMe() {
+    this.remove.emit(this.filterIndex);
+  }
 }

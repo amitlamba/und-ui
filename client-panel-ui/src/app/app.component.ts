@@ -1,6 +1,6 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {AuthenticationService} from "./_services/authentication.service";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, NavigationEnd, Router} from "@angular/router";
 
 @Component({
   selector: 'app',
@@ -15,11 +15,18 @@ export class AppComponent implements OnInit
   loggedIn: boolean;
   showLoggedInHeader: boolean;
 
-  constructor(private authenticationService: AuthenticationService, private route: ActivatedRoute) {
+  constructor(private authenticationService: AuthenticationService, private route: ActivatedRoute,
+              private router: Router) {
   }
 
   ngOnInit(): void {
     console.log(this.route.snapshot.data);
+    this.router.events.subscribe((evt) => {
+      if (!(evt instanceof NavigationEnd)) {
+        return;
+      }
+      window.scrollTo(0, 0)
+    });
   }
 
   //
