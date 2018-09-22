@@ -114,6 +114,8 @@ import { SiteLayoutComponent } from './layouts/site-layout/site-layout.component
 import { CreateReactiveSegmentComponent } from './segment-category/segments/create-reactive-segment/create-reactive-segment.component';
 import { FilterReactiveComponent } from './segment-category/segments/create-reactive-segment/filter-reactive/filter-reactive.component';
 import { GeographyReactiveComponent } from './segment-category/segments/create-reactive-segment/geography-reactive/geography-reactive.component';
+import { DidEventReactiveComponent } from './segment-category/segments/create-reactive-segment/did-event-reactive/did-event-reactive.component';
+import { GlobalReactiveComponent } from './segment-category/segments/create-reactive-segment/global-reactive/global-reactive.component';
 
 
 @NgModule({
@@ -220,7 +222,9 @@ import { GeographyReactiveComponent } from './segment-category/segments/create-r
     SiteLayoutComponent,
     CreateReactiveSegmentComponent,
     FilterReactiveComponent,
-    GeographyReactiveComponent
+    GeographyReactiveComponent,
+    DidEventReactiveComponent,
+    GlobalReactiveComponent
   ],
   providers: [
     AuthGuard,
