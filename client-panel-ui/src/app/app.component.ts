@@ -1,6 +1,7 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {AuthenticationService} from "./_services/authentication.service";
-import {ActivatedRoute, NavigationEnd, Router} from "@angular/router";
+import {ActivatedRoute, NavigationEnd, NavigationStart, Router} from "@angular/router";
+import {Location, PopStateEvent} from "@angular/common";
 
 @Component({
   selector: 'app',
@@ -15,17 +16,29 @@ export class AppComponent implements OnInit
   loggedIn: boolean;
   showLoggedInHeader: boolean;
 
+  private lastPoppedUrl: string;
+  private yScrollStack: number[] = [];
+
   constructor(private authenticationService: AuthenticationService, private route: ActivatedRoute,
-              private router: Router) {
+              private router: Router, private location: Location) {
   }
 
   ngOnInit(): void {
     console.log(this.route.snapshot.data);
-    this.router.events.subscribe((evt) => {
-      if (!(evt instanceof NavigationEnd)) {
-        return;
+    this.location.subscribe((ev:PopStateEvent) => {
+      this.lastPoppedUrl = ev.url;
+    });
+    this.router.events.subscribe((ev:any) => {
+      if (ev instanceof NavigationStart) {
+        if (ev.url != this.lastPoppedUrl)
+          this.yScrollStack.push(window.scrollY);
+      } else if (ev instanceof NavigationEnd) {
+        if (ev.url == this.lastPoppedUrl) {
+          this.lastPoppedUrl = undefined;
+          window.scrollTo(0, this.yScrollStack.pop());
+        } else
+          window.scrollTo(0, 0);
       }
-      window.scrollTo(0, 0)
     });
   }
 
