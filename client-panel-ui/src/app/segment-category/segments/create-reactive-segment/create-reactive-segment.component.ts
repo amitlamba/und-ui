@@ -2,13 +2,14 @@ import {Component, OnInit} from '@angular/core';
 import {SegmentService} from "../../../_services/segment.service";
 import {Router} from "@angular/router";
 import {
+  Country,
   DateFilter, DateOperator, DidEvents, Event, Geography, GlobalFilter, JoinCondition, NumberOperator, PropertyFilter,
   RegisteredEvent,
   RegisteredEventProperties,
-  Segment,
+  Segment, State,
   WhereFilter
 } from "../../../_models/segment";
-import {Form, FormArray, FormBuilder, FormGroup} from "@angular/forms";
+import {Form, FormArray, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {MessageService} from "../../../_services/message.service";
 import {DaterangepickerConfig} from "ng2-daterangepicker";
 import * as moment from "moment";
@@ -61,6 +62,9 @@ export class CreateReactiveSegmentComponent implements OnInit {
     }
     this.defaultProperties = this.segmentService.defaultEventProperties;
     this.eventProperties = this.registeredEvents[0].properties;
+
+
+    this.segmentService.getCountries().subscribe(response=>this.segmentService.countries=response);
   }
 
   createForm() {
@@ -80,7 +84,8 @@ export class CreateReactiveSegmentComponent implements OnInit {
         events: this.fb.array(this.createEventsForm(this.segment.didNotEvents.events)),
       }),
       globalFilters: this.fb.array(this.createGlobalFiltersForm(this.segment.globalFilters)),
-      geoLocations: this.fb.array(this.segment.geographyFilters)
+      // geoLocations: this.fb.array(this.segment.geographyFilters)
+      geoLocations: this.fb.array(this.createGeographyFiltersForm(this.segment.geographyFilters))
     });
   }
 
@@ -94,9 +99,9 @@ export class CreateReactiveSegmentComponent implements OnInit {
 
   createGeographyFilterForm(geography: Geography): FormGroup {
     return this.fb.group({
-      country: [geography.country],
-      state: [geography.state],
-      city: [geography.city]
+      country: [null,Validators.required],
+      state: [null,Validators.required],
+      city: [null,Validators.required]
     });
   }
 
@@ -214,7 +219,7 @@ export class CreateReactiveSegmentComponent implements OnInit {
   }
 
   get geograpgyFilterArray(): FormArray {
-    return <FormArray>this.segmentForm.get('geoLocation');
+    return <FormArray>this.segmentForm.get('geoLocations');
   }
 
   addGeoLocation() {

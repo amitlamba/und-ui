@@ -48,30 +48,48 @@
                 </div>
               </div>
               AND
-              <div class="card">
-                <div class="card-body">
-                  <div class="card-title">Users with these properties <span class="small text-muted">(optional)</span>
-                  </div>
-                  <!--<app-global-filters [(globalFilters)]="segment.globalFilters"></app-global-filters>-->
-                </div>
-              </div>
+
               AND
-              <div class="card">
-                <div class="card-body">
-                  <div class="card-title">Users with these Locations <span class="small text-muted">(optional)</span>
-                  </div>
-                  <!--<app-geography-filters [(geographyFilters)]="segment.geographyFilters"></app-geography-filters>-->
-                  <div formArrayName="geoLocations">
-                    <app-geography-reactive *ngFor="let location of geograpgyFilterArray.controls; let i = index;" [formControlName]="i" [geographyForm]="location" (remove)="removeGeoLocation($event)"></app-geography-reactive>
-                  </div>
-                </div>
-              </div>
               <div *ngIf="segmentErrors && segmentErrors.length" class="mt-3 alert alert-danger">
                 <div *ngFor="let sError of segmentErrors">
                   {{sError}}
                 </div>
               </div>
               <!--<button *ngIf="showFind" class="btn btn-primary mt-2" (click)="find()"><i class="fas fa-search mr-2"></i>Find</button>-->
+            </div>
+            <div class="card">
+              <div class="card-body">
+                <div class="card-header">User Properties</div>
+                <div formArrayName="globalFilters">
+                  <app-global-reactive *ngFor="let filter of globalFilterArray.controls; let i = index;"
+                                       [globalFilterForm]="filter"
+                                       [globalFilterFormIndex]="i"
+                                       (remove)="removeGlobalFilter($event)"
+                  ></app-global-reactive>
+                  <div>
+                    <button class="btn btn-success  mt-3" (click)="addGlobalFilter()"><i class="fa fa-plus-circle"></i>
+                      Add
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-body">
+                <div class="card-header">Location</div>
+                <div formArrayName="geoLocations">
+                  <app-geography-reactive *ngFor="let location of geograpgyFilterArray.controls; let i = index;"
+                                          [geographyForm]="location"
+                                          [geographyFormIndex]="i"
+                                          (remove)="removeGeoLocation($event)"
+                  ></app-geography-reactive>
+                  <div>
+                    <button class="btn btn-success  mt-3" (click)="addGeoLocation()"><i class="fa fa-plus-circle"></i>
+                      Add
+                    </button>
+                  </div>
+                </div>
+              </div>
             </div>
           </form>
         </div>
