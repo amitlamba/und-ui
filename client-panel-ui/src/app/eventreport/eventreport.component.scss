@@ -1,0 +1,11 @@
+@import "../../styles/scss/custombootstrap";
+h2 {
+  margin-bottom: 1em;
+}
+#event-navbar {
+  margin: 2em 0em 0em 0em;
+  background-color: $primary;
+}
+#event-navbar .btn {
+  margin: .25rem;
+}

@@ -1,0 +1,14 @@
+<div class="card">
+  <div class="card-header">Reachability</div>
+  <div class="card-body">
+    <app-draw-simple-chart *ngIf="drawChart"
+                           [title]="drawChart.title"
+                           [subtitle]="drawChart.subTitle"
+                           [xAxisTitle]="drawChart.xAxisTitle"
+                           [yAxisTitle]="drawChart.yAxisTitle"
+                           [chartType]="drawChart.graphType"
+                           [categories]="drawChart.category"
+                           [dataSeries]="drawChart.dataSeries">
+    </app-draw-simple-chart>
+  </div>
+</div>

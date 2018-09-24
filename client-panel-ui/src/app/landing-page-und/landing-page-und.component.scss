@@ -1,5 +1,5 @@
 #homepage {
-  margin-top:-1.5em;
+  //margin-top:-1.5em;
   font-weight: 400;
   color: #555555 !important;
   background: white;
@@ -9,7 +9,7 @@ header {
   background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.9)), url("../../assets/img/und-header-background.jpg");
   background-position: center;
   background-attachment: fixed;
-  height: 100vh;
+  height: calc(100vh - 2.5em);
   background-size: cover;
   position: relative;
 }
