@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {SmsTemplate} from "../../_models/sms";
 import {TemplatesService} from "../../_services/templates.service";
+import {Router, RouterStateSnapshot} from "@angular/router";
 
 @Component({
   selector: 'app-sms-templates',
@@ -10,8 +11,12 @@ import {TemplatesService} from "../../_services/templates.service";
 export class SmsTemplatesComponent implements OnInit {
 
   smsTemplates = new Array<SmsTemplate>()
+  state: RouterStateSnapshot;
 
-  constructor(private templatesService: TemplatesService) { }
+  constructor(private templatesService: TemplatesService,
+              private router: Router) {
+    this.state = router.routerState.snapshot;
+  }
 
   ngOnInit() {
     this.templatesService.castSmsTemplates.subscribe(
@@ -32,6 +37,7 @@ export class SmsTemplatesComponent implements OnInit {
 
   onEdit(smsTemplate: SmsTemplate) {
     this.templatesService.smsTemplateForEdit.next(JSON.parse(JSON.stringify(smsTemplate)));
+    this.router.navigate(['create-sms-template',false], {queryParams: {returnUrl: this.state.url}});
   }
 
   onCancel() {
@@ -40,5 +46,9 @@ export class SmsTemplatesComponent implements OnInit {
 
   onCreateNew() {
     this.templatesService.smsTemplateForEdit.next(new SmsTemplate());
+    // this.addComponent(true);
+    this.router.navigate(['create-sms-template',true], {queryParams: {returnUrl: this.state.url}});
+
   }
+
 }

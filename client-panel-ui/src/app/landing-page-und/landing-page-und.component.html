@@ -1,299 +1,318 @@
-<div id="homepage">
+<div class="fluid">
+  <div>
+    <app-logout-header></app-logout-header>
+  </div>
 
-  <!--UND header-->
+  <div style="min-height: 70vh">
+    <div id="homepage">
 
-  <header>
+      <!--UND header-->
 
-    <div class="und-heading container">
-      <div class="row justify-content-center align-items-center">
-        <h1 class="text-white font-weight-bold text-center col-12">Improve User Experience with
-          <br>Personalized Marketing</h1>
-        <h2 class="text-center text-white col-12">Stop Marketing, Start Engaging</h2>
-        <button type="button"
-                class="btn btn-primary btn-lg mt-2" data-toggle="modal"
-                data-target="#demoFormModal">
-          Schedule a Demo
-        </button>
-      </div>
-    </div>
-    <!-- Modal -->
-    <div class="modal fade" id="demoFormModal" tabindex="-1" role="dialog"
-         aria-labelledby="demoFormModalLabel" aria-hidden="true">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header pt-3 pb-2">
-            <h5 class="modal-title mx-auto font-weight-bold text-center" id="demoFormModalLabel"
-                style="font-weight: 800;">Schedule a Demo
-              <br>
-              <i class="far fa-handshake text-primary fa-2x mt-1"></i>
-            </h5>
-            <button type="button" class="close ml-0" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
+      <header>
+
+        <div class="und-heading container">
+          <div class="row justify-content-center align-items-center">
+            <h1 class="text-white font-weight-bold text-center col-12">Improve User Experience with
+              <br>Personalized Marketing</h1>
+            <h2 class="text-center text-white col-12">Stop Marketing, Start Engaging</h2>
+            <button type="button"
+                    class="btn btn-primary btn-lg mt-2" data-toggle="modal"
+                    data-target="#demoFormModal">
+              Schedule a Demo
             </button>
           </div>
-          <div class="modal-body">
-            <app-demo-form [modalDemoButton]="true"></app-demo-form>
-          </div>
-          <!--<div class="modal-footer">-->
-          <!--<button type="button" class="btn btn-primary text-capitalize w-100 h-25"-->
-          <!--data-dismiss="modal">Get your free demo now !</button>-->
-          <!--</div>-->
         </div>
-      </div>
-    </div>
-
-  </header>
-
-  <!--Section How does it Work-->
-
-  <!--<section class="py-5 px-4 container">-->
-  <!--<div class="row justify-content-center py-3 mt-4">-->
-  <!--<h2 class="display-4 text-uppercase text-center col-12">How does it Work?</h2>-->
-  <!--<span class="d-block bg-primary mt-3" style="height: 3px;width: 70px;"></span>-->
-  <!--</div>-->
-  <!--<div class="row py-2 justify-content-center">-->
-  <!--<p class="section-title text-capitalize text-center">We help deliver targeted campaigns with personalized messages-->
-  <!--to users and-->
-  <!--engage them with multiple channels of communication.</p>-->
-  <!--</div>-->
-  <!--<div class="row mt-4 mb-3">-->
-  <!--<div class="col-lg-3 col-md-6 text-center my-3 px-5 px-md-3">-->
-  <!--<i class="fas fa-cogs fa-3x text-primary"></i>-->
-  <!--<h4 class="mt-4">Fully Automated</h4>-->
-  <!--<p class="my-2 py-1 section-paragraph">-->
-  <!--Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci aperiam dolorem dolorum eaque eius-->
-  <!--eos, fugit hic ipsa magni necessitatibus porro quas repudiandae, tempora, temporibus voluptates. Ab at quaerat-->
-  <!--voluptatibus.-->
-  <!--</p>-->
-  <!--</div>-->
-  <!--<div class="col-lg-3 col-md-6 text-center my-3 px-5 px-md-3">-->
-  <!--<i class="fas fa-clock fa-3x text-primary"></i>-->
-  <!--<h4 class="mt-4">See Real Time Response</h4>-->
-  <!--<p class="my-2 py-1 section-paragraph">-->
-  <!--Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci aperiam dolorem dolorum eaque eius-->
-  <!--eos, fugit hic ipsa magni necessitatibus porro quas repudiandae, tempora, temporibus voluptates. Ab at quaerat-->
-  <!--voluptatibus.-->
-  <!--</p>-->
-  <!--</div>-->
-  <!--<div class="col-lg-3 col-md-6 text-center my-3 px-md-3 px-5">-->
-  <!--<i class="fas fa-compass fa-3x text-primary"></i>-->
-  <!--<h4 class="mt-4">Geolocation Targeting</h4>-->
-  <!--<p class="my-2 py-1 section-paragraph">-->
-  <!--Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci aperiam dolorem dolorum eaque eius-->
-  <!--eos, fugit hic ipsa magni necessitatibus porro quas repudiandae, tempora, temporibus voluptates. Ab at quaerat-->
-  <!--voluptatibus.-->
-  <!--</p>-->
-  <!--</div>-->
-  <!--<div class="col-lg-3 col-md-6 text-center my-3 px-md-3 px-5">-->
-  <!--<i class="far fa-user-circle fa-3x text-primary"></i>-->
-  <!--<h4 class="mt-4">Personalization</h4>-->
-  <!--<p class="my-2 py-1 section-paragraph">-->
-  <!--Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci aperiam dolorem dolorum eaque eius-->
-  <!--eos, fugit hic ipsa magni necessitatibus porro quas repudiandae, tempora, temporibus voluptates. Ab at quaerat-->
-  <!--voluptatibus.-->
-  <!--</p>-->
-  <!--</div>-->
-  <!--</div>-->
-  <!--</section>-->
-
-  <!--section benefits-->
-
-  <section class="py-5 px-4 container">
-    <div class="row justify-content-center py-3 mt-4">
-      <h2 class="display-4 text-uppercase text-center col-12">Benefits</h2>
-      <span class="d-block bg-primary mt-3" style="height: 3px;width: 70px;"></span>
-    </div>
-    <div class="row mt-4 mb-3 mx-2">
-      <div class="col-lg-3 col-md-6 my-3">
-        <div class="text-center bg-light p-5 h-100">
-          <i class="fas fa-signal fa-5x text-primary icon-light"></i>
-          <h4 class="pb-2 pt-4 ">Boosts Revenue</h4>
-          <p class="benefits-paragraph">Effective user engagements helps achieve revenue targets</p>
-        </div>
-      </div>
-      <div class="col-lg-3  col-md-6 my-3">
-        <div class="text-center bg-light p-5 h-100">
-          <i class="fas fa-compass fa-5x text-primary icon-light "></i>
-          <h5 class="pb-2 pt-4">Increases customer retention</h5>
-          <p class="benefits-paragraph">Retention of users for a longer duration with effective marketing</p>
-        </div>
-      </div>
-      <div class="col-lg-3 col-md-6 my-3">
-        <div class="text-center bg-light p-5 h-100">
-          <i class="fas fa-users fa-5x text-primary icon-light "></i>
-          <h4 class="pb-2 pt-4">Keep users engaged</h4>
-          <p class="benefits-paragraph">Better user relationships with right things at right time</p>
-        </div>
-      </div>
-      <div class="col-lg-3 col-md-6 my-3">
-        <div class="text-center bg-light p-5 h-100">
-          <i class="fas fa-chart-line fa-5x text-primary icon-light"></i>
-          <h5 class="pb-2 pt-4">Higher ROI</h5>
-
-          <p class="benefits-paragraph">With correct messaging, a higher Return on investment for marketing is achieved</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!--Section Product Features-->
-
-  <section class="py-5 px-4 container-fluid bg-light">
-    <div class="container">
-      <div class="row justify-content-center py-3 mt-4">
-        <h2 class="display-4 text-uppercase text-center col-12">Product Features</h2>
-        <span class="d-block bg-primary mt-3" style="height: 3px;width: 70px;"></span>
-      </div>
-      <div class="row justify-content-center mt-4 mb-3">
-        <div class="col-md-6 my-3">
-          <div class="row pl-2">
-            <div class="col-12">
-              <p class="font-weight-bold section-title text-uppercase mb-0" style="letter-spacing: 2px;">
-                <i class="fas fa-plug mr-3 text-primary fa-lg icon-light"></i>Easy to integrate</p>
-              <p class="section-paragraph ml-4 pl-4 ">
-                Integration is a child’s game. Just plug and play. You would be ready for use with very less effort.
-              </p>
-            </div>
-            <div class="col-12">
-              <p class="font-weight-bold section-title text-uppercase mb-0" style="letter-spacing: 2px;">
-                <i class="fas fa-tasks mr-3 text-primary fa-lg icon-light"></i>A/B Testing / Experiment</p>
-              <p class="section-paragraph ml-4 pl-4">Experiment with different kind of messaging and keep the best, and
-                gradually reach towards the ideal.
-              </p>
-            </div>
-            <div class="col-12">
-              <p class="font-weight-bold section-title text-uppercase mb-0" style="letter-spacing: 2px;">
-                <i class="fas fa-compass mr-3 text-primary fa-lg icon-light"></i>Geolocation based targeting</p>
-              <p class="section-paragraph ml-4 pl-4">You could target your users based on their geographical locations.
-              </p>
-            </div>
-            <div class="col-12">
-              <p class="font-weight-bold section-title text-uppercase mb-0" style="letter-spacing: 2px;">
-                <i class="fas fa-envelope-square mr-3 text-primary fa-lg icon-light"></i>Customized messaging</p>
-              <p class="section-paragraph ml-4 pl-4">Use the details and behaviour of your user to send them custom
-                messages.
-              </p>
+        <!-- Modal -->
+        <div class="modal fade" id="demoFormModal" tabindex="-1" role="dialog"
+             aria-labelledby="demoFormModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header pt-3 pb-2">
+                <h5 class="modal-title mx-auto font-weight-bold text-center" id="demoFormModalLabel"
+                    style="font-weight: 800;">Schedule a Demo
+                  <br>
+                  <i class="far fa-handshake text-primary fa-2x mt-1"></i>
+                </h5>
+                <button type="button" class="close ml-0" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <app-demo-form [modalDemoButton]="true"></app-demo-form>
+              </div>
+              <!--<div class="modal-footer">-->
+              <!--<button type="button" class="btn btn-primary text-capitalize w-100 h-25"-->
+              <!--data-dismiss="modal">Get your free demo now !</button>-->
+              <!--</div>-->
             </div>
           </div>
         </div>
-        <div class="col-md-6 my-3">
-          <div class="row pl-2">
-            <div class="col-12">
-              <p class="font-weight-bold section-title text-uppercase mb-0" style="letter-spacing: 2px;">
-                <i class="fas fa-users mr-3 text-primary fa-lg icon-light"></i>Advanced Segmentation</p>
-              <p class="section-paragraph ml-4 pl-4">
-                Segment your users with the help of our advanced segmentation tool
-                based on User details, user behaviour and Geo locations.
-              </p>
-            </div>
-            <div class="col-12">
-              <p class="font-weight-bold section-title text-uppercase mb-0" style="letter-spacing: 2px;">
-                <i class="fas fa-road mr-3 text-primary fa-lg icon-light"></i>Multiple channels for Marketing</p>
-              <p class="section-paragraph ml-4 pl-4">Email, SMS, Mobile Notifications, In App Notification, Browser Push
-                notifications,
-                and Browser Notifications all at one place.
-              </p>
-            </div>
-            <div class="col-12">
-              <p class="font-weight-bold section-title text-uppercase mb-0" style="letter-spacing: 2px;">
-                <i class="fas fa-chart-pie mr-3 text-primary fa-lg icon-light"></i>Realtime reporting</p>
-              <p class="section-paragraph ml-4 pl-4">Get quick and realtime feedback about the users and user behaviour.
-              </p>
-            </div>
-            <div class="col-12">
-              <p class="font-weight-bold section-title text-uppercase mb-0" style="letter-spacing: 2px;">
-                <i class="far fa-clock mr-3 text-primary fa-lg icon-light"></i>Ahead of time Scheduling</p>
-              <p class="section-paragraph ml-4 pl-4">Schedule campaigns at the convenience of your time.
-              </p>
-            </div>
 
+      </header>
+
+      <!--Section How does it Work-->
+
+      <!--<section class="py-5 px-4 container">-->
+      <!--<div class="row justify-content-center py-3 mt-4">-->
+      <!--<h2 class="display-4 text-uppercase text-center col-12">How does it Work?</h2>-->
+      <!--<span class="d-block bg-primary mt-3" style="height: 3px;width: 70px;"></span>-->
+      <!--</div>-->
+      <!--<div class="row py-2 justify-content-center">-->
+      <!--<p class="section-title text-capitalize text-center">We help deliver targeted campaigns with personalized messages-->
+      <!--to users and-->
+      <!--engage them with multiple channels of communication.</p>-->
+      <!--</div>-->
+      <!--<div class="row mt-4 mb-3">-->
+      <!--<div class="col-lg-3 col-md-6 text-center my-3 px-5 px-md-3">-->
+      <!--<i class="fas fa-cogs fa-3x text-primary"></i>-->
+      <!--<h4 class="mt-4">Fully Automated</h4>-->
+      <!--<p class="my-2 py-1 section-paragraph">-->
+      <!--Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci aperiam dolorem dolorum eaque eius-->
+      <!--eos, fugit hic ipsa magni necessitatibus porro quas repudiandae, tempora, temporibus voluptates. Ab at quaerat-->
+      <!--voluptatibus.-->
+      <!--</p>-->
+      <!--</div>-->
+      <!--<div class="col-lg-3 col-md-6 text-center my-3 px-5 px-md-3">-->
+      <!--<i class="fas fa-clock fa-3x text-primary"></i>-->
+      <!--<h4 class="mt-4">See Real Time Response</h4>-->
+      <!--<p class="my-2 py-1 section-paragraph">-->
+      <!--Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci aperiam dolorem dolorum eaque eius-->
+      <!--eos, fugit hic ipsa magni necessitatibus porro quas repudiandae, tempora, temporibus voluptates. Ab at quaerat-->
+      <!--voluptatibus.-->
+      <!--</p>-->
+      <!--</div>-->
+      <!--<div class="col-lg-3 col-md-6 text-center my-3 px-md-3 px-5">-->
+      <!--<i class="fas fa-compass fa-3x text-primary"></i>-->
+      <!--<h4 class="mt-4">Geolocation Targeting</h4>-->
+      <!--<p class="my-2 py-1 section-paragraph">-->
+      <!--Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci aperiam dolorem dolorum eaque eius-->
+      <!--eos, fugit hic ipsa magni necessitatibus porro quas repudiandae, tempora, temporibus voluptates. Ab at quaerat-->
+      <!--voluptatibus.-->
+      <!--</p>-->
+      <!--</div>-->
+      <!--<div class="col-lg-3 col-md-6 text-center my-3 px-md-3 px-5">-->
+      <!--<i class="far fa-user-circle fa-3x text-primary"></i>-->
+      <!--<h4 class="mt-4">Personalization</h4>-->
+      <!--<p class="my-2 py-1 section-paragraph">-->
+      <!--Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci aperiam dolorem dolorum eaque eius-->
+      <!--eos, fugit hic ipsa magni necessitatibus porro quas repudiandae, tempora, temporibus voluptates. Ab at quaerat-->
+      <!--voluptatibus.-->
+      <!--</p>-->
+      <!--</div>-->
+      <!--</div>-->
+      <!--</section>-->
+
+      <!--section benefits-->
+
+      <section class="py-5 px-4 container">
+        <div class="row justify-content-center py-3 mt-4">
+          <h2 class="display-4 text-uppercase text-center col-12">Benefits</h2>
+          <span class="d-block bg-primary mt-3" style="height: 3px;width: 70px;"></span>
+        </div>
+        <div class="row mt-4 mb-3 mx-2">
+          <div class="col-lg-3 col-md-6 my-3">
+            <div class="text-center bg-light p-5 h-100">
+              <i class="fas fa-signal fa-5x text-primary icon-light"></i>
+              <h4 class="pb-2 pt-4 ">Boosts Revenue</h4>
+              <p class="benefits-paragraph">Effective user engagements helps achieve revenue targets</p>
+            </div>
+          </div>
+          <div class="col-lg-3  col-md-6 my-3">
+            <div class="text-center bg-light p-5 h-100">
+              <i class="fas fa-compass fa-5x text-primary icon-light "></i>
+              <h5 class="pb-2 pt-4">Increases customer retention</h5>
+              <p class="benefits-paragraph">Retention of users for a longer duration with effective marketing</p>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-6 my-3">
+            <div class="text-center bg-light p-5 h-100">
+              <i class="fas fa-users fa-5x text-primary icon-light "></i>
+              <h4 class="pb-2 pt-4">Keep users engaged</h4>
+              <p class="benefits-paragraph">Better user relationships with right things at right time</p>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-6 my-3">
+            <div class="text-center bg-light p-5 h-100">
+              <i class="fas fa-chart-line fa-5x text-primary icon-light"></i>
+              <h5 class="pb-2 pt-4">Higher ROI</h5>
+
+              <p class="benefits-paragraph">With correct messaging, a higher Return on investment for marketing is
+                achieved</p>
+            </div>
           </div>
         </div>
-      </div>
-    </div>
-  </section>
+      </section>
+
+      <!--Section Product Features-->
+
+      <section class="py-5 px-4 container-fluid bg-light">
+        <div class="container">
+          <div class="row justify-content-center py-3 mt-4">
+            <h2 class="display-4 text-uppercase text-center col-12">Product Features</h2>
+            <span class="d-block bg-primary mt-3" style="height: 3px;width: 70px;"></span>
+          </div>
+          <div class="row justify-content-center mt-4 mb-3">
+            <div class="col-md-6 my-3">
+              <div class="row pl-2">
+                <div class="col-12">
+                  <p class="font-weight-bold section-title text-uppercase mb-0" style="letter-spacing: 2px;">
+                    <i class="fas fa-plug mr-3 text-primary fa-lg icon-light"></i>Easy to integrate</p>
+                  <p class="section-paragraph ml-4 pl-4 ">
+                    Integration is a child’s game. Just plug and play. You would be ready for use with very less effort.
+                  </p>
+                </div>
+                <div class="col-12">
+                  <p class="font-weight-bold section-title text-uppercase mb-0" style="letter-spacing: 2px;">
+                    <i class="fas fa-tasks mr-3 text-primary fa-lg icon-light"></i>A/B Testing / Experiment</p>
+                  <p class="section-paragraph ml-4 pl-4">Experiment with different kind of messaging and keep the best,
+                    and
+                    gradually reach towards the ideal.
+                  </p>
+                </div>
+                <div class="col-12">
+                  <p class="font-weight-bold section-title text-uppercase mb-0" style="letter-spacing: 2px;">
+                    <i class="fas fa-compass mr-3 text-primary fa-lg icon-light"></i>Geolocation based targeting</p>
+                  <p class="section-paragraph ml-4 pl-4">You could target your users based on their geographical
+                    locations.
+                  </p>
+                </div>
+                <div class="col-12">
+                  <p class="font-weight-bold section-title text-uppercase mb-0" style="letter-spacing: 2px;">
+                    <i class="fas fa-envelope-square mr-3 text-primary fa-lg icon-light"></i>Customized messaging</p>
+                  <p class="section-paragraph ml-4 pl-4">Use the details and behaviour of your user to send them custom
+                    messages.
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 my-3">
+              <div class="row pl-2">
+                <div class="col-12">
+                  <p class="font-weight-bold section-title text-uppercase mb-0" style="letter-spacing: 2px;">
+                    <i class="fas fa-users mr-3 text-primary fa-lg icon-light"></i>Advanced Segmentation</p>
+                  <p class="section-paragraph ml-4 pl-4">
+                    Segment your users with the help of our advanced segmentation tool
+                    based on User details, user behaviour and Geo locations.
+                  </p>
+                </div>
+                <div class="col-12">
+                  <p class="font-weight-bold section-title text-uppercase mb-0" style="letter-spacing: 2px;">
+                    <i class="fas fa-road mr-3 text-primary fa-lg icon-light"></i>Multiple channels for Marketing</p>
+                  <p class="section-paragraph ml-4 pl-4">Email, SMS, Mobile Notifications, In App Notification, Browser
+                    Push
+                    notifications,
+                    and Browser Notifications all at one place.
+                  </p>
+                </div>
+                <div class="col-12">
+                  <p class="font-weight-bold section-title text-uppercase mb-0" style="letter-spacing: 2px;">
+                    <i class="fas fa-chart-pie mr-3 text-primary fa-lg icon-light"></i>Realtime reporting</p>
+                  <p class="section-paragraph ml-4 pl-4">Get quick and realtime feedback about the users and user
+                    behaviour.
+                  </p>
+                </div>
+                <div class="col-12">
+                  <p class="font-weight-bold section-title text-uppercase mb-0" style="letter-spacing: 2px;">
+                    <i class="far fa-clock mr-3 text-primary fa-lg icon-light"></i>Ahead of time Scheduling</p>
+                  <p class="section-paragraph ml-4 pl-4">Schedule campaigns at the convenience of your time.
+                  </p>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
 
-  <!--Section Testimonials-->
+      <!--Section Testimonials-->
 
-  <!--<section class="py-5 px-4 container-fluid section-testimonials">-->
-  <!--<div class="container">-->
-  <!--<div class="row justify-content-center py-3 mt-4">-->
-  <!--<h2 class="display-4 text-uppercase text-center col-12">Testimonials</h2>-->
-  <!--<span class="d-block bg-primary mt-3" style="height: 3px;width: 70px;"></span>-->
-  <!--</div>-->
-  <!--<div class="row my-5 pt-5 pb-2">-->
-  <!--<div class="col-md font-italic">-->
-  <!--<blockquote>-->
-  <!--Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab accusantium alias aspernatur autem consequatur-->
-  <!--et-->
-  <!--ipsam iste labore nesciunt nihil non pariatur, possimus, quas quisquam quo repellendus, sequi suscipit.-->
-  <!--<cite class="d-block text-right mt-1 mr-3">-Laksh Bhutani</cite>-->
-  <!--</blockquote>-->
-  <!--</div>-->
-  <!--<div class="col-md font-italic">-->
-  <!--<blockquote>-->
-  <!--Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab accusantium alias aspernatur autem consequatur-->
-  <!--et-->
-  <!--ipsam iste labore nesciunt nihil non pariatur, possimus, quas quisquam quo repellendus, sequi suscipit.-->
-  <!--<cite class="d-block text-right mt-1 mr-3">-Mark ZuckerBerg</cite>-->
-  <!--</blockquote>-->
-  <!--</div>-->
-  <!--<div class="col-md font-italic">-->
-  <!--<blockquote>-->
-  <!--Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab accusantium alias aspernatur autem consequatur-->
-  <!--et-->
-  <!--ipsam iste labore nesciunt nihil non pariatur, possimus, quas quisquam quo repellendus, sequi suscipit.-->
-  <!--<cite class="d-block text-right mt-1 mr-3">-Jeff Bezos</cite>-->
-  <!--</blockquote>-->
-  <!--</div>-->
-  <!--</div>-->
-  <!--</div>-->
-  <!--</section>-->
+      <!--<section class="py-5 px-4 container-fluid section-testimonials">-->
+      <!--<div class="container">-->
+      <!--<div class="row justify-content-center py-3 mt-4">-->
+      <!--<h2 class="display-4 text-uppercase text-center col-12">Testimonials</h2>-->
+      <!--<span class="d-block bg-primary mt-3" style="height: 3px;width: 70px;"></span>-->
+      <!--</div>-->
+      <!--<div class="row my-5 pt-5 pb-2">-->
+      <!--<div class="col-md font-italic">-->
+      <!--<blockquote>-->
+      <!--Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab accusantium alias aspernatur autem consequatur-->
+      <!--et-->
+      <!--ipsam iste labore nesciunt nihil non pariatur, possimus, quas quisquam quo repellendus, sequi suscipit.-->
+      <!--<cite class="d-block text-right mt-1 mr-3">-Laksh Bhutani</cite>-->
+      <!--</blockquote>-->
+      <!--</div>-->
+      <!--<div class="col-md font-italic">-->
+      <!--<blockquote>-->
+      <!--Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab accusantium alias aspernatur autem consequatur-->
+      <!--et-->
+      <!--ipsam iste labore nesciunt nihil non pariatur, possimus, quas quisquam quo repellendus, sequi suscipit.-->
+      <!--<cite class="d-block text-right mt-1 mr-3">-Mark ZuckerBerg</cite>-->
+      <!--</blockquote>-->
+      <!--</div>-->
+      <!--<div class="col-md font-italic">-->
+      <!--<blockquote>-->
+      <!--Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab accusantium alias aspernatur autem consequatur-->
+      <!--et-->
+      <!--ipsam iste labore nesciunt nihil non pariatur, possimus, quas quisquam quo repellendus, sequi suscipit.-->
+      <!--<cite class="d-block text-right mt-1 mr-3">-Jeff Bezos</cite>-->
+      <!--</blockquote>-->
+      <!--</div>-->
+      <!--</div>-->
+      <!--</div>-->
+      <!--</section>-->
 
-  <!--Section Success Indicators-->
-  <section class="py-5 px-4 container">
-    <div class="row justify-content-center mt-5">
-      <div class="col-md-3 col-sm-6 text-center mt-2">
-        <span class="text-primary display-3 icon-light">25</span>
-        <i class="fas fa-percent ml-0 fa-2x  mr-3 text-primary icon-light"></i>
-        <p class="font-weight-bold success-indicators-text text-capitalize">less lead conversion time</p>
-      </div>
-      <div class="col-md-3 col-sm-6 text-center mt-2">
-        <span class="text-primary display-3 icon-light">150</span>
-        <i class="fas fa-percent ml-0 fa-2x  mr-3 text-primary icon-light"></i>
-        <p class="font-weight-bold success-indicators-text text-capitalize">increase in ROI for marketing</p>
-      </div>
-      <div class="col-md-3 col-sm-6 text-center mt-2">
-        <span class="text-primary display-3 icon-light">70</span>
-        <i class="fas fa-percent ml-0 fa-2x  mr-3 text-primary icon-light"></i>
-        <p class="font-weight-bold success-indicators-text text-capitalize">increase in User retention</p>
-      </div>
-      <div class="col-md-3 col-sm-6 text-center mt-2">
-        <span class="text-primary display-3 icon-light">80</span>
-        <i class="fas fa-percent ml-0 fa-2x  mr-3 text-primary icon-light"></i>
-        <p class="font-weight-bold success-indicators-text text-capitalize">increase in customer conversion ratio</p>
-      </div>
-    </div>
-  </section>
-  <!--Section Demo-Form-->
+      <!--Section Success Indicators-->
+      <section class="py-5 px-4 container">
+        <div class="row justify-content-center mt-5">
+          <div class="col-md-3 col-sm-6 text-center mt-2">
+            <span class="text-primary display-3 icon-light">25</span>
+            <i class="fas fa-percent ml-0 fa-2x  mr-3 text-primary icon-light"></i>
+            <p class="font-weight-bold success-indicators-text text-capitalize">less lead conversion time</p>
+          </div>
+          <div class="col-md-3 col-sm-6 text-center mt-2">
+            <span class="text-primary display-3 icon-light">150</span>
+            <i class="fas fa-percent ml-0 fa-2x  mr-3 text-primary icon-light"></i>
+            <p class="font-weight-bold success-indicators-text text-capitalize">increase in ROI for marketing</p>
+          </div>
+          <div class="col-md-3 col-sm-6 text-center mt-2">
+            <span class="text-primary display-3 icon-light">70</span>
+            <i class="fas fa-percent ml-0 fa-2x  mr-3 text-primary icon-light"></i>
+            <p class="font-weight-bold success-indicators-text text-capitalize">increase in User retention</p>
+          </div>
+          <div class="col-md-3 col-sm-6 text-center mt-2">
+            <span class="text-primary display-3 icon-light">80</span>
+            <i class="fas fa-percent ml-0 fa-2x  mr-3 text-primary icon-light"></i>
+            <p class="font-weight-bold success-indicators-text text-capitalize">increase in customer conversion
+              ratio</p>
+          </div>
+        </div>
+      </section>
+      <!--Section Demo-Form-->
 
-  <section class="py-5 container px-4">
-    <div class="row justify-content-center py-3 mt-4">
-      <h2 class="display-4 text-uppercase text-center col-12">Ready to Improve your Business ?</h2>
-      <span class="d-block bg-primary mt-3" style="height: 3px;width: 70px;"></span>
+      <section class="py-5 container px-4">
+        <div class="row justify-content-center py-3 mt-4">
+          <h2 class="display-4 text-uppercase text-center col-12">Ready to Improve your Business ?</h2>
+          <span class="d-block bg-primary mt-3" style="height: 3px;width: 70px;"></span>
+        </div>
+        <div class="row py-2 justify-content-center text-center">
+          <p class="section-title text-capitalize px-2">Setup a time to chat with one of our experts and get a fully
+            customized demo.</p>
+        </div>
+        <div class="row py-4 mt-2 mb-4 justify-content-center">
+          <div class="col-lg-6 col-md-8 col-sm-10 col-xs-11 px-4">
+            <app-demo-form></app-demo-form>
+            <!--<div class="form-group row col-sm-7 pull-right pl-0">-->
+            <!--<button type="button" class="btn btn-primary ">Schedule a Demo</button>-->
+            <!--</div>-->
+          </div>
+        </div>
+      </section>
     </div>
-    <div class="row py-2 justify-content-center text-center">
-      <p class="section-title text-capitalize px-2">Setup a time to chat with one of our experts and get a fully
-        customized demo.</p>
-    </div>
-    <div class="row py-4 mt-2 mb-4 justify-content-center">
-      <div class="col-lg-6 col-md-8 col-sm-10 col-xs-11 px-4">
-        <app-demo-form></app-demo-form>
-        <!--<div class="form-group row col-sm-7 pull-right pl-0">-->
-        <!--<button type="button" class="btn btn-primary ">Schedule a Demo</button>-->
-        <!--</div>-->
-      </div>
-    </div>
-  </section>
+
+  </div>
+
+
+  <app-footer></app-footer>
+  <app-messages></app-messages>
 </div>

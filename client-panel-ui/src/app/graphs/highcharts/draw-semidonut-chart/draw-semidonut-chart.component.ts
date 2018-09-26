@@ -23,7 +23,7 @@ export class DrawSemidonutChartComponent implements OnInit, OnChanges {
     if(this.chart) {
       this.chart.options = this.options();
       this.chart = chart(this.chartTarget.nativeElement, this.options());
-      this.chart.reflow();
+      this.chart.redraw();
     }
   }
 
@@ -75,8 +75,8 @@ export class DrawSemidonutChartComponent implements OnInit, OnChanges {
             }
           },
           startAngle: -90,
-            endAngle: 90,
-            center: ['50%', '75%']
+          endAngle: 90,
+          center: ['50%', '75%']
         }
       },
       series: [{

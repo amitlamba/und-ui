@@ -1,4 +1,4 @@
-import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, Input, OnChanges, OnInit, ViewChild} from '@angular/core';
 import {chart, IndividualSeriesOptions} from 'highcharts';
 import * as Highcharts from 'highcharts';
 import {ChartSeriesData} from "../../../_models/reports";
@@ -9,14 +9,15 @@ import {formatDate} from "ngx-bootstrap/chronos";
   templateUrl: './draw24-hrs-chart.component.html',
   styleUrls: ['./draw24-hrs-chart.component.scss']
 })
-export class Draw24HrsChartComponent implements OnInit {
+export class Draw24HrsChartComponent implements OnInit,OnChanges {
 
-  @Input() name: string = 'Users Data';
+  @Input() title: string ;
+  @Input() subtitle:string;
   @Input() xAxisTitle: string;
-  @Input() yAxisTitle: string = '# of users';
+  @Input() yAxisTitle: string ;
   @Input() timeStepInMins: number = 5;
   @Input() dataSeries: Array<ChartSeriesData>;
-  @Input() chartType: string = 'line';
+  @Input() chartType: string ;
 
   @ViewChild('chartTarget') chartTarget: ElementRef;
   chart: Highcharts.ChartObject;
@@ -24,7 +25,17 @@ export class Draw24HrsChartComponent implements OnInit {
   constructor() {
   }
 
+  onreflow(event){
+    console.log(event.target.value)
+    this.dataSeries=event.target.value;
+    this.chart.reflow();
+    // this.load();
+  }
   ngOnInit() {
+    // this.load();
+  }
+
+  ngOnChanges(){
     Highcharts.setOptions({
       colors: ['#50B432', '#ED561B', '#DDDF00', '#24CBE5', '#64E572', '#FF9655', '#FFF263', '#6AF9C4'],
       plotOptions: {
@@ -58,12 +69,13 @@ export class Draw24HrsChartComponent implements OnInit {
         },
         shared: true
       },
-      title: {text: this.name},
+      title: {text: this.title},
+      subtitle: {text: this.subtitle },
       credits: {
         enabled: false
       },
       xAxis: {
-        // title: this.xAxisTitle,
+        //title: this.xAxisTitle,
         type: 'datetime',
         dateTimeLabelFormats: {
           day: '%H:%M'

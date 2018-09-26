@@ -26,7 +26,10 @@
 </div>
 <div class="form-group m-2 d-inline-flex" *ngIf="!hideElementDaterangepicker" style="position: relative;">
   <span class="input-group-btn datepicker">
-    <input type="text" class="form-control" name="daterange" daterangepicker [options]="multiPicker"
+    <input type="text" class="form-control"
+           name="daterange"
+           daterangepicker
+           [options]="multiPicker"
            (selected)="selectedDate($event, daterange)"
     />
   </span>

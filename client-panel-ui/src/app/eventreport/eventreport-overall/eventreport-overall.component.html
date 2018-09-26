@@ -1,0 +1,97 @@
+
+<div class="card">
+  <div class="card-header">
+    <div class="col-md-2">Event Trend</div>
+  </div>
+  <div class="card-body">
+    <div class="row mb-3">
+      <div class="col-sm-3">Total Users: <b>{{totalUser}}</b></div>
+      <div class="col-sm-3">Total Events: <b>{{totalevent}}</b></div>
+      <div class="col-sm-3 ml-auto">
+        <select class="form-control" (change)="onGroupBy($event)">
+          <option value="os">OS</option>
+          <option value="browser">Browser</option>
+          <option value="appversion">App Version</option>
+        </select>
+      </div>
+    </div>
+    <app-draw-simple-chart *ngIf="eventCountChart.dataSeries.length==2"
+                           [title]="eventCountChart.title"
+                           [subtitle]="eventCountChart.subTitle"
+                           [xAxisTitle]="eventCountChart.xAxisTitle"
+                           [yAxisTitle]="eventCountChart.yAxisTitle"
+                           [chartType]="eventCountChart.graphType"
+                           [categories]="eventCountChart.category"
+                           [dataSeries]="eventCountChart.dataSeries">
+    </app-draw-simple-chart>
+  </div>
+</div>
+<div class="card">
+  <div class="card-header">
+    <div>
+      Trend By Time Period
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="row mb-3">
+      <div class="col-sm-4 col-md-3">
+        <select class="form-control"  (change)="onEntityType($event)">
+          <option value="event">Event</option>
+          <option value="user">User</option>
+        </select>
+      </div>
+      <div class="ml-auto col-sm-4 col-md-3">
+        <select class="form-control" name="Period" (change)="onPeriod($event)">
+          <option value="dayOfMonth">Daily</option>
+          <option value="dayOfWeek">Weekly</option>
+          <option value="month">Monthly</option>
+        </select>
+      </div>
+    </div>
+    <app-draw-simple-chart [title]="eventTimeTrendChart.title"
+                           [subtitle]="eventTimeTrendChart.subTitle"
+                           [xAxisTitle]="eventTimeTrendChart.xAxisTitle"
+                           [yAxisTitle]="eventTimeTrendChart.yAxisTitle"
+                           [chartType]="eventTimeTrendChart.graphType"
+                           [categories]="eventTimeTrendChart.category"
+                           [dataSeries]="eventTimeTrendChart.dataSeries">
+
+    </app-draw-simple-chart>
+  </div>
+</div>
+<div class="card">
+  <div class="card-header">Event Time Trend</div>
+  <div class="card-body">
+    <!--<div>-->
+    <!--<select name="attributes">-->
+    <!--<option value="Item">Item</option>-->
+    <!--<option value="Color">Color</option>-->
+    <!--<option value="Size">Size</option>-->
+    <!--</select>-->
+    <!--</div>-->
+    <app-draw-simple-chart [title]="eventUserTimeTrendChart.title"
+                           [subtitle]="eventUserTimeTrendChart.subTitle"
+                           [xAxisTitle]="eventUserTimeTrendChart.xAxisTitle"
+                           [yAxisTitle]="eventUserTimeTrendChart.yAxisTitle"
+                           [chartType]="eventUserTimeTrendChart.graphType"
+                           [categories]="eventUserTimeTrendChart.category"
+                           [dataSeries]="eventUserTimeTrendChart.dataSeries">
+
+    </app-draw-simple-chart>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header">Frequency</div>
+  <div class="card-body">
+    <app-draw-simple-chart [title]="eventUserTrendChart.title"
+                           [subtitle]="eventUserTrendChart.subTitle"
+                           [xAxisTitle]="eventUserTrendChart.xAxisTitle"
+                           [yAxisTitle]="eventUserTrendChart.yAxisTitle"
+                           [chartType]="eventUserTrendChart.graphType"
+                           [categories]="eventUserTrendChart.category"
+                           [dataSeries]="eventUserTrendChart.dataSeries">
+
+    </app-draw-simple-chart>
+  </div>
+</div>

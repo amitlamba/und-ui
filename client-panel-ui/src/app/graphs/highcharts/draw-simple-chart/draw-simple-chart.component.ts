@@ -1,26 +1,28 @@
-import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild} from '@angular/core';
 import {chart, IndividualSeriesOptions} from 'highcharts';
 import * as Highcharts from 'highcharts';
 import {ChartSeriesData} from "../../../_models/reports";
+import {ActivatedRoute, Router} from "@angular/router";
+import {ReportsService} from "../../../_services/reports.service";
+import {getPluralCategory} from "@angular/common/src/i18n/localization";
 
 @Component({
   selector: 'app-draw-simple-chart',
   templateUrl: './draw-simple-chart.component.html',
   styleUrls: ['./draw-simple-chart.component.scss']
 })
-export class DrawSimpleChartComponent implements OnInit {
+export class DrawSimpleChartComponent implements OnInit ,OnChanges{
   @Input() title: string = "Dummy Title";
   @Input() subtitle: string = "";
-  @Input() charttype: string = "column";
+  @Input() chartType: string = "column";
   @Input() xAxisTitle: string;
   @Input() yAxisTitle: string;
   @Input() categories: string[];
   @Input() dataSeries: Array<ChartSeriesData>;
-
   @ViewChild('chartTarget') chartTarget: ElementRef;
   chart: Highcharts.ChartObject;
 
-  constructor() { }
+  constructor(private router:Router,private reportService:ReportsService) { }
 
   ngOnInit() {
     Highcharts.setOptions({
@@ -37,9 +39,12 @@ export class DrawSimpleChartComponent implements OnInit {
         crosshairs: true
       }
     });
+  }
+  ngOnChanges(){
+    var that = this;
     this.chart = chart(this.chartTarget.nativeElement, {
       chart: {
-        type: this.charttype
+        type: this.chartType
       },
       title: {
         text: this.title
@@ -57,10 +62,13 @@ export class DrawSimpleChartComponent implements OnInit {
           text: this.yAxisTitle
         }
       },
+      credits: {
+        enabled: false
+      },
       tooltip: {
         headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
         pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-        '<td style="padding:0"><b>{point.y:.1f} mm</b></td></tr>',
+        '<td style="padding:0"><b>{point.y}</b></td></tr>',
         footerFormat: '</table>',
         shared: true,
         useHTML: true
@@ -68,18 +76,24 @@ export class DrawSimpleChartComponent implements OnInit {
       plotOptions: {
         column: {
           pointPadding: 0.2,
-          borderWidth: 0
+          borderWidth: 0,
+          events:{
+            click: function (event) {
+              that.reportService.graphClick.emit(event.point.category.toString());
+            }
+          }
         }
       },
       series: this.series()
     });
   }
 
-  series(): IndividualSeriesOptions[] {
-    let response = new Array<IndividualSeriesOptions>();
+  series(): any[] {
+    let response = new Array<any>();
 
     this.dataSeries.forEach((v,i,a) => {
       response.push({
+        showInLegend:v.showInLegend,
         name: v.seriesName,
         data: v.data
       })

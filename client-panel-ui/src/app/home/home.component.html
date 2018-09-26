@@ -1,32 +1,145 @@
 <div class="container">
-  <!--<div class="col-md-6 col-md-offset-3">-->
-  <h1>Reports</h1>
-  <div class="row">
-    <div class="my-5 col-lg-6">
-      <app-draw-semidonut-chart [name]="'Browser Share'" [dataSeries]="trendCountData"></app-draw-semidonut-chart>
+
+  <div class="dropdown">
+    <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
+      {{selectedSegment}}
+    </button>
+    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+      <a class="dropdown-item" (click)="selectedSegment='All Users'">All Users</a>
+      <a class="dropdown-item" (click)="selectedSegment='Search Category Men'">Search Category Men</a>
+      <a class="dropdown-item" (click)="selectedSegment='Add To Cart'">Add To Cart</a>
     </div>
-    <div class="my-5 col-lg-6">
-      <app-draw-semidonut-chart [name]="'Browser Share'" [dataSeries]="trendCountData"></app-draw-semidonut-chart>
+  </div>
+  <div class="col-12">
+    <div class="row">
+      <div class="col-md-2">Select Segment</div>
+      <div class="col-md-2">Date1</div>
+      <div class="col-md-2">Date2</div>
+      <div class="col-2">Date3</div>
+    </div>
+
+    <div class="row">
+      <div class="col-2">
+        <div class="form-group">
+          <select class="form-control" ng-init="segmentId= '1003'" (change)="segmentChange($event)">
+            <option *ngFor="let segment of segments" [ngValue]="segment.id">{{segment.name}}</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-2">
+        <div class="form-group">
+          <input type="text"
+                 class="form-control"
+                 [ngModel]="date1"
+                 required
+                 daterangepicker
+                 [options]="singlePicker"
+                 (selected)="date1Select($event)"
+          >
+        </div>
+      </div>
+      <div class="col-2">
+        <div class="form-group" (submit)="reloadApi()">
+          <input type="text"
+                 class="form-control"
+                 [ngModel]="date2"
+                 required
+                 daterangepicker
+                 [options]="singlePicker"
+                 (selected)="date2Select($event)">
+        </div>
+      </div>
+      <div class="col-2">
+        <div class="form-group">
+          <input type="text"
+                 class="form-control"
+                 [ngModel]="date3"
+                 required
+                 daterangepicker
+                 [options]="singlePicker"
+                 (selected)="date3Select($event)">
+        </div>
+      </div>
+      <div class="col-2">
+        <div class="form-group">
+          <select class="form-control" name="interval" ng-init="interval='5'" (change)="intervalChange($event)">
+            <option value="5">Interval</option>
+            <option value="10">10 Min</option>
+            <option value="20">20 Min</option>
+          </select>
+        </div>
+      </div>
+      <div>
+        <button class="btn-primary btn" (click)="reloadApi()">Submit</button>
+      </div>
     </div>
   </div>
-  <div class="my-5">
-    <app-draw-simple-chart [dataSeries]="simpleChartdata" [categories]="simpleChartCategories"
-    [yAxisTitle]="'Users Count'" [title]="'User Trend'"></app-draw-simple-chart>
+  <div class="card my-3">
+    <div class="card-header">{{trendChartTitle}}</div>
+    <div class="card-body">
+      <app-draw24-hrs-chart [title]="trendChartTitle"
+                            [subtitle]="trendChartSubTitle"
+                            [xAxisTitle]="trendChartXAxisTitle"
+                            [yAxisTitle]="trendChartYAxisTitle"
+                            [chartType]="trendChartGraphType"
+                            [dataSeries]="trendChartDataSeries">
+
+      </app-draw24-hrs-chart>
+    </div>
   </div>
-  <div class="my-5">
-    <app-draw24-hrs-chart [dataSeries]="d"></app-draw24-hrs-chart>
+  <div class="card">
+    <div class="card-body">
+      <!--insert a drop down to select date-->
+      <div>
+        <select class="form-control col-sm-4 col-md-3 col-lg-2" (change)="changeDate($event)">
+          <option *ngFor="let date of dates" value={{date}}>{{date}}</option>
+        </select>
+      </div>
+      <app-draw24-hrs-chart
+        [title]="newVsExistingTitle"
+        [subtitle]="newVsExistingSubTitle"
+        [xAxisTitle]="newVsExistingXAxisTitle"
+        [yAxisTitle]="newVsExistingYAxisTitle"
+        [chartType]="newVsExistingGraphType"
+        [dataSeries]="newVsExistingDataSeries"
+      >
+
+      </app-draw24-hrs-chart>
+    </div>
   </div>
-  <div class="my-5">
-    <app-draw-chart [dataSeries]="trendChartData"></app-draw-chart>
+  <div class="card">
+    <div class="card-body">
+      <button class="btn btn-primary" (click)="onTable()">Table</button>
+      <button class="btn btn-primary" (click)="onGraph()">Graph</button>
+      <app-draw-table *ngIf="viewType ==='table'" [newdata]="newdata"></app-draw-table>
+      <app-draw-simple-chart *ngIf="viewType==='graph' "
+                             [title]="userCountByEventTitle"
+                             [subtitle]="userCountByEventSubTitle"
+                             [yAxisTitle]="userCountByEventYAxisTitle"
+                             [chartType]="userCountByEventChartType"
+                             [categories]="userCountByEventCategory"
+                             [dataSeries]="userCountByEventDataSeries">
+
+      </app-draw-simple-chart>
+    </div>
   </div>
-  <div class="my-5">
-    <app-new-vs-existing-users-graph></app-new-vs-existing-users-graph>
+
+  <div class="card">
+    <div class="card-body">
+      <div>
+        <select class="form-control col-sm-4 col-md-3 col-lg-2" name="groupby" (change)="onGroupByChange($event)">
+          <option value="os">os</option>
+          <option value="browser">browser</option>
+          <option value="device">device</option>
+        </select>
+      </div>
+      <app-draw-semidonut-chart [name]="trendCountName"
+                                [dataSeries]="trendCountDataSeries"></app-draw-semidonut-chart>
+    </div>
   </div>
-  <div class="my-5">
-    <app-events-graph></app-events-graph>
-  </div>
-  <div class="my-5">
-    <app-conversion-events-graph></app-conversion-events-graph>
-  </div>
+
 </div>
+
+
 

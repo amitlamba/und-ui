@@ -1,3 +1,5 @@
+import {GlobalFilter, GlobalFilterType} from "./segment";
+
 export class TrendByTime{
   usercount: number;
   time:number;
@@ -6,6 +8,17 @@ export class TrendByTime{
 export class TrendTimeSeries{
   date: string;
   trenddata:Array<TrendByTime>
+}
+
+export class AggregateBy {
+   globalFilterType:string = GlobalFilterType.EventAttributeProperties
+   name: string = ""
+   aggregationType: string = AggregationType.Sum
+}
+
+enum AggregationType {
+  Avg="Aug",
+  Sum="Sum"
 }
 
 export class UserCountByTime{
@@ -34,27 +47,85 @@ export class TrendCount {
   name: string;
 }
 
+export class UserCountForProperty {
+  usercount: number;
+  groupedBy: Map<string, any>;
+}
 
-export class PropertyFilter{name: string; value: string}
-export class EventReportFilter{segmentid:number; days: number; eventName: string; propFilter: Array<PropertyFilter>}
+export class UserCountTrendForDate {
+  date: string;
+  trenddata: Array<UserCountForTime>;
+}
+
+export class UserCountForTime {
+  usercount: number;
+  time: number;
+}
+
+export class UserTypeTrendForDate {
+  date: string;
+  userCountData: Array<UserCountByTypeForTime>;
+}
+
+export class UserCountByTypeForTime {
+  newusercount: number;
+  oldusercount: number;
+  time: number;
+}
+
+export class UserCountByEventForDate {
+  date: string;
+  userCountData: Array<UserCountByEvent>;
+}
+
+export class EventUserTable{
+  eventName:string;
+  count:Array<number> = [];
+}
 
 
-export class EventCount{usercount: number;eventcount: number; name: string}
-export class EventPeriodCount{ usercount: number;  eventcount: number;period: string}
-export class EventUserFrequency{usercount:number;eventcount: number}
-export class EventTimeFrequency{ eventCount:number; timeRange: string}
 
-export class Aggregate{sum:number; period:string}
+export class EventReportFilter{segmentid:number; fromDate: string; toDate: string; eventName: string; propFilter: Array<GlobalFilter>}
+
+
+export class EventCount{
+  count:number;
+  groupedBy: Map<string, any>
+};
+export class EventPeriodCount{
+  count: number;
+  period: Map<string, any>
+}
+
+export class EventUserFrequency{
+  usercount:number;
+  eventcount:number;
+}
+export class EventTimeFrequency {
+  eventCount: number;
+  hour: number;
+}
+
+export class Aggregate {
+  sum: number;
+  period: Map<string,any>;
+}
 
 export enum PERIOD {
-  daily="daily", weekly="weekly", monthly="monthly"
+  dayOfMonth="daily", dayOfWeek="weekly", month="monthly"
 };
 
 export enum EntityType {
   event="event", user="user"
 };
 
+export class GroupBy {
+  globalFilterType: string;
+  name: string;
+}
+
 export interface ChartSeriesData {
+  showInLegend:boolean;
   seriesName: string;
   data: number[];
 }

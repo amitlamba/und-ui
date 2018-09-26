@@ -102,6 +102,15 @@ import { DrawChartComponent } from './graphs/highcharts/draw-chart/draw-chart.co
 import { DrawSemidonutChartComponent } from './graphs/highcharts/draw-semidonut-chart/draw-semidonut-chart.component';
 import { Draw24HrsChartComponent } from './graphs/highcharts/draw24-hrs-chart/draw24-hrs-chart.component';
 import { DrawSimpleChartComponent } from './graphs/highcharts/draw-simple-chart/draw-simple-chart.component';
+import { EventreportComponent } from './eventreport/eventreport.component';
+import { DrawTableComponent } from './graphs/draw-table/draw-table.component';
+import { EventreportOverallComponent } from './eventreport/eventreport-overall/eventreport-overall.component';
+import { EventreportDemographicsComponent } from './eventreport/eventreport-demographics/eventreport-demographics.component';
+import { EventreportGeographicsComponent } from './eventreport/eventreport-geographics/eventreport-geographics.component';
+import { EventreportTechnographicsComponent } from './eventreport/eventreport-technographics/eventreport-technographics.component';
+import { EventreportReachabilityComponent } from './eventreport/eventreport-reachability/eventreport-reachability.component';
+import { AppLayoutComponent } from './layouts/app-layout/app-layout.component';
+import { SiteLayoutComponent } from './layouts/site-layout/site-layout.component';
 
 
 @NgModule({
@@ -195,7 +204,16 @@ import { DrawSimpleChartComponent } from './graphs/highcharts/draw-simple-chart/
     DrawChartComponent,
     DrawSemidonutChartComponent,
     Draw24HrsChartComponent,
-    DrawSimpleChartComponent
+    DrawSimpleChartComponent,
+    EventreportComponent,
+    DrawTableComponent,
+    EventreportOverallComponent,
+    EventreportDemographicsComponent,
+    EventreportGeographicsComponent,
+    EventreportTechnographicsComponent,
+    EventreportReachabilityComponent,
+    AppLayoutComponent,
+    SiteLayoutComponent
   ],
   providers: [
     AuthGuard,
