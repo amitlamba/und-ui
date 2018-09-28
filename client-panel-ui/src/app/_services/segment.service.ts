@@ -20,11 +20,21 @@ import {Campaign} from "../_models/campaign";
 export class SegmentService {
   segments: Segment[] = [];
   editSegment: Segment;
-  countries: Country[];
+  private _countries: Country[];
   eventUser: EventUser = new EventUser();
   cachedRegisteredEvents: RegisteredEvent[] = null;
   cachedUserProperties: RegisteredEvent[] = null;
   eventUserList: EventUser[] = [];
+
+  get countries(): Country[] {
+    this._countries = <Country[]>JSON.parse(localStorage.getItem("countries"));
+    return this._countries;
+  }
+
+  set countries(value: Country[]) {
+    this._countries = value;
+    localStorage.setItem("countries", JSON.stringify(this._countries));
+  }
 
   constructor(private httpClient: HttpClient) {
     // this.editSegment = this.initSegment(new Segment());

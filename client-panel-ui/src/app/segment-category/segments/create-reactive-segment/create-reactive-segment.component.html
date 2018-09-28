@@ -32,7 +32,11 @@
                 <div formArrayName="events">
                   <app-did-event-reactive *ngFor="let eventControl of didEventArray.controls;let i = index;"
                                           [formGroupName]="i"
-                  [didEventForm]="eventControl" [didEventIndex]="i"></app-did-event-reactive>
+                                          [didEventForm]="eventControl"
+                                          [didEventIndex]="i"
+                                          [registeredEvents]="registeredEvents"
+                                          (remove)="removeDidEvent($event)"
+                  ></app-did-event-reactive>
                   <div>
                     <button class="btn btn-success  mt-3" (click)="addDidEvent()"><i class="fa fa-plus-circle"></i> Add
                       Event
@@ -40,23 +44,66 @@
                   </div>
                 </div>
               </div>
-              AND
-              <div class="card">
-                <div class="card-body">
-                  <div class="card-title">Users who did not do <span class="small text-muted">(optional)</span></div>
-                  <!--<app-did-events [didEvents]="segment.didNotEvents" [didNotEvent]="true"></app-did-events>-->
-                </div>
-              </div>
-              AND
 
-              AND
               <div *ngIf="segmentErrors && segmentErrors.length" class="mt-3 alert alert-danger">
                 <div *ngFor="let sError of segmentErrors">
                   {{sError}}
                 </div>
               </div>
+
+
               <!--<button *ngIf="showFind" class="btn btn-primary mt-2" (click)="find()"><i class="fas fa-search mr-2"></i>Find</button>-->
             </div>
+            AND
+            <div class="card" formGroupName="didNotEvents">
+              <div class="card-body">
+                <div class="card-title">
+                  <div class="d-inline">Users who didNot</div>
+                  <span class="small text-muted">(optional)</span>
+                </div>
+                <!--<app-did-events [didEvents]="segment.didEvents"></app-did-events>-->
+                <div class="form-group d-inline-flex mt-3" formGroupName="joinCondition">
+                  <div class="mr-2">
+                    <select class="form-control"  formControlName="conditionType">
+                      <option value="AllOf">All (AND)</option>
+                      <option value="AnyOf">Any (OR)</option>
+                    </select>
+                  </div>
+                  <div class="mt-2">
+                    <p>of these events</p>
+                  </div>
+                </div>
+                <!--<app-did-event [hideWhere]="didNotEvent"></app-did-event>-->
+                <!--<ng-template #container></ng-template>-->
+                <!--Did Event Form Begins-->
+                <div formArrayName="events">
+                  <app-did-event-reactive *ngFor="let eventControl of didNotEventArray.controls;let i = index;"
+                                          [formGroupName]="i"
+                                          [didEventForm]="eventControl"
+                                          [didEventIndex]="i"
+                                          [registeredEvents]="registeredEvents"
+                                          [didNotSelected]="didNotSelected"
+                                          (remove)="removeDidNotEvent($event)"
+                  ></app-did-event-reactive>
+                  <div>
+                    <button class="btn btn-success  mt-3" (click)="addDidNotEvent()"><i class="fa fa-plus-circle"></i> Add
+                      Event
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <div *ngIf="segmentErrors && segmentErrors.length" class="mt-3 alert alert-danger">
+                <div *ngFor="let sError of segmentErrors">
+                  {{sError}}
+                </div>
+              </div>
+
+
+              <!--<button *ngIf="showFind" class="btn btn-primary mt-2" (click)="find()"><i class="fas fa-search mr-2"></i>Find</button>-->
+            </div>
+
+
             <div class="card">
               <div class="card-body">
                 <div class="card-header">User Properties</div>
@@ -77,7 +124,7 @@
             <div class="card">
               <div class="card-body">
                 <div class="card-header">Location</div>
-                <div formArrayName="geoLocations">
+                <div formArrayName="geographyFilters">
                   <app-geography-reactive *ngFor="let location of geograpgyFilterArray.controls; let i = index;"
                                           [geographyForm]="location"
                                           [geographyFormIndex]="i"
@@ -90,6 +137,9 @@
                   </div>
                 </div>
               </div>
+            </div>
+            <div>
+              <button class="btn btn-primary" (click)="submit()">Save</button>
             </div>
           </form>
         </div>

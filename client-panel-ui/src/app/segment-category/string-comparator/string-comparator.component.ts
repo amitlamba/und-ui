@@ -1,6 +1,7 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {SegmentService} from "../../_services/segment.service";
 import {StringOperator} from "../../_models/segment";
+import {FormGroup} from "@angular/forms";
 
 @Component({
   selector: 'app-string-comparator',
@@ -8,8 +9,17 @@ import {StringOperator} from "../../_models/segment";
   styleUrls: ['./string-comparator.component.scss']
 })
 export class StringComparatorComponent implements OnInit, OnChanges {
+
+  // @Input() form :FormGroup;
+  // @Input() propertyFilterType;
+
+
   ngOnChanges(changes: SimpleChanges): void {
-    console.log(changes);
+    // console.log(this.form);
+    // this.form.get('operator').setValue(this.operator);
+    // this.form.get('values').setValue(this.values);
+    // console.log(this.form);
+    // console.log(changes);
   }
 
   select2Options: any;
@@ -26,6 +36,7 @@ export class StringComparatorComponent implements OnInit, OnChanges {
   // get options(): string[] { return this._options; }
 
   stringComparatorMetadata: any;
+
   @Input() stringComparatorOperators: string[];
   private singleFieldRequiredComparators: string[] = ["Equals","NotEquals","Contains","DoesNotContain"];
   selectOptionsRequired: string[] = ["Equals","NotEquals"];
@@ -79,6 +90,13 @@ export class StringComparatorComponent implements OnInit, OnChanges {
       multiple: false,
       placeholder:"Please select a value"
     }
+
+    if(this.localOperator){
+      this.dropdownChanged(this.localOperator);
+    }
+
+    console.log("oprions");
+    console.log(this.options);
   }
 
   dropdownChanged(comparator: string) {
@@ -89,7 +107,12 @@ export class StringComparatorComponent implements OnInit, OnChanges {
     else {
       this.fieldRequired = false;
     }
-    this.values = [];
+    if(this.localValues){
+      this.values=this.localValues;
+    }else{
+      this.values = [];
+    }
+
   }
 
   select2ValueChanged(val: any) {

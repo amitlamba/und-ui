@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
 import {FormGroup} from "@angular/forms";
 import {SegmentService} from "../../../../_services/segment.service";
 import {City, Country, Geography, State} from "../../../../_models/segment";
@@ -8,7 +8,7 @@ import {City, Country, Geography, State} from "../../../../_models/segment";
   templateUrl: './geography-reactive.component.html',
   styleUrls: ['./geography-reactive.component.scss']
 })
-export class GeographyReactiveComponent implements OnInit {
+export class GeographyReactiveComponent implements OnInit ,OnChanges{
 
   // localGeographyFilter: Geography;
   // @Input() get geographyFilter(): Geography {
@@ -31,21 +31,42 @@ export class GeographyReactiveComponent implements OnInit {
   selectedState: State;
   selectedCity: City;
   countries: Country[];
-  states: State[];
-  cities: City[];
+  private _states: State[];
+  private _cities: City[];
   countriesSelectList: any[] = [];
   statesSelectList: any[] = [];
   citiesSelectList: any[] = [];
 
   select2Options: Select2Options = {};
 
+
+  get states(): State[] {
+    return this._states;
+  }
+
+  set states(value: State[]) {
+    this._states = value;
+    this._states.forEach(v=>{
+            this.statesSelectList.push({id:v.id,text:v.name});
+    });
+  }
+
+  get cities(): City[] {
+    return this._cities;
+  }
+
+  set cities(value: City[]) {
+    this._cities = value;
+    this._cities.forEach(v=>{
+      this.citiesSelectList.push({id:v.id,text:v.name});
+    });
+  }
+
   constructor(private segmentService: SegmentService) {
     this.countries = segmentService.countries;
-    this.countriesSelectList.push({id: -1, text: "--Select--"});
-    this.countries.forEach((country) => {
-      this.countriesSelectList.push({id: country.id, text: country.name})
-    });
+    // this.countriesSelectList.push({id: -1, text: "--Select--"});
     // this.select2Options.placeholder="--Select--";
+
     this.geographyFilter1=new Geography();
     this.geographyFilter1.country=new Country();
     this.geographyFilter1.state=new State();
@@ -54,20 +75,54 @@ export class GeographyReactiveComponent implements OnInit {
 
   ngOnInit() {
     this.geographyForm.valueChanges.subscribe(data=>console.log(data));
+
+    if(!this.geographyForm.get('country').value) {
+      this.countriesSelectList.push({id: -1, text: "Country"});
+    }else{
+      this.countriesSelectList.push({id:this.geographyForm.get('country').value['id'],text:this.geographyForm.get('country').value['name']});
+      this.getStates(this.geographyForm.get('country').value['id']);
+      // this.onCountrySelect()
+    }
+    if(this.geographyForm.get('state').value) {
+      this.statesSelectList.push({id:this.geographyForm.get('state').value['id'],text:this.geographyForm.get('state').value['name']});
+      this.getCities(this.geographyForm.get('state').value['id']);
+    }
+    if(this.geographyForm.get('city').value) {
+      this.citiesSelectList.push({id:this.geographyForm.get('city').value['id'],text:this.geographyForm.get('city').value['name']});
+      this.selectedCity=this.geographyForm.get('city').value;
+    }
+
+    this.countries.forEach((country) => {
+      this.countriesSelectList.push({id: country.id, text: country.name})
+    });
   }
+
+  ngOnChanges(){
+  }
+
+
 
   getStates(countryId: number) {
     this.segmentService.getStates(countryId).subscribe(
       states => {
-        this.states = states;
+        this._states = states;
+        states.forEach(v=>{
+          this.statesSelectList.push({id:v.id,text:v.name});
+        })
+        this.selectedCountry=this.geographyForm.get('country').value;
       }
     );
   }
 
   getCities(stateId: number) {
-    this.segmentService.getStates(stateId).subscribe(
+    this.segmentService.getCities(stateId).subscribe(
       cities => {
-        this.cities = cities;
+        this._cities = cities;
+        cities.forEach(v=>{
+          this.citiesSelectList.push({id:v.id,text:v.name});
+        })
+        this.selectedState=this.geographyForm.get('state').value;
+
       }
     );
   }
@@ -75,14 +130,14 @@ export class GeographyReactiveComponent implements OnInit {
   onCountrySelect(data: any) {
     console.log(data);
     console.log(data['data'][0]);
-    this.geographyFilter1.country = new Country();
+
     this.geographyFilter1.country.id = data.value;
     this.geographyFilter1.country.name = data['data'][0].text;
     if (data.value > 0)
       this.segmentService.getStates(data.value).subscribe(
         states => {
           this.statesSelectList = [];
-          this.statesSelectList.push({id: -1, text: "--Select--"});
+          this.statesSelectList.push({id: -1, text: "State"});
           states.forEach(state => {
             this.statesSelectList.push({id: state.id, text: state.name})
           });
@@ -101,14 +156,14 @@ export class GeographyReactiveComponent implements OnInit {
 
   onStateSelect(data: any) {
     console.log(data);
-    this.geographyFilter1.state = new State();
+
     this.geographyFilter1.state.id = data.value;
     this.geographyFilter1.state.name = data['data'][0].text;
     if (data.value > 0)
       this.segmentService.getCities(data.value).subscribe(
         cities => {
           this.citiesSelectList = [];
-          this.citiesSelectList.push({id: -1, text: "--Select--"});
+          this.citiesSelectList.push({id: -1, text: "City"});
           cities.forEach(city => {
             this.citiesSelectList.push({id: city.id, text: city.name})
           });
@@ -125,7 +180,6 @@ export class GeographyReactiveComponent implements OnInit {
 
   onCitySelect(data: any) {
     console.log(data);
-    this.geographyFilter1.city = new City();
     this.geographyFilter1.city.id = data.value;
     this.geographyFilter1.city.name = data['data'][0].text;
     if (data.value > 0)
@@ -140,6 +194,7 @@ export class GeographyReactiveComponent implements OnInit {
 
   removeMe() {
     this.remove.emit(this.geographyFormIndex);
+
   }
 
 }

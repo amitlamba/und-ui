@@ -1,6 +1,6 @@
 <div class="d-flex flex-row">
   <div class="form-group mx-2">
-    <select class="form-control" (change)="dropdownChanged($event.target.value)">
+    <select class="form-control" (change)="dropdownChanged($event.target.value)" [ngModel]="localOperator">
       <option value="" disabled selected>--Select--</option>
       <option *ngFor="let comp of stringComparatorOperators" value="{{comp}}">
         {{stringComparatorMetadata[comp]["displayName"]}}
@@ -19,6 +19,7 @@
   <div class="form-group mx-2"  *ngIf="fieldRequired && select2OptionsRequired.indexOf(operator)>-1 && options && options.length > 0">
     <select2
              [data]="options"
+             [value]="localValues"
              [options]="select2Options"
              (valueChanged)="select2ValueChanged($event)"
              [width]="380"></select2>

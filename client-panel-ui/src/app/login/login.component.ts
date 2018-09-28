@@ -5,6 +5,7 @@ import 'rxjs/add/operator/map';
 import {AuthenticationService} from "../_services/authentication.service";
 import {_RECAPTCHA_KEY} from "../_settings/app-settings";
 import {MessageService} from "../_services/message.service";
+import {SegmentService} from "../_services/segment.service";
 
 
 @Component({
@@ -27,7 +28,7 @@ export class LoginComponent implements OnInit {
   constructor(private route: ActivatedRoute,
               private router: Router,
               private authenticationService: AuthenticationService,
-              private messageService: MessageService) {
+              private messageService: MessageService,private segmentService:SegmentService) {
     var currentUser = JSON.parse(localStorage.getItem('currentUser'));
     this.token = currentUser && currentUser.token;
 
@@ -47,6 +48,7 @@ export class LoginComponent implements OnInit {
     this.authenticationService.login(this.model.username, this.model.password, this.recaptchaToken).subscribe(
       (response) => {
         console.log(response);
+        this.initialize();
         this.loginEvent.emit();
         this.router.navigateByUrl(this.returnUrl);
         this.messageService.addSuccessMessage("Logged In successfully.");
@@ -55,6 +57,18 @@ export class LoginComponent implements OnInit {
         this.error = error.error.message;
         this.loading = false;
         console.log("this.error: " + JSON.stringify(error) + ", this.loading: " + this.loading);
+      }
+    );
+  }
+
+  initialize() {
+    this.segmentService.getCountries().subscribe(
+      response => this.segmentService.countries = response
+    );
+
+    this.segmentService.getEvents().subscribe(
+      (response) => {
+        this.segmentService.cachedRegisteredEvents = response;
       }
     );
   }

@@ -23,6 +23,9 @@ export class SegmentsComponent implements OnInit {
         this.segments = this.segmentService.segments;
       }
     );
+
+    if (!(this.segmentService.countries && this.segmentService.countries.length))
+      this.segmentService.getCountries().subscribe(response => this.segmentService.countries = response);
   }
 
   private createNewSegment(): Segment {
