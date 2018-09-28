@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {SegmentService} from "../../../_services/segment.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {
@@ -20,7 +20,7 @@ import * as moment from "moment";
   templateUrl: './create-reactive-segment.component.html',
   styleUrls: ['./create-reactive-segment.component.scss']
 })
-export class CreateReactiveSegmentComponent implements OnInit {
+export class CreateReactiveSegmentComponent implements OnInit, OnDestroy {
 
   segment: Segment;
   segmentErrors: string[] = [];
@@ -31,21 +31,12 @@ export class CreateReactiveSegmentComponent implements OnInit {
   eventProperties: RegisteredEventProperties[];
   public singleDate: any;
 
-  didNotSelected: boolean = true;
   hidePropertySumFilter = true;
 
   constructor(private segmentService: SegmentService, private fb: FormBuilder,
               private messageService: MessageService,
-              private daterangepickerOptions: DaterangepickerConfig, private route: Router) {
+              private daterangepickerOptions: DaterangepickerConfig, private router: Router) {
 
-    this.segmentService.getEvents().subscribe(
-      (response) => {
-        this.segmentService.cachedRegisteredEvents = response;
-      }
-    );
-    //
-    // if (!(this.segmentService.countries && this.segmentService.countries.length))
-    //   this.segmentService.getCountries().subscribe(response => this.segmentService.countries = response);
   }
 
   ngOnInit() {
@@ -65,9 +56,6 @@ export class CreateReactiveSegmentComponent implements OnInit {
     };
     this.singleDate = Date.now();
 
-    setTimeout(() => {
-      this.registeredEvents = this.segmentService.cachedRegisteredEvents;
-    }, 2000);
     this.registeredEvents = this.segmentService.cachedRegisteredEvents;
     if (this.registeredEvents == null || this.registeredEvents.length == 0) {
       this.messageService.addDangerMessage("No Events Metadata available. Showing Dummy data.");
@@ -76,94 +64,15 @@ export class CreateReactiveSegmentComponent implements OnInit {
     this.defaultProperties = this.segmentService.defaultEventProperties;
     this.eventProperties = this.registeredEvents[0].properties;
 
-
-
-
-    this.segment = JSON.parse("{\n" +
-      "  \"id\" : 1005,\n" +
-      "  \"name\" : \"EditTest\",\n" +
-      "  \"type\" : \"Behaviour\",\n" +
-      "  \"creationDate\" : \"2018-09-26T12:20:47.006\",\n" +
-      "  \"conversionEvent\" : null,\n" +
-      "  \"didEvents\" : {\n" +
-      "    \"description\" : null,\n" +
-      "    \"joinCondition\" : {\n" +
-      "      \"anyOfCount\" : null,\n" +
-      "      \"conditionType\" : \"AllOf\"\n" +
-      "    },\n" +
-      "    \"events\" : [ {\n" +
-      "      \"name\" : \"Charged\",\n" +
-      "      \"dateFilter\" : {\n" +
-      "        \"operator\" : \"Before\",\n" +
-      "        \"values\" : [\"2018-09-26\"],\n" +
-      "        \"valueUnit\" : \"NONE\"\n" +
-      "      },\n" +
-      "      \"propertyFilters\" : [ ],\n" +
-      "      \"whereFilter\" : {\n" +
-      "        \"whereFilterName\" : \"Count\",\n" +
-      "        \"propertyName\" : \"\",\n" +
-      "        \"operator\" : \"Equals\",\n" +
-      "        \"values\" : [ 1 ]\n" +
-      "      }\n" +
-      "    } ]\n" +
-      "  },\n" +
-      "  \"didNotEvents\" : {\n" +
-      "    \"description\" : null,\n" +
-      "    \"joinCondition\" : {\n" +
-      "      \"anyOfCount\" : null,\n" +
-      "      \"conditionType\" : \"AnyOf\"\n" +
-      "    },\n" +
-      "    \"events\" : [ {\n" +
-      "      \"name\" : \"Added to cart\",\n" +
-      "      \"dateFilter\" : {\n" +
-      "        \"operator\" : \"Before\",\n" +
-      "        \"values\" : [ \"2018-09-26\" ],\n" +
-      "        \"valueUnit\" : \"NONE\"\n" +
-      "      },\n" +
-      "      \"propertyFilters\" : [ {\n" +
-      "        \"name\" : \"Product\",\n" +
-      "        \"type\" : \"string\",\n" +
-      "        \"filterType\" : \"eventproperty\",\n" +
-      "        \"operator\" : \"DoesNotContain\",\n" +
-      "        \"values\" : [ \"jkkj\" ],\n" +
-      "        \"valueUnit\" : \"NONE\"\n" +
-      "      } ],\n" +
-      "      \"whereFilter\" : {\n" +
-      "        \"whereFilterName\" : null,\n" +
-      "        \"propertyName\" : \"\",\n" +
-      "        \"operator\" : \"NONE\",\n" +
-      "        \"values\" : null\n" +
-      "      }\n" +
-      "    } ]\n" +
-      "  },\n" +
-      "  \"globalFilters\" : [ {\n" +
-      "    \"globalFilterType\" : \"Technographics\",\n" +
-      "    \"name\" : \"Browser\",\n" +
-      "    \"type\" : \"string\",\n" +
-      "    \"operator\" : \"Contains\",\n" +
-      "    \"values\" : [ \"Chrome\",\"Opera\" ],\n" +
-      "    \"valueUnit\" : \"NONE\"\n" +
-      "  } ],\n" +
-      "  \"geographyFilters\" : [ {\n" +
-      "    \"country\" : {\n" +
-      "      \"id\" : 1,\n" +
-      "      \"name\" : \"Afghanistan\"\n" +
-      "    },\n" +
-      "    \"state\" : {\n" +
-      "      \"id\" : 43,\n" +
-      "      \"name\" : \"Badgis\"\n" +
-      "    },\n" +
-      "    \"city\" : {\n" +
-      "      \"id\" : 5914,\n" +
-      "      \"name\" : \"Bala Morghab\"\n" +
-      "    }\n" +
-      "  } ]\n" +
-      "}");
-
-
+    if(this.segmentService.cloneSegment) {
+      this.segment = this.segmentService.cloneSegment;
+    }
 
     this.createForm(this.segment);
+  }
 
+  ngOnDestroy() {
+    this.segmentService.cloneSegment = null;
   }
 
 
@@ -303,8 +212,6 @@ export class CreateReactiveSegmentComponent implements OnInit {
   }
 
   addDidNotEvent() {
-    this.didNotSelected = true;
-
     if (!this.segment.didNotEvents) {
       this.segment.didNotEvents = new DidEvents();
       this.segment.didNotEvents.events = [];
@@ -407,14 +314,34 @@ export class CreateReactiveSegmentComponent implements OnInit {
     });
   }
 
-  submit() {
-    //redirect to segment list
+  save() {
     let segment=new Segment();
     console.log(this.segmentForm['value']);
     Object.assign(segment, this.segmentForm['value']);
+    if(!this.validateSegment(segment))
+      return;
+
     console.log("segment");
     console.log(segment);
     console.log(JSON.parse(JSON.stringify(segment)));
+    this.segmentService.saveSegment(segment).subscribe(
+      (segment) => {
+        this.segmentService.segments.push(segment);
+        this.router.navigate(['segment/segments']);
+      }
+    )
   }
 
+  validateSegment(segment: Segment = null): boolean {
+    if(!segment) {
+      Object.assign(segment, this.segmentForm['value']);
+    }
+    let error = this.segmentService.validateSegment(segment);
+    this.segmentErrors = error;
+    if(error && error.length > 0) {
+      error.forEach((value) => {console.error(value);});
+      return false;
+    }
+    return true;
+  }
 }

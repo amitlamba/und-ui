@@ -62,13 +62,29 @@ export class LoginComponent implements OnInit {
   }
 
   initialize() {
+    this.getCountriesMetadata();
+    this.getEventMetadata();
+    this.getUserPropertiesMetadata();
+  }
+
+  private getCountriesMetadata() {
     this.segmentService.getCountries().subscribe(
       response => this.segmentService.countries = response
     );
+  }
 
+  private getEventMetadata() {
     this.segmentService.getEvents().subscribe(
       (response) => {
         this.segmentService.cachedRegisteredEvents = response;
+      }
+    );
+  }
+
+  private getUserPropertiesMetadata() {
+    this.segmentService.getCommonProperties().subscribe(
+      (response) => {
+        this.segmentService.cachedUserProperties = response;
       }
     );
   }

@@ -44,7 +44,7 @@ export class SegmentsComponent implements OnInit {
   }
 
   onCreateNew() {
-    this.router.navigate(["segment","create-new-segment"]);
+    this.router.navigate(["segment","create-reactive-segment"]);
   }
 
   toggleSegmentDetail(id: number) {
@@ -53,5 +53,12 @@ export class SegmentsComponent implements OnInit {
 
   segmentTrackBy(index: number, segment: Segment) {
     return segment.id;
+  }
+
+  cloneSegment(segment: Segment) {
+    let clonedSegment: Segment = JSON.parse(JSON.stringify(segment));
+    clonedSegment.id = null;
+    this.segmentService.cloneSegment = clonedSegment;
+    this.router.navigate(["segment","create-reactive-segment"]);
   }
 }

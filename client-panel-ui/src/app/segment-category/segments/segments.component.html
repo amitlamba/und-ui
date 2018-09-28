@@ -27,7 +27,10 @@
         </td>
         <td>{{segment.type}}</td>
         <td>{{segment.creationDate+"Z" | date:'medium'}}</td>
-        <td><button class="btn btn-sm btn-outline-primary" data-toggle="tooltip" data-placement="top" title="View Reports"><i class="far fa-chart-bar"></i></button></td>
+        <td>
+          <button class="btn btn-sm btn-outline-primary" data-toggle="tooltip" data-placement="top" title="View Reports"><i class="far fa-chart-bar"></i></button>
+          <button class="btn btn-sm btn-outline-primary" data-toggle="tooltip" data-placement="top" title="Clone Segment" (click)="cloneSegment(segment)"><i class="far fa-clone"></i></button>
+        </td>
       </tr>
       <tr *ngIf="toggleSegmentDetails[segment.id]">
         <td colspan="4">

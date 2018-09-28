@@ -77,7 +77,7 @@ export class GeographyReactiveComponent implements OnInit ,OnChanges{
     this.geographyForm.valueChanges.subscribe(data=>console.log(data));
 
     if(!this.geographyForm.get('country').value) {
-      this.countriesSelectList.push({id: -1, text: "Country"});
+      this.countriesSelectList.push({id: -1, text: "--Select Country--"});
     }else{
       this.countriesSelectList.push({id:this.geographyForm.get('country').value['id'],text:this.geographyForm.get('country').value['name']});
       this.getStates(this.geographyForm.get('country').value['id']);
@@ -137,7 +137,7 @@ export class GeographyReactiveComponent implements OnInit ,OnChanges{
       this.segmentService.getStates(data.value).subscribe(
         states => {
           this.statesSelectList = [];
-          this.statesSelectList.push({id: -1, text: "State"});
+          this.statesSelectList.push({id: -1, text: "--Select State--"});
           states.forEach(state => {
             this.statesSelectList.push({id: state.id, text: state.name})
           });
@@ -163,7 +163,7 @@ export class GeographyReactiveComponent implements OnInit ,OnChanges{
       this.segmentService.getCities(data.value).subscribe(
         cities => {
           this.citiesSelectList = [];
-          this.citiesSelectList.push({id: -1, text: "City"});
+          this.citiesSelectList.push({id: -1, text: "--Select City--"});
           cities.forEach(city => {
             this.citiesSelectList.push({id: city.id, text: city.name})
           });

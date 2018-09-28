@@ -1,4 +1,4 @@
-<div class="event-widget my-3" [formGroup]="didEventForm">
+<div class="event-widget my-3 py-3" [formGroup]="didEventForm">
   <div class="row d-flex flex-row ml-2">
     <div class="form-group m-2 mr-4">
       <select class="form-control" formControlName="eventName" (change)="change($event)">
@@ -28,12 +28,15 @@
   <!--registeredEvents[0].eventProperties-->
   <!--<app-filter [eventProperties]="eventProperties" [defaultProperties]="defaultProperties"></app-filter>-->
   <!-- Property FIlter Begins -->
+  <div *ngIf="didEventPropertyFilterArray.controls && didEventPropertyFilterArray.controls.length" class="my-3 filter">
+    <div class="pl-3 pb-3">Filtered with properties:</div>
   <app-filter-reactive *ngFor="let propFilter of didEventPropertyFilterArray.controls; let j=index;"
                        [filterForm]="propFilter"
                        [eventProperties]="propertyFilter"
                        [filterIndex]="j"
                        (remove)="removeDidEventPropertyFilter($event)"
   ></app-filter-reactive>
+  </div>
   <!-- Property FIlter Ends -->
 
   <div class="ml-3 mb-3">
@@ -43,11 +46,11 @@
     </button>
   </div>
 
-  <div class="ml-3" *ngIf="!hideWhere">
+  <div class="ml-3" *ngIf="!didNotSelected">
     <p class="mb-1">where</p>
   </div>
 
-  <div *ngIf="!hidewhere">
+  <div *ngIf="!didNotSelected">
   <div class="form-inline mb-4 mt-2" formGroupName="eventWhereFilter">
     <div class="form-group pr-0 ml-3">
       <select class="form-control" formControlName="whereFilterName" (change)="wherePropertyChange($event)">
@@ -71,4 +74,5 @@
                            [numberComparatorOperators]="['Equals', 'Between', 'GreaterThan', 'LessThan']"></app-number-comparator>
   </div>
   </div>
+  <div class="clearfix"></div>
 </div>

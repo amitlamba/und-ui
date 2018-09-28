@@ -18,7 +18,6 @@ export class DidEventReactiveComponent implements OnInit ,OnChanges{
   @Input() didEventIndex: number;
   @Input() registeredEvents:RegisteredEvent[];
 
-  hidewhere:boolean;
   @Input() didNotSelected:boolean=false;
 
   hidePropertySumFilter=true;
@@ -147,14 +146,8 @@ export class DidEventReactiveComponent implements OnInit ,OnChanges{
   }
 
   ngOnChanges(){
-
-    if(this.didNotSelected) {
-      this.hidewhere = true;
-    }else {
-      this.hidewhere=false;
-    }
-
   }
+
   get didEventPropertyFilterArray(): FormArray {
     return <FormArray>(this.didEventForm.get('propertyFilters'));
   }
