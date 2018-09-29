@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div class="container-fluid mb-5">
   <h1 class="mt-2">Create New Segment</h1>
   <div class="row d-flex flex-wrap flex-row">
     <div class="col-lg-10 col-sm-8  mt-2">
@@ -15,7 +15,7 @@
                   <span class="small text-muted">(optional)</span>
                 </div>
                 <!--<app-did-events [didEvents]="segment.didEvents"></app-did-events>-->
-                <div class="form-group d-inline-flex mt-3" formGroupName="joinCondition">
+                <div class="form-group d-inline-flex mt-3" formGroupName="joinCondition"  *ngIf="didEventArray.value && didEventArray.value.length">
                   <div class="mr-2">
                     <select class="form-control" id="andOr" formControlName="conditionType">
                       <option value="AllOf">All (AND)</option>
@@ -38,7 +38,7 @@
                                           (remove)="removeDidEvent($event)"
                   ></app-did-event-reactive>
                   <div>
-                    <button class="btn btn-success  mt-3" (click)="addDidEvent()"><i class="fa fa-plus-circle"></i> Add
+                    <button class="btn btn-success  mt-3" (click)="addDidEvent()"><span class="right-spacing"><i class="fa fa-plus-circle"></i></span> Add
                       Event
                     </button>
                   </div>
@@ -54,25 +54,14 @@
 
               <!--<button *ngIf="showFind" class="btn btn-primary mt-2" (click)="find()"><i class="fas fa-search mr-2"></i>Find</button>-->
             </div>
-            AND
+            <div class="mx-auto my-3">AND</div>
             <div class="card" formGroupName="didNotEvents">
               <div class="card-body">
                 <div class="card-title">
-                  <div class="d-inline">Users who didNot</div>
+                  <div class="d-inline">Users who did no do any of these events</div>
                   <span class="small text-muted">(optional)</span>
                 </div>
                 <!--<app-did-events [didEvents]="segment.didEvents"></app-did-events>-->
-                <div class="form-group d-inline-flex mt-3" formGroupName="joinCondition">
-                  <div class="mr-2">
-                    <select class="form-control"  formControlName="conditionType">
-                      <option value="AllOf">All (AND)</option>
-                      <option value="AnyOf">Any (OR)</option>
-                    </select>
-                  </div>
-                  <div class="mt-2">
-                    <p>of these events</p>
-                  </div>
-                </div>
                 <!--<app-did-event [hideWhere]="didNotEvent"></app-did-event>-->
                 <!--<ng-template #container></ng-template>-->
                 <!--Did Event Form Begins-->
@@ -82,11 +71,11 @@
                                           [didEventForm]="eventControl"
                                           [didEventIndex]="i"
                                           [registeredEvents]="registeredEvents"
-                                          [didNotSelected]="didNotSelected"
+                                          [didNotSelected]="true"
                                           (remove)="removeDidNotEvent($event)"
                   ></app-did-event-reactive>
                   <div>
-                    <button class="btn btn-success  mt-3" (click)="addDidNotEvent()"><i class="fa fa-plus-circle"></i> Add
+                    <button class="btn btn-success  mt-3" (click)="addDidNotEvent()"><span class="right-spacing"><i class="fa fa-plus-circle"></i></span> Add
                       Event
                     </button>
                   </div>
@@ -103,10 +92,14 @@
               <!--<button *ngIf="showFind" class="btn btn-primary mt-2" (click)="find()"><i class="fas fa-search mr-2"></i>Find</button>-->
             </div>
 
+            <div class="mx-auto my-3">AND</div>
 
             <div class="card">
               <div class="card-body">
-                <div class="card-header">User Properties</div>
+                <div class="card-title">
+                  <div class="d-inline">Users with these specifications and properties</div>
+                  <span class="small text-muted">(optional)</span>
+                </div>
                 <div formArrayName="globalFilters">
                   <app-global-reactive *ngFor="let filter of globalFilterArray.controls; let i = index;"
                                        [globalFilterForm]="filter"
@@ -114,16 +107,22 @@
                                        (remove)="removeGlobalFilter($event)"
                   ></app-global-reactive>
                   <div>
-                    <button class="btn btn-success  mt-3" (click)="addGlobalFilter()"><i class="fa fa-plus-circle"></i>
-                      Add
+                    <button class="btn btn-success  mt-3" (click)="addGlobalFilter()"><span class="right-spacing"><i class="fa fa-plus-circle"></i></span>
+                      Add Property
                     </button>
                   </div>
                 </div>
               </div>
             </div>
+
+            <div class="mx-auto my-3">AND</div>
+
             <div class="card">
               <div class="card-body">
-                <div class="card-header">Location</div>
+                <div class="card-title">
+                  <div class="d-inline">Users with these Locations</div>
+                  <span class="small text-muted">(optional)</span>
+                </div>
                 <div formArrayName="geographyFilters">
                   <app-geography-reactive *ngFor="let location of geograpgyFilterArray.controls; let i = index;"
                                           [geographyForm]="location"
@@ -131,23 +130,70 @@
                                           (remove)="removeGeoLocation($event)"
                   ></app-geography-reactive>
                   <div>
-                    <button class="btn btn-success  mt-3" (click)="addGeoLocation()"><i class="fa fa-plus-circle"></i>
-                      Add
+                    <button class="btn btn-success  mt-3" (click)="addGeoLocation()"><span class="right-spacing"><i class="fa fa-plus-circle"></i></span>
+                      Add Location
                     </button>
                   </div>
                 </div>
               </div>
             </div>
-            <div>
-              <button class="btn btn-primary" (click)="submit()">Save</button>
+            <div class="text-right my-4">
+              <button class="btn btn-primary mt-2" data-toggle="modal" data-target="#segmentNameModal" (click)="validateSegment()">Save</button>
             </div>
           </form>
         </div>
-        <!--<app-segment-nlp *ngIf="showSegmentInNl" [segment]="segment"></app-segment-nlp>-->
+        <app-segment-nlp *ngIf="showSegmentInNl" [segment]="segment"></app-segment-nlp>
       </div>
       <div *ngIf="segmentErrors && segmentErrors.length" class="mt-3 alert alert-danger">
         <div *ngFor="let sError of segmentErrors">
           {{sError}}
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Modal -->
+  <div class="modal fade" id="segmentNameModal" tabindex="-1" role="dialog" aria-labelledby="segmentNameModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="segmentNameModalLabel">Save Segment as</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form #segmentFormModal="ngForm">
+            <div class="form-group">
+              <label for="segmentName">Segment Name</label>
+              <input type="text"
+                     class="form-control"
+                     id="segmentName"
+                     aria-describedby="segmentNameHelp"
+                     placeholder="Enter Segment Name"
+                     name="segmentName" [(ngModel)]="newSegment.name"
+                     required
+                     [ngClass]="{'border-danger':segmentName.errors && (segmentName.touched || segmentName.dirty )}"
+                     #segmentName="ngModel">
+              <div class="alert-alert-danger" *ngIf="segmentName.errors && (segmentName.touched || segmentName.dirty )">
+                Name is Required.
+              </div>
+              <small id="segmentNameHelp" class="form-text text-muted">We'll use this name to identify segments.</small>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button"
+                  class="btn btn-secondary"
+                  data-dismiss="modal"
+                  (click)="segmentForm.reset();">Close
+          </button>
+          <button [disabled]="segmentForm.invalid"
+                  type="button"
+                  class="btn btn-primary"
+                  data-toggle="modal"
+                  data-target="#segmentNameModal"
+                  (click)="save()">Save Segment
+          </button>
         </div>
       </div>
     </div>

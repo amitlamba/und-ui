@@ -49,11 +49,13 @@ export class GlobalReactiveComponent implements OnInit {
 
 
   constructor(private segmentService:SegmentService) {
-    this.globalFilter=new GlobalFilter();
-    // this.globalFiltersMetadata = this.segmentService.cachedUserProperties.reduce(
-    //   (ac, p) => ({...ac, [p.name]: p.properties}), {}
-    // );
-    this.globalFiltersMetadata=segmentService.globalFiltersMetadata;
+    this.globalFilter = new GlobalFilter();
+    this.globalFiltersMetadata = this.segmentService.cachedUserProperties.reduce(
+      (ac, p) => ({...ac, [p.name]: p.properties}), {}
+    );
+    if (!(this.globalFiltersMetadata && this.globalFiltersMetadata.length)) {
+      this.globalFiltersMetadata = segmentService.globalFiltersMetadata;
+    }
   }
 
   ngOnInit() {
@@ -63,23 +65,23 @@ export class GlobalReactiveComponent implements OnInit {
     // console.log(this.globalFilterForm.get('values').value);
     this.firstDropDown = Object.keys(this.globalFiltersMetadata);
     console.log(this.globalFilterForm);
-    if(this.globalFilterForm.get('operator').value){
-      this.operator=this.globalFilterForm.get('operator').value;
+    if (this.globalFilterForm.get('operator').value) {
+      this.operator = this.globalFilterForm.get('operator').value;
     }
-    if(this.globalFilterForm.get('values').value){
-      this.values=this.globalFilterForm.get('values').value;
+    if (this.globalFilterForm.get('values').value) {
+      this.values = this.globalFilterForm.get('values').value;
     }
-    if(this.globalFilterForm.get('globalFilterType').value){
-      this.maxOrder=1;
+    if (this.globalFilterForm.get('globalFilterType').value) {
+      this.maxOrder = 1;
       this.firstFilterChanged(this.globalFilterForm.get('globalFilterType').value)
-    }else {
+    } else {
       this.globalFilterForm.get('globalFilterType').setValue(this.firstDropDown[0]);
-      this.maxOrder=1;
+      this.maxOrder = 1;
       this.firstFilterChanged(this.firstDropDown[0]);
-      this.operator=StringOperator.Equals;
+      this.operator = StringOperator[StringOperator.Equals];
     }
 
-    this.globalFilterForm.valueChanges.subscribe(data=>console.log(data));
+    this.globalFilterForm.valueChanges.subscribe(data => console.log(data));
   }
 
   firstFilterChanged(name: string) {

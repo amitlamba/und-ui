@@ -1,10 +1,6 @@
 <div class="my-2 event-widget">
-  <div class="row d-flex flex-row ml-2">
-    <div >
+  <div class="row d-flex flex-row ml-2 py-2">
     <div class="form-group m-2">
-      <!--<select2 class="form-control" placeholder="Country" [options]="countriesSelectList" [(ngModel)]="selectedCountry" (onSelect)="onCountrySelect($event)"></select2>-->
-      <!--<input class="form-control" placeholder="Country"/>-->
-      <!--<select2 placeholder="Country" class="form-control"  [data]="countriesSelectList"></select2>-->
       <select2 [data]="countriesSelectList"
                [value]="countriesSelectList"
                [options]="select2Options"
@@ -24,7 +20,6 @@
     <button type="button" class="close ml-auto mr-4 pos" aria-label="Close" (click)="removeMe()">
       <span aria-hidden="true">&times;</span>
     </button>
-  </div>
   </div>
 </div>
 
