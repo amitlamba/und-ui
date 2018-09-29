@@ -1,0 +1,22 @@
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <select (change)="segmentChange($event)" [ngModel]="segment">
+        <option *ngFor="let segment of segments" [ngValue]="segment">{{segment.name}}</option>
+      </select>
+    </div>
+    <div class="col">
+      <select2 [data]="segments"
+               [value]="segment"
+               [options]="select2Options"
+               (valueChanged)="segmentChange($event)"
+      >
+      </select2>
+    </div>
+    <div class="col">
+      <input type="text" class="form-control" name="daterange" daterangepicker [options]="multiPicker"
+             (selected)="selectedDate($event)"
+      />
+    </div>
+  </div>
+</div>

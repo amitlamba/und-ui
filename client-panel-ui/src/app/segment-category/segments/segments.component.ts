@@ -54,4 +54,7 @@ export class SegmentsComponent implements OnInit {
   segmentTrackBy(index: number, segment: Segment) {
     return segment.id;
   }
+  viewReport(segment:Segment){
+    //route to segment report component
+  }
 }
