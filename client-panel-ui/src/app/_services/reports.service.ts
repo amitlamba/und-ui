@@ -1,6 +1,6 @@
 import {EventEmitter, Injectable} from "@angular/core";
 import {
-  Aggregate, EntityType,
+  Aggregate, AggregateBy, EntityType,
   EventCount, EventPeriodCount, EventReportFilter, EventTimeFrequency, EventUserFrequency, GroupBy, PERIOD, TrendCount,
   TrendTimeSeries,
   UserCountByEventForDate,
@@ -37,7 +37,12 @@ export class ReportsService {
   }
 
   getTrendCount_1(segmentid: number, groupby: GroupBy, interval: number): Observable<UserCountForProperty[]> {
-    const params = new HttpParams().set("segmentid", segmentid.toString()).set("groupBy", groupby.toString()).set("interval", interval.toString());
+    const params = new HttpParams().
+    set("segmentid", segmentid.toString()).
+    set("groupName",groupby.name).
+    set("interval", interval.toString()).
+    set("groupFilterType",groupby.globalFilterType);
+
     return this.httpClient.get<UserCountForProperty[]>(AppSettings.API_ENDPOINT_CLIENT_DASHBOARD_LIVEUSERS, {
       params: params
     });
@@ -155,18 +160,19 @@ export class ReportsService {
     return this.httpClient.post<EventTimeFrequency[]>(AppSettings.API_ENDPOINT_CLIENT_REPORT_EVENT_EVENTTIMETREND, propFilter,{params});
   }
 
-  getEventAggregateTrend(erf: EventReportFilter, period:PERIOD, aggregateOn = null): Observable<Aggregate[]> {
+  getEventAggregateTrend(erf: EventReportFilter, period:PERIOD, aggregateOn:AggregateBy): Observable<Aggregate[]> {
     //aggregate are unrequire
     const params=new HttpParams()
       .set("segmentid",erf.segmentid.toString())
       .set("fromDate",erf.fromDate)
       .set("toDate",erf.toDate)
       .set("eventName",erf.eventName)
-      .set("period",period);
+      .set("period",period)
+      .set("aggregationType",aggregateOn.aggregationType)
+      .set("globalFilterType",aggregateOn.globalFilterType)
+      .set("name",aggregateOn.name);
     const propFilter=erf.propFilter;
-    if (aggregateOn != null) {
-      params.set("aggregateOn", aggregateOn);
-    }
+
     return this.httpClient.post<Aggregate[]>(AppSettings.API_ENDPOINT_CLIENT_REPORT_EVENT_EVENTAGGREGATETREND,propFilter, {params});
   }
   /*

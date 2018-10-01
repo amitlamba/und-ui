@@ -40,7 +40,7 @@
         </div>
       </div>
       <div class="col-2">
-        <div class="form-group">
+        <div class="form-group" (submit)="reloadApi()">
           <input type="text"
                  class="form-control"
                  [ngModel]="date2"
@@ -69,6 +69,9 @@
             <option value="20">20 Min</option>
           </select>
         </div>
+      </div>
+      <div>
+        <button class="btn-primary btn" (click)="reloadApi()">Submit</button>
       </div>
     </div>
   </div>
@@ -109,7 +112,7 @@
     <div class="card-body">
       <button class="btn btn-primary" (click)="onTable()">Table</button>
       <button class="btn btn-primary" (click)="onGraph()">Graph</button>
-      <app-draw-table *ngIf="viewType ==='table'" [eventUserData]="userCountByEventData"></app-draw-table>
+      <app-draw-table *ngIf="viewType ==='table'" [newdata]="newdata"></app-draw-table>
       <app-draw-simple-chart *ngIf="viewType==='graph' "
                              [title]="userCountByEventTitle"
                              [subtitle]="userCountByEventSubTitle"
@@ -127,7 +130,7 @@
       <div>
         <select class="form-control col-sm-4 col-md-3 col-lg-2" name="groupby" (change)="onGroupByChange($event)">
           <option value="os">os</option>
-          <option value="brower">browser</option>
+          <option value="browser">browser</option>
           <option value="device">device</option>
         </select>
       </div>

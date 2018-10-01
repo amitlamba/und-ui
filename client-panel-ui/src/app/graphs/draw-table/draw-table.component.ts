@@ -1,5 +1,5 @@
 import {Component, Input, OnChanges, OnInit} from '@angular/core';
-import {EventUserTable, UserCountByEventTimeSeries} from "../../_models/reports";
+import {EventUserTable, UserCountByEventForDate, UserCountByEventTimeSeries} from "../../_models/reports";
 
 @Component({
   selector: 'app-draw-table',
@@ -8,10 +8,13 @@ import {EventUserTable, UserCountByEventTimeSeries} from "../../_models/reports"
 })
 export class DrawTableComponent implements OnInit ,OnChanges{
 
-  @Input() eventUserData:Array<UserCountByEventTimeSeries>;
+  @Input() eventUserData:Array<UserCountByEventForDate>;
 
   eventUserTableData:Array<EventUserTable> = [];
 
+  @Input() newdata:Map<string,number[]>;
+
+  events:string[]=[];
   constructor() { }
 
   ngOnInit() {
@@ -19,7 +22,8 @@ export class DrawTableComponent implements OnInit ,OnChanges{
   }
 
   ngOnChanges(){
-    this.initializeTable()
+    // this.initializeTable();
+    this.newInitialization1();
   }
   initializeTable(){
     var length=this.eventUserData[0].userCountData.length
@@ -36,5 +40,17 @@ export class DrawTableComponent implements OnInit ,OnChanges{
       }
       this.eventUserTableData.push(tabledata)
     }
+  }
+  newInitialization1(){
+    var map=this.newdata;
+    var key=map.keys();
+    var obj=key.next();
+    while(obj){
+      this.events.push(obj.value);
+      obj=key.next();
+    }
+
+    this.events.forEach(data=>console.log("key are"+data));
+
   }
 }

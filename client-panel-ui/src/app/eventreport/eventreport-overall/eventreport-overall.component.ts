@@ -1,5 +1,5 @@
 import {Component, DoCheck, Input, OnChanges, OnDestroy, OnInit} from '@angular/core';
-import {ChartSeriesData, EntityType, EventReportFilter, GroupBy, PERIOD} from "../../_models/reports";
+import {AggregateBy, ChartSeriesData, EntityType, EventReportFilter, GroupBy, PERIOD} from "../../_models/reports";
 import {ReportsService} from "../../_services/reports.service";
 import {HttpClient} from "@angular/common/http";
 import {ChartModel} from "../eventreport-demographics/eventreport-demographics.component";
@@ -41,22 +41,23 @@ export class EventreportOverallComponent implements OnInit ,OnChanges,OnDestroy,
   groupByParam:GroupBy;
   periodParam:PERIOD;
 
+  aggregateBy:AggregateBy;
   constructor(private reportService: ReportsService, private httpClient: HttpClient) {
     this.groupByFilterType='Technographics';
     this.groupBy='os';
-    this.period='daily';
+    this.period='dayOfMonth';
     this.eventReportFilterParam=new EventReportFilter();
     this.groupByParam=new GroupBy();
     this.groupByParam.globalFilterType=this.groupByFilterType;
     this.groupByParam.name=this.groupBy;
-    this.periodParam=PERIOD.daily;
+    this.periodParam=PERIOD.dayOfMonth;
     this.filterList = [];
-
     this.eventCountChart=new ChartModel();
     this.eventUserTrendChart=new ChartModel();
     this.eventTimeTrendChart=new ChartModel();
     this.eventUserTimeTrendChart=new ChartModel();
-
+    this.aggregateBy=new AggregateBy();
+    this.aggregateBy.name="Amount";
   }
 
   ngOnInit() {
@@ -64,8 +65,6 @@ export class EventreportOverallComponent implements OnInit ,OnChanges,OnDestroy,
 
   ngOnChanges(){
 
-    this.fromDate='2018-08-10';
-    this.toDate='2018-08-20';
     this.eventReportFilterParam.eventName=this.eventName;
     this.eventReportFilterParam.fromDate=this.fromDate;
     this.eventReportFilterParam.toDate=this.toDate;
@@ -118,22 +117,29 @@ export class EventreportOverallComponent implements OnInit ,OnChanges,OnDestroy,
           }
         );
     //calling time period trend
-    this.eventTimeTrendChart.dataSeries=[];
 
     this.reportService.getTimePeriodTrend(this.eventReportFilterParam,this.entityTypeParam,this.periodParam)
       .subscribe(
         (response)=>{
+          this.eventTimeTrendChart.category=response.map(data=>data.period['year']+"-"+data.period['month']+"-"+data.period[this.periodParam]);
+          this.eventTimeTrendChart.dataSeries=[];
+          this.eventTimeTrendChart.dataSeries.push({
+            showInLegend:false,
+            seriesName:'users',
+            data:response.map(data=>data.count)
+          });
           console.log(response);
         }
       );
     //calling eventuser trend api
 
-    this.eventUserTrendChart.dataSeries=[];
+
 
     this.reportService.getEventUserTrend(this.eventReportFilterParam)
       .subscribe(
         (response)=>{
           this.eventUserTrendChart.category=response.map(data=>data.eventcount.toString());
+          this.eventUserTrendChart.dataSeries=[];
           this.eventUserTrendChart.dataSeries.push({
             showInLegend:false,
             seriesName:'users',
@@ -148,11 +154,19 @@ export class EventreportOverallComponent implements OnInit ,OnChanges,OnDestroy,
     this.reportService.getEventTimeTrend(this.eventReportFilterParam)
       .subscribe(
         (response)=>{
+          this.eventUserTimeTrendChart.category=response.map(data=>data.hour.toString());
+          this.eventUserTimeTrendChart.dataSeries=[];
+          this.eventUserTimeTrendChart.dataSeries.push({
+            showInLegend:false,
+            seriesName:'users',
+            data:response.map(data=>data.eventCount)
+          });
           console.log(response);
         }
       );
     //calling aggregate trend
-    this.reportService.getEventAggregateTrend(this.eventReportFilterParam,this.periodParam)
+
+    this.reportService.getEventAggregateTrend(this.eventReportFilterParam,this.periodParam,this.aggregateBy)
       .subscribe(
         (response)=>{
           console.log(response);
@@ -266,6 +280,13 @@ export class EventreportOverallComponent implements OnInit ,OnChanges,OnDestroy,
     this.reportService.getTimePeriodTrend(this.eventReportFilterParam,this.entityTypeParam,this.periodParam)
       .subscribe(
         (response)=>{
+          this.eventTimeTrendChart.category=response.map(data=>data.period['year']+"-"+data.period['month']+"-"+data.period[this.period]);
+          this.eventTimeTrendChart.dataSeries=[];
+          this.eventTimeTrendChart.dataSeries.push({
+            showInLegend:false,
+            seriesName:'users',
+            data:response.map(data=>data.count)
+          });
           console.log(response);
         }
       );
@@ -273,11 +294,20 @@ export class EventreportOverallComponent implements OnInit ,OnChanges,OnDestroy,
   onPeriod(period){
     console.log(period.target.value);
     this.period=period.target.value;
+    console.log("period is"+this.period);
     this.periodParam=PERIOD[this.period];
+    console.log(this.periodParam)
     //call trendbytimeperiod api
     this.reportService.getTimePeriodTrend(this.eventReportFilterParam,this.entityTypeParam,this.periodParam)
       .subscribe(
         (response)=>{
+          this.eventTimeTrendChart.category=response.map(data=>data.period['year']+"-"+data.period['month']+"-"+data.period[this.period]);
+          this.eventTimeTrendChart.dataSeries=[];
+          this.eventTimeTrendChart.dataSeries.push({
+            showInLegend:false,
+            seriesName:'users',
+            data:response.map(data=>data.count)
+          });
           console.log(response);
         }
       );

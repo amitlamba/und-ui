@@ -18,7 +18,10 @@
     </div>
     <div class="input-group mb-3 col-sm-4 col-md-3">
       <span class="input-group-btn datepicker">
-    <input type="text" class="form-control" name="daterange" daterangepicker [options]="multiPicker"
+    <input type="text" class="form-control"
+           name="daterange"
+           daterangepicker
+           [options]="multiPicker"
            (selected)="selectedDate($event)"
     />
   </span>

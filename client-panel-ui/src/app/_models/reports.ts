@@ -1,4 +1,4 @@
-import {GlobalFilter} from "./segment";
+import {GlobalFilter, GlobalFilterType} from "./segment";
 
 export class TrendByTime{
   usercount: number;
@@ -8,6 +8,17 @@ export class TrendByTime{
 export class TrendTimeSeries{
   date: string;
   trenddata:Array<TrendByTime>
+}
+
+export class AggregateBy {
+   globalFilterType:string = GlobalFilterType.EventAttributeProperties
+   name: string = ""
+   aggregationType: string = AggregationType.Sum
+}
+
+enum AggregationType {
+  Avg="Aug",
+  Sum="Sum"
 }
 
 export class UserCountByTime{
@@ -101,7 +112,7 @@ export class Aggregate {
 }
 
 export enum PERIOD {
-  daily="daily", weekly="weekly", monthly="monthly"
+  dayOfMonth="daily", dayOfWeek="weekly", month="monthly"
 };
 
 export enum EntityType {

@@ -7,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AppLayoutComponent implements OnInit {
 
+  hideLeftSidebar=true;
+
   constructor() { }
 
   ngOnInit() {

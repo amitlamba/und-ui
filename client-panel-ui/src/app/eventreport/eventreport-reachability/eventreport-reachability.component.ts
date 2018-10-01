@@ -50,7 +50,7 @@ export class EventreportReachabilityComponent implements OnInit,OnDestroy ,OnCha
   drawReachabilityChart() {
     var groupBy= new GroupBy();
     groupBy.globalFilterType=this.groupByFilterType;
-    groupBy.name='communication';
+    groupBy.name='email';
     this.reportService.getCountTrend(this.eventReportFilterParam,this.entityTypeParam,groupBy)
       .subscribe(
         response=>{
@@ -58,7 +58,7 @@ export class EventreportReachabilityComponent implements OnInit,OnDestroy ,OnCha
           var data=response.map(data=>data.count);
           var chartSeriesData={
             showInLegend:false,
-            seriesName:'communication',
+            seriesName:'email',
             data:data
           };
 
@@ -67,6 +67,7 @@ export class EventreportReachabilityComponent implements OnInit,OnDestroy ,OnCha
           console.log(response);
         }
       );
+    // add it another time
   }
 
   ngOnDestroy(){
