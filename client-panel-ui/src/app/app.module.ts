@@ -117,6 +117,8 @@ import { GeographyReactiveComponent } from './segment-category/segments/create-r
 import { DidEventReactiveComponent } from './segment-category/segments/create-reactive-segment/did-event-reactive/did-event-reactive.component';
 import { GlobalReactiveComponent } from './segment-category/segments/create-reactive-segment/global-reactive/global-reactive.component';
 import { SegmentReportComponent } from './segment-report/segment-report.component';
+import { SegmentBehaviorReactiveComponent } from './segment-category/segments/segment-behavior-reactive/segment-behavior-reactive.component';
+import { FunnelComponent } from './funnel/funnel.component';
 
 
 @NgModule({
@@ -226,7 +228,9 @@ import { SegmentReportComponent } from './segment-report/segment-report.componen
     GeographyReactiveComponent,
     DidEventReactiveComponent,
     GlobalReactiveComponent,
-    SegmentReportComponent
+    SegmentReportComponent,
+    SegmentBehaviorReactiveComponent,
+    FunnelComponent
   ],
   providers: [
     AuthGuard,

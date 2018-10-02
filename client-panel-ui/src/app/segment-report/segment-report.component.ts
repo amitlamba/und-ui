@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {moment} from "ngx-bootstrap/chronos/test/chain";
 import {Segment} from "../_models/segment";
+import {SegmentService} from "../_services/segment.service";
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
   selector: 'app-segment-report',
@@ -14,8 +16,12 @@ export class SegmentReportComponent implements OnInit {
   fromDate:string;
   toDate:string;
 
-  constructor() {
+  constructor(private activatedRoute:ActivatedRoute,private segmentService:SegmentService) {
     // take segment
+    let segmentName=activatedRoute.snapshot.params['name'];
+    segmentService.getSegments().subscribe(response=>{
+      this.segments=response;
+    });
   }
 
   ngOnInit() {

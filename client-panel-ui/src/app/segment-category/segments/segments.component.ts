@@ -61,4 +61,8 @@ export class SegmentsComponent implements OnInit {
     this.segmentService.cloneSegment = clonedSegment;
     this.router.navigate(["segment","create-reactive-segment"]);
   }
+
+  viewReport(segment:Segment){
+    this.router.navigate(["segment-report",segment.name]);
+  }
 }

@@ -83,7 +83,31 @@ export class EventUserTable{
   count:Array<number> = [];
 }
 
+export class FunnelReportFilter{
+  segmentid:number;
+  days:number;
+  conversionTime:number;
+  steps:Array<Step>;
+  funnelOrder:FunnelOrder;
+  splitProperty:string;
+  splitPropertyType=GlobalFilterType.EventAttributeProperties;
+}
 
+export enum FunnelOrder{
+  strict = "strict",
+  default = "default"
+}
+
+export class Step{
+  order:number;
+  eventName:string;
+}
+
+export class FunnelStep{
+   step: Step;
+   count: number;
+   property: string;
+}
 
 export class EventReportFilter{segmentid:number; fromDate: string; toDate: string; eventName: string; propFilter: Array<GlobalFilter>}
 

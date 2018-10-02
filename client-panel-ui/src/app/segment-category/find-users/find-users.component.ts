@@ -5,6 +5,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {identifierModuleUrl} from "@angular/compiler";
 import {EventUser} from "../../_models/user";
 import {HttpErrorResponse} from "@angular/common/http";
+import {MessageService} from "../../_services/message.service";
 
 @Component({
   selector: 'app-find-users',
@@ -22,17 +23,21 @@ export class FindUsersComponent implements OnInit {
   eventUserList: EventUser[] = [];
   fragment: string;
 
+  segment:Segment;
+  type:string='Find';
+
   constructor(private segmentService: SegmentService,
               private router: Router,
-              private route: ActivatedRoute) {
-    this.newSegment = new Segment();
-    // this.newSegment.didEvents = new DidEvents();
-    // this.newSegment.didNotEvents = new DidEvents();
-    // this.newSegment.globalFilters = [];
-    // this.newSegment.geographyFilters = new Array<Geography>();
-    this.segmentService.initSegment(this.newSegment);
-    this.newSegment.type = "Behaviour";
-    this.segmentService.editSegment = this.newSegment;
+              private route: ActivatedRoute,
+              private messageService:MessageService) {
+    // this.newSegment = new Segment();
+    // // this.newSegment.didEvents = new DidEvents();
+    // // this.newSegment.didNotEvents = new DidEvents();
+    // // this.newSegment.globalFilters = [];
+    // // this.newSegment.geographyFilters = new Array<Geography>();
+    // this.segmentService.initSegment(this.newSegment);
+    // this.newSegment.type = "Behaviour";
+    // this.segmentService.editSegment = this.newSegment;
   }
 
   ngOnInit() {
@@ -170,4 +175,18 @@ export class FindUsersComponent implements OnInit {
     this.fragment = "event-user-list";
     this.scrollToFragment();
   }
+
+  find(segment:Segment) {
+    // this.showSegmentInNl = true;
+    this.segmentService.getEventUsersBySegment(segment)
+      .subscribe(response => {
+        console.log(response);
+        this.receiveEventUserList(response);
+        // this.router.navigate(["segment","find-users"],{fragment: "event-user-list"});
+      }, (error: HttpErrorResponse)=> {
+        console.log(error);
+        this.messageService.addInfoMessage("No Such user Exists!!");
+      });
+  }
+
 }

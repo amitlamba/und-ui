@@ -33,7 +33,7 @@ export class DidEventReactiveComponent implements OnInit ,OnChanges{
 
   set numberOperator(value: NumberOperator) {
     this._numberOperator = value;
-    this.didEventForm.get('eventWhereFilter').get('whereFilterOperator').setValue(this._numberOperator);
+    this.didEventForm.get('whereFilter').get('operator').setValue(this._numberOperator);
   }
 
   private _numberValues:number[];
@@ -45,7 +45,7 @@ export class DidEventReactiveComponent implements OnInit ,OnChanges{
 
   set numberValues(value: number[]) {
     this._numberValues = value;
-    this.didEventForm.get('eventWhereFilter').get('whereFilterValues').setValue(this._numberValues);
+    this.didEventForm.get('whereFilter').get('values').setValue(this._numberValues);
   }
 
   private _operator:DateOperator;
@@ -56,7 +56,7 @@ export class DidEventReactiveComponent implements OnInit ,OnChanges{
 
   set operator(value: DateOperator) {
     this._operator = value;
-    this.didEventForm.get('eventDateFilter').get('dateFilterOperator').setValue(this._operator);
+    this.didEventForm.get('dateFilter').get('operator').setValue(this._operator);
   }
 
   private _values:string[];
@@ -67,7 +67,7 @@ export class DidEventReactiveComponent implements OnInit ,OnChanges{
 
   set values(value: string[]) {
     this._values = value;
-    this.didEventForm.get('eventDateFilter').get('dateFilterValues').setValue(this._values);
+    this.didEventForm.get('dateFilter').get('values').setValue(this._values);
   }
 
   get valueUnit(): string {
@@ -103,15 +103,15 @@ export class DidEventReactiveComponent implements OnInit ,OnChanges{
     console.log("insied did event");
     console.log(this.didEventForm);
 
-    if(this.didEventForm.get('eventDateFilter').get('dateFilterOperator')){
-      this._operator=this.didEventForm.get('eventDateFilter').get('dateFilterOperator').value;
+    if(this.didEventForm.get('dateFilter').get('operator')){
+      this._operator=this.didEventForm.get('dateFilter').get('operator').value;
     }else{
       this._operator=DateOperator.Before;
     }
 
     //values  ==current date
-    if(this.didEventForm.get('eventDateFilter').get('dateFilterValues')){
-      this._values=this.didEventForm.get('eventDateFilter').get('dateFilterValues').value;
+    if(this.didEventForm.get('dateFilter').get('values')){
+      this._values=this.didEventForm.get('dateFilter').get('values').value;
     }else{
       this._values=[moment().format('YYYY-MM-DD')];
     }
@@ -119,26 +119,26 @@ export class DidEventReactiveComponent implements OnInit ,OnChanges{
     //valueUnitthis._numberValues=this.didEventForm.get('eventWhereFilter').get('whereFilterValues').value;
     this._valueUnit=this.dateFilter.valueUnit;
 
-    if(this.didEventForm.get('eventWhereFilter').get('whereFilterName')){
+    if(this.didEventForm.get('whereFilter').get('whereFilterName')){
       console.log("where filter");
-      console.log(this.didEventForm.get('eventWhereFilter').get('whereFilterOperator').value);
-      this._numberOperator=this.didEventForm.get('eventWhereFilter').get('whereFilterOperator').value;
+      console.log(this.didEventForm.get('whereFilter').get('operator').value);
+      this._numberOperator=this.didEventForm.get('whereFilter').get('operator').value;
     }else{
       this._numberOperator=NumberOperator.GreaterThan;
     }
-    if(this.didEventForm.get('eventWhereFilter').get('whereFilterValues')){
-      console.log(this.didEventForm.get('eventWhereFilter').get('whereFilterValues').value);
-      this._numberValues=this.didEventForm.get('eventWhereFilter').get('whereFilterValues').value;
+    if(this.didEventForm.get('whereFilter').get('values')){
+      console.log(this.didEventForm.get('whereFilter').get('values').value);
+      this._numberValues=this.didEventForm.get('whereFilter').get('values').value;
     }else{
       this._numberValues=[0];
     }
 
 
 
-    this.didEventForm.get('eventDateFilter').get('dateFilterOperator').setValue(this._operator);
-    this.didEventForm.get('eventDateFilter').get('dateFilterValues').setValue(this._values);
+    this.didEventForm.get('dateFilter').get('operator').setValue(this._operator);
+    this.didEventForm.get('dateFilter').get('values').setValue(this._values);
 
-    var eventName=this.didEventForm.get('eventName').value;
+    var eventName=this.didEventForm.get('name').value;
 
     var registerEvent=this.registeredEvents.find(data=>data.name==eventName);
     this.propertyFilter=registerEvent.properties;
@@ -170,10 +170,10 @@ export class DidEventReactiveComponent implements OnInit ,OnChanges{
 
   createPropertyFilter(propertyFilter: PropertyFilter): FormGroup {
     return this.fb.group({
-      propertyFilterName: [propertyFilter.name],
-      propertyFilterType: [propertyFilter.type],
-      propertyFilterOperator: [propertyFilter.operator],
-      propertyFilterValues: [propertyFilter.values]
+      name: [propertyFilter.name],
+      type: [propertyFilter.type],
+      operator: [propertyFilter.operator],
+      values: [propertyFilter.values]
     });
   }
 

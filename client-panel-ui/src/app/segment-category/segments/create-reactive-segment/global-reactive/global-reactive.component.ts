@@ -56,6 +56,7 @@ export class GlobalReactiveComponent implements OnInit {
     if (!(this.globalFiltersMetadata && this.globalFiltersMetadata.length)) {
       this.globalFiltersMetadata = segmentService.globalFiltersMetadata;
     }
+    this._values=[];
   }
 
   ngOnInit() {
@@ -70,6 +71,8 @@ export class GlobalReactiveComponent implements OnInit {
     }
     if (this.globalFilterForm.get('values').value) {
       this.values = this.globalFilterForm.get('values').value;
+    }else{
+      this._values=[];
     }
     if (this.globalFilterForm.get('globalFilterType').value) {
       this.maxOrder = 1;

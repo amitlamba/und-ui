@@ -42,6 +42,9 @@ import {SiteLayoutComponent} from "./layouts/site-layout/site-layout.component";
 import {AppLayoutComponent} from "./layouts/app-layout/app-layout.component";
 import {CreateSmsTemplateFormComponent} from "./templates/sms-templates/create-sms-template-form/create-sms-template-form.component";
 import {CreateReactiveSegmentComponent} from "./segment-category/segments/create-reactive-segment/create-reactive-segment.component";
+import {SegmentReportComponent} from "./segment-report/segment-report.component";
+import {FunnelReportFilter} from "./_models/reports";
+import {FunnelComponent} from "./funnel/funnel.component";
 
 const routes: Routes = [
   //Pages without layout goes here
@@ -83,6 +86,8 @@ const routes: Routes = [
         {path: 'user-profile', component: UserProfileComponent}
       ]
       },
+      {path:'segment-report/:name',component:SegmentReportComponent,canActivate:[AuthGuard]},
+      {path:'funnel-report',component:FunnelComponent,canActivate:[AuthGuard]},
       {path: 'create-email-template/:newTemplate', component: CreateEmailTemplateFormComponent, canActivate: [AuthGuard], pathMatch: 'full'},
       {path: 'create-sms-template/:newTemplate', component: CreateSmsTemplateFormComponent, canActivate: [AuthGuard], pathMatch: 'full'},
       {path: 'templates', redirectTo: "templates/email", canActivate: [AuthGuard], pathMatch: "full"},

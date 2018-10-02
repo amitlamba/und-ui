@@ -1,6 +1,6 @@
 <div class="row d-flex flex-row ml-3 mt-1 mb-0" [formGroup]="filterForm">
   <div class="form-group" >
-    <select class="form-control" formControlName="propertyFilterName" style="width:145px;margin-right: -8px;"(change)="property($event)">
+    <select class="form-control" formControlName="name" style="width:145px;margin-right: -8px;"(change)="property($event)">
       <!--<option  selected [value]="">&#45;&#45;Select&#45;&#45;</option>-->
       <option *ngFor="let prop of eventProperties" [value]="prop.name">{{prop.name}}</option>
       <option *ngFor="let prop of defaultProperties" [value]="prop.name">{{prop.name}}</option>

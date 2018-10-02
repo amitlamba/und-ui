@@ -1,0 +1,129 @@
+<div class="container" [formGroup]="funnelForm">
+  <div class="row">
+    <div class="col-sm-6">
+      <label>For Users</label>
+      <select class="form-control" formControlName="segmentid">
+        <option value="-1">Select Segment</option>
+        <option *ngFor="let segment of segments" [value]="segment.id">{{segment.name}}</option>
+      </select>
+    </div>
+    <div class="form-group col-sm-6">
+      <label>For Last</label>
+
+      <div class="input-group ">
+        <input type="number" min="1" class="form-control" placeholder="Enter No of Days"  formControlName="days">
+        <div class="input-group-append">
+          <span class="input-group-text">days</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12" formArrayName="steps">
+      <div *ngFor="let step of stepArray.controls; let i=index;" [formGroupName]="i">
+        <div class="card my-3">
+          <div class="card-header">
+            STEP {{i+1}}
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-sm-5 col-md-4 col-lg-3">
+                <select class="form-control" formControlName="eventName">
+                  <option *ngFor="let re of registeredEvents" [value]="re.name">{{re.name}}</option>
+                </select>
+              </div>
+              <input hidden class="form-control" formControlName="order" [ngModel]="i+1">
+              <div class="ml-auto col-1" *ngIf="stepArray.controls.length > 1">
+                <button type="button" class="close ml-auto mr-4 pos" aria-label="Close" (click)="removeStep(i)">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="my-3">
+        <button class="btn btn-primary" (click)="addStep()">Add Step</button>
+      </div>
+    </div>
+
+    <div class="col-12 my-3">
+      <div class="form-group form-check mb-1">
+        <div class="custom-control custom-radio custom-control-inline">
+          <input type="radio" class="custom-control-input" id="funnelOrder1" formControlName="funnelOrder" value="default">
+          <label class="custom-control-label" for="funnelOrder1">Default Order</label>
+          <!--<span class="help" data-toggle="tooltip" data-placement="top" title="When enabled then  if your define path is A->B->C->D then A->C->B->C-D is valid ">-->
+            <!--<span class="text-primary"><i class="far fa-question-circle"></i></span>-->
+          <!--</span>-->
+        </div>
+        <div class="custom-control custom-radio custom-control-inline">
+          <input type="radio" class="custom-control-input" id="funnelOrder" formControlName="funnelOrder" value="strict">
+          <label class="custom-control-label" for="funnelOrder">Strict Order</label>
+        </div>
+      </div>
+      <small class="text-muted">* Default Order: When enabled then  if your define path is A->B->C->D then path followed in this order A->C->B->C-D is also valid</small>
+      <br>
+      <small class="text-muted">* Strict Order: When enabled then if your define path is A->B->C->D then only path followed in this order(A->B->C->D) is valid</small>
+    </div>
+    <div class="col-12 my-3">
+      <div class="form-group">
+        <label for="conversionTime">Conversion Time<br>
+        <small class="text-muted"> *The time in which all steps are completed</small></label>
+        <div class="input-group col-sm-6 col-md-4 col-lg-3">
+          <input type="number" min="1" class="form-control" placeholder="Conversion Time" id="conversionTime" formControlName="conversionTime">
+          <div class="input-group-append">
+            <span class="input-group-text">days</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!--<div class="col-12 my-3">-->
+      <!--<div class="row">-->
+        <!--<div class="col-sm-6 col-md-5 col-lg-4">-->
+          <!--<label>Split Property Type</label>-->
+          <!--<select class="form-control" formControlName="splitPropertyType"-->
+                  <!--(change)="splitPropertyTypeChange($event)">-->
+            <!--<option *ngFor="let splitPropertyType of splitPropertyTypes" [value]="splitPropertyType">-->
+              <!--{{splitPropertyType}}-->
+            <!--</option>-->
+          <!--</select>-->
+        <!--</div>-->
+        <!--<div *ngIf="showSplitProperty" class="col-sm-6 col-md-5 col-lg-4 mt-3 mt-sm-auto mt-3">-->
+          <!--<label>Split Property</label>-->
+          <!--<select class="form-control " formControlName="splitProperty">-->
+            <!--<option *ngFor="let splitProperty of splitPropertys" [value]="splitProperty">{{splitProperty}}</option>-->
+          <!--</select>-->
+        <!--</div>-->
+      <!--</div>-->
+    <!--</div>-->
+
+
+    <div class="ml-auto my-5 mr-md-5 mr-1">
+      <button type="button" class="btn btn-primary" [disabled]="funnelForm.invalid"(click)="viewFunnel()">Create Funnel</button>
+    </div>
+  </div>
+</div>
+
+<div class="form-group m-2" *ngIf="showSplitProperty">
+  <select class="form-control ">
+    <optgroup label="Default">
+    <option>None</option>
+    </optgroup>
+    <optgroup label={{step1Event.name}}>
+      <option *ngFor="let prop of registerdEventProperty" [value]="prop.name">
+        {{prop.name}}
+      </option>
+    </optgroup>
+    <optgroup label="Technographics">
+      <option *ngFor="let tech of technographics" [value]="tech">
+        {{tech}}
+      </option>
+    </optgroup>
+    <optgroup label="Geographics">
+      <option *ngFor="let geo of geography" [value]="geo">
+        {{geo}}
+      </option>
+    </optgroup>
+  </select>
+</div>

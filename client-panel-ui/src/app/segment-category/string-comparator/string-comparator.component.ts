@@ -55,7 +55,7 @@ export class StringComparatorComponent implements OnInit, OnChanges {
   }
   @Output() operatorChange = new EventEmitter();
 
-  private localValues: any[] = [];
+  private localValues: any[];
   @Input() get values(): any[] {
     return this.localValues;
   }
@@ -95,8 +95,6 @@ export class StringComparatorComponent implements OnInit, OnChanges {
       this.dropdownChanged(this.localOperator);
     }
 
-    console.log("oprions");
-    console.log(this.options);
   }
 
   dropdownChanged(comparator: string) {
@@ -107,11 +105,11 @@ export class StringComparatorComponent implements OnInit, OnChanges {
     else {
       this.fieldRequired = false;
     }
-    if(this.localValues){
-      this.values=this.localValues;
-    }else{
-      this.values = [];
-    }
+    // if(this.localValues){
+    //   this.values=this.localValues;
+    // }else{
+    //   this.values = [];
+    // }
 
   }
 
