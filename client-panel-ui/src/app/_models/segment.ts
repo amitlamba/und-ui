@@ -1,4 +1,3 @@
-
 export class Segment {
   id: number;
   name: string;
@@ -45,15 +44,15 @@ export class PropertyFilter {
 }
 
 export enum PropertyType {
-  string="string",
-  number="number",
-  date="date"
+  string = "string",
+  number = "number",
+  date = "date"
 }
 
 export enum PropertyFilterType {
-  eventproperty="eventproperty",
-  genericproperty="genericproperty",
-  UTM="UTM"
+  eventproperty = "eventproperty",
+  genericproperty = "genericproperty",
+  UTM = "UTM"
 }
 
 export class WhereFilter {
@@ -69,34 +68,34 @@ export enum WhereFilterName {
 }
 
 export enum DateOperator {
-  Before="Before",
-  After="After",
-  On="On",
-  Between="Between",
-  InThePast="InThePast",
-  WasExactly="WasExactly",
-  Today="Today",
-  InTheFuture="InTheFuture",
-  WillBeExactly="WillBeExactly"
+  Before = "Before",
+  After = "After",
+  On = "On",
+  Between = "Between",
+  InThePast = "InThePast",
+  WasExactly = "WasExactly",
+  Today = "Today",
+  InTheFuture = "InTheFuture",
+  WillBeExactly = "WillBeExactly"
 }
 
 export enum NumberOperator {
-  Equals="Equals",
-  Between="Between",
-  GreaterThan="GreaterThan",
-  LessThan="LessThan",
-  NotEquals="NotEquals",
-  Exists="Exists",
-  DoesNotExist="DoesNotExist"
+  Equals = "Equals",
+  Between = "Between",
+  GreaterThan = "GreaterThan",
+  LessThan = "LessThan",
+  NotEquals = "NotEquals",
+  Exists = "Exists",
+  DoesNotExist = "DoesNotExist"
 }
 
 export enum StringOperator {
-  Equals="Equals",
-  NotEquals="NotEquals",
-  Contains="Contains",
-  DoesNotContain="DoesNotContain",
-  Exists="Exists",
-  DoesNotExist="DoesNotExist"
+  Equals = "Equals",
+  NotEquals = "NotEquals",
+  Contains = "Contains",
+  DoesNotContain = "DoesNotContain",
+  Exists = "Exists",
+  DoesNotExist = "DoesNotExist"
 }
 
 export class GlobalFilter {
@@ -109,19 +108,19 @@ export class GlobalFilter {
 }
 
 export enum GlobalFilterType {
-  UserProperties="UserProperties",
-  Demographics="Demographics",
-  Technographics="Technographics",
-  Reachability="Reachability",
-  AppFields="AppFields",
-  UserIdentity="UserIdentity",
+  UserProperties = "UserProperties",
+  Demographics = "Demographics",
+  Technographics = "Technographics",
+  Reachability = "Reachability",
+  AppFields = "AppFields",
+  UserIdentity = "UserIdentity",
 
   //FIXME: To be reviewed, if it wourk well in UI, copied from the BE
-  EventProperties="EventProperties",
-  EventAttributeProperties="EventAttributeProperties",
-  EventTimeProperties="EventTimeProperties",
-  EventComputedProperties="EventComputed",
-  UserComputedProperties="UserComputed"
+  EventProperties = "EventProperties",
+  EventAttributeProperties = "EventAttributeProperties",
+  EventTimeProperties = "EventTimeProperties",
+  EventComputedProperties = "EventComputed",
+  UserComputedProperties = "UserComputed"
 
 
 }
