@@ -45,6 +45,7 @@ import {CreateReactiveSegmentComponent} from "./segment-category/segments/create
 import {SegmentReportComponent} from "./segment-report/segment-report.component";
 import {FunnelReportFilter} from "./_models/reports";
 import {FunnelComponent} from "./funnel/funnel.component";
+import {CampaignReportComponent} from "./campaigns/campaign-report/campaign-report.component";
 
 const routes: Routes = [
   //Pages without layout goes here
@@ -104,6 +105,7 @@ const routes: Routes = [
         {path: 'email', component: SetupCampaignComponent}
       ]
       },
+      {path:'campaign-report',component:CampaignReportComponent, canActivate:[AuthGuard],pathMatch:'full'}
     ]
   },
   //Site Routes goes here

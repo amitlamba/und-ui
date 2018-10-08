@@ -187,8 +187,17 @@ export class ReportsService {
    */
 
   getFunnelResult(funnelReportFilter:FunnelReportFilter):Observable<FunnelStep[]>{
-    var params:Params=new HttpParams();
+    var params:Params=new HttpParams()
+    .set("segmentid",funnelReportFilter.segmentid.toString())
+    .set("days",funnelReportFilter.days.toString())
+    .set("funnelOrder",funnelReportFilter.funnelOrder)
+    .set("conversionTime",funnelReportFilter.conversionTime.toString());
+    if(!(funnelReportFilter.splitProperty==='None')){
+      params=params.set("splitProperty",funnelReportFilter.splitProperty);
+      params=params.set("splitPropertyType",funnelReportFilter.splitPropertyType);
+    }
     var steps:Array<Step>=funnelReportFilter.steps;
+
     return this.httpClient.post<FunnelStep[]>(AppSettings.API_ENDPOINT_CLIENT_FUNNEL,steps,{params});
   }
   reportsDataFormat = [

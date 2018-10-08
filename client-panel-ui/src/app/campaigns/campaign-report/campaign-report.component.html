@@ -1,0 +1,65 @@
+<div class="container">
+  <div class="row">
+    <div class="col-lg-3 col-md-3 col-sm-4">
+      <select [ngModel]="campaign" class="form-control">
+        <option selected>Default</option>
+        <option *ngFor="let campagin of campaigns">
+
+        </option>
+      </select>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header">
+      Total User Selected
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col">
+          Sent
+        </div>
+        <div class="col">
+          Unsent
+        </div>
+        <div class="col">
+          <div class="row">
+            <div style="position: center;margin-left: 50%">Status</div>
+          </div>
+            <div class="row">
+              <div class="col">
+                Running
+              </div>
+              <div class="col">
+                Pause
+              </div>
+              <div class="col">
+                Stop
+              </div>
+              <div class="col">
+                Error
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card mt-5">
+    <div class="card-header"><span style="margin-left: 45%">User Who Clicked</span></div>
+    <div class="card-body"></div>
+  </div>
+
+  <div class="card mt-5">
+    <div class="card-header"><span style="margin-left: 45%">Conversion Rate</span></div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col">
+          <span style="font-weight: normal; font-size: medium">Influenced User</span>
+        </div>
+      </div>
+      <div class="row">
+
+      </div>
+    </div>
+  </div>
+</div>

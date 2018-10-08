@@ -42,8 +42,7 @@ export class CreateReactiveSegmentComponent implements OnInit, OnDestroy {
   ngOnDestroy() {}
 
   save() {
-    // this.validatedSegment.name=this.segmentFormModel.get('segmentName').value;
-    this.validatedSegment.name="Test";
+    this.validatedSegment.name=this.segmentFormModel.get('segmentName').value;
     this.segmentFormModel.reset();
     console.log(this.validatedSegment);
     this.segmentService.saveSegment(this.validatedSegment).subscribe(

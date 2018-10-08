@@ -119,6 +119,7 @@ import { GlobalReactiveComponent } from './segment-category/segments/create-reac
 import { SegmentReportComponent } from './segment-report/segment-report.component';
 import { SegmentBehaviorReactiveComponent } from './segment-category/segments/segment-behavior-reactive/segment-behavior-reactive.component';
 import { FunnelComponent } from './funnel/funnel.component';
+import {CampaignReportComponent} from "./campaigns/campaign-report/campaign-report.component";
 
 
 @NgModule({
@@ -230,7 +231,8 @@ import { FunnelComponent } from './funnel/funnel.component';
     GlobalReactiveComponent,
     SegmentReportComponent,
     SegmentBehaviorReactiveComponent,
-    FunnelComponent
+    FunnelComponent,
+    CampaignReportComponent
   ],
   providers: [
     AuthGuard,

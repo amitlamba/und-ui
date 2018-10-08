@@ -1,8 +1,10 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {RegisteredEvent, RegisteredEventProperties, Segment} from "../_models/segment";
+import {GlobalFilterType, RegisteredEvent, RegisteredEventProperties, Segment} from "../_models/segment";
 import {FormArray, FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {FunnelOrder, FunnelReportFilter, Step} from "../_models/reports";
+import {FunnelOrder, FunnelReportFilter, FunnelStep, Step} from "../_models/reports";
 import {SegmentService} from "../_services/segment.service";
+import {ReportsService} from "../_services/reports.service";
+import {ChartModel} from "../eventreport/eventreport-demographics/eventreport-demographics.component";
 
 @Component({
   selector: 'app-funnel',
@@ -16,6 +18,9 @@ export class FunnelComponent implements OnInit {
   registerdEventProperty:RegisteredEventProperties[];
   step1Event:RegisteredEvent;
   splitproperty:string;
+  splitPropertyType:string;
+
+  data:ChartModel;
 
   @Input() funnel:FunnelReportFilter
   error:string='';
@@ -24,30 +29,36 @@ export class FunnelComponent implements OnInit {
   days:number;
   funnelForm:FormGroup;
   showSplitProperty:boolean=false;
-  splitPropertys:string[];
-  splitPropertyTypes:string[];
 
   registeredEvents: RegisteredEvent[];
 
-  globalFiltersMetadata:any;
-  constructor(private fb:FormBuilder,private segmentService:SegmentService) {
+  // globalFiltersMetadata:any;
+  constructor(private fb:FormBuilder,
+              private segmentService:SegmentService,
+              private reportService:ReportsService) {
 
-    this.globalFiltersMetadata = this.segmentService.cachedUserProperties.reduce(
-      (ac, p) => ({...ac, [p.name]: p.properties}), {}
-    );
-    if (!(this.globalFiltersMetadata && this.globalFiltersMetadata.length)) {
-      this.globalFiltersMetadata = segmentService.globalFiltersMetadata;
-    }
+    // this.globalFiltersMetadata = this.segmentService.cachedUserProperties.reduce(
+    //   (ac, p) => ({...ac, [p.name]: p.properties}), {}
+    // );
+    // if (!(this.globalFiltersMetadata && this.globalFiltersMetadata.length)) {
+    //   this.globalFiltersMetadata = segmentService.globalFiltersMetadata;
+    // }
 
     this.registeredEvents = this.segmentService.cachedRegisteredEvents;
   }
 
   ngOnInit() {
 
+    this.data=new ChartModel();
+    this.data.title='';
+    this.data.subTitle='';
+    this.data.graphType='column';
+    this.data.xAxisTitle='';
+    this.data.yAxisTitle='';
+
     this.segmentService.getSegments().subscribe(response=>{
       this.segments=response;
     });
-    this.splitPropertyTypes=Object.keys(this.globalFiltersMetadata);
     if(!this.funnel) {
       this.funnel = new FunnelReportFilter();
       this.funnel.segmentid=-1;
@@ -55,6 +66,7 @@ export class FunnelComponent implements OnInit {
       this.funnel.days = 30;
       this.funnel.conversionTime=5;
       this.funnel.funnelOrder=FunnelOrder.default;
+      this.funnel.splitProperty="None";
     }
 
     this.createFunnelForm(this.funnel);
@@ -67,9 +79,7 @@ export class FunnelComponent implements OnInit {
       days: [funnel.days, Validators.required],
       steps: this.createSteps(funnel.steps),
       funnelOrder:[funnel.funnelOrder,Validators.required],
-      conversionTime:[funnel.conversionTime,Validators.required],
-      // splitProperty:[funnel.splitProperty,Validators.required],
-      // splitPropertyType:[funnel.splitPropertyType,Validators.required]
+      conversionTime:[funnel.conversionTime,Validators.required]
     });
   }
 
@@ -104,20 +114,64 @@ export class FunnelComponent implements OnInit {
     this.stepArray.removeAt(index);
   }
 
-  splitPropertyTypeChange(event){
-    console.log(event);
-    this.showSplitProperty=true;
-    var obj=this.globalFiltersMetadata.event;
-    console.log(obj);
-  }
 
   viewFunnel(){
-    //call api
-    this.showSplitProperty=true;
     console.log(this.funnelForm);
+    Object.assign(this.funnel,this.funnelForm.value);
+    this.reportService.getFunnelResult(this.funnel).subscribe(
+      response=>{
+        this.initializeGraph(response)
+        this.showSplitProperty=true;
+      },
+      error=> {
+        console.error("error occur in funnel report");
+        console.error(error.error);
+        console.error(error.message);
+      }
+    );
+
+
+
     this.step1Event=this.registeredEvents.find(events=> events.name===this.funnelForm.get('steps').value[0].eventName);
     console.log(this.step1Event);
     this.registerdEventProperty=this.step1Event.properties;
+
+  }
+
+  filterOnSplitByProperty(filter){
+    this.showSplitProperty=false;
+    console.log(filter.target.value);
+    if(this.geography.indexOf(filter.target.value)>=0){
+      console.log("Demographics");
+      this.funnel.splitProperty=filter.target.value;
+      this.funnel.splitPropertyType=GlobalFilterType.Demographics;
+    }else if(this.technographics.indexOf(filter.target.value)>=0){
+      console.log("Technographics");
+      this.funnel.splitProperty=filter.target.value;
+      this.funnel.splitPropertyType=GlobalFilterType.Technographics;
+    }else{
+      console.log("EventAtrributesProperty");
+      this.funnel.splitProperty=filter.target.value;
+      this.funnel.splitPropertyType=GlobalFilterType.EventAttributeProperties;
+    }
+
+
+    this.reportService.getFunnelResult(this.funnel).subscribe(
+      response=>{
+        this.initializeGraph(response)
+        this.showSplitProperty=true;
+      },
+      error=>console.error("error occur in funnel report"+error)
+    );
+
+  }
+
+  initializeGraph(data:FunnelStep[]){
+
+    this.data.category=data.map(v=>v.step.eventName);
+    console.log(this.data.category);
+
+    this.data.dataSeries;
 
   }
 }
