@@ -6,7 +6,7 @@ import {
   DidEvents, GlobalFilter,
   RegisteredEvent,
   RegisteredEventProperties,
-  Segment,
+  Segment, SegmentMini,
   State
 } from "../_models/segment";
 import {AppSettings} from "../_settings/app-settings";
@@ -18,7 +18,7 @@ import {Campaign} from "../_models/campaign";
 
 @Injectable()
 export class SegmentService {
-  segments: Segment[] = [];
+  private _segments: Segment[] = [];
   editSegment: Segment;
   cloneSegment: Segment;
   private _countries: Country[];
@@ -53,6 +53,18 @@ export class SegmentService {
   set cachedUserProperties(value: RegisteredEvent[]) {
     this._cachedUserProperties = value;
     localStorage.setItem("registeredUserProperties", JSON.stringify(this._cachedUserProperties))
+  }
+  get segments(): Segment[] {
+    return this._segments;
+  }
+  set segments(value: Segment[]) {
+    this._segments = value;
+    localStorage.setItem("segmentNames", JSON.stringify(this._segments.map<SegmentMini>(
+      (v) => {return {id: v.id, name: v.name}}
+    )));
+  }
+  get segmentMini(): SegmentMini[] {
+    return <SegmentMini[]>JSON.parse(localStorage.getItem("segmentNames"));
   }
 
   constructor(private httpClient: HttpClient) {

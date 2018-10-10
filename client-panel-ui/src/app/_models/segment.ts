@@ -10,6 +10,11 @@ export class Segment {
   geographyFilters: Geography[];
 }
 
+export interface SegmentMini {
+  id: number;
+  name: string;
+}
+
 export class DidEvents {
   description: string;
   joinCondition: JoinCondition;

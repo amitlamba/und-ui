@@ -1,61 +1,62 @@
 import {Component, DoCheck, Input, OnChanges, OnInit} from '@angular/core';
 import {ActivatedRoute, ActivatedRouteSnapshot, Params} from "@angular/router";
 import {moment} from "ngx-bootstrap/chronos/test/chain";
+import {SegmentService} from "../_services/segment.service";
+import {RegisteredEvent} from "../_models/segment";
 
 @Component({
   selector: 'app-eventreport',
   templateUrl: './eventreport.component.html',
   styleUrls: ['./eventreport.component.scss']
 })
-export class EventreportComponent implements OnInit ,OnChanges,DoCheck{
+export class EventreportComponent implements OnInit, OnChanges, DoCheck {
 
-  button:string='overall';
-  eventName: string;
-  segmentId:number;
-  fromDate:string;
-  toDate:string;
+  button: string = 'overall';
+  eventName: string = "";
+  segmentId: number;
+  fromDate: string;
+  toDate: string;
 
-  events:string[]=[
-    "Search",
-    "View",
-    "Support",
-    "Add to WishList",
-    "Check Review",
-    "Search Category",
-    "Ask Question",
-    "Add to Cart"]
+  events: RegisteredEvent[] = [];
 
-  segments:any[]=[{id:1,name:"Segment 1"},{id:2,name:"Segment 2"},{id:3,name:"Segment 3"},{id:4,name:"Segment 4"},{id:5,name:"Segment 5"}];
+  segments: any[] = [{id: 1, name: "Segment 1"}, {id: 2, name: "Segment 2"}, {id: 3, name: "Segment 3"}, {
+    id: 4,
+    name: "Segment 4"
+  }, {id: 5, name: "Segment 5"}];
 
 
-  constructor(private route:ActivatedRoute) {
+  constructor(private route: ActivatedRoute, private segmentService: SegmentService) {
     this.route.queryParams.subscribe(
-      (params:Params)=>{
-        this.eventName=params['event'];
+      (params: Params) => {
+        if (params && params['event'])
+          this.eventName = params['event'];
       }
     );
-    this.segmentId=1003;
-    var date=new Date();
-    var day=date.getDate();
-    var month=date.getMonth()+1;
-    var year=date.getFullYear();
-    this.toDate=(year+'-'+('0'+month).slice(-2)+'-'+('0'+day).slice(-2));
-    date.setDate(date.getDate()-30);
-    day=date.getDate();
-    month=date.getMonth()+1;
-    year=date.getFullYear();
-    this.fromDate=(year+'-'+('0'+month).slice(-2)+'-'+('0'+day).slice(-2));
+    this.events = this.segmentService.cachedRegisteredEvents;
+    this.segments = this.segmentService.segmentMini;
+    this.segmentId = 1003;
+    var date = new Date();
+    var day = date.getDate();
+    var month = date.getMonth() + 1;
+    var year = date.getFullYear();
+    this.toDate = (year + '-' + ('0' + month).slice(-2) + '-' + ('0' + day).slice(-2));
+    date.setDate(date.getDate() - 30);
+    day = date.getDate();
+    month = date.getMonth() + 1;
+    year = date.getFullYear();
+    this.fromDate = (year + '-' + ('0' + month).slice(-2) + '-' + ('0' + day).slice(-2));
   }
 
   ngOnInit() {
 
   }
 
-  ngOnChanges(){
+  ngOnChanges() {
     console.log(this.fromDate);
     console.log(this.toDate);
   }
-  ngDoCheck(){
+
+  ngDoCheck() {
 
   }
 
@@ -74,11 +75,12 @@ export class EventreportComponent implements OnInit ,OnChanges,DoCheck{
     }
   };
 
-  selectedDate(event){
+  selectedDate(event) {
     this.fromDate = (event.start).format("YYYY-MM-DD");
     this.toDate = (event.end).format("YYYY-MM-DD");
   }
-  buttonClick(button:string){
-    this.button=button;
+
+  buttonClick(button: string) {
+    this.button = button;
   }
 }

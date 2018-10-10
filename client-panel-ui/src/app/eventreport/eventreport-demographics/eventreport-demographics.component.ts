@@ -36,7 +36,8 @@ export class EventreportDemographicsComponent implements OnInit ,OnChanges,OnDes
   }
 
   ngOnInit() {
-
+    this.genderChart.yAxisTitle = "Number of Users";
+    this.ageChart.yAxisTitle = "Number of Users"
   }
 
   ngOnChanges(){

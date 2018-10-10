@@ -2,7 +2,7 @@ import {Component, Input, OnChanges, OnDestroy, OnInit} from '@angular/core';
 import {ReportsService} from "../../_services/reports.service";
 import {ChartModel} from "../eventreport-demographics/eventreport-demographics.component";
 import {GlobalFilter} from "../../_models/segment";
-import {EntityType, EventReportFilter, GroupBy, PERIOD} from "../../_models/reports";
+import {EntityType, EventCount, EventReportFilter, GroupBy, PERIOD} from "../../_models/reports";
 
 @Component({
   selector: 'app-eventreport-geographics',
@@ -63,6 +63,8 @@ export class EventreportGeographicsComponent implements OnInit,OnDestroy ,OnChan
     this.reportsService.getCountTrend(this.eventReportFilterParam,this.entityTypeParam,groupBy)
       .subscribe(
         response=>{
+          let noOfBars = 11;
+          response = this.group(response, noOfBars);
           this.countryChart.category=response.map(data=>data.groupedBy['name']);
           var data=response.map(data=>data.count);
           var chartSeriesData={
@@ -84,6 +86,8 @@ export class EventreportGeographicsComponent implements OnInit,OnDestroy ,OnChan
     this.reportsService.getCountTrend(this.eventReportFilterParam,this.entityTypeParam,groupBy)
       .subscribe(
         response=>{
+          let noOfBars = 11;
+          response = this.group(response, noOfBars);
           this.stateChart.category=response.map(data=>data.groupedBy['name']);
           var data=response.map(data=>data.count);
           var chartSeriesData={
@@ -105,6 +109,8 @@ export class EventreportGeographicsComponent implements OnInit,OnDestroy ,OnChan
     this.reportsService.getCountTrend(this.eventReportFilterParam,this.entityTypeParam,groupBy)
       .subscribe(
         response=>{
+          // let noOfBars = 11;
+          // response = this.group(response, noOfBars);
           this.cityChart.category=response.map(data=>data.groupedBy['name']);
           var data=response.map(data=>data.count);
           var chartSeriesData={
@@ -120,4 +126,20 @@ export class EventreportGeographicsComponent implements OnInit,OnDestroy ,OnChan
       );
   }
 
+  group(arr: EventCount[], n): EventCount[] {
+    let indicesToKeep: number[] = arr
+      .map((v,i)=>{
+        return {v:v, i:i}
+      })
+      .sort((a,b)=>{return -a.v.count + b.v.count})
+      .splice(0,n)
+      .map((v)=>v.i);
+
+    let filtered: EventCount[] = arr.filter((v,i)=>{return indicesToKeep.indexOf(i) >= 0});
+    let others: EventCount = arr.filter((v,i)=>{return indicesToKeep.indexOf(i) < 0}).reduce(
+      (p,c,i,a) => {p.count=p.count+c.count; p.groupedBy["name"]="Others"; return p}
+    )
+    // arr.
+    return filtered.concat(others);
+  }
 }
