@@ -83,7 +83,8 @@
                             [xAxisTitle]="trendChartXAxisTitle"
                             [yAxisTitle]="trendChartYAxisTitle"
                             [chartType]="trendChartGraphType"
-                            [dataSeries]="trendChartDataSeries">
+                            [dataSeries]="trendChartDataSeries"
+                            [timeStepInMins]="interval">
 
       </app-draw24-hrs-chart>
     </div>
@@ -103,7 +104,7 @@
         [yAxisTitle]="newVsExistingYAxisTitle"
         [chartType]="newVsExistingGraphType"
         [dataSeries]="newVsExistingDataSeries"
-      >
+        [timeStepInMins]="interval">
 
       </app-draw24-hrs-chart>
     </div>

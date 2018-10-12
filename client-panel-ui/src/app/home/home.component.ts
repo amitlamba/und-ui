@@ -37,6 +37,7 @@ export class HomeComponent implements OnInit,OnChanges,OnDestroy {
   segments= [{id:1003,name:'All User'},{id:1,name:'segment 1'},{id:2,name:'segment 2'}];
   segmentId:number;
   interval:number;
+  private tempinterval: number;
   date1: string;
   date2: string;
   date3: string;
@@ -77,7 +78,7 @@ export class HomeComponent implements OnInit,OnChanges,OnDestroy {
   constructor(private userService: UserService, private reportsService: ReportsService,private router:Router) {
     console.log('inside constructor');
     this.segmentId=1003;
-    this.interval=5;
+    this.interval=this.tempinterval=5;
     this.groupBy=new GroupBy();
     this.groupBy.globalFilterType="Technographics";
     this.groupBy.name='os';
@@ -312,7 +313,7 @@ export class HomeComponent implements OnInit,OnChanges,OnDestroy {
   }
   intervalChange(event){
     console.log(event.target.value);
-    this.interval=event.target.value;
+    this.tempinterval=event.target.value;
   }
   reloadApi(){
     this.getDataFromApi(this.segmentId,this.dates,this.interval);

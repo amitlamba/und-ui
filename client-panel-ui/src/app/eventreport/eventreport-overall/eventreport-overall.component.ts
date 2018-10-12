@@ -73,97 +73,19 @@ export class EventreportOverallComponent implements OnInit ,OnChanges,OnDestroy,
 
     this.eventCountChart.dataSeries=[];
 
-    // calling Event trend
-    this.entityTypeParam=EntityType.event;
-    this.reportService.getCountTrend(this.eventReportFilterParam,this.entityTypeParam,this.groupByParam)
-      .subscribe(
-        response=>{
-          this.eventCountChart.category=response.map(data=>data.groupedBy['name']);
-          var data=response.map(data=>data.count);
-          this.totalevent=0;
-          for(let count of data){
-            this.totalevent+=count;
-          }
-          var chartSeriesData={
-            showInLegend:false,
-            seriesName:'event',
-            data:data
-          };
+    this.getCountTrend(EntityType.event, this.groupByParam, 'events');
+    this.getCountTrend(EntityType.user, this.groupByParam, 'users');
 
-          this.eventCountChart.dataSeries.push(chartSeriesData);
-
-          console.log(response);
-        }
-      );
-
-    this.entityTypeParam=EntityType.user;
-      this.reportService.getCountTrend(this.eventReportFilterParam,this.entityTypeParam,this.groupByParam)
-        .subscribe(
-          response=>{
-            var data=response.map(data=>data.count);
-            this.totalUser=0;
-            for(let count of data){
-              this.totalUser+=count;
-            }
-            var chartSeriesData={
-              showInLegend:false,
-              seriesName:'users',
-              data:data
-            };
-
-            this.eventCountChart.dataSeries.push(chartSeriesData);
-
-            console.log(response);
-          }
-        );
     //calling time period trend
+    this.getTimePeriodTrend()
 
-    this.reportService.getTimePeriodTrend(this.eventReportFilterParam,this.entityTypeParam,this.periodParam)
-      .subscribe(
-        (response)=>{
-          this.eventTimeTrendChart.category=response.map(data=>data.period['year']+"-"+data.period['month']+"-"+data.period[this.periodParam]);
-          this.eventTimeTrendChart.dataSeries=[];
-          this.eventTimeTrendChart.dataSeries.push({
-            showInLegend:false,
-            seriesName:'users',
-            data:response.map(data=>data.count)
-          });
-          console.log(response);
-        }
-      );
     //calling eventuser trend api
+    this.getEventUserTrend();
 
-
-
-    this.reportService.getEventUserTrend(this.eventReportFilterParam)
-      .subscribe(
-        (response)=>{
-          this.eventUserTrendChart.category=response.map(data=>data.eventcount.toString());
-          this.eventUserTrendChart.dataSeries=[];
-          this.eventUserTrendChart.dataSeries.push({
-            showInLegend:false,
-            seriesName:'users',
-            data:response.map(data=>data.usercount)
-          });
-          console.log(response);
-        }
-      );
     //calling event user time trend
     this.eventUserTimeTrendChart.dataSeries=[];
 
-    this.reportService.getEventTimeTrend(this.eventReportFilterParam)
-      .subscribe(
-        (response)=>{
-          this.eventUserTimeTrendChart.category=response.map(data=>data.hour.toString());
-          this.eventUserTimeTrendChart.dataSeries=[];
-          this.eventUserTimeTrendChart.dataSeries.push({
-            showInLegend:false,
-            seriesName:'users',
-            data:response.map(data=>data.eventCount)
-          });
-          console.log(response);
-        }
-      );
+    this.getEventTimeTrend();
     //calling aggregate trend
 
     this.reportService.getEventAggregateTrend(this.eventReportFilterParam,this.periodParam,this.aggregateBy)
@@ -178,6 +100,101 @@ export class EventreportOverallComponent implements OnInit ,OnChanges,OnDestroy,
     this.eventTimeTrendGraphInitialization();
     this.trendByTimePeriodGraphInitialization();
 
+  }
+
+  private getEventTimeTrend() {
+    this.reportService.getEventTimeTrend(this.eventReportFilterParam)
+      .subscribe(
+        (response) => {
+          response = response.sort((a,b)=>a.hour - b.hour);
+          this.eventUserTimeTrendChart.category = response.map(data => data.hour.toString()+"-"+(data.hour+1).toString());
+          this.eventUserTimeTrendChart.dataSeries = [];
+          this.eventUserTimeTrendChart.dataSeries.push({
+            showInLegend: false,
+            seriesName: 'Events',
+            data: response.map(data => data.eventCount)
+          });
+          console.log(response);
+        }
+      );
+  }
+
+  private getEventUserTrend() {
+    this.reportService.getEventUserTrend(this.eventReportFilterParam)
+      .subscribe(
+        (response) => {
+          response = response.sort((a,b) => a.eventcount - b.eventcount);
+          this.eventUserTrendChart.category = response.map(data => data.eventcount.toString());
+          this.eventUserTrendChart.dataSeries = [];
+          this.eventUserTrendChart.dataSeries.push({
+            showInLegend: false,
+            seriesName: 'users',
+            data: response.map(data => data.usercount)
+          });
+          console.log(response);
+        }
+      );
+  }
+
+  private getCountTrend(entityTypeParam: EntityType, groupByParam: GroupBy, seriesName: string) {
+    this.reportService.getCountTrend(this.eventReportFilterParam, entityTypeParam, groupByParam)
+      .subscribe(
+        response=>{
+          this.eventCountChart.category=response.map(data=>data.groupedBy['name']);
+          var data=response.map(data=>data.count);
+          switch(seriesName) {
+            case 'events':
+              this.totalevent=0;
+              for(let count of data){
+                this.totalevent+=count;
+              }
+              break;
+            case 'users':
+              this.totalUser=0;
+              for(let count of data){
+                this.totalUser+=count;
+              }
+              break;
+          }
+          var chartSeriesData={
+            showInLegend: false,
+            seriesName: seriesName,
+            data: data
+          };
+
+          this.eventCountChart.dataSeries.push(chartSeriesData);
+
+          console.log(response);
+        }
+      );
+  }
+
+  private getTimePeriodTrend() {
+    this.reportService.getTimePeriodTrend(this.eventReportFilterParam,this.entityTypeParam?this.entityTypeParam:EntityType.event,this.periodParam)
+      .subscribe(
+        (response)=>{
+          switch(this.periodParam) {
+            case PERIOD.dayOfMonth:
+              this.eventTimeTrendChart.category=response.map(data=>data.period['year']+"-"+data.period['month']+"-"+data.period['dayOfMonth']);
+              break;
+            case PERIOD.dayOfWeek:
+              this.eventTimeTrendChart.category=response.map(data=>data.period['year']+"-"+data.period['month']+"-"+data.period['dayOfWeek']);
+              break;
+            case PERIOD.month:
+              this.eventTimeTrendChart.category=response.map(data=>data.period['year']+"-"+data.period['month']);
+              break;
+          }
+          // this.eventTimeTrendChart.category=response.map(data=>data.period['year']+"-"+data.period['month']+"-"+data.period[this.periodParam]);
+          this.eventTimeTrendChart.dataSeries=[];
+          this.eventTimeTrendChart.dataSeries.push({
+            showInLegend:false,
+            seriesName: this.entityTypeParam==EntityType.user?'users':'events',
+            data:response.map(data=>data.count)
+          });
+          this.eventTimeTrendChart.yAxisTitle = this.entityTypeParam==EntityType.user?'users':'events';
+          console.log(response);
+        }
+      );
   }
 
   ngDoCheck(){
@@ -195,8 +212,8 @@ export class EventreportOverallComponent implements OnInit ,OnChanges,OnDestroy,
   trendByTimePeriodGraphInitialization() {
     this.eventUserTimeTrendChart.title = '';
     this.eventUserTimeTrendChart.subTitle = '';
-    this.eventUserTimeTrendChart.xAxisTitle = '';
-    this.eventUserTimeTrendChart.yAxisTitle = 'events';
+    this.eventUserTimeTrendChart.xAxisTitle = 'hours';
+    this.eventUserTimeTrendChart.yAxisTitle = 'No of Events';
     this.eventUserTimeTrendChart.graphType = 'column';
 
   }
@@ -219,98 +236,30 @@ export class EventreportOverallComponent implements OnInit ,OnChanges,OnDestroy,
   }
 
 
-
   onGroupBy(event){
 
     console.log(event.target.value);
     this.groupBy=event.target.value;
     this.groupByParam.name=this.groupBy;
-    //call event trend by api again
-    this.entityTypeParam=EntityType.event;
 
     this.eventCountChart.dataSeries=[];
 
-    this.reportService.getCountTrend(this.eventReportFilterParam,this.entityTypeParam,this.groupByParam)
-      .subscribe(
-        response=>{
-          this.eventCountChart.category=response.map(data=>data.groupedBy['name']);
-          var data=response.map(data=>data.count);
-          this.totalevent=0;
-          for(let count of data){
-            this.totalevent+=count;
-          }
-          var chartSeriesData={
-            showInLegend:false,
-            seriesName:'event',
-            data:data
-          };
+    this.getCountTrend(EntityType.event, this.groupByParam, 'events');
+    this.getCountTrend(EntityType.user, this.groupByParam, 'users');
 
-          this.eventCountChart.dataSeries.push(chartSeriesData);
-
-          console.log(response);
-        }
-      );
-
-    this.entityTypeParam=EntityType.user;
-    this.reportService.getCountTrend(this.eventReportFilterParam,this.entityTypeParam,this.groupByParam)
-      .subscribe(
-        response=>{
-          var data=response.map(data=>data.count);
-          this.totalUser=0;
-          for(let count of data){
-            this.totalUser+=count;
-          }
-          var chartSeriesData={
-            showInLegend:false,
-            seriesName:'users',
-            data:data
-          };
-
-          this.eventCountChart.dataSeries.push(chartSeriesData);
-
-          console.log(response);
-        }
-      );
   }
+
   onEntityType(entity){
-    console.log(entity.target.value);
     this.entityType=entity.target.value;
     this.entityTypeParam=EntityType[this.entityType];
     //call trendbytimeperiod api
-    this.reportService.getTimePeriodTrend(this.eventReportFilterParam,this.entityTypeParam,this.periodParam)
-      .subscribe(
-        (response)=>{
-          this.eventTimeTrendChart.category=response.map(data=>data.period['year']+"-"+data.period['month']+"-"+data.period[this.period]);
-          this.eventTimeTrendChart.dataSeries=[];
-          this.eventTimeTrendChart.dataSeries.push({
-            showInLegend:false,
-            seriesName:'users',
-            data:response.map(data=>data.count)
-          });
-          console.log(response);
-        }
-      );
+    this.getTimePeriodTrend();
   }
   onPeriod(period){
-    console.log(period.target.value);
     this.period=period.target.value;
-    console.log("period is"+this.period);
     this.periodParam=PERIOD[this.period];
-    console.log(this.periodParam)
     //call trendbytimeperiod api
-    this.reportService.getTimePeriodTrend(this.eventReportFilterParam,this.entityTypeParam,this.periodParam)
-      .subscribe(
-        (response)=>{
-          this.eventTimeTrendChart.category=response.map(data=>data.period['year']+"-"+data.period['month']+"-"+data.period[this.period]);
-          this.eventTimeTrendChart.dataSeries=[];
-          this.eventTimeTrendChart.dataSeries.push({
-            showInLegend:false,
-            seriesName:'users',
-            data:response.map(data=>data.count)
-          });
-          console.log(response);
-        }
-      );
+    this.getTimePeriodTrend();
   }
   ngOnDestroy(){
     console.log('overall destroy')

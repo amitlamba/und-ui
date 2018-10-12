@@ -54,7 +54,10 @@ export class DrawSimpleChartComponent implements OnInit ,OnChanges{
       },
       xAxis: {
         categories: this.categories,
-        crosshair: true
+        crosshair: true,
+        title: {
+          text: this.xAxisTitle
+        }
       },
       yAxis: {
         min: 0,

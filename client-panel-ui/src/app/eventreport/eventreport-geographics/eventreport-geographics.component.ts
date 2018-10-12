@@ -126,7 +126,7 @@ export class EventreportGeographicsComponent implements OnInit,OnDestroy ,OnChan
       );
   }
 
-  group(arr: EventCount[], n): EventCount[] {
+  private group(arr: EventCount[], n): EventCount[] {
     let indicesToKeep: number[] = arr
       .map((v,i)=>{
         return {v:v, i:i}

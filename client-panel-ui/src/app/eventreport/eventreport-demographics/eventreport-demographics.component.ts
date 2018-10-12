@@ -1,7 +1,8 @@
 import {Component, Input, OnChanges, OnDestroy, OnInit} from '@angular/core';
-import {ChartSeriesData, EntityType, EventReportFilter, GroupBy} from "../../_models/reports";
+import {ChartSeriesData, EntityType, EventCount, EventReportFilter, GroupBy} from "../../_models/reports";
 import {GlobalFilter} from "../../_models/segment";
 import {ReportsService} from "../../_services/reports.service";
+import {getFullYear} from "ngx-bootstrap/chronos/utils/date-getters";
 
 @Component({
   selector: 'app-eventreport-demographics',
@@ -37,7 +38,8 @@ export class EventreportDemographicsComponent implements OnInit ,OnChanges,OnDes
 
   ngOnInit() {
     this.genderChart.yAxisTitle = "Number of Users";
-    this.ageChart.yAxisTitle = "Number of Users"
+    this.ageChart.yAxisTitle = "Number of Users";
+    this.ageChart.xAxisTitle = "Age";
   }
 
   ngOnChanges(){
@@ -69,7 +71,7 @@ export class EventreportDemographicsComponent implements OnInit ,OnChanges,OnDes
           var data=response.map(data=>data.count);
           var chartSeriesData={
             showInLegend:false,
-            seriesName:'gender',
+            seriesName:'Users',
             data:data
           };
 
@@ -87,11 +89,12 @@ export class EventreportDemographicsComponent implements OnInit ,OnChanges,OnDes
     this.reportService.getCountTrend(this.eventReportFilterParam,this.entityTypeParam,groupBy)
       .subscribe(
       response=>{
+        response = this.groupByAge(response);
         this.ageChart.category=response.map(data=>data.groupedBy['name']);
         var data=response.map(data=>data.count);
         var chartSeriesData={
           showInLegend:false,
-          seriesName:'age',
+          seriesName:'Users',
           data:data
         };
 
@@ -100,6 +103,41 @@ export class EventreportDemographicsComponent implements OnInit ,OnChanges,OnDes
         console.log(response);
       }
     );
+  }
+
+  private groupByAge(dobGroup: EventCount[]): EventCount[] {
+    var ng = {};
+    dobGroup.forEach((v,i,a)=>{
+      let age = this.getAge(v.groupedBy['name']).toString();
+      ng[age] = (ng[age]?ng[age]:0) + v.count;
+    });
+    return Object.keys(ng).map<EventCount>(v=> {
+      let ec = new EventCount();
+      ec['count']=ng[v];
+      ec['groupedBy'] = new Map();
+      ec['groupedBy']['name']=v;
+      return ec;
+    });
+  }
+
+  private getAge(dob: string): number {
+    let dobDate = Date.parse(dob);
+    let yeardiff = (new Date().getFullYear() - new Date(dobDate).getFullYear());
+    let monthdiff = this.getMonthDiff(dobDate);
+    let offset = 0;
+    if(monthdiff == 0) {
+      let daydiff = this.getDayOfMonthDiff(dobDate);
+      offset = daydiff < 0 ? -1 : 0
+    } else if(monthdiff < 0) {
+      offset = -1;
+    }
+    return yeardiff + offset
+  }
+  private getMonthDiff(dobDate): number {
+    return new Date().getMonth() - new Date(dobDate).getMonth();
+  }
+  private getDayOfMonthDiff(dobDate): number {
+    return new Date().getDate() - new Date(dobDate).getDate();
   }
 
 }

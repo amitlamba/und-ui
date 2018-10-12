@@ -26,7 +26,7 @@ export class Draw24HrsChartComponent implements OnInit,OnChanges {
   }
 
   onreflow(event){
-    console.log(event.target.value)
+    console.log(event.target.value);
     this.dataSeries=event.target.value;
     this.chart.reflow();
     // this.load();
@@ -58,7 +58,7 @@ export class Draw24HrsChartComponent implements OnInit,OnChanges {
         headerFormat: '',
         formatter: function () {
           var timeX = new Date(this.x);
-          var s = '<b>At ' + formatDate(timeX, 'hh:MM')+' hours</b>';
+          var s = '<b>At ' + formatDate(timeX, 'HH:mm', '',true)+' hours</b>';
 
           $.each(this.points, function () {
             s += '<br/>On ' + this.series.name + ': ' +
@@ -75,11 +75,16 @@ export class Draw24HrsChartComponent implements OnInit,OnChanges {
         enabled: false
       },
       xAxis: {
-        //title: this.xAxisTitle,
+        title: {
+          text: "Time of the day"
+        },
         type: 'datetime',
         dateTimeLabelFormats: {
           day: '%H:%M'
-        }
+        },
+        tickInterval: this.timeStepInMins * 60 * 1000,
+        min: Date.UTC((new Date()).getUTCFullYear(),(new Date()).getMonth(),(new Date()).getDay()),
+        max: Date.UTC((new Date(new Date().getTime()+(24*60*60*1000))).getUTCFullYear(),(new Date(new Date().getTime()+(24*60*60*1000))).getMonth(),(new Date(new Date().getTime()+(24*60*60*1000))).getDay())
       },
       yAxis: {
         title: {
@@ -89,7 +94,7 @@ export class Draw24HrsChartComponent implements OnInit,OnChanges {
       plotOptions: {
         series: {
           pointStart: Date.UTC((new Date()).getUTCFullYear(),(new Date()).getMonth(),(new Date()).getDay()),
-          pointInterval: 300 * 1000 // 10 minutes
+          pointInterval: this.timeStepInMins * 60 * 1000 // timeStepInMins minutes
         }
       },
       series: this.series()
