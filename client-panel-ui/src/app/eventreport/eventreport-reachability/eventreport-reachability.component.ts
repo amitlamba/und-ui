@@ -37,8 +37,8 @@ export class EventreportReachabilityComponent implements OnInit,OnDestroy ,OnCha
   }
 
   ngOnChanges(){
-    this.fromDate='2018-08-10';
-    this.toDate='2018-08-20';
+    // this.fromDate='2018-08-10';
+    // this.toDate='2018-08-20';
     this.eventReportFilterParam.eventName=this.eventName;
     this.eventReportFilterParam.fromDate=this.fromDate;
     this.eventReportFilterParam.toDate=this.toDate;

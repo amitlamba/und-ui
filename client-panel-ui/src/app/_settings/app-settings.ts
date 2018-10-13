@@ -22,6 +22,7 @@ export class AppSettings {
   public static API_ENDPOINT_CLIENT_REPORT_EVENT_EVENTTIMETREND = AppSettings.API_ENDPOINT_CLIENT_REPORT_EVENT + "/eventTimeTrend";
   public static API_ENDPOINT_CLIENT_REPORT_EVENT_EVENTAGGREGATETREND = AppSettings.API_ENDPOINT_CLIENT_REPORT_EVENT + "/eventAggregateTrend";
 
+  public static API_ENDPOINT_CLIENT_FUNNEL=AppSettings.API_ENDPOINT_CLIENT+"/report/funnel/funnel";
 
   public static API_ENDPOINT_CLIENT_CLIENT_DASHBOARD = AppSettings.API_ENDPOINT_CLIENT_CLIENT + "/dashboard";
   public static API_ENDPOINT_CLIENT_CLIENT_DASHBOARD_TRENDCOUNT=AppSettings.API_ENDPOINT_CLIENT_CLIENT_DASHBOARD+"/trendcount";
@@ -62,7 +63,7 @@ export class AppSettings {
   public static API_ENDPOINT_CLIENT_SETTING_EMAIL_SERVICE_PROVIDER_SAVE = AppSettings.API_ENDPOINT_CLIENT_SETTING + "/email-service-provider/save";
   public static API_ENDPOINT_CLIENT_SETTING_SMS_SERVICE_PROVIDERS = AppSettings.API_ENDPOINT_CLIENT_SETTING + "/sms-service-providers";
   public static API_ENDPOINT_CLIENT_SETTING_SMS_SERVICE_PROVIDER = AppSettings.API_ENDPOINT_CLIENT_SETTING + "/sms-service-provider";
-  public static API_ENDPOINT_CLIENT_SETTING_SMS_SERVICE_PROVIDER_SAVE = AppSettings.API_ENDPOINT_CLIENT_SETTING + "/sms-service-providers/save";
+  public static API_ENDPOINT_CLIENT_SETTING_SMS_SERVICE_PROVIDER_SAVE = AppSettings.API_ENDPOINT_CLIENT_SETTING + "/sms-service-provider/save";
   public static API_ENDPOINT_CLIENT_SETTING_SENDERS_EMAIL_ADD = AppSettings.API_ENDPOINT_CLIENT_SETTING + "/senders-email/add";
   public static API_ENDPOINT_CLIENT_SETTING_SENDERS_EMAIL_LIST = AppSettings.API_ENDPOINT_CLIENT_SETTING + "/senders-email/list";
   public static API_ENDPOINT_CLIENT_SETTING_SENDERS_EMAIL_DELETE = AppSettings.API_ENDPOINT_CLIENT_SETTING + "/senders-email/delete";

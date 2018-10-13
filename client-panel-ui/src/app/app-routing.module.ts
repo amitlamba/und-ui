@@ -41,6 +41,11 @@ import {EventreportReachabilityComponent} from "./eventreport/eventreport-reacha
 import {SiteLayoutComponent} from "./layouts/site-layout/site-layout.component";
 import {AppLayoutComponent} from "./layouts/app-layout/app-layout.component";
 import {CreateSmsTemplateFormComponent} from "./templates/sms-templates/create-sms-template-form/create-sms-template-form.component";
+import {CreateReactiveSegmentComponent} from "./segment-category/segments/create-reactive-segment/create-reactive-segment.component";
+import {SegmentReportComponent} from "./segment-report/segment-report.component";
+import {FunnelReportFilter} from "./_models/reports";
+import {FunnelComponent} from "./funnel/funnel.component";
+import {CampaignReportComponent} from "./campaigns/campaign-report/campaign-report.component";
 
 const routes: Routes = [
   //Pages without layout goes here
@@ -77,10 +82,13 @@ const routes: Routes = [
         path: 'segment', component: SegmentCategoryComponent, canActivate: [AuthGuard], children: [
         {path: 'find-users', component: FindUsersComponent},
         {path: 'create-new-segment', component: CreateNewSegmentComponent},
+        {path: 'create-reactive-segment', component: CreateReactiveSegmentComponent},
         {path: 'segments', component: SegmentsComponent},
         {path: 'user-profile', component: UserProfileComponent}
       ]
       },
+      {path:'reports/segment/:id',component:SegmentReportComponent,canActivate:[AuthGuard]},
+      {path:'reports/funnel',component:FunnelComponent,canActivate:[AuthGuard]},
       {path: 'create-email-template/:newTemplate', component: CreateEmailTemplateFormComponent, canActivate: [AuthGuard], pathMatch: 'full'},
       {path: 'create-sms-template/:newTemplate', component: CreateSmsTemplateFormComponent, canActivate: [AuthGuard], pathMatch: 'full'},
       {path: 'templates', redirectTo: "templates/email", canActivate: [AuthGuard], pathMatch: "full"},
@@ -97,6 +105,7 @@ const routes: Routes = [
         {path: 'email', component: SetupCampaignComponent}
       ]
       },
+      {path:'campaign-report',component:CampaignReportComponent, canActivate:[AuthGuard],pathMatch:'full'}
     ]
   },
   //Site Routes goes here

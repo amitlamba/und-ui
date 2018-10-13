@@ -1,7 +1,10 @@
 import {EventEmitter, Injectable} from "@angular/core";
 import {
   Aggregate, AggregateBy, EntityType,
-  EventCount, EventPeriodCount, EventReportFilter, EventTimeFrequency, EventUserFrequency, GroupBy, PERIOD, TrendCount,
+  EventCount, EventPeriodCount, EventReportFilter, EventTimeFrequency, EventUserFrequency, FunnelReportFilter,
+  FunnelStep, GroupBy, PERIOD,
+  Step,
+  TrendCount,
   TrendTimeSeries,
   UserCountByEventForDate,
   UserCountByEventTimeSeries, UserCountForProperty,
@@ -12,6 +15,7 @@ import {Observable} from "rxjs/Observable";
 import {of} from "rxjs/observable/of";
 import {AppSettings} from "../_settings/app-settings";
 import {GlobalFilter} from "../_models/segment";
+import {Params} from "@angular/router";
 
 @Injectable()
 export class ReportsService {
@@ -172,13 +176,30 @@ export class ReportsService {
       .set("globalFilterType",aggregateOn.globalFilterType)
       .set("name",aggregateOn.name);
     const propFilter=erf.propFilter;
-
     return this.httpClient.post<Aggregate[]>(AppSettings.API_ENDPOINT_CLIENT_REPORT_EVENT_EVENTAGGREGATETREND,propFilter, {params});
   }
   /*
   EVENT APIs end
    */
 
+  /*
+  Funnel API
+   */
+
+  getFunnelResult(funnelReportFilter:FunnelReportFilter):Observable<FunnelStep[]>{
+    var params:Params=new HttpParams()
+    .set("segmentid",funnelReportFilter.segmentid.toString())
+    .set("days",funnelReportFilter.days.toString())
+    .set("funnelOrder",funnelReportFilter.funnelOrder)
+    .set("conversionTime",funnelReportFilter.conversionTime.toString());
+    if(!(funnelReportFilter.splitProperty==='None')){
+      params=params.set("splitProperty",funnelReportFilter.splitProperty);
+      params=params.set("splitPropertyType",funnelReportFilter.splitPropertyType);
+    }
+    var steps:Array<Step>=funnelReportFilter.steps;
+
+    return this.httpClient.post<FunnelStep[]>(AppSettings.API_ENDPOINT_CLIENT_FUNNEL,steps,{params});
+  }
   reportsDataFormat = [
     {
       "date": "2018-06-26",

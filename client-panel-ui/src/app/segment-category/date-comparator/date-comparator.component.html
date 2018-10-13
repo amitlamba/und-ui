@@ -1,6 +1,6 @@
 <div class="form-group m-2">
-  <select class="form-control"
-          (change)="dropdownChanged($event.target.value)">
+  <select class="form-control "
+          (change)="dropdownChanged($event.target.value)" [ngModel]="operator">
     <optgroup label="Absolute">
       <option *ngFor="let abs of absoluteDateComparatorMetadata" [value]="abs">
         {{dateComparatorMetadata["Absolute"][abs]["displayName"]}}
@@ -20,6 +20,7 @@
            daterangepicker
            [options]="singlePicker"
            (selected)="singleSelect($event)"
+           [ngModel]="localValues"
            #singleDatePicker/>
   </span>
   <span class="ml-1 calendar-icon"><i class="far fa-calendar-alt"></i></span>
@@ -29,6 +30,7 @@
     <input type="text" class="form-control"
            name="daterange"
            daterangepicker
+           [ngModel]="values"
            [options]="multiPicker"
            (selected)="selectedDate($event, daterange)"
     />

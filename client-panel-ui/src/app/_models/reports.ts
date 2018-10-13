@@ -1,45 +1,45 @@
 import {GlobalFilter, GlobalFilterType} from "./segment";
 
-export class TrendByTime{
+export class TrendByTime {
   usercount: number;
-  time:number;
+  time: number;
 }
 
-export class TrendTimeSeries{
+export class TrendTimeSeries {
   date: string;
-  trenddata:Array<TrendByTime>
+  trenddata: Array<TrendByTime>;
 }
 
 export class AggregateBy {
-   globalFilterType:string = GlobalFilterType.EventAttributeProperties
-   name: string = ""
-   aggregationType: string = AggregationType.Sum
+  globalFilterType: GlobalFilterType = GlobalFilterType.EventAttributeProperties;
+  name: string = "";
+  aggregationType: AggregationType = AggregationType.Sum;
 }
 
 enum AggregationType {
-  Avg="Aug",
-  Sum="Sum"
+  Avg = "Avg",
+  Sum = "Sum"
 }
 
-export class UserCountByTime{
+export class UserCountByTime {
   newusercount: number;
   oldusercount: number;
-  time:number
+  time: number;
 }
 
-export class UserCountTimeSeries{
-  date:string;
-  userCountData:Array<UserCountByTime>;
+export class UserCountTimeSeries {
+  date: string;
+  userCountData: Array<UserCountByTime>;
 }
 
-export class UserCountByEvent{
-  usercount:number;
-  eventname:string;
+export class UserCountByEvent {
+  usercount: number;
+  eventname: string;
 }
 
-export class UserCountByEventTimeSeries{
-  date:string;
-  userCountData:Array<UserCountByEvent>;
+export class UserCountByEventTimeSeries {
+  date: string;
+  userCountData: Array<UserCountByEvent>;
 }
 
 export class TrendCount {
@@ -78,29 +78,61 @@ export class UserCountByEventForDate {
   userCountData: Array<UserCountByEvent>;
 }
 
-export class EventUserTable{
-  eventName:string;
-  count:Array<number> = [];
+export class EventUserTable {
+  eventName: string;
+  count: Array<number> = [];
+}
+
+export class FunnelReportFilter {
+  segmentid: number;
+  days: number;
+  conversionTime: number;
+  steps: Array<Step>;
+  funnelOrder: FunnelOrder;
+  splitProperty: string;
+  splitPropertyType = GlobalFilterType.EventAttributeProperties;
+}
+
+export enum FunnelOrder {
+  strict = "strict",
+  default = "default"
+}
+
+export class Step {
+  order: number;
+  eventName: string;
+}
+
+export class FunnelStep {
+  step: Step;
+  count: number;
+  property: string;
+}
+
+export class EventReportFilter {
+  segmentid: number;
+  fromDate: string;
+  toDate: string;
+  eventName: string;
+  propFilter: Array<GlobalFilter>
 }
 
 
-
-export class EventReportFilter{segmentid:number; fromDate: string; toDate: string; eventName: string; propFilter: Array<GlobalFilter>}
-
-
-export class EventCount{
-  count:number;
+export class EventCount {
+  count: number;
   groupedBy: Map<string, any>
-};
-export class EventPeriodCount{
+}
+
+export class EventPeriodCount {
   count: number;
   period: Map<string, any>
 }
 
-export class EventUserFrequency{
-  usercount:number;
-  eventcount:number;
+export class EventUserFrequency {
+  usercount: number;
+  eventcount: number;
 }
+
 export class EventTimeFrequency {
   eventCount: number;
   hour: number;
@@ -108,16 +140,16 @@ export class EventTimeFrequency {
 
 export class Aggregate {
   sum: number;
-  period: Map<string,any>;
+  period: Map<string, any>;
 }
 
 export enum PERIOD {
-  dayOfMonth="daily", dayOfWeek="weekly", month="monthly"
-};
+  dayOfMonth = "daily", dayOfWeek = "weekly", month = "monthly"
+}
 
 export enum EntityType {
-  event="event", user="user"
-};
+  event = "event", user = "user"
+}
 
 export class GroupBy {
   globalFilterType: string;
@@ -125,7 +157,7 @@ export class GroupBy {
 }
 
 export interface ChartSeriesData {
-  showInLegend:boolean;
+  showInLegend: boolean;
   seriesName: string;
   data: number[];
 }

@@ -1,0 +1,32 @@
+<div class="clearfix"></div>
+<div class="my-3 event-widget">
+  <form [formGroup]="globalFilterForm">
+    <div class="row d-flex flex-row ml-3 mt-2">
+      <div class="form-group mx-2">
+        <select class="form-control"
+                formControlName="globalFilterType"
+                (change)="firstFilterChanged($event.target.value)">
+          <option value="" disabled selected>--Select--</option>
+          <option *ngFor="let propType of firstDropDown" value="{{propType}}">{{propType}}</option>
+        </select>
+      </div>
+      <div *ngIf="maxOrder>=1" class="form-group mx-2">
+        <select class="form-control" name="globalFilterType"
+                formControlName="name"
+                (change)="secondFilterChanged($event.target.value)"
+                [(ngModel)]="secondFilterSelected"
+                >
+          <option value="" disabled selected>--Select--</option>
+          <option *ngFor="let prop of secondDropDown" value="{{prop['name']}}">{{prop['name']}}</option>
+        </select>
+      </div>
+      <app-string-comparator [(values)]="values"
+                             [(operator)]="operator" *ngIf="maxOrder>=1"
+                             [options]="options"
+      ></app-string-comparator>
+      <button type="button" class="close ml-auto mr-4 pos" aria-label="Close" (click)="removeFilter()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+  </form>
+</div>

@@ -83,7 +83,8 @@
                             [xAxisTitle]="trendChartXAxisTitle"
                             [yAxisTitle]="trendChartYAxisTitle"
                             [chartType]="trendChartGraphType"
-                            [dataSeries]="trendChartDataSeries">
+                            [dataSeries]="trendChartDataSeries"
+                            [timeStepInMins]="interval">
 
       </app-draw24-hrs-chart>
     </div>
@@ -103,7 +104,7 @@
         [yAxisTitle]="newVsExistingYAxisTitle"
         [chartType]="newVsExistingGraphType"
         [dataSeries]="newVsExistingDataSeries"
-      >
+        [timeStepInMins]="interval">
 
       </app-draw24-hrs-chart>
     </div>
@@ -112,7 +113,7 @@
     <div class="card-body">
       <button class="btn btn-primary" (click)="onTable()">Table</button>
       <button class="btn btn-primary" (click)="onGraph()">Graph</button>
-      <app-draw-table *ngIf="viewType ==='table'" [newdata]="newdata"></app-draw-table>
+      <app-draw-table *ngIf="viewType ==='table'" [eventUserData]="userCountByEventData"></app-draw-table>
       <app-draw-simple-chart *ngIf="viewType==='graph' "
                              [title]="userCountByEventTitle"
                              [subtitle]="userCountByEventSubTitle"

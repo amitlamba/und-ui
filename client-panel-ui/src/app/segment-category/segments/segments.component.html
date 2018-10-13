@@ -5,6 +5,18 @@
       <i class="fas fa-plus mr-1"></i> Create New Segment
     </button>
   </div>
+  <div class="input-group my-3 mb-4 col-md-4 col-sm-8">
+    <input type="text" class="form-control"
+           placeholder="Filter by: Segment Name"
+           aria-label="SegmentName"
+           aria-describedby="button-search-segment"
+           [(ngModel)]="filterby"
+    >
+    <div class="input-group-append">
+      <button class="btn btn-outline-primary" type="button" id="button-search-segment"><i class="fas fa-search"></i></button>
+    </div>
+  </div>
+
   <table class="table table-bordered my-3">
     <thead style="background-color: rgba(0, 0, 0, .03);">
     <tr>
@@ -15,7 +27,7 @@
     </tr>
     </thead>
     <tbody>
-    <ng-template ngFor let-segment [ngForOf]="segments.reverse()">
+    <ng-template ngFor let-segment [ngForOf]="filteredSegments.reverse()">
       <tr>
         <td (click)="toggleSegmentDetail(segment.id)">
           <span class="segment-name text-primary">{{segment.name}} &nbsp;&nbsp;&nbsp;
@@ -27,7 +39,10 @@
         </td>
         <td>{{segment.type}}</td>
         <td>{{segment.creationDate+"Z" | date:'medium'}}</td>
-        <td><button class="btn btn-sm btn-outline-primary" data-toggle="tooltip" data-placement="top" title="View Reports"><i class="far fa-chart-bar"></i></button></td>
+        <td>
+          <button class="btn btn-sm btn-outline-primary" data-toggle="tooltip" data-placement="top" title="View Reports" (click)="viewReport(segment)"><i class="far fa-chart-bar"></i></button>
+          <button class="btn btn-sm btn-outline-primary" data-toggle="tooltip" data-placement="top" title="Clone Segment" (click)="cloneSegment(segment)"><i class="far fa-clone"></i></button>
+        </td>
       </tr>
       <tr *ngIf="toggleSegmentDetails[segment.id]">
         <td colspan="4">

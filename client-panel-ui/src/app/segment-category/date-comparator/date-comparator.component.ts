@@ -7,6 +7,7 @@ import {DaterangepickerConfig} from "ng2-daterangepicker";
 import * as moment from "moment";
 import {DateFilter, DateOperator} from "../../_models/segment";
 import {createViewChild} from "@angular/compiler/src/core";
+import {FormGroup} from "@angular/forms";
 
 @Component({
   changeDetection: ChangeDetectionStrategy.Default,
@@ -15,6 +16,7 @@ import {createViewChild} from "@angular/compiler/src/core";
   styleUrls: ['./date-comparator.component.scss']
 })
 export class DateComparatorComponent implements OnInit {
+
 
   hideElementDatepicker = false;
   hideElementDaterangepicker = true;
@@ -31,6 +33,7 @@ export class DateComparatorComponent implements OnInit {
 
   set operator(operator: DateOperator) {
     this.localOperator = operator;
+
     this.operatorChange.emit(this.localOperator);
   }
 
@@ -69,6 +72,7 @@ export class DateComparatorComponent implements OnInit {
 
   constructor(public segmentService: SegmentService, private daterangepickerOptions: DaterangepickerConfig,
               private changeDetectorRef: ChangeDetectorRef) {
+
 
     this.dateComparatorMetadata = this.segmentService.dateComparatorMetadata;
     this.absoluteDateComparatorMetadata = Object.keys(this.segmentService.dateComparatorMetadata.Absolute);
@@ -120,14 +124,26 @@ export class DateComparatorComponent implements OnInit {
   singleSelect(value: any) {
     console.log(value);
     let values = [];
+    console.log("inside single select");
     values[0] = (<moment.Moment>value.start).format("YYYY-MM-DD");
+    console.log(values[0]);
     this.localValues = values;
     this.values = this.localValues;
   }
 
   ngOnInit() {
-    this.operator = DateOperator.Before;
-    this.values = [moment().startOf('day').format("YYYY-MM-DD")];
+    if(!this.localValues){
+      this.values = [moment().startOf('day').format("YYYY-MM-DD")];
+      console.log(this.values);
+    }
+    if(!this.localOperator)
+    {
+      this.operator = DateOperator.Before;
+
+    }else{
+      this.dropdownChanged(this.operator);
+    }
+
     this.changeDetectorRef.detectChanges();
     console.log(moment().startOf('day').format("YYYY-MM-DD"));
   }
@@ -144,16 +160,24 @@ export class DateComparatorComponent implements OnInit {
       this.hideElementDaySelector = true;
       this.hideWasExactlyDaySelector = true;
       this.hideWillBeExactlyDaySelector = true;
-      this.selectedDate({start: moment().startOf('day'), end: moment().endOf('day')}, null);
-
+      if(this.values.length>0) {
+        this.selectedDate({start: moment(this.values[0]), end: moment(this.values[1])}, null);
+      }else {
+        this.selectedDate({start: moment().startOf('day'), end: moment().endOf('day')}, null);
+      }
     } else if (this.absoluteDateComparatorMetadata.includes(val)) {
       this.hideElementDaterangepicker = true;
       this.hideElementDatepicker = false;
       this.hideElementDaySelector = true;
       this.hideWasExactlyDaySelector = true;
       this.hideWillBeExactlyDaySelector = true;
-      this.values = [];
-      this.singleSelect({start: moment().startOf('day')});
+      if(this.values.length>0){
+        this.values = this.values;
+        this.singleSelect({start: moment(this.values[0])});
+      }else{
+        this.values = [];
+        this.singleSelect({start: moment().startOf('day')});
+      }
 
     } else if (["Today"].includes(val)) {
       this.hideElementDaySelector = true;

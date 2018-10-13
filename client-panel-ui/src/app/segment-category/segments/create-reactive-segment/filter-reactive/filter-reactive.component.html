@@ -1,0 +1,51 @@
+<div class="row d-flex flex-row ml-3 mt-1 mb-0" [formGroup]="filterForm">
+  <div class="form-group" >
+    <select class="form-control" formControlName="name" style="width:145px;margin-right: -8px;"(change)="property($event)">
+      <!--<option  selected [value]="">&#45;&#45;Select&#45;&#45;</option>-->
+      <option *ngFor="let prop of eventProperties" [value]="prop.name">{{prop.name}}</option>
+      <option *ngFor="let prop of defaultProperties" [value]="prop.name">{{prop.name}}</option>
+    </select>
+  </div>
+
+  <div class="form-group col-6 my-0 pr-0" *ngIf=" propertyFilterType=='string'">
+    <app-string-comparator [(operator)]="propertyFilterOperator"
+                           [(values)]="propertyFilterValues"
+    ></app-string-comparator>
+  </div>
+  <div class="form-group col-6 my-0 pr-0" *ngIf=" propertyFilterType=='number'">
+    <app-number-comparator [(operator)]="propertyFilterOperator"
+                           [(values)]="propertyFilterValues"
+    ></app-number-comparator>
+  </div>
+  <div class="form-group col-6 mb-0  ml-3 pr-0 date-comparator" *ngIf=" propertyFilterType=='date'">
+    <app-date-comparator [(operator)]="propertyFilterOperator"
+                         [(values)]="propertyFilterValues"
+                         [(valueUnit)]="localPropertyFilter.valueUnit"
+                         class="row d-flex flex-row"
+                         style="width: 500px;"
+    ></app-date-comparator>
+  </div>
+  <div class="form-group col-md-8 col-sm-6 my-0 pr-0" *ngIf=" propertyFilterType=='timerange'">
+    <app-timerange [options]="selectedProperty.options"
+                   (values)="timeRangeValueChanged($event)"
+    ></app-timerange>
+  </div>
+
+  <div class="form-group" *ngIf="propertyFilterType==='select'">
+    <select class="form-control ml-4" *ngIf="selectedProperty.dataType==='select'"
+            [(ngModel)]="propertyFilter.values[0]">
+      <option value="" disabled selected>--Select--</option>
+      <option *ngFor="let prop of selectedProperty.options" [value]="prop">{{prop}}</option>
+    </select>
+  </div>
+  <div *ngIf="propertyFilterType=='multiselect'">
+    <select2 class="ml-4"
+             [data]="getSelectedPropertyOptions()"
+             [options]="select2Options"
+             (valueChanged)="select2ValueChanged($event, selectedProperty)"
+             [width]="380"></select2>
+  </div>
+  <button type="button" class="close ml-auto mr-4 pos" aria-label="Close" (click)="removeFilter()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>

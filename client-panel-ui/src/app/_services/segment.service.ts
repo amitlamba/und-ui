@@ -6,7 +6,7 @@ import {
   DidEvents, GlobalFilter,
   RegisteredEvent,
   RegisteredEventProperties,
-  Segment,
+  Segment, SegmentMini,
   State
 } from "../_models/segment";
 import {AppSettings} from "../_settings/app-settings";
@@ -18,13 +18,54 @@ import {Campaign} from "../_models/campaign";
 
 @Injectable()
 export class SegmentService {
-  segments: Segment[] = [];
+  private _segments: Segment[] = [];
   editSegment: Segment;
-  countries: Country[];
+  cloneSegment: Segment;
+  private _countries: Country[];
   eventUser: EventUser = new EventUser();
-  cachedRegisteredEvents: RegisteredEvent[] = null;
-  cachedUserProperties: RegisteredEvent[] = null;
+  private _cachedRegisteredEvents: RegisteredEvent[] = null;
+  private _cachedUserProperties: RegisteredEvent[] = null;
   eventUserList: EventUser[] = [];
+
+  get countries(): Country[] {
+    if (!(this._countries && this._countries.length))
+      this._countries = <Country[]>JSON.parse(localStorage.getItem("countries"));
+    return this._countries;
+  }
+  set countries(value: Country[]) {
+    this._countries = value;
+    localStorage.setItem("countries", JSON.stringify(this._countries));
+  }
+  get cachedRegisteredEvents(): RegisteredEvent[] {
+    if (!(this._cachedRegisteredEvents && this._cachedRegisteredEvents.length))
+      this._cachedRegisteredEvents = <RegisteredEvent[]>JSON.parse(localStorage.getItem("registeredEvents"));
+    return this._cachedRegisteredEvents;
+  }
+  set cachedRegisteredEvents(value: RegisteredEvent[]) {
+    this._cachedRegisteredEvents = value;
+    localStorage.setItem("registeredEvents", JSON.stringify(this._cachedRegisteredEvents));
+  }
+  get cachedUserProperties(): RegisteredEvent[] {
+    if (!(this._cachedUserProperties && this._cachedUserProperties.length))
+      this._cachedUserProperties = <RegisteredEvent[]>JSON.parse(localStorage.getItem("registeredUserProperties"));
+    return this._cachedUserProperties;
+  }
+  set cachedUserProperties(value: RegisteredEvent[]) {
+    this._cachedUserProperties = value;
+    localStorage.setItem("registeredUserProperties", JSON.stringify(this._cachedUserProperties))
+  }
+  get segments(): Segment[] {
+    return this._segments;
+  }
+  set segments(value: Segment[]) {
+    this._segments = value;
+    localStorage.setItem("segmentNames", JSON.stringify(this._segments.map<SegmentMini>(
+      (v) => {return {id: v.id, name: v.name}}
+    )));
+  }
+  get segmentMini(): SegmentMini[] {
+    return <SegmentMini[]>JSON.parse(localStorage.getItem("segmentNames"));
+  }
 
   constructor(private httpClient: HttpClient) {
     // this.editSegment = this.initSegment(new Segment());

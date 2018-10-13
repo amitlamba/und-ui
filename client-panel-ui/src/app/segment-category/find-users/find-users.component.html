@@ -1,7 +1,11 @@
 <div class="container-fluid">
   <div class="row d-flex flex-wrap flex-row">
     <div class="col-lg-9 mt-5">
-      <app-users-by-behaviour [showFind]="true" (eventUserList)="receiveEventUserList($event)"></app-users-by-behaviour>
+      <app-segment-behavior-reactive [type]="type"
+                                     [segment]="segment"
+                                     (validatedSegment)="find($event)"
+      >
+      </app-segment-behavior-reactive>
     </div>
     <div class="col-lg-3 mt-5">
       <div class="card">

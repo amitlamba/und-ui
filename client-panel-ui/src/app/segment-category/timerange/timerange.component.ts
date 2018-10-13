@@ -1,4 +1,5 @@
 import {Component, Input, OnInit, Output, EventEmitter} from '@angular/core';
+import {FormGroup} from "@angular/forms";
 
 @Component({
   selector: 'app-timerange',
@@ -7,6 +8,7 @@ import {Component, Input, OnInit, Output, EventEmitter} from '@angular/core';
 })
 export class TimerangeComponent implements OnInit {
 
+
   timeOfTheDayOptions;
   @Output() values = new EventEmitter();
   fromHours: string;
@@ -14,13 +16,13 @@ export class TimerangeComponent implements OnInit {
   fromMinutes: string;
   toMinutes: string;
   toHoursIndex: number;
-  constructor() {
-  }
 
   @Input() set options(options: any) {
     this.timeOfTheDayOptions = options;
   }
 
+  constructor(){
+  }
   ngOnInit() {
     console.log(this.timeOfTheDayOptions);
     this.setDefaultTimeValues();
@@ -48,6 +50,7 @@ export class TimerangeComponent implements OnInit {
       console.log(hoursArray[this.toHoursIndex]);
       this.toHours = hoursArray[this.toHoursIndex];
     }
+
     this.values.emit([this.fromHours, this.fromMinutes, this.toHours, this.toMinutes]);
   }
 }

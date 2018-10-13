@@ -2,29 +2,32 @@
   <h2>Analytics for Event: {{eventName}}</h2>
   <div class="row">
     <div class="col-sm-4 col-md-3">
-      <label for="eventName">Select Event</label>
-      <select class="form-control"  id="eventName"  [(ngModel)]="eventName">
-        <option selected hidden>{{eventName}}</option>
-        <option *ngFor="let event of events"  [ngValue]="event">{{event}}</option>
+      <label for="eventName">Event</label>
+      <select class="form-control" id="eventName" [(ngModel)]="eventName">
+        <option [value]="" selected hidden>--Select Event--</option>
+        <option *ngFor="let event of events" [value]="event.name">{{event.name}}</option>
       </select>
     </div>
   </div>
   <div class="row mt-3">
     <div class="col-sm-4 col-md-3">
-      <select class="form-control"  id="segmentId" [(ngModel)]="segmentId" ng-init="segmentId='1003'">
-        <option hidden selected >--Select Segment--</option>
+      <label for="segmentId">Segment</label>
+      <select class="form-control" id="segmentId" [(ngModel)]="segmentId" ng-init="segmentId='1003'">
+        <option hidden selected>--Select Segment--</option>
         <option *ngFor="let segment of segments" [ngValue]="segment.id">{{segment.name}}</option>
       </select>
     </div>
     <div class="input-group mb-3 col-sm-4 col-md-3">
       <span class="input-group-btn datepicker">
-    <input type="text" class="form-control"
-           name="daterange"
-           daterangepicker
-           [options]="multiPicker"
-           (selected)="selectedDate($event)"
-    />
-  </span>
+        <label for="daterange">Date Range</label>
+        <input type="text" class="form-control"
+               name="daterange"
+               id="daterange"
+               daterangepicker
+               [options]="multiPicker"
+               (selected)="selectedDate($event)"
+        >
+      </span>
     </div>
 
 
@@ -32,53 +35,59 @@
 
 
   <!--<div class="row" id="event-navbar">-->
-    <!--<button type="button" class="btn btn-primary" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact: true}" [routerLink]="['/reports/event/overall']">Overall</button>-->
-    <!--<button type="button" class="btn btn-primary" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact: true}" [routerLink]="['/reports/event/demographics']">Demographics</button>-->
-    <!--<button type="button" class="btn btn-primary" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact: true}" [routerLink]="['/reports/event/geographics']">Geographics</button>-->
-    <!--<button type="button" class="btn btn-primary" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact: true}" [routerLink]="['/reports/event/technographics']">Technology Used</button>-->
-    <!--<button type="button" class="btn btn-primary" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact: true}" [routerLink]="['/reports/event/reachability']">Reachability</button>-->
+  <!--<button type="button" class="btn btn-primary" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact: true}" [routerLink]="['/reports/event/overall']">Overall</button>-->
+  <!--<button type="button" class="btn btn-primary" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact: true}" [routerLink]="['/reports/event/demographics']">Demographics</button>-->
+  <!--<button type="button" class="btn btn-primary" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact: true}" [routerLink]="['/reports/event/geographics']">Geographics</button>-->
+  <!--<button type="button" class="btn btn-primary" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact: true}" [routerLink]="['/reports/event/technographics']">Technology Used</button>-->
+  <!--<button type="button" class="btn btn-primary" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact: true}" [routerLink]="['/reports/event/reachability']">Reachability</button>-->
   <!--</div>-->
 
   <!--<router-outlet></router-outlet>-->
 
   <div class="row" id="event-navbar">
-    <button type="button" class="btn btn-primary" (click)="buttonClick('overall')">Overall</button>
-    <button type="button" class="btn btn-primary" (click)="buttonClick('demography')">Demographics</button>
-    <button type="button" class="btn btn-primary" (click)="buttonClick('geography')">Geographics</button>
-    <button type="button" class="btn btn-primary" (click)="buttonClick('technology')">Technology Used</button>
-    <button type="button" class="btn btn-primary" (click)="buttonClick('reachability')">Reachability</button>
+    <button type="button" class="btn btn-primary" [ngClass]="{active:button=='overall'}" (click)="buttonClick('overall')">Overall</button>
+    <button type="button" class="btn btn-primary" [ngClass]="{active:button=='demography'}" (click)="buttonClick('demography')">Demographics</button>
+    <button type="button" class="btn btn-primary" [ngClass]="{active:button=='geography'}" (click)="buttonClick('geography')">Geographics</button>
+    <button type="button" class="btn btn-primary" [ngClass]="{active:button=='technology'}" (click)="buttonClick('technology')">Technology Used</button>
+    <button type="button" class="btn btn-primary" [ngClass]="{active:button=='reachability'}" (click)="buttonClick('reachability')">Reachability</button>
   </div>
 
-  <app-eventreport-overall *ngIf="button==='overall'"
-    [segmentId]="segmentId"
-    [eventName]="eventName"
-    [fromDate]="fromDate"
-    [toDate]="toDate"
+  <div *ngIf="eventName">
+    <app-eventreport-overall *ngIf="button==='overall'"
+                             [segmentId]="segmentId"
+                             [eventName]="eventName"
+                             [fromDate]="fromDate"
+                             [toDate]="toDate"
     ></app-eventreport-overall>
-  <app-eventreport-demographics *ngIf="button==='demography'"
-    [segmentId]="segmentId"
-    [eventName]="eventName"
-    [fromDate]="fromDate"
-    [toDate]="toDate"
-  ></app-eventreport-demographics>
-  <app-eventreport-geographics *ngIf="button==='geography'"
-     [segmentId]="segmentId"
-     [eventName]="eventName"
-     [fromDate]="fromDate"
-     [toDate]="toDate"
-  ></app-eventreport-geographics>
-  <app-eventreport-technographics *ngIf="button==='technology'"
-    [segmentId]="segmentId"
-    [eventName]="eventName"
-    [fromDate]="fromDate"
-    [toDate]="toDate"
-  ></app-eventreport-technographics>
-  <app-eventreport-reachability *ngIf="button==='reachability'"
-    [segmentId]="segmentId"
-    [eventName]="eventName"
-    [fromDate]="fromDate"
-    [toDate]="toDate"
-  ></app-eventreport-reachability>
-
+    <app-eventreport-demographics *ngIf="button==='demography'"
+                                  [segmentId]="segmentId"
+                                  [eventName]="eventName"
+                                  [fromDate]="fromDate"
+                                  [toDate]="toDate"
+    ></app-eventreport-demographics>
+    <app-eventreport-geographics *ngIf="button==='geography'"
+                                 [segmentId]="segmentId"
+                                 [eventName]="eventName"
+                                 [fromDate]="fromDate"
+                                 [toDate]="toDate"
+    ></app-eventreport-geographics>
+    <app-eventreport-technographics *ngIf="button==='technology'"
+                                    [segmentId]="segmentId"
+                                    [eventName]="eventName"
+                                    [fromDate]="fromDate"
+                                    [toDate]="toDate"
+    ></app-eventreport-technographics>
+    <app-eventreport-reachability *ngIf="button==='reachability'"
+                                  [segmentId]="segmentId"
+                                  [eventName]="eventName"
+                                  [fromDate]="fromDate"
+                                  [toDate]="toDate"
+    ></app-eventreport-reachability>
+  </div>
+  <div *ngIf="!eventName">
+    <div class="p-5 text-center my-5">
+      <h3 class="text-muted">No Event Selected. Please select an Event.</h3>
+    </div>
+  </div>
 </div>
 

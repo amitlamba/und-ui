@@ -7,7 +7,8 @@
       </select>
     </div>
 
-    <app-date-comparator [(operator)]="didEvent.dateFilter.operator" [(values)]="didEvent.dateFilter.values"
+    <app-date-comparator [(operator)]="didEvent.dateFilter.operator"
+                         [(values)]="didEvent.dateFilter.values"
                          [(valueUnit)]="didEvent.dateFilter.valueUnit"
                          class="row d-flex flex-row" *ngIf="eventSelected"></app-date-comparator>
 

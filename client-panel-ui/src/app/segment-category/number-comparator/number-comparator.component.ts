@@ -1,6 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {SegmentService} from "../../_services/segment.service";
 import {NumberOperator} from "../../_models/segment";
+import {FormGroup} from "@angular/forms";
 
 @Component({
   selector: 'app-number-comparator',

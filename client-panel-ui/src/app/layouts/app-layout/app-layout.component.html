@@ -29,6 +29,7 @@
           <li> <a href="#" data-toggle="collapse" data-target="#reports" class="collapsed active" ><span class="icon"><i class="fas fa-chart-line"></i></span> <span class="nav-label">Reports</span><span class="nav-label"> <span class="fa fa-chevron-down fa-pull-right"></span></span></a>
             <ul  class="sub-menu collapse" id="reports" >
               <li><a [routerLink]="['/reports/event']" [routerLinkActive]="['active']">Events</a></li>
+              <li><a [routerLink]="['/reports/funnel']" [routerLinkActive]="['active']">Funnel</a></li>
             </ul>
           </li>
         </ul>
@@ -37,7 +38,7 @@
 
     <div class="col pt-2">
       <div class="pb-2"><button class="btn btn-link text-dark" type="button" (click)="hideLeftSidebar = !hideLeftSidebar;"><i style="transform: scaleX(1.4);" class="fas fa-bars fa-lg"></i></button></div>
-      <div style="min-height: 70vh">
+      <div style="min-height: 70vh" class="pb-5">
         <router-outlet></router-outlet>
       </div>
     </div>

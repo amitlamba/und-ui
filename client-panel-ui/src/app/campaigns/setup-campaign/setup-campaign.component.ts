@@ -10,7 +10,7 @@ import {
 import {CronOptions} from "../../cron-editor/CronOptions";
 import {TemplatesService} from "../../_services/templates.service";
 import {SmsTemplate} from "../../_models/sms";
-import {Segment} from "../../_models/segment";
+import {Segment, SegmentMini} from "../../_models/segment";
 import * as moment from "moment";
 import {ActivatedRoute, Router} from "@angular/router";
 import {Email, EmailTemplate} from "../../_models/email";
@@ -42,7 +42,7 @@ export class SetupCampaignComponent implements OnInit {
   emailTemplatesList: EmailTemplate[] = [];
   campaign: Campaign = new Campaign();
   campaignName: string = "";
-  segmentsList: Segment[] = [];
+  segmentsList: SegmentMini[] = [];
 
 
   cronOptions: CronOptions = {
@@ -104,7 +104,7 @@ export class SetupCampaignComponent implements OnInit {
     this.segmentService.getSegments().subscribe(
       (segments) => {
         this.segmentService.segments = segments;
-        this.segmentsList = this.segmentService.segments;
+        this.segmentsList = this.segmentService.segmentMini;
       }
     );
     // SmsTemplates List

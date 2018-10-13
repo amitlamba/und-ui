@@ -37,6 +37,7 @@ export class HomeComponent implements OnInit,OnChanges,OnDestroy {
   segments= [{id:1003,name:'All User'},{id:1,name:'segment 1'},{id:2,name:'segment 2'}];
   segmentId:number;
   interval:number;
+  private tempinterval: number;
   date1: string;
   date2: string;
   date3: string;
@@ -69,7 +70,7 @@ export class HomeComponent implements OnInit,OnChanges,OnDestroy {
   userCountByEventChartType: string;
   userCountByEventCategory: string[];
   userCountByEventData: Array<UserCountByEventForDate> = [];
-  newdata:Map<string,number[]>;
+  // newdata:Map<string,number[]>;
 
   trendCountName: string;
   trendCountDataSeries: Array<[string, number]>;
@@ -77,7 +78,7 @@ export class HomeComponent implements OnInit,OnChanges,OnDestroy {
   constructor(private userService: UserService, private reportsService: ReportsService,private router:Router) {
     console.log('inside constructor');
     this.segmentId=1003;
-    this.interval=5;
+    this.interval=this.tempinterval=5;
     this.groupBy=new GroupBy();
     this.groupBy.globalFilterType="Technographics";
     this.groupBy.name='os';
@@ -151,7 +152,6 @@ export class HomeComponent implements OnInit,OnChanges,OnDestroy {
     this.getNewVsExistingDataByDate(event.target.value);
   }
 
-  //TODO Data Is Not Converting Properly In ChartSeriesData
   userCountByEventGraphInitialization(data: Array<UserCountByEventForDate>) {
 
     this.userCountByEventTitle = '';
@@ -159,103 +159,56 @@ export class HomeComponent implements OnInit,OnChanges,OnDestroy {
     this.userCountByEventYAxisTitle = 'users';
     this.userCountByEventChartType = 'column';
 
-    var category = data.map(data =>
-      data.userCountData.map(data => data.eventname));
-
-    this.userCountByEventCategory = category.pop();
-
-    this.userCountByEventDataSeries = data.map<ChartSeriesData>(data => {
-        return {
-          showInLegend: true,
-          seriesName: data.date,
-          data: data.userCountData.map<number>(data => {
-
-             return data.usercount
-          }
-        )
-        };
-      }
-    );
-
-    // var dates=data.map(data=>data.date);
-    // var size=dates.length;
-    // var cat=new Set();
-    // var map=new Map<string,Array<number>>();
+    // var category = data.map(data =>
+    //   data.userCountData.map(data => data.eventname));
     //
-    // data.forEach(data=>data.userCountData.
-    // forEach(data=>{
-    //   cat.add(data.eventname)
-    // }));
-
-
-    // data.forEach(data=>{
-    //   var catCopy= new Set(cat);
-    //   data.userCountData.forEach(data=>{
-    //     if(map.has(data.eventname)){
-    //       var list=map.get(data.eventname);
-    //       list.push(data.usercount);
-    //       map.set(data.eventname,list);
-    //       catCopy.delete(data.eventname);
-    //     }else{
-    //       var l=[];
-    //       l.push(data.usercount);
-    //       map.set(data.eventname,l);
-    //       catCopy.delete(data.eventname);
-    //     }
-    //   })
-    //   //add o to remaining
-    //   catCopy.forEach(event=>{
-    //     if(map.has(event)){
-    //       var list=map.get(event);
-    //       list.push(0);
-    //       map.set(event,list);
-    //     }else{
-    //       var l=[];
-    //       l.push(0);
-    //       map.set(event,l);
-    //     }
-    //   })
-    // });
-
-    // var key=map.keys();
-    // var obj=key.next();
-    // var events=[];
+    // this.userCountByEventCategory = category.pop();
     //
-    // while(obj){
-    //   events.push(obj.value);
-    //   obj=key.next();
-    // }
+    // this.userCountByEventDataSeries = data.map<ChartSeriesData>(data => {
+    //     return {
+    //       showInLegend: true,
+    //       seriesName: data.date,
+    //       data: data.userCountData.map<number>(data => {
     //
-    // events.forEach(data=>console.log("key are"+data));
-
-
-    // this.newdata=map;
-    //converting data for graph
-
-    // var dataseries=Array<ChartSeriesData>();
-    //
-    // dates.forEach((date,i,a)=>{
-    //   var key=map.keys();
-    //   var obj=key.next();
-    //   var data:number[][];
-    //   while(obj){
-    //     console.log(obj.value);
-    //     var list=map.get(obj.value);
-    //     console.log("elemnt at i"+list.forEach(data=>console.log(data)));
-    //     data[i].push(list[i]);
-    //     obj=key.next();
+    //          return data.usercount
+    //       }
+    //     )
+    //     };
     //   }
-    //
-    //   dataseries.push({
-    //     showInLegend:true,
-    //     seriesName:date,
-    //     data:data[i]
-    //   });
-    // });
-    //
-    // dataseries.forEach(data=>{
-    //   console.log(data.seriesName+" "+data.showInLegend+" "+data.data)
-    // });
+    // );
+
+    var dates=data.map(data=>data.date);
+    var cat=new Set();
+
+    data.forEach(data=>data.userCountData.
+    forEach(data=>{
+      cat.add(data.eventname)
+    }));
+
+    let newcat=new Array();
+    cat.forEach(v=>newcat.push(v));
+
+    var dataseries=Array<ChartSeriesData>();
+
+    dataseries=data.map<ChartSeriesData>(v=>{
+      let seriesName=v.date;
+      let list=new Array(cat.size);
+      for(let i=0;i<list.length;i++){
+        list[i]=0;
+      }
+      let data=v.userCountData.forEach(v=>{
+        let index=newcat.indexOf(v.eventname);
+        list[index]=v.usercount;
+        });
+      return {
+        seriesName:seriesName,
+        showInLegend:true,
+        data:list
+      }
+    });
+
+    this.userCountByEventCategory=newcat;
+    this.userCountByEventDataSeries=dataseries;
 
   }
 
@@ -271,7 +224,9 @@ export class HomeComponent implements OnInit,OnChanges,OnDestroy {
   getNewVsExistingDataByDate(date: string) {
     var result = this.newVsExistingObject.find(obj => obj.date === date);
     console.log(result);
-    this.newVsExistingDataSeries = this.convertUserCountTimeSeriesToChartSeriesSeries(result);
+    if(result) {
+      this.newVsExistingDataSeries = this.convertUserCountTimeSeriesToChartSeriesSeries(result);
+    }
   }
 
   convertUserCountTimeSeriesToChartSeriesSeries(data: UserTypeTrendForDate): ChartSeriesData[] {
@@ -358,7 +313,7 @@ export class HomeComponent implements OnInit,OnChanges,OnDestroy {
   }
   intervalChange(event){
     console.log(event.target.value);
-    this.interval=event.target.value;
+    this.tempinterval=event.target.value;
   }
   reloadApi(){
     this.getDataFromApi(this.segmentId,this.dates,this.interval);

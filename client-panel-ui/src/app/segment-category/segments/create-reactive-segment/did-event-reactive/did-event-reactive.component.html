@@ -1,0 +1,78 @@
+<div class="event-widget my-3 py-3" [formGroup]="didEventForm">
+  <div class="row d-flex flex-row ml-2">
+    <div class="form-group m-2 mr-4">
+      <select class="form-control" formControlName="name" (change)="change($event)">
+        <option  value="" disabled selected>--Select--</option>
+        <option *ngFor="let event of registeredEvents" [value]="event.name">{{event.name}}</option>
+      </select>
+      <!--<input class="form-control" formControlName="eventName" placeholder="Event Name">-->
+    </div>
+
+    <!--<app-date-comparator [(operator)]="segment.didEvents.events[i].dateFilter.operator"-->
+                         <!--[(values)]="segment.didEvents.events[i].dateFilter.values"-->
+                         <!--[(valueUnit)]="segment.didEvents.events[i].dateFilter.valueUnit"-->
+                         <!--class="row d-flex flex-row"></app-date-comparator>-->
+
+    <app-date-comparator [(operator)]="operator"
+                         [(values)]="values"
+                         [(valueUnit)]="valueUnit"
+                         class="row d-flex flex-row"></app-date-comparator>
+
+    <button type="button"
+            class="close ml-auto mr-4 pos"
+            aria-label="Close"
+            (click)="removeMe()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <!--registeredEvents[0].eventProperties-->
+  <!--<app-filter [eventProperties]="eventProperties" [defaultProperties]="defaultProperties"></app-filter>-->
+  <!-- Property FIlter Begins -->
+  <div *ngIf="didEventPropertyFilterArray.controls && didEventPropertyFilterArray.controls.length" class="my-3 filter">
+    <div class="pl-3 pb-3">Filtered with properties:</div>
+  <app-filter-reactive *ngFor="let propFilter of didEventPropertyFilterArray.controls; let j=index;"
+                       [filterForm]="propFilter"
+                       [eventProperties]="propertyFilter"
+                       [filterIndex]="j"
+                       (remove)="removeDidEventPropertyFilter($event)"
+  ></app-filter-reactive>
+  </div>
+  <!-- Property FIlter Ends -->
+
+  <div class="ml-3 mb-3">
+    <button type="button" class="btn btn-link pt-0" (click)="addDidEventPropertyFilter(i)">
+      <i class="fa fa-plus " aria-hidden="true"></i>
+      Filter
+    </button>
+  </div>
+
+  <div class="ml-3" *ngIf="!didNotSelected">
+    <p class="mb-1">where</p>
+  </div>
+
+  <div *ngIf="!didNotSelected">
+  <div class="form-inline mb-4 mt-2" formGroupName="whereFilter">
+    <div class="form-group pr-0 ml-3">
+      <select class="form-control" formControlName="whereFilterName" (change)="wherePropertyChange($event)">
+        <option selected value="Count">Count</option>
+        <option value="SumOfValuesOf"
+                *ngIf="getNumberTypeEventProperties().length>0"
+        >Property Sum Of
+        </option>
+      </select>
+    </div>
+    <div class="form-group ml-2"
+         *ngIf="!hidePropertySumFilter && getNumberTypeEventProperties().length>0">
+      <select class="form-control" formControlName="propertyName">
+        <option *ngFor="let prop of getNumberTypeEventProperties()" [value]="prop.name">{{prop.name}}
+        </option>
+      </select>
+    </div>
+    <app-number-comparator class="ml-2"
+                           [(operator)]="numberOperator"
+                           [(values)]="numberValues"
+                           [numberComparatorOperators]="['Equals', 'Between', 'GreaterThan', 'LessThan']"></app-number-comparator>
+  </div>
+  </div>
+  <div class="clearfix"></div>
+</div>
