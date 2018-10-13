@@ -82,17 +82,24 @@ export class ServiceprovidersComponent implements OnInit {
       if (this.serviceProviderCredentials.serviceProviderType === 'Email Service Provider') {
         console.log(JSON.stringify(this.serviceProviderCredentials));
         this.settingsService.saveServiceProviderCredentialEmail(this.serviceProviderCredentials).subscribe(
-          (serviceProviderCredentials) => {
-            this.settingsService.serviceProvidersList.push(serviceProviderCredentials);
+          (id) => {
+            console.log("serviceProviderCredentials:"+id);
+            // this.settingsService.serviceProvidersList.push(serviceProviderCredentials);
             this.getServiceProvidersList();
           }
         );
 
       }
-      // if (this.serviceProviderCredentials.serviceProviderType === 'SMS Service Provider') {
-      //   this.settingsService.saveServiceProviderCredentialsSms(this.serviceProviderCredentials).subscribe();
-      //   this.router.navigate(["settings"]);
-      // }
+      if (this.serviceProviderCredentials.serviceProviderType === 'SMS Service Provider') {
+        this.settingsService.saveServiceProviderCredentialsSms(this.serviceProviderCredentials).subscribe(
+          (id) => {
+            console.log("serviceProviderCredentials:"+id);
+            // this.settingsService.serviceProvidersList.push(serviceProviderCredentials);
+            this.getServiceProvidersList();
+          }
+        );
+        // this.router.navigate(["settings"]);
+      }
     }
 
   }

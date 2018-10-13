@@ -1,19 +1,25 @@
 <div class="container">
   <div class="row">
-    <div class="col">
-      <select (change)="segmentChange($event)" [ngModel]="segment">
-        <option *ngFor="let segment of segments" [ngValue]="segment">{{segment.name}}</option>
-      </select>
-    </div>
-    <div class="col">
-      <select2 [data]="segments"
-               [value]="segment"
+    <!--<div class="col">-->
+      <!--<div class="form-group">-->
+        <!--<label for="segment">Segment</label>-->
+        <!--<select class="form-control" id="segment" (change)="segmentChange($event)" [ngModel]="segment">-->
+          <!--<option *ngFor="let segment of segments" [ngValue]="segment">{{segment.name}}</option>-->
+        <!--</select>-->
+      <!--</div>-->
+    <!--</div>-->
+    <div class="col-lg-3 col-md-5 col-sm-6 form-group">
+      <label>Segment</label><br>
+      <select2 *ngIf="segmentsDropdown.length" [data]="segmentsDropdown"
+               [value]="segmentId"
                [options]="select2Options"
                (valueChanged)="segmentChange($event)"
       >
       </select2>
+      <input disabled *ngIf="!segmentsDropdown.length" type="text" class="form-control" />
     </div>
-    <div class="col">
+    <div class="col-lg-3 col-md-5 col-sm-6 form-group">
+      <label>Date Range</label><br>
       <input type="text" class="form-control" name="daterange" daterangepicker [options]="multiPicker"
              (selected)="selectedDate($event)"
       />

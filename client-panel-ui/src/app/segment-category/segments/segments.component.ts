@@ -82,6 +82,6 @@ export class SegmentsComponent implements OnInit {
   }
 
   viewReport(segment: Segment) {
-    this.router.navigate(["segment-report", segment.name]);
+    this.router.navigate(["reports/segment", segment.id]);
   }
 }

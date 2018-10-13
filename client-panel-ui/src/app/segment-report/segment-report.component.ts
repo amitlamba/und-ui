@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {moment} from "ngx-bootstrap/chronos/test/chain";
 import {Segment} from "../_models/segment";
 import {SegmentService} from "../_services/segment.service";
@@ -11,28 +11,43 @@ import {ActivatedRoute} from "@angular/router";
 })
 export class SegmentReportComponent implements OnInit {
 
-  segments:Segment[];
-  segment:Segment;
-  fromDate:string;
-  toDate:string;
+  private select2Options: Select2Options = {
+    placeholder: "Select option...",
+    allowClear: true,
+    width: "100%"
+  };
 
-  constructor(private activatedRoute:ActivatedRoute,private segmentService:SegmentService) {
-    // take segment
-    let segmentName=activatedRoute.snapshot.params['name'];
-    segmentService.getSegments().subscribe(response=>{
-      this.segments=response;
-    });
+  private _segments: Segment[];
+  set segments(value: Segment[]) {
+    this._segments = value;
+    this.segmentsDropdown = this._segments.map(v=>{return {id: v.id, text: v.name}})
+  }
+
+  segment: Segment;
+  segmentId: number;
+
+  segmentsDropdown: any[] = []; //id and text
+
+  fromDate: string;
+  toDate: string;
+
+  constructor(private activatedRoute: ActivatedRoute, private segmentService: SegmentService) {
   }
 
   ngOnInit() {
+    this.segmentId = this.activatedRoute.snapshot.params['id'];
+    this.segmentService.getSegments().subscribe(response => {
+      this.segments = response;
+      this.segment = this._segments.find(v=>{return v.id === this.segmentId});
+    });
   }
 
   public multiPicker = {
     singleDatePicker: false,
     showDropdowns: true,
     opens: "center",
-    startDate: moment(),
-    endDate: moment(),
+    startDate: moment(this.fromDate),
+    endDate: moment(this.toDate),
     ranges: {
       "Today": [moment(), moment().add("1", "day")],
       "Yesterday": [moment().subtract("1", "day"), moment()],
@@ -42,13 +57,16 @@ export class SegmentReportComponent implements OnInit {
     }
   };
 
-  selectedDate(event){
+  selectedDate(event) {
     this.fromDate = (event.start).format("YYYY-MM-DD");
     this.toDate = (event.end).format("YYYY-MM-DD");
     //re render reports
   }
-  segmentChange(segment:Segment){
-    this.segment=segment;
+
+  segmentChange(segmentDropdownSelected: any) {
+    console.log(segmentDropdownSelected);
+    this.segmentId = segmentDropdownSelected.value;
+    this.segment = this._segments.find(v=>{return v.id === this.segmentId});
     //re render reports
   }
 }

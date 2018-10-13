@@ -179,6 +179,24 @@ export class SettingsService {
               "fieldType": "string",
             }
           ]
+        },
+        "Exotel": {
+          "name": "Exotel",
+          "displayName": "Exotel",
+          "fields": [
+            {
+              "fieldName": "sid",
+              "fieldDisplayName": "SID",
+              "required": true,
+              "fieldType": "string",
+            },
+            {
+              "fieldName": "token",
+              "fieldDisplayName": "Token",
+              "required": true,
+              "fieldType": "string",
+            }
+          ]
         }
       }
     },

@@ -1,6 +1,6 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {CampaignService} from "../../_services/campaign.service";
-import {Campaign} from "../../_models/campaign";
+import {Campaign, CampaignStatus} from "../../_models/campaign";
 import {HttpErrorResponse} from "@angular/common/http";
 import {SegmentService} from "../../_services/segment.service";
 import {Segment} from "../../_models/segment";
@@ -22,6 +22,9 @@ export class CampaignsListComponent implements OnInit {
   campaignErrorMessage: string;
   showCampaignErrorMessage: boolean = false;
 
+  campaignType: string = "Active";
+  filteredCampaigns: Campaign[];
+
   constructor(private campaignService: CampaignService) {
   }
 
@@ -32,6 +35,7 @@ export class CampaignsListComponent implements OnInit {
   getCampaignsList() {
     this.campaignService.getCampaignList().subscribe((campaigns) => {
       this.campaigns = campaigns;
+      this.filterCampaigns();
     });
   }
 
@@ -141,4 +145,20 @@ export class CampaignsListComponent implements OnInit {
 
   }
 
+  changeCampaignFilter(filter: string) {
+    this.campaignType = filter;
+    this.filterCampaigns();
+  }
+
+  filterCampaigns() {
+    this.filteredCampaigns = this.campaigns.filter(v=>{
+      if(this.campaignType == "Active") {
+        return v.status != CampaignStatus.COMPLETED && v.status != CampaignStatus.ERROR
+      } else if(this.campaignType == "Errors") {
+        return v.status == CampaignStatus.ERROR
+      } else {
+        return v.status == CampaignStatus.COMPLETED
+      }
+    })
+  }
 }

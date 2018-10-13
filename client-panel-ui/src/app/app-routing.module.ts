@@ -87,8 +87,8 @@ const routes: Routes = [
         {path: 'user-profile', component: UserProfileComponent}
       ]
       },
-      {path:'segment-report/:name',component:SegmentReportComponent,canActivate:[AuthGuard]},
-      {path:'funnel-report',component:FunnelComponent,canActivate:[AuthGuard]},
+      {path:'reports/segment/:id',component:SegmentReportComponent,canActivate:[AuthGuard]},
+      {path:'reports/funnel',component:FunnelComponent,canActivate:[AuthGuard]},
       {path: 'create-email-template/:newTemplate', component: CreateEmailTemplateFormComponent, canActivate: [AuthGuard], pathMatch: 'full'},
       {path: 'create-sms-template/:newTemplate', component: CreateSmsTemplateFormComponent, canActivate: [AuthGuard], pathMatch: 'full'},
       {path: 'templates', redirectTo: "templates/email", canActivate: [AuthGuard], pathMatch: "full"},
