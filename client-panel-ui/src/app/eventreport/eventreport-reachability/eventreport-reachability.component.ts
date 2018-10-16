@@ -16,7 +16,7 @@ export class EventreportReachabilityComponent implements OnInit,OnDestroy ,OnCha
   @Input() fromDate:string;
   @Input() toDate:string;
 
-  filterList:GlobalFilter[];
+  @Input() filterList:GlobalFilter[];
   groupByFilterType:string;
 
   eventReportFilterParam:EventReportFilter;
@@ -28,7 +28,6 @@ export class EventreportReachabilityComponent implements OnInit,OnDestroy ,OnCha
     this.groupByFilterType='Reachability';
     this.eventReportFilterParam=new EventReportFilter();
     this.entityTypeParam=EntityType.event;
-    this.filterList = [];
     this.drawChart=new ChartModel();
   }
 

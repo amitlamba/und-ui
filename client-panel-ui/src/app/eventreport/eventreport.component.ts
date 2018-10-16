@@ -2,7 +2,7 @@ import {Component, DoCheck, Input, OnChanges, OnInit} from '@angular/core';
 import {ActivatedRoute, ActivatedRouteSnapshot, Params} from "@angular/router";
 import {moment} from "ngx-bootstrap/chronos/test/chain";
 import {SegmentService} from "../_services/segment.service";
-import {RegisteredEvent} from "../_models/segment";
+import {GlobalFilter, GlobalFilterType, RegisteredEvent, Segment} from "../_models/segment";
 
 @Component({
   selector: 'app-eventreport',
@@ -16,6 +16,45 @@ export class EventreportComponent implements OnInit, OnChanges, DoCheck {
   segmentId: number;
   fromDate: string;
   toDate: string;
+/*
+globalFilterType: GlobalFilterType;
+  name: string;
+  type: string;
+  operator: string;
+  values: any[] = [];
+  valueUnit: string;
+  {
+    globalFilterType: GlobalFilterType.Demographics,
+    type:
+    name: 'gender',
+    operator: 'Equals',
+    values: ['Male']
+  }
+ */
+
+  // filterList = [
+  //   {"globalFilterType": "Technographics", "name": "os", "operator": "Contains", "values": ["Linux", "Window"]},
+  //   // {"globalFilterType": "EventAttributeProperties", "name": "Item", "operator": "Equals", "values": ["Laptop"]}
+  // ];
+  filterList: GlobalFilter[] = [
+    {
+      globalFilterType: GlobalFilterType.Technographics,
+      type: 'string',
+      name: 'os',
+      operator: 'Contains',
+      values: ['Linux'],
+      valueUnit: "NONE"}];
+    // },
+    // {
+    //   globalFilterType: GlobalFilterType.Demographics,
+    //   type: 'string',
+    //   name: 'gender',
+    //   operator: 'Contains',
+    //   values: ['Male'],
+    //   valueUnit: "NONE"
+    // }];
+
+  segment: Segment;
 
   events: RegisteredEvent[] = [];
 
@@ -48,7 +87,15 @@ export class EventreportComponent implements OnInit, OnChanges, DoCheck {
   }
 
   ngOnInit() {
+    this.getSegmentById();
+  }
 
+  private getSegmentById() {
+    this.segmentService.getSegmentById(this.segmentId).subscribe(
+      (segment) => {
+        this.segment = segment;
+      }
+    );
   }
 
   ngOnChanges() {

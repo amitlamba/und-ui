@@ -2,17 +2,16 @@ import {Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, V
 import {chart, IndividualSeriesOptions} from 'highcharts';
 import * as Highcharts from 'highcharts';
 import {ChartSeriesData} from "../../../_models/reports";
-import {ActivatedRoute, Router} from "@angular/router";
+import {GlobalFilter, GlobalFilterType} from "../../../_models/segment";
+import {Router} from "@angular/router";
 import {ReportsService} from "../../../_services/reports.service";
-import {getPluralCategory} from "@angular/common/src/i18n/localization";
-import {GlobalFilter} from "../../../_models/segment";
 
 @Component({
-  selector: 'app-draw-simple-chart',
-  templateUrl: './draw-simple-chart.component.html',
-  styleUrls: ['./draw-simple-chart.component.scss']
+  selector: 'app-draw-simple-clickable-chart',
+  templateUrl: './draw-simple-clickable-chart.component.html',
+  styleUrls: ['./draw-simple-clickable-chart.component.scss']
 })
-export class DrawSimpleChartComponent implements OnInit ,OnChanges{
+export class DrawSimpleClickableChartComponent implements OnInit {
   @Input() title: string = "Dummy Title";
   @Input() subtitle: string = "";
   @Input() chartType: string = "column";
@@ -20,7 +19,9 @@ export class DrawSimpleChartComponent implements OnInit ,OnChanges{
   @Input() yAxisTitle: string;
   @Input() categories: string[];
   @Input() dataSeries: Array<ChartSeriesData>;
-  @Output() graphClick: EventEmitter<GlobalFilter> = new EventEmitter();
+  @Input() filterType: GlobalFilterType;
+  @Input() filterName: string;
+  @Output() chartClick: EventEmitter<GlobalFilter> = new EventEmitter();
 
   @ViewChild('chartTarget') chartTarget: ElementRef;
   chart: Highcharts.ChartObject;
@@ -81,6 +82,7 @@ export class DrawSimpleChartComponent implements OnInit ,OnChanges{
       },
       plotOptions: {
         column: {
+          cursor: 'pointer',
           pointPadding: 0.2,
           borderWidth: 0,
           events:{
@@ -91,9 +93,27 @@ export class DrawSimpleChartComponent implements OnInit ,OnChanges{
               //
               // });
               // that.reportService.graphClick.emit(event.point.category.toString());
+              alert('Category: ' + event.point.category.toString() + ', value: ' + event.point.y);
+              let gf = new GlobalFilter();
+              gf.name = that.filterName;
+              gf.globalFilterType = that.filterType;
+              gf.operator = "Equals";
+              gf.values = [event.point.category.toString()];
+              console.log("Global Filter: " + JSON.stringify(gf));
+              that.chartClick.emit(gf);
             }
           }
-        }
+        },
+        // series: {
+        //   cursor: 'pointer',
+        //   point: {
+        //     events: {
+        //       click: function () {
+        //         alert('Category: ' + this.category + ', value: ' + this.y);
+        //       }
+        //     }
+        //   }
+        // }
       },
       series: this.series()
     });
@@ -106,7 +126,14 @@ export class DrawSimpleChartComponent implements OnInit ,OnChanges{
       response.push({
         showInLegend:v.showInLegend,
         name: v.seriesName,
-        data: v.data
+        data: v.data,
+        // point: {
+        //   events: {
+        //     click: function () {
+        //
+        //     }
+        //   }
+        // }
       })
     })
 

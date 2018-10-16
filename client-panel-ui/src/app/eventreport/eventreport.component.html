@@ -33,6 +33,14 @@
 
   </div>
 
+  <div *ngIf="segment" class="container my-4">
+    <h3>Segment Applied</h3>
+    <app-segment-nlp [segment]="segment"></app-segment-nlp>
+  </div>
+  <div *ngIf="filterList" class="container my-4">
+    <h3>With Global Filters</h3>
+    <app-segment-nlp [segment]="{globalFilters: filterList}"></app-segment-nlp>
+  </div>
 
   <!--<div class="row" id="event-navbar">-->
   <!--<button type="button" class="btn btn-primary" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact: true}" [routerLink]="['/reports/event/overall']">Overall</button>-->
@@ -58,30 +66,35 @@
                              [eventName]="eventName"
                              [fromDate]="fromDate"
                              [toDate]="toDate"
+                             [filterList]="filterList"
     ></app-eventreport-overall>
     <app-eventreport-demographics *ngIf="button==='demography'"
                                   [segmentId]="segmentId"
                                   [eventName]="eventName"
                                   [fromDate]="fromDate"
                                   [toDate]="toDate"
+                                  [filterList]="filterList"
     ></app-eventreport-demographics>
     <app-eventreport-geographics *ngIf="button==='geography'"
                                  [segmentId]="segmentId"
                                  [eventName]="eventName"
                                  [fromDate]="fromDate"
                                  [toDate]="toDate"
+                                 [filterList]="filterList"
     ></app-eventreport-geographics>
     <app-eventreport-technographics *ngIf="button==='technology'"
                                     [segmentId]="segmentId"
                                     [eventName]="eventName"
                                     [fromDate]="fromDate"
                                     [toDate]="toDate"
+                                    [filterList]="filterList"
     ></app-eventreport-technographics>
     <app-eventreport-reachability *ngIf="button==='reachability'"
                                   [segmentId]="segmentId"
                                   [eventName]="eventName"
                                   [fromDate]="fromDate"
                                   [toDate]="toDate"
+                                  [filterList]="filterList"
     ></app-eventreport-reachability>
   </div>
   <div *ngIf="!eventName">

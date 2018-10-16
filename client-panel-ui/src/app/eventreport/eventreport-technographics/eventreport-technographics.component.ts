@@ -16,7 +16,7 @@ export class EventreportTechnographicsComponent implements OnInit ,OnDestroy,OnC
   @Input() fromDate:string;
   @Input() toDate:string;
 
-  filterList:GlobalFilter[];
+  @Input() filterList:GlobalFilter[] = [];
   groupByFilterType:string;
 
   eventReportFilterParam:EventReportFilter;
@@ -30,7 +30,7 @@ export class EventreportTechnographicsComponent implements OnInit ,OnDestroy,OnC
     this.groupByFilterType='Technographics';
     this.eventReportFilterParam=new EventReportFilter();
     this.entityTypeParam=EntityType.event;
-    this.filterList = [];
+    // this.filterList = [];
     this.osChart=new ChartModel();
     this.browserChart=new ChartModel();
     this.deviceChart=new ChartModel();
@@ -41,8 +41,8 @@ export class EventreportTechnographicsComponent implements OnInit ,OnDestroy,OnC
   }
 
   ngOnChanges(){
-    this.fromDate='2018-08-10';
-    this.toDate='2018-08-20';
+    // this.fromDate='2018-08-10';
+    // this.toDate='2018-08-20';
     this.eventReportFilterParam.eventName=this.eventName;
     this.eventReportFilterParam.fromDate=this.fromDate;
     this.eventReportFilterParam.toDate=this.toDate;
@@ -71,7 +71,7 @@ export class EventreportTechnographicsComponent implements OnInit ,OnDestroy,OnC
             seriesName:'event',
             data:data
           };
-
+          this.osChart.dataSeries = [];
           this.osChart.dataSeries.push(chartSeriesData);
 
           console.log(response);
@@ -92,7 +92,7 @@ export class EventreportTechnographicsComponent implements OnInit ,OnDestroy,OnC
             seriesName:'event',
             data:data
           };
-
+          this.browserChart.dataSeries = [];
           this.browserChart.dataSeries.push(chartSeriesData);
 
           console.log(response);
@@ -114,7 +114,7 @@ export class EventreportTechnographicsComponent implements OnInit ,OnDestroy,OnC
             seriesName:'event',
             data:data
           };
-
+          this.deviceChart.dataSeries = [];
           this.deviceChart.dataSeries.push(chartSeriesData);
 
           console.log(response);
@@ -122,4 +122,8 @@ export class EventreportTechnographicsComponent implements OnInit ,OnDestroy,OnC
       );
   }
 
+  addFilter(event) {
+    this.filterList.push(event);
+    this.ngOnChanges();
+  }
 }

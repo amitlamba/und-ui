@@ -20,7 +20,7 @@ export class EventreportOverallComponent implements OnInit ,OnChanges,OnDestroy,
   totalUser:number;
   totalevent:number;
 
-  filterList:GlobalFilter[];
+  @Input() filterList:GlobalFilter[];
 
   entityType:string;
   period:string;
@@ -51,7 +51,6 @@ export class EventreportOverallComponent implements OnInit ,OnChanges,OnDestroy,
     this.groupByParam.globalFilterType=this.groupByFilterType;
     this.groupByParam.name=this.groupBy;
     this.periodParam=PERIOD.dayOfMonth;
-    this.filterList = [];
     this.eventCountChart=new ChartModel();
     this.eventUserTrendChart=new ChartModel();
     this.eventTimeTrendChart=new ChartModel();

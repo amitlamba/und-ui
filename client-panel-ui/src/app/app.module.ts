@@ -120,6 +120,7 @@ import { SegmentReportComponent } from './segment-report/segment-report.componen
 import { SegmentBehaviorReactiveComponent } from './segment-category/segments/segment-behavior-reactive/segment-behavior-reactive.component';
 import { FunnelComponent } from './funnel/funnel.component';
 import {CampaignReportComponent} from "./campaigns/campaign-report/campaign-report.component";
+import { DrawSimpleClickableChartComponent } from './graphs/highcharts/draw-simple-clickable-chart/draw-simple-clickable-chart.component';
 
 
 @NgModule({
@@ -232,7 +233,8 @@ import {CampaignReportComponent} from "./campaigns/campaign-report/campaign-repo
     SegmentReportComponent,
     SegmentBehaviorReactiveComponent,
     FunnelComponent,
-    CampaignReportComponent
+    CampaignReportComponent,
+    DrawSimpleClickableChartComponent
   ],
   providers: [
     AuthGuard,

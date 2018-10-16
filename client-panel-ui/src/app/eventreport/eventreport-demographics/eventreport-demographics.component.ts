@@ -16,7 +16,8 @@ export class EventreportDemographicsComponent implements OnInit ,OnChanges,OnDes
   @Input() fromDate:string;
   @Input() toDate:string;
 
-  filterList:GlobalFilter[];
+  @Input() filterList:GlobalFilter[];
+
   groupByFilterType:string;
 
   eventReportFilterParam:EventReportFilter;
@@ -30,7 +31,6 @@ export class EventreportDemographicsComponent implements OnInit ,OnChanges,OnDes
     this.groupByFilterType='Demographics';
     this.eventReportFilterParam=new EventReportFilter();
     this.entityTypeParam=EntityType.event;
-    this.filterList = [];
     this.genderChart=new ChartModel();
     this.ageChart=new ChartModel();
 
@@ -44,8 +44,8 @@ export class EventreportDemographicsComponent implements OnInit ,OnChanges,OnDes
 
   ngOnChanges(){
 
-    this.fromDate='2018-08-10';
-    this.toDate='2018-08-20';
+    // this.fromDate='2018-08-10';
+    // this.toDate='2018-08-20';
     this.eventReportFilterParam.eventName=this.eventName;
     this.eventReportFilterParam.fromDate=this.fromDate;
     this.eventReportFilterParam.toDate=this.toDate;
@@ -74,7 +74,7 @@ export class EventreportDemographicsComponent implements OnInit ,OnChanges,OnDes
             seriesName:'Users',
             data:data
           };
-
+          this.genderChart.dataSeries = [];
           this.genderChart.dataSeries.push(chartSeriesData);
 
           console.log(response);
@@ -97,7 +97,7 @@ export class EventreportDemographicsComponent implements OnInit ,OnChanges,OnDes
           seriesName:'Users',
           data:data
         };
-
+        this.ageChart.dataSeries = [];
         this.ageChart.dataSeries.push(chartSeriesData);
 
         console.log(response);
@@ -138,6 +138,12 @@ export class EventreportDemographicsComponent implements OnInit ,OnChanges,OnDes
   }
   private getDayOfMonthDiff(dobDate): number {
     return new Date().getDate() - new Date(dobDate).getDate();
+  }
+
+  addFilter(event) {
+    console.log(event);
+    this.filterList.push(event);
+    this.ngOnChanges();
   }
 
 }

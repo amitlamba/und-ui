@@ -16,7 +16,7 @@ export class EventreportGeographicsComponent implements OnInit,OnDestroy ,OnChan
   @Input() fromDate:string;
   @Input() toDate:string;
 
-  filterList:GlobalFilter[];
+  @Input() filterList:GlobalFilter[];
   groupByFilterType:string;
 
   eventReportFilterParam:EventReportFilter;
@@ -30,7 +30,6 @@ export class EventreportGeographicsComponent implements OnInit,OnDestroy ,OnChan
     this.groupByFilterType='Demographics';
     this.eventReportFilterParam=new EventReportFilter();
     this.entityTypeParam=EntityType.event;
-    this.filterList = [];
     this.countryChart=new ChartModel();
     this.stateChart=new ChartModel();
     this.cityChart=new ChartModel();
@@ -41,8 +40,8 @@ export class EventreportGeographicsComponent implements OnInit,OnDestroy ,OnChan
   }
 
   ngOnChanges(){
-    this.fromDate='2018-08-10';
-    this.toDate='2018-08-20';
+    // this.fromDate='2018-08-10';
+    // this.toDate='2018-08-20';
     this.eventReportFilterParam.eventName=this.eventName;
     this.eventReportFilterParam.fromDate=this.fromDate;
     this.eventReportFilterParam.toDate=this.toDate;
@@ -136,6 +135,7 @@ export class EventreportGeographicsComponent implements OnInit,OnDestroy ,OnChan
       .map((v)=>v.i);
 
     let filtered: EventCount[] = arr.filter((v,i)=>{return indicesToKeep.indexOf(i) >= 0});
+    filtered = filtered.sort((a,b)=> -a.count + b.count);
     let others: EventCount = arr.filter((v,i)=>{return indicesToKeep.indexOf(i) < 0}).reduce(
       (p,c,i,a) => {p.count=p.count+c.count; p.groupedBy["name"]="Others"; return p}
     )
