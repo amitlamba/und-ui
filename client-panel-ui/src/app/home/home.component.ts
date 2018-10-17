@@ -159,6 +159,7 @@ export class HomeComponent implements OnInit,OnChanges,OnDestroy {
     this.userCountByEventYAxisTitle = 'users';
     this.userCountByEventChartType = 'column';
 
+// <<<<<<< Updated upstream
     // var category = data.map(data =>
     //   data.userCountData.map(data => data.eventname));
     //
@@ -209,6 +210,25 @@ export class HomeComponent implements OnInit,OnChanges,OnDestroy {
 
     this.userCountByEventCategory=newcat;
     this.userCountByEventDataSeries=dataseries;
+// =======
+//     var category = data.map(data =>
+//       data.userCountData.map(data => data.eventname));
+//
+//     this.userCountByEventCategory = category.pop();
+//
+//     this.userCountByEventDataSeries = data.map<ChartSeriesData>(data => {
+//         return {
+//           showInLegend: true,
+//           seriesName: data.date,
+//           data: data.userCountData.map<number>(data => {
+//
+//              return data.usercount
+//           }
+//         )
+//         };
+//       }
+//     );
+// >>>>>>> Stashed changes
 
   }
 
