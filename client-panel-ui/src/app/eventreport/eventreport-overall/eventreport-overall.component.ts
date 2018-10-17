@@ -113,10 +113,10 @@ export class EventreportOverallComponent implements OnInit ,OnChanges,OnDestroy,
             seriesName: 'Events',
             data: response.map(data => data.eventCount)
           });
-          console.log(response);
-        }
-      );
-  }
+  })
+
+}
+
 
   private getEventUserTrend() {
     this.reportService.getEventUserTrend(this.eventReportFilterParam)
