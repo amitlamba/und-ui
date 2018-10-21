@@ -4,6 +4,7 @@ import {Campaign, CampaignStatus} from "../../_models/campaign";
 import {HttpErrorResponse} from "@angular/common/http";
 import {SegmentService} from "../../_services/segment.service";
 import {Segment} from "../../_models/segment";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-campaigns-list',
@@ -25,7 +26,7 @@ export class CampaignsListComponent implements OnInit {
   campaignType: string = "Active";
   filteredCampaigns: Campaign[];
 
-  constructor(private campaignService: CampaignService) {
+  constructor(private campaignService: CampaignService, private router: Router) {
   }
 
   ngOnInit() {
@@ -160,5 +161,9 @@ export class CampaignsListComponent implements OnInit {
         return v.status == CampaignStatus.COMPLETED
       }
     })
+  }
+
+  viewReportClicked(campaignId: number) {
+    this.router.navigate(['/reports/campaign'],{queryParams: {cid: campaignId}});
   }
 }

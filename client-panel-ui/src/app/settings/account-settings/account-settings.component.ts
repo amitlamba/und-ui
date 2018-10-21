@@ -53,11 +53,12 @@ export class AccountSettingsComponent implements OnInit {
       (response) => {
         console.log(response.data.value.token);
         this.tokenValue = response.data.value.token;
-        this.codeSnippet = "<script>(function(i,s,o,g,r,a,m){i['UserNDotObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*newDate();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//userndot.com/sdk/js/a.js','_und');\n" +
+        this.codeSnippet =
+          "<script>(function(i,s,o,g,r,a,m){i['UserNDotObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*newDate();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//userndot.com/sdk/js/a.js','_und');\n" +
           "      _und('create', '"+this.tokenValue+"', {\n" +
           "      sites: ['"+this.protocol+"://"+this.websiteURL+"']\n" +
           "    });\n" +
-          "  </script>";
+          "</script>";
       }
     );
     this.settingsService.getUnSubscribeLink()

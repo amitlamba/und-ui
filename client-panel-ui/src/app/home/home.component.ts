@@ -13,6 +13,7 @@ import {NgForm} from "@angular/forms";
 import {moment} from "ngx-bootstrap/chronos/test/chain";
 import {Router} from "@angular/router";
 import {forEach} from "@angular/router/src/utils/collection";
+import {SegmentService} from "../_services/segment.service";
 
 @Component({
   selector: 'app-home',
@@ -35,7 +36,7 @@ export class HomeComponent implements OnInit,OnChanges,OnDestroy {
   selectedSegment = "All Users";
 
   segments= [{id:1003,name:'All User'},{id:1,name:'segment 1'},{id:2,name:'segment 2'}];
-  segmentId:number;
+  segmentId:number = -1;
   interval:number;
   private tempinterval: number;
   date1: string;
@@ -75,7 +76,8 @@ export class HomeComponent implements OnInit,OnChanges,OnDestroy {
   trendCountName: string;
   trendCountDataSeries: Array<[string, number]>;
 
-  constructor(private userService: UserService, private reportsService: ReportsService,private router:Router) {
+  constructor(private userService: UserService, private reportsService: ReportsService,private router:Router,
+              private segmentService: SegmentService) {
     console.log('inside constructor');
     this.segmentId=1003;
     this.interval=this.tempinterval=5;
@@ -113,11 +115,7 @@ export class HomeComponent implements OnInit,OnChanges,OnDestroy {
   }
 
   ngOnInit() {
-    this.reportsService.graphClick.subscribe(
-      data=>{
-        this.router.navigate(['/reports/event'],{queryParams:{event:data}})
-      }
-    );
+    this.segments = this.segmentService.segmentMini;
   }
 
   ngOnChanges() {
@@ -140,10 +138,15 @@ export class HomeComponent implements OnInit,OnChanges,OnDestroy {
 
   convertDataToChartSeriesData(data: Array<UserCountTrendForDate>): ChartSeriesData[] {
     return data.map<ChartSeriesData>(trenddata => {
+      let userCountData: number[] = [];
+      for(let i=0; i<24*60/this.interval; i++) {
+        let dataFound = trenddata.trenddata.find(v=>v.time == i);
+        userCountData.push(dataFound?dataFound.usercount:0);
+      }
       return {
         showInLegend: true,
         seriesName: trenddata.date,
-        data: trenddata.trenddata.map<number>(count => count.usercount)
+        data: userCountData
       }
     });
   }
@@ -246,24 +249,28 @@ export class HomeComponent implements OnInit,OnChanges,OnDestroy {
     console.log(result);
     if(result) {
       this.newVsExistingDataSeries = this.convertUserCountTimeSeriesToChartSeriesSeries(result);
+      console.log(this.newVsExistingDataSeries);
     }
   }
 
   convertUserCountTimeSeriesToChartSeriesSeries(data: UserTypeTrendForDate): ChartSeriesData[] {
     let chartSeriesDataArr: ChartSeriesData[] = [];
+    let newUsersData: number[] = [];
+    let oldUsersData: number[] = [];
+    for(let i=0; i<24*60/this.interval; i++) {
+      let dataFound = data.userCountData.find(v=>v.time == i);
+      oldUsersData.push(dataFound?dataFound.oldusercount:0);
+      newUsersData.push(dataFound?dataFound.newusercount:0);
+    }
     chartSeriesDataArr[0] = {
       showInLegend: true,
       seriesName: "New Users",
-      data: data.userCountData.map<number>(v=> {
-        return v.newusercount;
-      })
+      data: newUsersData
     };
     chartSeriesDataArr[1] = {
       showInLegend: true,
       seriesName: "Existing Users",
-      data: data.userCountData.map<number>(v=> {
-        return v.oldusercount;
-      })
+      data: oldUsersData
     };
     return chartSeriesDataArr;
   }
@@ -277,7 +284,7 @@ export class HomeComponent implements OnInit,OnChanges,OnDestroy {
   }
 
   onGroupByChange(event) {
-    this.groupBy.name = event.target.value
+    this.groupBy.name = event.target.value;
     this.getTrendCountDataFromApi(this.segmentId, this.groupBy, this.interval);
   }
 
@@ -286,14 +293,15 @@ export class HomeComponent implements OnInit,OnChanges,OnDestroy {
     this.reportsService.getTrendChart_1(segmentId, dates, interval)
       .subscribe(response => {
         this.trendChartDataSeries = this.convertDataToChartSeriesData(response);
+        console.log(this.trendChartDataSeries);
       });
 
 
     this.reportsService.getNewVsExisting_1(segmentId, dates, interval)
       .subscribe(response => {
         this.newVsExistingObject=response;
-        this.dates = response.map<string>(data => data.date);
-        this.getNewVsExistingDataByDate(this.dates[this.dates.length-1]);
+        // this.dates = response.map<string>(data => data.date);
+        this.getNewVsExistingDataByDate(this.dates[0]);
       });
 
 
@@ -327,20 +335,39 @@ export class HomeComponent implements OnInit,OnChanges,OnDestroy {
     this.dates[2]=(event.start).format("YYYY-MM-DD");
   }
 
-  segmentChange(event){
-    console.log(event.target.value);
-    this.segmentId=event.target.value;
-  }
   intervalChange(event){
     console.log(event.target.value);
     this.tempinterval=event.target.value;
   }
   reloadApi(){
+    this.interval = this.tempinterval;
     this.getDataFromApi(this.segmentId,this.dates,this.interval);
     this.getTrendCountDataFromApi(this.segmentId,this.groupBy,this.interval);
   }
 
   ngOnDestroy(){
 
+  }
+
+  /**
+   * Returns Today, Yesterday, or A Week Ago or null
+   */
+  getDateLabel(index: number): string {
+    let date = this.dates[index];
+    // console.log(this.dates);
+    // console.log(date);
+    if(date == this.createDateString(0))
+      return "Today";
+    else if(date == this.createDateString(1))
+      return "Yesterday";
+    else if(date == this.createDateString(7))
+      return "A week ago";
+    else if(moment().diff(moment(date), 'days') > 0)
+      return moment().diff(moment(date), 'days') + " days ago";
+    return "Date "+(index+1);
+  }
+
+  handleChartClick(eventName: any) {
+    this.router.navigate(['/reports/event'],{queryParams:{event:eventName}});
   }
 }

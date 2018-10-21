@@ -22,6 +22,8 @@ export class DrawSimpleClickableChartComponent implements OnInit {
   @Input() filterType: GlobalFilterType;
   @Input() filterName: string;
   @Output() chartClick: EventEmitter<GlobalFilter> = new EventEmitter();
+  @Input() emitType: string = "GlobalFilter"; //GlobalFilter / Event
+  @Output() chartClickEmitEventName: EventEmitter<string> = new EventEmitter();
 
   @ViewChild('chartTarget') chartTarget: ElementRef;
   chart: Highcharts.ChartObject;
@@ -76,7 +78,7 @@ export class DrawSimpleClickableChartComponent implements OnInit {
         headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
         pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
         '<td style="padding:0"><b>{point.y}</b></td></tr>',
-        footerFormat: '</table>',
+        footerFormat: '</table><small>(Click to Apply Filter)</small>',
         shared: true,
         useHTML: true
       },
@@ -87,20 +89,16 @@ export class DrawSimpleClickableChartComponent implements OnInit {
           borderWidth: 0,
           events:{
             click: function (event) {
-              // that.graphClick.emit({
-              //   valueUnit: "NONE",
-              //   name: this,
-              //
-              // });
-              // that.reportService.graphClick.emit(event.point.category.toString());
-              alert('Category: ' + event.point.category.toString() + ', value: ' + event.point.y);
-              let gf = new GlobalFilter();
-              gf.name = that.filterName;
-              gf.globalFilterType = that.filterType;
-              gf.operator = "Equals";
-              gf.values = [event.point.category.toString()];
-              console.log("Global Filter: " + JSON.stringify(gf));
-              that.chartClick.emit(gf);
+              if(that.emitType == "Event") {
+                that.chartClickEmitEventName.emit(event.point.category.toString());
+              } else {
+                let gf = new GlobalFilter();
+                gf.name = that.filterName;
+                gf.globalFilterType = that.filterType;
+                gf.operator = "Equals";
+                gf.values = [event.point.category.toString()];
+                that.chartClick.emit(gf);
+              }
             }
           }
         },

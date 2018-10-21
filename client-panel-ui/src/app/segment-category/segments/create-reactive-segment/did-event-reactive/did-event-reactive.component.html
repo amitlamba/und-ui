@@ -33,6 +33,7 @@
   <app-filter-reactive *ngFor="let propFilter of didEventPropertyFilterArray.controls; let j=index;"
                        [filterForm]="propFilter"
                        [eventProperties]="propertyFilter"
+                       [defaultProperties]="defaultProperties"
                        [filterIndex]="j"
                        (remove)="removeDidEventPropertyFilter($event)"
   ></app-filter-reactive>

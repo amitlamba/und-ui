@@ -62,8 +62,10 @@ export class EventreportGeographicsComponent implements OnInit,OnDestroy ,OnChan
     this.reportsService.getCountTrend(this.eventReportFilterParam,this.entityTypeParam,groupBy)
       .subscribe(
         response=>{
-          let noOfBars = 11;
-          response = this.group(response, noOfBars);
+          if(response.length > 11) {
+            let noOfBars = 11;
+            response = this.group(response, noOfBars);
+          }
           this.countryChart.category=response.map(data=>data.groupedBy['name']);
           var data=response.map(data=>data.count);
           var chartSeriesData={
@@ -71,7 +73,7 @@ export class EventreportGeographicsComponent implements OnInit,OnDestroy ,OnChan
             seriesName:'event',
             data:data
           };
-
+          this.countryChart.dataSeries = [];
           this.countryChart.dataSeries.push(chartSeriesData);
 
           console.log(response);
@@ -85,8 +87,10 @@ export class EventreportGeographicsComponent implements OnInit,OnDestroy ,OnChan
     this.reportsService.getCountTrend(this.eventReportFilterParam,this.entityTypeParam,groupBy)
       .subscribe(
         response=>{
-          let noOfBars = 11;
-          response = this.group(response, noOfBars);
+          if(response.length > 11) {
+            let noOfBars = 11;
+            response = this.group(response, noOfBars);
+          }
           this.stateChart.category=response.map(data=>data.groupedBy['name']);
           var data=response.map(data=>data.count);
           var chartSeriesData={
@@ -94,7 +98,7 @@ export class EventreportGeographicsComponent implements OnInit,OnDestroy ,OnChan
             seriesName:'event',
             data:data
           };
-
+          this.stateChart.dataSeries = [];
           this.stateChart.dataSeries.push(chartSeriesData);
 
           console.log(response);
@@ -108,8 +112,10 @@ export class EventreportGeographicsComponent implements OnInit,OnDestroy ,OnChan
     this.reportsService.getCountTrend(this.eventReportFilterParam,this.entityTypeParam,groupBy)
       .subscribe(
         response=>{
-          // let noOfBars = 11;
-          // response = this.group(response, noOfBars);
+          if(response.length > 11) {
+            let noOfBars = 11;
+            response = this.group(response, noOfBars);
+          }
           this.cityChart.category=response.map(data=>data.groupedBy['name']);
           var data=response.map(data=>data.count);
           var chartSeriesData={
@@ -117,7 +123,7 @@ export class EventreportGeographicsComponent implements OnInit,OnDestroy ,OnChan
             seriesName:'event',
             data:data
           };
-
+          this.cityChart.dataSeries = [];
           this.cityChart.dataSeries.push(chartSeriesData);
 
           console.log(response);
@@ -141,5 +147,11 @@ export class EventreportGeographicsComponent implements OnInit,OnDestroy ,OnChan
     )
     // arr.
     return filtered.concat(others);
+  }
+
+  onCountryClick(event) {
+    console.log(event);
+    this.filterList.push(event);
+    this.ngOnChanges();
   }
 }

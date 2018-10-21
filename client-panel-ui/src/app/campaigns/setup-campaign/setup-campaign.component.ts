@@ -17,6 +17,7 @@ import {Email, EmailTemplate} from "../../_models/email";
 import {CampaignService} from "../../_services/campaign.service";
 import {MessageService} from "../../_services/message.service";
 import cronstrue from "cronstrue";
+import {FormBuilder} from "@angular/forms";
 
 @Component({
   selector: 'app-setup-campaign',
@@ -84,7 +85,8 @@ export class SetupCampaignComponent implements OnInit {
               private route: ActivatedRoute,
               private router: Router,
               private campaignService: CampaignService,
-              private messageService: MessageService) {
+              private messageService: MessageService,
+              private fb: FormBuilder) {
     // this.scheduleType = ScheduleType.oneTime;
     // this.schedule.oneTime = new ScheduleOneTime();
     // this.schedule.oneTime.nowOrLater = Now.Now;
@@ -123,6 +125,9 @@ export class SetupCampaignComponent implements OnInit {
         }
       );
     }
+    this.campaign.segmentationID = parseInt(this.route.snapshot.queryParams['sid'])?parseInt(this.route.snapshot.queryParams['sid']):-1;
+    this.campaign.templateID = parseInt(this.route.snapshot.queryParams['tid'])?parseInt(this.route.snapshot.queryParams['tid']):-1;
+    console.log(this.campaign);
     console.log(this.segmentsList);
   }
 
@@ -157,13 +162,13 @@ export class SetupCampaignComponent implements OnInit {
     }
   }
 
-  saveSegmentID(segmentID: number): void {
-    this.campaign.segmentationID = segmentID;
-  }
-
-  saveTemplateID(templateID: number): void {
-    this.campaign.templateID = templateID;
-  }
+  // saveSegmentID(segmentID: number): void {
+  //   this.campaign.segmentationID = segmentID;
+  // }
+  //
+  // saveTemplateID(templateID: number): void {
+  //   this.campaign.templateID = templateID;
+  // }
 
   campaignStartDateSelect(value: any): void {
     this.schedule.recurring.scheduleStartDate = moment(value.end.valueOf()).format("YYYY-MM-DD");

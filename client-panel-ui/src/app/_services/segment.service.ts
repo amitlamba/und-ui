@@ -302,108 +302,122 @@ export class SegmentService {
     return this.httpClient.post<EventUser[]>(AppSettings.API_ENDPOINT_CLIENT_USER_USER_LIST_SEGMENT, segment);
   }
 
-  globalFiltersMetadata = {
-    "UserProperties": [
-      {
-        name: "User Property Name",
-        dataType: "string",
-        options: [],
-      },
-      {
-        name: "User Property Name",
-        dataType: "string",
-        options: [],
-      }
-    ],
-    "Demographics": [
-      {
-        name: "age",
-        dataType: "string",
-        options: ["0-18", "18-25", "25-35", "35-60", "60-75", "75 & above"]
-      },
-      {
-        name: "gender",
-        dataType: "string",
-        options: ["Male", "Female", "Other", "Not Known"]
-      }
-    ],
-    "Technographics": [
-      {
-        name: "Browser",
-        dataType: "string",
-        options: ["Chrome", "Firefox", "Internet Explorer", "Mobile Application", "Opera", "Others", "Safari", "Sea Monkey", "UC Browser"]
-      },
-      {
-        name: "Device",
-        dataType: "string",
-        options: ["Desktop", "Mobile", "Tablet", "TV"]
-      },
-      {
-        name: "OS",
-        dataType: "string",
-        options: ["Android", "Blackberry", "Ios", "Linux", "Mac", "Others", "Windows"]
-      }
-    ],
-    "Reachability": [
-      {
-        name: "hasDeviceToken",
-        dataType: "string",
-        options: ["Yes"]
-      },
-      {
-        name: "hasEmailAddress",
-        dataType: "string",
-        options: ["Yes"]
-      },
-      {
-        name: "hasPhoneNumber",
-        dataType: "string",
-        options: ["Yes"]
-      },
-      {
-        name: "unsubscribedPush",
-        dataType: "string",
-        options: ["Yes"]
-      },
-      {
-        name: "unsubscribedEmail",
-        dataType: "string",
-        options: ["Yes"]
-      },
-      {
-        name: "unsubscribedSMS",
-        dataType: "string",
-        options: ["Yes"]
-      }
-    ],
-    "AppFields": [
-      {
-        name: "App Version",
-        dataType: "number",
-        options: [0, 1, 2, 3, 4]
-      },
-      {
-        name: "Make",
-        dataType: "string",
-        options: ["Apple", "Samsung", "Motorola", "Sony", "HTC", "Xiaomi"]
-      },
-      {
-        name: "Models",
-        dataType: "string",
-        options: ["Iphone 6", "Iphone 8", "Iphone 7", "Moto g3"]
-      },
-      {
-        name: "OS Version",
-        dataType: "string",
-        options: ["4.0.1", "4.4.1", "9.2", "9.1", "6.0.1"]
-      },
-      {
-        name: "SDK Version",
-        dataType: "string",
-        options: ["9001", "9002", "9003", "9004"]
-      }
-    ]
-  };
+  globalFiltersMetadata = [{
+    "name": "UserProperties",
+    "displayName": "User Properties",
+    "properties": [{
+      "dataType": "string",
+      "regex": null,
+      "name": "userType",
+      "options": ["Gold Package", "Platinum Package"]
+    }, {
+      "dataType": "string",
+      "regex": null,
+      "name": "newOrExistingUser",
+      "options": ["New User"]
+    }, {
+      "dataType": "string",
+      "regex": null,
+      "name": "subscriptionValidity",
+      "options": ["3 Months", "1 Year"]
+    }]
+  }, {
+    "name": "Technographics",
+    "displayName": "Technology Used",
+    "properties": [{
+      "dataType": "string",
+      "regex": null,
+      "name": "Browser",
+      "options": ["Chrome", "Firefox", "Internet Explorer", "Mobile Application", "Opera", "Others", "Safari", "Sea Monkey", "UC Browser"]
+    }, {
+      "dataType": "string",
+      "regex": null,
+      "name": "OS",
+      "options": ["Android", "Blackberry", "Ios", "Linux", "Mac", "Others", "Windows"]
+    }, {
+      "dataType": "string",
+      "regex": null,
+      "name": "Device",
+      "options": ["Desktop", "Mobile", "Tablet", "TV"]
+    }]
+  }, {
+    "name": "Reachability",
+    "displayName": "Reachable Users",
+    "properties": [{
+      "dataType": "string",
+      "regex": null,
+      "name": "hasDeviceToken",
+      "options": ["Yes", "No"]
+    }, {
+      "dataType": "string",
+      "regex": null,
+      "name": "hasEmailAddress",
+      "options": ["Yes", "No"]
+    }, {
+      "dataType": "string",
+      "regex": null,
+      "name": "hasPhoneNumber",
+      "options": ["Yes", "No"]
+    }, {
+      "dataType": "string",
+      "regex": null,
+      "name": "unsubscribedPush",
+      "options": ["Yes", "No"]
+    }, {
+      "dataType": "string",
+      "regex": null,
+      "name": "unsubscribedEmail",
+      "options": ["Yes", "No"]
+    }, {
+      "dataType": "string",
+      "regex": null,
+      "name": "unsubscribedSMS",
+      "options": ["Yes", "No"]
+    }]
+  }, {
+    "name": "AppFields",
+    "displayName": "Mobile App Properties",
+    "properties": [{
+      "dataType": "string",
+      "regex": null,
+      "name": "App Version",
+      "options": [0, 1, 2, 3, 4]
+    }, {
+      "dataType": "string",
+      "regex": null,
+      "name": "Make",
+      "options": ["Apple", "Samsung", "Motorola", "Sony", "HTC", "Xiaomi"]
+    }, {
+      "dataType": "string",
+      "regex": null,
+      "name": "Models",
+      "options": ["Iphone 6", "Iphone 8", "Iphone 7", "Moto g3"]
+    }, {
+      "dataType": "string",
+      "regex": null,
+      "name": "OS Version",
+      "options": ["4.0.1", "4.4.1", "9.2", "9.1", "6.0.1"]
+    }, {
+      "dataType": "string",
+      "regex": null,
+      "name": "SDK Version",
+      "options": [9001, 9002, 9003, 9004]
+    }]
+  }, {
+    "name": "Demographics",
+    "displayName": "Demographics",
+    "properties": [{
+      "dataType": "string",
+      "regex": null,
+      "name": "age",
+      "options": ["18-25", "25-35", "35-45", "45-60"]
+    }, {
+      "dataType": "string",
+      "regex": null,
+      "name": "gender",
+      "options": ["Male", "Female"]
+    }]
+  }];
 
   private createNewSegment(): Segment {
     var textArray = [

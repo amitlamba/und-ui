@@ -64,34 +64,37 @@
           )}}
         </td>
         <td class="text-center">
+          <button class="btn btn-sm btn-outline-primary btn-action" tooltip="View Report" (click)="viewReportClicked(campaignItem.id)">
+            <i class="far fa-chart-bar"></i>
+          </button>
           <button *ngIf="campaignItem.status=='PAUSED' "
-                  class="border-0 bg-light"
+                  class="btn btn-sm btn-outline-primary btn-action"
                   tooltip="Resume Campaign"
                   data-toggle="modal" data-target="#campaignActionConfirmationDialog"
                   (click)="getCampaignId(campaignItem,'resume')"
                   id="resumeCampaignButton"><i class="fas fa-play text-primary"></i>
           </button>
           <button *ngIf="campaignItem.status=='CREATED' || campaignItem.status=='RESUMED'"
-                  class="border-0 bg-light"
+                  class="btn btn-sm btn-outline-primary btn-action"
                   data-toggle="modal" data-target="#campaignActionConfirmationDialog"
                   (click)="getCampaignId(campaignItem,'pause')"
                   tooltip="Pause Campaign"
-                  id="pauseCampaignButton"><i class="far fa-pause-circle text-primary"></i>
+                  id="pauseCampaignButton"><i class="far fa-pause-circle"></i>
           </button>
-          <button class="border-0 bg-light"
+          <button class="btn btn-sm btn-outline-primary btn-action"
                   data-toggle="modal" data-target="#campaignActionConfirmationDialog"
                   (click)="getCampaignId(campaignItem,'stop')"
                   [disabled]="campaignItem.status=='DELETED' || campaignItem.status=='STOPPED' || campaignItem.status=='ERROR'"
                   tooltip="Stop Campaign"
-                  id="stopCampaignButton"><i class="far fa-stop-circle text-primary"
+                  id="stopCampaignButton"><i class="far fa-stop-circle"
                                              [ngClass]="{'text-muted':campaignItem.status=='DELETED'|| campaignItem.status=='STOPPED' || campaignItem.status=='ERROR'}"></i>
           </button>
-          <button class="border-0 bg-light"
+          <button class="btn btn-sm btn-outline-primary btn-action"
                   data-toggle="modal" data-target="#campaignActionConfirmationDialog"
                   (click)="getCampaignId(campaignItem,'delete')"
                   [disabled]="campaignItem.status=='DELETED' || campaignItem.status=='ERROR'"
                   tooltip="Delete Campaign"
-                  id="deleteCampaignButton"><i class="far fa-trash-alt text-primary"
+                  id="deleteCampaignButton"><i class="far fa-trash-alt"
                                                [ngClass]="{'text-muted':campaignItem.status=='DELETED' || campaignItem.status=='ERROR'}"></i>
           </button>
         </td>

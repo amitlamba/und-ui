@@ -65,7 +65,8 @@ export class FilterReactiveComponent implements OnInit {
     console.log(this.filterForm);
 
     if (!this.filterForm.get('name').value){
-      this.filterForm.get('name').setValue(this.eventProperties[0].name);
+      let name = (this.eventProperties && this.eventProperties.length)?this.eventProperties[0].name:this.defaultProperties[0].name
+      this.filterForm.get('name').setValue(name);
     }
     this.select2Options = {
       multiple: true,

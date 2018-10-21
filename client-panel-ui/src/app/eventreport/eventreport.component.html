@@ -37,9 +37,10 @@
     <h3>Segment Applied</h3>
     <app-segment-nlp [segment]="segment"></app-segment-nlp>
   </div>
-  <div *ngIf="filterList" class="container my-4">
+  <div *ngIf="filterList && filterList.length" class="container my-4">
     <h3>With Global Filters</h3>
     <app-segment-nlp [segment]="{globalFilters: filterList}"></app-segment-nlp>
+    <button class="btn btn-link" (click)="onClearGlobalFilters()">Clear Global Filters</button>
   </div>
 
   <!--<div class="row" id="event-navbar">-->

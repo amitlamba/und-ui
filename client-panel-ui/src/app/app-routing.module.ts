@@ -87,8 +87,9 @@ const routes: Routes = [
         {path: 'user-profile', component: UserProfileComponent}
       ]
       },
-      {path:'reports/segment/:id',component:SegmentReportComponent,canActivate:[AuthGuard]},
-      {path:'reports/funnel',component:FunnelComponent,canActivate:[AuthGuard]},
+      {path:'reports/segment/:id', component:SegmentReportComponent, canActivate:[AuthGuard]},
+      {path:'reports/funnel', component:FunnelComponent, canActivate:[AuthGuard]},
+      {path:'reports/campaign', component:CampaignReportComponent, canActivate:[AuthGuard]},
       {path: 'create-email-template/:newTemplate', component: CreateEmailTemplateFormComponent, canActivate: [AuthGuard], pathMatch: 'full'},
       {path: 'create-sms-template/:newTemplate', component: CreateSmsTemplateFormComponent, canActivate: [AuthGuard], pathMatch: 'full'},
       {path: 'templates', redirectTo: "templates/email", canActivate: [AuthGuard], pathMatch: "full"},
@@ -104,8 +105,7 @@ const routes: Routes = [
         {path: 'sms', component: SetupCampaignComponent},
         {path: 'email', component: SetupCampaignComponent}
       ]
-      },
-      {path:'campaign-report',component:CampaignReportComponent, canActivate:[AuthGuard],pathMatch:'full'}
+      }
     ]
   },
   //Site Routes goes here

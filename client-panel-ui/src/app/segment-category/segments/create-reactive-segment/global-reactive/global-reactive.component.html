@@ -7,7 +7,7 @@
                 formControlName="globalFilterType"
                 (change)="firstFilterChanged($event.target.value)">
           <option value="" disabled selected>--Select--</option>
-          <option *ngFor="let propType of firstDropDown" value="{{propType}}">{{propType}}</option>
+          <option *ngFor="let propType of firstDropDown" value="{{propType.name}}">{{propType.displayName?propType.displayName:propType.name}}</option>
         </select>
       </div>
       <div *ngIf="maxOrder>=1" class="form-group mx-2">

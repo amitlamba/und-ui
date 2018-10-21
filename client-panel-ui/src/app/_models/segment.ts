@@ -153,6 +153,7 @@ export class City {
 
 export class RegisteredEvent {
   name: string;
+  displayName?: string;
   properties: RegisteredEventProperties[];
 }
 

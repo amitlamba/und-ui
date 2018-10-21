@@ -62,17 +62,18 @@ export class DrawSemidonutChartComponent implements OnInit, OnChanges {
           y: 100
       },
       tooltip: {
-        pointFormat: '{series.name}: <b>{point.y:.1f} ({point.percentage:.1f}%)</b>'
+        pointFormat: '{series.name}: <b>{point.y:.0f} ({point.percentage:.1f}%)</b>'
       },
       plotOptions: {
         pie: {
           dataLabels: {
-            enabled: true,
-              distance: -50,
-              style: {
-              fontWeight: 'bold',
-                color: 'white'
-            }
+            // enabled: true,
+            // distance: -30,
+            // style: {
+            //   fontWeight: 'bold',
+            //   color: 'white'
+            // },
+            formatter: function(){return this.point.name+":<br><b>"+this.point.y+" ("+this.point.percentage.toFixed(1)+"%)</b>";}
           },
           startAngle: -90,
           endAngle: 90,

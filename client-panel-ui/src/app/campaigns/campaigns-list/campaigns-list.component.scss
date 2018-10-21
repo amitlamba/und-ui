@@ -19,3 +19,10 @@ button.bg-light:hover {
 #campaign-navbar .btn {
   margin: .25rem;
 }
+.btn-action {
+  margin: .1rem;
+  cursor: pointer;
+}
+.btn-action:disabled {
+  cursor: default;
+}

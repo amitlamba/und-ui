@@ -1,15 +1,18 @@
 <div class="card">
   <div class="card-header">Country</div>
   <div class="card-body">
-    <app-draw-simple-chart *ngIf="countryChart"
+    <app-draw-simple-clickable-chart *ngIf="countryChart"
                            [title]="countryChart.title"
                            [subtitle]="countryChart.subTitle"
                            [xAxisTitle]="countryChart.xAxisTitle"
                            [yAxisTitle]="countryChart.yAxisTitle"
                            [chartType]="countryChart.graphType"
                            [categories]="countryChart.category"
-                           [dataSeries]="countryChart.dataSeries">
-    </app-draw-simple-chart>
+                           [dataSeries]="countryChart.dataSeries"
+                           [filterType]="'Demographics'"
+                           [filterName]="'country'"
+                           (chartClick)="onCountryClick($event)">
+    </app-draw-simple-clickable-chart>
   </div>
 </div>
 <div class="card">
