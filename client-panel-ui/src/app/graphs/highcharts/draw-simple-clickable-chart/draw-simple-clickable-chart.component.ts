@@ -23,7 +23,7 @@ export class DrawSimpleClickableChartComponent implements OnInit {
   @Input() filterName: string;
   @Output() chartClick: EventEmitter<GlobalFilter> = new EventEmitter();
   @Input() emitType: string = "GlobalFilter"; //GlobalFilter / Event
-  @Output() chartClickEmitEventName: EventEmitter<string> = new EventEmitter();
+  @Output() chartClickEmitEvent: EventEmitter<any> = new EventEmitter();
 
   @ViewChild('chartTarget') chartTarget: ElementRef;
   chart: Highcharts.ChartObject;
@@ -90,7 +90,8 @@ export class DrawSimpleClickableChartComponent implements OnInit {
           events:{
             click: function (event) {
               if(that.emitType == "Event") {
-                that.chartClickEmitEventName.emit(event.point.category.toString());
+                console.log(event);
+                that.chartClickEmitEvent.emit({event: event.point.category.toString(), date: event.point.series.name});
               } else {
                 let gf = new GlobalFilter();
                 gf.name = that.filterName;

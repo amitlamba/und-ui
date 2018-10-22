@@ -121,6 +121,8 @@ import { SegmentBehaviorReactiveComponent } from './segment-category/segments/se
 import { FunnelComponent } from './funnel/funnel.component';
 import {CampaignReportComponent} from "./campaigns/campaign-report/campaign-report.component";
 import { DrawSimpleClickableChartComponent } from './graphs/highcharts/draw-simple-clickable-chart/draw-simple-clickable-chart.component';
+import { NotificationTemplatesComponent } from './templates/notification-templates/notification-templates.component';
+import { CreateNotificationTemplateFormComponent } from './templates/notification-templates/create-notification-template-form/create-notification-template-form.component';
 
 
 @NgModule({
@@ -234,7 +236,9 @@ import { DrawSimpleClickableChartComponent } from './graphs/highcharts/draw-simp
     SegmentBehaviorReactiveComponent,
     FunnelComponent,
     CampaignReportComponent,
-    DrawSimpleClickableChartComponent
+    DrawSimpleClickableChartComponent,
+    NotificationTemplatesComponent,
+    CreateNotificationTemplateFormComponent
   ],
   providers: [
     AuthGuard,

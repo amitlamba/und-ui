@@ -367,7 +367,8 @@ export class HomeComponent implements OnInit,OnChanges,OnDestroy {
     return "Date "+(index+1);
   }
 
-  handleChartClick(eventName: any) {
-    this.router.navigate(['/reports/event'],{queryParams:{event:eventName}});
+  handleChartClick(params: any) {
+    console.log(params);
+    this.router.navigate(['/reports/event'],{queryParams: params});
   }
 }

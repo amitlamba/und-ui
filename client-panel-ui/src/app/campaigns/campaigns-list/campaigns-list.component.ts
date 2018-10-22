@@ -25,6 +25,23 @@ export class CampaignsListComponent implements OnInit {
 
   campaignType: string = "Active";
   filteredCampaigns: Campaign[];
+  searchFilteredCampaigns: Campaign[];
+
+  private _searchfilterby: string;
+  get searchfilterby(): string {
+    return this._searchfilterby;
+  }
+
+  set searchfilterby(value: string) {
+    this._searchfilterby = value;
+    if (!value)
+      this.searchFilteredCampaigns = this.campaigns;
+    else
+      this.searchFilteredCampaigns = this.campaigns.filter((v, i, a) => {
+        return v.name.toLowerCase().indexOf(this._searchfilterby.toLowerCase()) > -1
+      });
+    this.filterCampaigns();
+  }
 
   constructor(private campaignService: CampaignService, private router: Router) {
   }
@@ -35,7 +52,7 @@ export class CampaignsListComponent implements OnInit {
 
   getCampaignsList() {
     this.campaignService.getCampaignList().subscribe((campaigns) => {
-      this.campaigns = campaigns;
+      this.campaigns = this.searchFilteredCampaigns = campaigns;
       this.filterCampaigns();
     });
   }
@@ -152,7 +169,7 @@ export class CampaignsListComponent implements OnInit {
   }
 
   filterCampaigns() {
-    this.filteredCampaigns = this.campaigns.filter(v=>{
+    this.filteredCampaigns = this.searchFilteredCampaigns.filter(v=>{
       if(this.campaignType == "Active") {
         return v.status != CampaignStatus.COMPLETED && v.status != CampaignStatus.ERROR
       } else if(this.campaignType == "Errors") {

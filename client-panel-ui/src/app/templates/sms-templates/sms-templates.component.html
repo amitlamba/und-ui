@@ -6,6 +6,18 @@
     </button>
   </div>
 
+  <div class="input-group my-3 mb-4 col-md-4 col-sm-8">
+    <input type="text" class="form-control"
+           placeholder="Filter by: Template Name"
+           aria-label="TemplateName"
+           aria-describedby="button-search-template"
+           [(ngModel)]="searchfilterby"
+    >
+    <div class="input-group-append">
+      <button class="btn btn-outline-primary" type="button" id="button-search-template"><i class="fas fa-search"></i></button>
+    </div>
+  </div>
+
   <!-- Modal -->
   <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle"
        aria-hidden="true">
@@ -37,13 +49,13 @@
       </tr>
       </thead>
       <tbody>
-      <tr *ngFor="let st of smsTemplates; let i = index">
+      <tr *ngFor="let st of searchFilteredSmsTemplates; let i = index">
         <th scope="row">{{i+1}}</th>
         <td>{{st.name}}</td>
         <td>{{st.from}}</td>
         <td>{{st.messageType}}</td>
         <td>{{st.smsTemplateBody}}</td>
-        <td><button class="btn btn-outline-secondary btn-sm" data-toggle="modal" data-target="#exampleModalLong" (click)="onEdit(st)"><i class="fas fa-pencil-alt icon-light"></i></button> <button class="btn btn-outline-secondary btn-sm"><i class="fas fa-trash icon-light"></i></button></td>
+        <td><button class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#exampleModalLong" (click)="onEdit(st)"><i class="fas fa-pencil-alt icon-light"></i></button> <button class="btn btn-outline-primary btn-sm"><i class="fas fa-trash icon-light"></i></button></td>
       </tr>
       </tbody>
     </table>
