@@ -1,82 +1,103 @@
 <div class="container">
 
-  <div class="dropdown">
-    <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
-            aria-haspopup="true" aria-expanded="false">
-      {{selectedSegment}}
-    </button>
-    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-      <a class="dropdown-item" (click)="selectedSegment='All Users'">All Users</a>
-      <a class="dropdown-item" (click)="selectedSegment='Search Category Men'">Search Category Men</a>
-      <a class="dropdown-item" (click)="selectedSegment='Add To Cart'">Add To Cart</a>
-    </div>
-  </div>
-  <div class="col-12">
-    <div class="row">
-      <div class="col-md-2">Select Segment</div>
-      <div class="col-md-2">Date1</div>
-      <div class="col-md-2">Date2</div>
-      <div class="col-2">Date3</div>
-    </div>
-
-    <div class="row">
-      <div class="col-2">
-        <div class="form-group">
-          <select class="form-control" ng-init="segmentId= '1003'" (change)="segmentChange($event)">
-            <option *ngFor="let segment of segments" [ngValue]="segment.id">{{segment.name}}</option>
-          </select>
-        </div>
-      </div>
-      <div class="col-2">
-        <div class="form-group">
-          <input type="text"
-                 class="form-control"
-                 [ngModel]="date1"
-                 required
-                 daterangepicker
-                 [options]="singlePicker"
-                 (selected)="date1Select($event)"
-          >
-        </div>
-      </div>
-      <div class="col-2">
-        <div class="form-group" (submit)="reloadApi()">
-          <input type="text"
-                 class="form-control"
-                 [ngModel]="date2"
-                 required
-                 daterangepicker
-                 [options]="singlePicker"
-                 (selected)="date2Select($event)">
-        </div>
-      </div>
-      <div class="col-2">
-        <div class="form-group">
-          <input type="text"
-                 class="form-control"
-                 [ngModel]="date3"
-                 required
-                 daterangepicker
-                 [options]="singlePicker"
-                 (selected)="date3Select($event)">
-        </div>
-      </div>
-      <div class="col-2">
-        <div class="form-group">
-          <select class="form-control" name="interval" ng-init="interval='5'" (change)="intervalChange($event)">
-            <option value="5">Interval</option>
-            <option value="10">10 Min</option>
-            <option value="20">20 Min</option>
-          </select>
-        </div>
-      </div>
+  <div class="card">
+    <div class="card-header">Usage Trend Distribution</div>
+    <div class="card-body">
       <div>
-        <button class="btn-primary btn" (click)="reloadApi()">Submit</button>
+        <select class="form-control col-sm-4 col-md-3 col-lg-2" name="groupby" (change)="onGroupByChange($event)">
+          <option value="os">os</option>
+          <option value="browser">browser</option>
+          <option value="device">device</option>
+        </select>
+      </div>
+      <div class="row">
+        <div class="col-md-4 my-auto text-center">
+          <div *ngIf="trendCountName"><b><u>{{trendCountName.toUpperCase()}}</u></b></div>
+          <div>
+            <div *ngFor="let data of trendCountDataSeries">{{data[0]}}: {{data[1]}}</div>
+          </div>
+        </div>
+        <div class="col-md-8">
+          <app-draw-semidonut-chart [name]="trendCountName"
+                                    [dataSeries]="trendCountDataSeries"></app-draw-semidonut-chart>
+        </div>
       </div>
     </div>
   </div>
+
+  <div class="row">
+    <div class="col-12">
+      <div class="row">
+        <div class="col-sm-4">
+          <div class="form-group">
+            <label>Segment</label>
+            <select class="form-control" ng-init="segmentId= '1003'" [(ngModel)]="segmentId">
+              <option selected value="-1">All Users</option>
+              <option *ngFor="let segment of segments" [value]="segment.id">{{segment.name}}</option>
+            </select>
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <div class="form-group">
+            <label>Interval</label>
+            <select class="form-control" name="interval" ng-init="interval='5'" (change)="intervalChange($event)">
+              <option value="5">5 Min</option>
+              <option value="10">10 Min</option>
+              <option value="20">20 Min</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="font-weight-bold mt-4 mb-3 col-12">Analyze for Dates</div>
+    <div class="col-12">
+      <div class="row">
+        <div class="col-sm-4">
+          <div class="form-group">
+            <label>{{getDateLabel(0)}}</label>
+            <input type="text"
+                   class="form-control"
+                   [ngModel]="date1"
+                   required
+                   daterangepicker
+                   [options]="singlePicker"
+                   (selected)="date1Select($event)"
+            >
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <div class="form-group" (submit)="reloadApi()">
+            <label>{{getDateLabel(1)}}</label>
+            <input type="text"
+                   class="form-control"
+                   [ngModel]="date2"
+                   required
+                   daterangepicker
+                   [options]="singlePicker"
+                   (selected)="date2Select($event)">
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <div class="form-group">
+            <label>{{getDateLabel(2)}}</label>
+            <input type="text"
+                   class="form-control"
+                   [ngModel]="date3"
+                   required
+                   daterangepicker
+                   [options]="singlePicker"
+                   (selected)="date3Select($event)">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 mb-5 text-right">
+      <button class="btn-primary btn" (click)="reloadApi()">Submit</button>
+    </div>
+  </div>
+
   <div class="card my-3">
-    <div class="card-header">{{trendChartTitle}}</div>
+    <div class="card-header">Users Usage Trend over the day</div>
     <div class="card-body">
       <app-draw24-hrs-chart [title]="trendChartTitle"
                             [subtitle]="trendChartSubTitle"
@@ -90,6 +111,7 @@
     </div>
   </div>
   <div class="card">
+    <div class="card-header">New vs Existing Users</div>
     <div class="card-body">
       <!--insert a drop down to select date-->
       <div>
@@ -110,33 +132,24 @@
     </div>
   </div>
   <div class="card">
+    <div class="card-header">Users Events Trend</div>
     <div class="card-body">
-      <button class="btn btn-primary" (click)="onTable()">Table</button>
-      <button class="btn btn-primary" (click)="onGraph()">Graph</button>
+      <div class="my-3">
+        <button class="btn btn-primary" (click)="onTable()">Table</button>
+        <button class="btn btn-primary" (click)="onGraph()">Graph</button>
+      </div>
       <app-draw-table *ngIf="viewType ==='table'" [eventUserData]="userCountByEventData"></app-draw-table>
-      <app-draw-simple-chart *ngIf="viewType==='graph' "
+      <app-draw-simple-clickable-chart *ngIf="viewType==='graph' "
                              [title]="userCountByEventTitle"
                              [subtitle]="userCountByEventSubTitle"
                              [yAxisTitle]="userCountByEventYAxisTitle"
                              [chartType]="userCountByEventChartType"
                              [categories]="userCountByEventCategory"
-                             [dataSeries]="userCountByEventDataSeries">
+                             [dataSeries]="userCountByEventDataSeries"
+                             [emitType]="'Event'"
+                             (chartClickEmitEvent)="handleChartClick($event)">
 
-      </app-draw-simple-chart>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-body">
-      <div>
-        <select class="form-control col-sm-4 col-md-3 col-lg-2" name="groupby" (change)="onGroupByChange($event)">
-          <option value="os">os</option>
-          <option value="browser">browser</option>
-          <option value="device">device</option>
-        </select>
-      </div>
-      <app-draw-semidonut-chart [name]="trendCountName"
-                                [dataSeries]="trendCountDataSeries"></app-draw-semidonut-chart>
+      </app-draw-simple-clickable-chart>
     </div>
   </div>
 

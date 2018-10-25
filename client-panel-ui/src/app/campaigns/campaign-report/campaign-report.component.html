@@ -1,14 +1,34 @@
 <div class="container">
-  <div class="row">
+  <div class="row my-3">
     <div class="col-lg-3 col-md-3 col-sm-4">
-      <select [ngModel]="campaign" class="form-control">
-        <option selected>Default</option>
-        <option *ngFor="let campagin of campaigns">
-
+      <select [(ngModel)]="campaign" class="form-control" (change)="campaignChange()">
+        <option selected [ngValue]="undefined" >--Select Campaign--</option>
+        <option *ngFor="let cpn of campaigns" [ngValue]="cpn">
+          {{cpn.name}}
         </option>
       </select>
     </div>
   </div>
+
+  <div *ngIf="campaign">
+    <div class="card">
+      <div class="card-header">
+        <div class="row">
+          <div class="col-6"><strong>Campaign Info:</strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Campaign Name: <strong>{{campaign.name}}</strong>
+          </div>
+          <div class="col-6 pl-auto">Status: <strong>{{campaign.status}}</strong></div>
+        </div>
+      </div>
+      <div class="card-body">
+        <!--<div class="row mb-3">-->
+          <!--<div class="col-6">Campaign Name: <strong>{{campaign.name}}</strong></div>-->
+          <!--<div class="col-6 pl-auto">Status: <strong>{{campaign.status}}</strong></div>-->
+        <!--</div>-->
+        <app-campaigns-info [campaignInfoObject]="campaign"></app-campaigns-info>
+      </div>
+    </div>
+  </div>
+
   <div class="card">
     <div class="card-header">
       Total User Selected
@@ -23,7 +43,7 @@
         </div>
         <div class="col">
           <div class="row">
-            <div style="position: center;margin-left: 50%">Status</div>
+            <div>Status</div>
           </div>
             <div class="row">
               <div class="col">
@@ -44,17 +64,17 @@
     </div>
   </div>
 
-  <div class="card mt-5">
-    <div class="card-header"><span style="margin-left: 45%">User Who Clicked</span></div>
+  <div class="card">
+    <div class="card-header"><span>User Who Clicked</span></div>
     <div class="card-body"></div>
   </div>
 
-  <div class="card mt-5">
-    <div class="card-header"><span style="margin-left: 45%">Conversion Rate</span></div>
+  <div class="card">
+    <div class="card-header"><span>Conversion Rate</span></div>
     <div class="card-body">
       <div class="row">
         <div class="col">
-          <span style="font-weight: normal; font-size: medium">Influenced User</span>
+          <span>Influenced User</span>
         </div>
       </div>
       <div class="row">

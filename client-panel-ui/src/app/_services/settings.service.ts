@@ -221,9 +221,6 @@ export class SettingsService {
               "fieldType": "string"
             }
           ]
-        },
-        "Google - GCM": {
-          "name": "Google - GCM"
         }
       }
     }

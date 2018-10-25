@@ -23,6 +23,7 @@ export class DidEventReactiveComponent implements OnInit ,OnChanges{
   hidePropertySumFilter=true;
 
   propertyFilter:RegisteredEventProperties[]=[];
+  defaultProperties: RegisteredEventProperties[] = [];
 
   private _numberOperator:NumberOperator;
 
@@ -142,7 +143,7 @@ export class DidEventReactiveComponent implements OnInit ,OnChanges{
 
     var registerEvent=this.registeredEvents.find(data=>data.name==eventName);
     this.propertyFilter=registerEvent.properties;
-
+    this.defaultProperties = this.segmentService.defaultEventProperties;
   }
 
   ngOnChanges(){

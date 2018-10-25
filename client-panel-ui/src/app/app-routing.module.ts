@@ -46,6 +46,8 @@ import {SegmentReportComponent} from "./segment-report/segment-report.component"
 import {FunnelReportFilter} from "./_models/reports";
 import {FunnelComponent} from "./funnel/funnel.component";
 import {CampaignReportComponent} from "./campaigns/campaign-report/campaign-report.component";
+import {NotificationTemplatesComponent} from "./templates/notification-templates/notification-templates.component";
+import {CreateNotificationTemplateFormComponent} from "./templates/notification-templates/create-notification-template-form/create-notification-template-form.component";
 
 const routes: Routes = [
   //Pages without layout goes here
@@ -87,15 +89,18 @@ const routes: Routes = [
         {path: 'user-profile', component: UserProfileComponent}
       ]
       },
-      {path:'reports/segment/:id',component:SegmentReportComponent,canActivate:[AuthGuard]},
-      {path:'reports/funnel',component:FunnelComponent,canActivate:[AuthGuard]},
+      {path:'reports/segment/:id', component:SegmentReportComponent, canActivate:[AuthGuard]},
+      {path:'reports/funnel', component:FunnelComponent, canActivate:[AuthGuard]},
+      {path:'reports/campaign', component:CampaignReportComponent, canActivate:[AuthGuard]},
       {path: 'create-email-template/:newTemplate', component: CreateEmailTemplateFormComponent, canActivate: [AuthGuard], pathMatch: 'full'},
       {path: 'create-sms-template/:newTemplate', component: CreateSmsTemplateFormComponent, canActivate: [AuthGuard], pathMatch: 'full'},
+      {path: 'create-notification-template/:newTemplate', component: CreateNotificationTemplateFormComponent, canActivate: [AuthGuard], pathMatch: 'full'},
       {path: 'templates', redirectTo: "templates/email", canActivate: [AuthGuard], pathMatch: "full"},
       {
         path: 'templates', component: TemplatesComponent, canActivate: [AuthGuard], children: [
         {path: 'email', component: EmailTemplatesComponent, pathMatch: 'full'},
-        {path: 'sms', component: SmsTemplatesComponent}
+        {path: 'sms', component: SmsTemplatesComponent},
+        {path: 'notification', component: NotificationTemplatesComponent}
       ]
       },
       {path: 'campaigns', component: CampaignsListComponent, canActivate: [AuthGuard], pathMatch: "full"},
@@ -104,8 +109,7 @@ const routes: Routes = [
         {path: 'sms', component: SetupCampaignComponent},
         {path: 'email', component: SetupCampaignComponent}
       ]
-      },
-      {path:'campaign-report',component:CampaignReportComponent, canActivate:[AuthGuard],pathMatch:'full'}
+      }
     ]
   },
   //Site Routes goes here

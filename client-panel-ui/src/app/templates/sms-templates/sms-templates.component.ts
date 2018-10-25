@@ -13,6 +13,23 @@ export class SmsTemplatesComponent implements OnInit {
   smsTemplates = new Array<SmsTemplate>()
   state: RouterStateSnapshot;
 
+  searchFilteredSmsTemplates: SmsTemplate[];
+
+  private _searchfilterby: string;
+  get searchfilterby(): string {
+    return this._searchfilterby;
+  }
+
+  set searchfilterby(value: string) {
+    this._searchfilterby = value;
+    if (!value)
+      this.searchFilteredSmsTemplates = this.smsTemplates;
+    else
+      this.searchFilteredSmsTemplates = this.smsTemplates.filter((v, i, a) => {
+        return v.name.toLowerCase().indexOf(this._searchfilterby.toLowerCase()) > -1
+      });
+  }
+
   constructor(private templatesService: TemplatesService,
               private router: Router) {
     this.state = router.routerState.snapshot;
@@ -21,7 +38,7 @@ export class SmsTemplatesComponent implements OnInit {
   ngOnInit() {
     this.templatesService.castSmsTemplates.subscribe(
       (smsTemplates) => {
-        this.smsTemplates = smsTemplates;
+        this.searchFilteredSmsTemplates = this.smsTemplates = smsTemplates;
       }
     );
     this.getSmsTemplates();

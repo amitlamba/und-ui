@@ -7,6 +7,18 @@
     </button>
   </div>
 
+  <div class="input-group my-3 mb-4 col-md-4 col-sm-8">
+    <input type="text" class="form-control"
+           placeholder="Filter by: Template Name"
+           aria-label="TemplateName"
+           aria-describedby="button-search-template"
+           [(ngModel)]="searchfilterby"
+    >
+    <div class="input-group-append">
+      <button class="btn btn-outline-primary" type="button" id="button-search-template"><i class="fas fa-search"></i></button>
+    </div>
+  </div>
+
   <!-- Modal -->
   <div class="modal fade" id="emailTemplateModalLong" tabindex="-1" role="dialog" aria-labelledby="emailTemplateModalLongTitle"
        aria-hidden="true">
@@ -39,7 +51,7 @@
       </tr>
       </thead>
       <tbody>
-      <tr *ngFor="let et of (emailTemplates | orderBy : 'dateCreated' : true); let i = index">
+      <tr *ngFor="let et of (searchFilteredEmailTemplates | orderBy : 'dateCreated' : true); let i = index">
         <td>{{et.dateCreated+"Z" | date:'medium'}}</td>
         <td>{{et.name}}</td>
         <td>{{et.emailTemplateSubject}}</td>
