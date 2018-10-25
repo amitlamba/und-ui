@@ -16,7 +16,7 @@ export class EventreportGeographicsComponent implements OnInit,OnDestroy ,OnChan
   @Input() fromDate:string;
   @Input() toDate:string;
 
-  filterList:GlobalFilter[];
+  @Input() filterList:GlobalFilter[];
   groupByFilterType:string;
 
   eventReportFilterParam:EventReportFilter;
@@ -30,7 +30,6 @@ export class EventreportGeographicsComponent implements OnInit,OnDestroy ,OnChan
     this.groupByFilterType='Demographics';
     this.eventReportFilterParam=new EventReportFilter();
     this.entityTypeParam=EntityType.event;
-    this.filterList = [];
     this.countryChart=new ChartModel();
     this.stateChart=new ChartModel();
     this.cityChart=new ChartModel();
@@ -41,8 +40,8 @@ export class EventreportGeographicsComponent implements OnInit,OnDestroy ,OnChan
   }
 
   ngOnChanges(){
-    this.fromDate='2018-08-10';
-    this.toDate='2018-08-20';
+    // this.fromDate='2018-08-10';
+    // this.toDate='2018-08-20';
     this.eventReportFilterParam.eventName=this.eventName;
     this.eventReportFilterParam.fromDate=this.fromDate;
     this.eventReportFilterParam.toDate=this.toDate;
@@ -63,8 +62,10 @@ export class EventreportGeographicsComponent implements OnInit,OnDestroy ,OnChan
     this.reportsService.getCountTrend(this.eventReportFilterParam,this.entityTypeParam,groupBy)
       .subscribe(
         response=>{
-          let noOfBars = 11;
-          response = this.group(response, noOfBars);
+          if(response.length > 11) {
+            let noOfBars = 11;
+            response = this.group(response, noOfBars);
+          }
           this.countryChart.category=response.map(data=>data.groupedBy['name']);
           var data=response.map(data=>data.count);
           var chartSeriesData={
@@ -72,7 +73,7 @@ export class EventreportGeographicsComponent implements OnInit,OnDestroy ,OnChan
             seriesName:'event',
             data:data
           };
-
+          this.countryChart.dataSeries = [];
           this.countryChart.dataSeries.push(chartSeriesData);
 
           console.log(response);
@@ -86,8 +87,10 @@ export class EventreportGeographicsComponent implements OnInit,OnDestroy ,OnChan
     this.reportsService.getCountTrend(this.eventReportFilterParam,this.entityTypeParam,groupBy)
       .subscribe(
         response=>{
-          let noOfBars = 11;
-          response = this.group(response, noOfBars);
+          if(response.length > 11) {
+            let noOfBars = 11;
+            response = this.group(response, noOfBars);
+          }
           this.stateChart.category=response.map(data=>data.groupedBy['name']);
           var data=response.map(data=>data.count);
           var chartSeriesData={
@@ -95,7 +98,7 @@ export class EventreportGeographicsComponent implements OnInit,OnDestroy ,OnChan
             seriesName:'event',
             data:data
           };
-
+          this.stateChart.dataSeries = [];
           this.stateChart.dataSeries.push(chartSeriesData);
 
           console.log(response);
@@ -109,8 +112,10 @@ export class EventreportGeographicsComponent implements OnInit,OnDestroy ,OnChan
     this.reportsService.getCountTrend(this.eventReportFilterParam,this.entityTypeParam,groupBy)
       .subscribe(
         response=>{
-          // let noOfBars = 11;
-          // response = this.group(response, noOfBars);
+          if(response.length > 11) {
+            let noOfBars = 11;
+            response = this.group(response, noOfBars);
+          }
           this.cityChart.category=response.map(data=>data.groupedBy['name']);
           var data=response.map(data=>data.count);
           var chartSeriesData={
@@ -118,7 +123,7 @@ export class EventreportGeographicsComponent implements OnInit,OnDestroy ,OnChan
             seriesName:'event',
             data:data
           };
-
+          this.cityChart.dataSeries = [];
           this.cityChart.dataSeries.push(chartSeriesData);
 
           console.log(response);
@@ -136,10 +141,17 @@ export class EventreportGeographicsComponent implements OnInit,OnDestroy ,OnChan
       .map((v)=>v.i);
 
     let filtered: EventCount[] = arr.filter((v,i)=>{return indicesToKeep.indexOf(i) >= 0});
+    filtered = filtered.sort((a,b)=> -a.count + b.count);
     let others: EventCount = arr.filter((v,i)=>{return indicesToKeep.indexOf(i) < 0}).reduce(
       (p,c,i,a) => {p.count=p.count+c.count; p.groupedBy["name"]="Others"; return p}
     )
     // arr.
     return filtered.concat(others);
+  }
+
+  onCountryClick(event) {
+    console.log(event);
+    this.filterList.push(event);
+    this.ngOnChanges();
   }
 }

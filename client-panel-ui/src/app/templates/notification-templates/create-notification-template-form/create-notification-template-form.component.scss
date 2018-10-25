@@ -1,0 +1,30 @@
+.preview {
+  min-height: 700px;
+  min-width: 340px;
+}
+.preview .preview-android {
+  height: 650px;
+  width: 300px;
+  background-size: 100%;
+  position: absolute;
+  background-position: center;
+  background-image: url("../../../../assets/img/mobile-gpixel.png");
+  background-repeat: no-repeat;
+}
+.preview .preview-android .preview-android-sms {
+  background-image: url("../../../../assets/img/device_android_mobile_sms.svg");
+  background-repeat: no-repeat;
+  position: absolute;
+  top: 80px;
+  left: 14px;
+  width: calc(100% - 31px);
+  height: 479px;
+}
+.preview .preview-android .preview-android-sms .preview-androd-sms-text {
+  position: absolute;
+  top: 80px;
+  left: 14px;
+  width: calc(100% - 15px);
+  height: 300px;
+  overflow-y: auto;
+}

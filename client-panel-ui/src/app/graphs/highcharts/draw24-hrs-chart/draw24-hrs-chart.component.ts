@@ -11,13 +11,16 @@ import {formatDate} from "ngx-bootstrap/chronos";
 })
 export class Draw24HrsChartComponent implements OnInit,OnChanges {
 
-  @Input() title: string ;
+  @Input() title: string;
   @Input() subtitle:string;
   @Input() xAxisTitle: string;
   @Input() yAxisTitle: string ;
   @Input() timeStepInMins: number = 5;
   @Input() dataSeries: Array<ChartSeriesData>;
   @Input() chartType: string ;
+
+  today = new Date();
+  tomorrow =  new Date(this.today.getTime() + 24*60*60*1000);
 
   @ViewChild('chartTarget') chartTarget: ElementRef;
   chart: Highcharts.ChartObject;
@@ -83,8 +86,8 @@ export class Draw24HrsChartComponent implements OnInit,OnChanges {
           day: '%H:%M'
         },
         tickInterval: this.timeStepInMins * 60 * 1000,
-        min: Date.UTC((new Date()).getUTCFullYear(),(new Date()).getMonth(),(new Date()).getDay()),
-        max: Date.UTC((new Date(new Date().getTime()+(24*60*60*1000))).getUTCFullYear(),(new Date(new Date().getTime()+(24*60*60*1000))).getMonth(),(new Date(new Date().getTime()+(24*60*60*1000))).getDay())
+        min: Date.UTC(this.today.getUTCFullYear(),this.today.getMonth(),this.today.getDay()),
+        // max: Date.UTC(this.tomorrow.getUTCFullYear(),this.tomorrow.getMonth(),this.tomorrow.getDay())
       },
       yAxis: {
         title: {
@@ -97,6 +100,7 @@ export class Draw24HrsChartComponent implements OnInit,OnChanges {
           pointInterval: this.timeStepInMins * 60 * 1000 // timeStepInMins minutes
         }
       },
+      // series: [{name: "ABC", data: [20, 21, 22, 23, 20, 21, 22, 23, 20, 21, 22, 23, 20, 21, 22, 23, 20, 21, 22, 23, 20, 21, 22, 23, 20, 21, 22, 23, 20, 21, 22, 23]}]
       series: this.series()
     });
   }
@@ -110,7 +114,7 @@ export class Draw24HrsChartComponent implements OnInit,OnChanges {
         data: v.data
       })
     })
-
+    console.log(response);
     return response;
   }
 

@@ -34,6 +34,69 @@
             <select class="form-control"
                     name="segmentName"
                     #segmentID
+                    [(ngModel)]="campaign.segmentationID" [ngModelOptions]="{standalone: true}">
+              <option value="-1" selected>Choose from a list of Segments . . .</option>
+              <option *ngFor="let segment of segmentsList"
+                      [ngValue]="segment.id">{{segment.name}}
+              </option>
+            </select>
+          </div>
+          <div class="form-group col-9">
+            <label class="card-title h5">What do you want to Send? <sup>*</sup></label>
+            <select class="form-control"
+                    #templateID
+                    [(ngModel)]="campaign.templateID" [ngModelOptions]="{standalone: true}">
+              <option value="-1" selected>Choose from a list of Templates . . .</option>
+              <ng-container
+                *ngIf="currentPath==='sms'">
+                <option *ngFor="let smsTemplate of smsTemplatesList"
+                        [ngValue]="smsTemplate.id">{{smsTemplate.name}}
+                </option>
+              </ng-container>
+              <ng-container
+                *ngIf="currentPath==='email'">
+                <option *ngFor="let emailTemplate of emailTemplatesList"
+                        [ngValue]="emailTemplate.id">{{emailTemplate.name}}
+                </option>
+              </ng-container>
+            </select>
+
+          </div>
+          <button class="btn btn-primary ml-3 px-4"
+                  (click)="continueToSchedule()"
+                  type="button"
+                  [disabled]='f.invalid || templateID.value=="selectTemplate" || segmentID.value=="selectSegment"'>
+            Continue
+          </button>
+        </form>
+        <!--<form novalidate
+              #f="ngForm">
+          <div class="form-group col-9">
+            <label class="card-title h5">Campaign Name <sup>*</sup></label>
+
+            <input class="form-control"
+                   type="text"
+                   placeholder="Campaign Name"
+                   name="campaignName"
+                   [(ngModel)]="campaignName"
+                   pattern="[A-Za-z0-9-_][A-Za-z0-9\s-_]*"
+                   #campaignN="ngModel"
+                   required>
+            <div class="feedback text-danger" *ngIf="campaignN.errors && (campaignN.dirty || campaignN.touched)">
+              <div *ngIf="campaignN.errors.required">
+                Name is required.
+              </div>
+              <div *ngIf="campaignN.errors.pattern">
+                Name cannot contain any special characters and cannot start with the space.
+              </div>
+
+            </div>
+          </div>
+          <div class="form-group col-9">
+            <label class="card-title h5">Who do you want to send this campaign to? <sup>*</sup></label>
+            <select class="form-control"
+                    name="segmentName"
+                    #segmentID
                     (change)="saveSegmentID(segmentID.value)">
               <option value="selectSegment" selected>Choose from a list of Segments . . .</option>
               <option *ngFor="let segment of segmentsList"
@@ -68,7 +131,7 @@
                   [disabled]='f.invalid || templateID.value=="selectTemplate" || segmentID.value=="selectSegment"'>
             Continue
           </button>
-        </form>
+        </form>-->
       </div>
     </div>
 

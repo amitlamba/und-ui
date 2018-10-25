@@ -4,6 +4,7 @@ import {ReportsService} from "../../_services/reports.service";
 import {HttpClient} from "@angular/common/http";
 import {ChartModel} from "../eventreport-demographics/eventreport-demographics.component";
 import {GlobalFilter} from "../../_models/segment";
+import {forEach} from "@angular/router/src/utils/collection";
 
 @Component({
   selector: 'app-eventreport-overall',
@@ -20,7 +21,7 @@ export class EventreportOverallComponent implements OnInit ,OnChanges,OnDestroy,
   totalUser:number;
   totalevent:number;
 
-  filterList:GlobalFilter[];
+  @Input() filterList:GlobalFilter[];
 
   entityType:string;
   period:string;
@@ -51,7 +52,6 @@ export class EventreportOverallComponent implements OnInit ,OnChanges,OnDestroy,
     this.groupByParam.globalFilterType=this.groupByFilterType;
     this.groupByParam.name=this.groupBy;
     this.periodParam=PERIOD.dayOfMonth;
-    this.filterList = [];
     this.eventCountChart=new ChartModel();
     this.eventUserTrendChart=new ChartModel();
     this.eventTimeTrendChart=new ChartModel();
@@ -102,10 +102,17 @@ export class EventreportOverallComponent implements OnInit ,OnChanges,OnDestroy,
 
   }
 
+  //Event Time Trend Chart
   private getEventTimeTrend() {
     this.reportService.getEventTimeTrend(this.eventReportFilterParam)
       .subscribe(
         (response) => {
+          for (let i = 0; i < 24; i++) {
+            let res = response.filter(v=> v.hour==i);
+            if(!res.length) {
+              response.push({eventCount: 0, hour: i});
+            }
+          }
           response = response.sort((a,b)=>a.hour - b.hour);
           this.eventUserTimeTrendChart.category = response.map(data => data.hour.toString()+"-"+(data.hour+1).toString());
           this.eventUserTimeTrendChart.dataSeries = [];
@@ -114,11 +121,12 @@ export class EventreportOverallComponent implements OnInit ,OnChanges,OnDestroy,
             seriesName: 'Events',
             data: response.map(data => data.eventCount)
           });
-          console.log(response);
-        }
-      );
-  }
+  })
 
+}
+
+
+  //Frequency Chart
   private getEventUserTrend() {
     this.reportService.getEventUserTrend(this.eventReportFilterParam)
       .subscribe(
@@ -136,6 +144,7 @@ export class EventreportOverallComponent implements OnInit ,OnChanges,OnDestroy,
       );
   }
 
+  //Event Trend Chart
   private getCountTrend(entityTypeParam: EntityType, groupByParam: GroupBy, seriesName: string) {
     this.reportService.getCountTrend(this.eventReportFilterParam, entityTypeParam, groupByParam)
       .subscribe(
@@ -169,10 +178,26 @@ export class EventreportOverallComponent implements OnInit ,OnChanges,OnDestroy,
       );
   }
 
+  //Trend By Time Period Chart
   private getTimePeriodTrend() {
     this.reportService.getTimePeriodTrend(this.eventReportFilterParam,this.entityTypeParam?this.entityTypeParam:EntityType.event,this.periodParam)
       .subscribe(
         (response)=>{
+          response = response.sort((a,b) => {
+              let ydiff = a.period['year'] - b.period['year'];
+              let mdiff = a.period['month'] - b.period['month'];
+              let ddiff = 0;
+              if (a.period['dayOfMonth'])
+                ddiff = a.period['dayOfMonth'] - b.period['dayOfMonth'];
+              else if (a.period['dayOfWeek'])
+                ddiff = a.period['dayOfWeek'] - b.period['dayOfWeek'];
+              if (ydiff != 0)
+                return ydiff;
+              else if (mdiff != 0)
+                return mdiff;
+              else return ddiff;
+            }
+          );
           switch(this.periodParam) {
             case PERIOD.dayOfMonth:
               this.eventTimeTrendChart.category=response.map(data=>data.period['year']+"-"+data.period['month']+"-"+data.period['dayOfMonth']);
@@ -212,7 +237,7 @@ export class EventreportOverallComponent implements OnInit ,OnChanges,OnDestroy,
   trendByTimePeriodGraphInitialization() {
     this.eventUserTimeTrendChart.title = '';
     this.eventUserTimeTrendChart.subTitle = '';
-    this.eventUserTimeTrendChart.xAxisTitle = 'hours';
+    this.eventUserTimeTrendChart.xAxisTitle = 'Time of the day (hours)';
     this.eventUserTimeTrendChart.yAxisTitle = 'No of Events';
     this.eventUserTimeTrendChart.graphType = 'column';
 

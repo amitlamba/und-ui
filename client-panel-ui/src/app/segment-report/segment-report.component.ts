@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {moment} from "ngx-bootstrap/chronos/test/chain";
 import {Segment} from "../_models/segment";
 import {SegmentService} from "../_services/segment.service";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
   selector: 'app-segment-report',
@@ -31,7 +31,8 @@ export class SegmentReportComponent implements OnInit {
   fromDate: string;
   toDate: string;
 
-  constructor(private activatedRoute: ActivatedRoute, private segmentService: SegmentService) {
+  constructor(private activatedRoute: ActivatedRoute, private segmentService: SegmentService,
+              private router: Router) {
   }
 
   ngOnInit() {
@@ -68,5 +69,9 @@ export class SegmentReportComponent implements OnInit {
     this.segmentId = segmentDropdownSelected.value;
     this.segment = this._segments.find(v=>{return v.id === this.segmentId});
     //re render reports
+  }
+
+  createCampaign(campaignType: string) {
+    this.router.navigate(['/campaigns/email'],{queryParams: {sid: this.segmentId}});
   }
 }

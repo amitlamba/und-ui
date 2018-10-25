@@ -1,15 +1,19 @@
 <div class="card">
   <div class="card-header">Gender</div>
   <div class="card-body">
-    <app-draw-simple-chart *ngIf="genderChart"
+    <app-draw-simple-clickable-chart *ngIf="genderChart"
                            [title]="genderChart.title"
                            [subtitle]="genderChart.subTitle"
                            [xAxisTitle]="genderChart.xAxisTitle"
                            [yAxisTitle]="genderChart.yAxisTitle"
                            [chartType]="genderChart.graphType"
                            [categories]="genderChart.category"
-                           [dataSeries]="genderChart.dataSeries">
-    </app-draw-simple-chart>
+                           [dataSeries]="genderChart.dataSeries"
+                           [filterType]="'Demographics'"
+                           [filterName]="'gender'"
+                           (chartClick)="addFilter($event)"
+    >
+    </app-draw-simple-clickable-chart>
   </div>
 </div>
 <div class="card">

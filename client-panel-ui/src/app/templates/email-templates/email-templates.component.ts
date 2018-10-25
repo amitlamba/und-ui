@@ -17,6 +17,23 @@ export class EmailTemplatesComponent implements OnInit {
   components = [];
   state: RouterStateSnapshot;
 
+  searchFilteredEmailTemplates: EmailTemplate[];
+
+  private _searchfilterby: string;
+  get searchfilterby(): string {
+    return this._searchfilterby;
+  }
+
+  set searchfilterby(value: string) {
+    this._searchfilterby = value;
+    if (!value)
+      this.searchFilteredEmailTemplates = this.emailTemplates;
+    else
+      this.searchFilteredEmailTemplates = this.emailTemplates.filter((v, i, a) => {
+        return v.name.toLowerCase().indexOf(this._searchfilterby.toLowerCase()) > -1
+      });
+  }
+
   constructor(
     public templatesService: TemplatesService,
     private componentFactoryResolver: ComponentFactoryResolver,
@@ -27,7 +44,7 @@ export class EmailTemplatesComponent implements OnInit {
   ngOnInit() {
     this.templatesService.castEmailTemplates.subscribe(
       (emailTemplates) => {
-        this.emailTemplates = emailTemplates;
+        this.searchFilteredEmailTemplates = this.emailTemplates = emailTemplates;
         console.log(this.emailTemplates);
       }
     );

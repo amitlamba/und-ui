@@ -6,6 +6,7 @@ import {Observable} from "rxjs/Observable";
 import {SmsTemplate} from "../_models/sms";
 import {BehaviorSubject} from "rxjs/BehaviorSubject";
 import {forEach} from "@angular/router/src/utils/collection";
+import {NotificationTemplate} from "../_models/notification";
 
 @Injectable()
 export class TemplatesService {
@@ -18,6 +19,9 @@ export class TemplatesService {
   castSmsTemplates = this.smsTemplates.asObservable();
   smsTemplateForEdit = new BehaviorSubject<SmsTemplate>(new SmsTemplate());
   castSmsTemplateForEdit = this.smsTemplateForEdit.asObservable();
+
+  notificationTemplateForEdit = new BehaviorSubject<NotificationTemplate>(new NotificationTemplate());
+  castNotificationTemplateForEdit = this.notificationTemplateForEdit.asObservable();
 
   // closeModalDialogBox:boolean = false;
 
@@ -78,5 +82,13 @@ export class TemplatesService {
 
   saveSmsTemplate(smsTemplate: SmsTemplate): Observable<any> {
     return this.httpClient.post(AppSettings.API_ENDPOINT_CLIENT_CLIENT_SMS_SAVE_TEMPLATES, smsTemplate);
+  }
+
+  getNotificationTemplates(): Observable<NotificationTemplate[]> {
+    return this.httpClient.get<NotificationTemplate[]>(AppSettings.API_ENDPOINT_CLIENT_CLIENT_NOTIFICATION_TEMPLATES);
+  }
+
+  saveNotificationTemplate(notificationTemplate: NotificationTemplate): Observable<any> {
+    return this.httpClient.post(AppSettings.API_ENDPOINT_CLIENT_CLIENT_SMS_NOTIFICATION_TEMPLATES, notificationTemplate);
   }
 }

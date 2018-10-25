@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormGroup} from "@angular/forms";
-import {GlobalFilter, GlobalFilterType, StringOperator} from "../../../../_models/segment";
+import {GlobalFilter, GlobalFilterType, RegisteredEvent, StringOperator} from "../../../../_models/segment";
 import {SegmentService} from "../../../../_services/segment.service";
 
 @Component({
@@ -14,8 +14,9 @@ export class GlobalReactiveComponent implements OnInit {
   @Input() globalFilterFormIndex:number;
   @Output() remove=new EventEmitter<number>();
 
-  globalFiltersMetadata: any;
-  firstDropDown: string[];
+  // globalFiltersMetadata: any;
+  globalFiltersMetadataRE: RegisteredEvent[];
+  firstDropDown: any[];
   secondDropDown: any[];
   firstFilterSelected: string;
   secondFilterSelected: string;
@@ -50,12 +51,15 @@ export class GlobalReactiveComponent implements OnInit {
 
   constructor(private segmentService:SegmentService) {
     this.globalFilter = new GlobalFilter();
-    this.globalFiltersMetadata = this.segmentService.cachedUserProperties.reduce(
-      (ac, p) => ({...ac, [p.name]: p.properties}), {}
-    );
-    if (!(this.globalFiltersMetadata && this.globalFiltersMetadata.length)) {
-      this.globalFiltersMetadata = segmentService.globalFiltersMetadata;
-    }
+    this.globalFiltersMetadataRE = this.segmentService.cachedUserProperties;
+    if(!(this.globalFiltersMetadataRE && this.globalFiltersMetadataRE.length))
+      this.globalFiltersMetadataRE = this.segmentService.globalFiltersMetadata;
+    // this.globalFiltersMetadata = this.segmentService.cachedUserProperties.reduce(
+    //   (ac, p) => ({...ac, [p.name]: p.properties}), {}
+    // );
+    // if (!(this.globalFiltersMetadata && this.globalFiltersMetadata.length)) {
+    //   this.globalFiltersMetadata = segmentService.globalFiltersMetadata;
+    // }
     this._values=[];
   }
 
@@ -64,7 +68,7 @@ export class GlobalReactiveComponent implements OnInit {
     // console.log(this.globalFilterForm);
     // console.log(this.globalFilterForm.get('operator').value);
     // console.log(this.globalFilterForm.get('values').value);
-    this.firstDropDown = Object.keys(this.globalFiltersMetadata);
+    this.firstDropDown = this.globalFiltersMetadataRE.map(v=>{return {name: v.name, displayName: v.displayName}});
     console.log(this.globalFilterForm);
     if (this.globalFilterForm.get('operator').value) {
       this.operator = this.globalFilterForm.get('operator').value;
@@ -78,9 +82,9 @@ export class GlobalReactiveComponent implements OnInit {
       this.maxOrder = 1;
       this.firstFilterChanged(this.globalFilterForm.get('globalFilterType').value)
     } else {
-      this.globalFilterForm.get('globalFilterType').setValue(this.firstDropDown[0]);
+      this.globalFilterForm.get('globalFilterType').setValue(this.firstDropDown[0].name);
       this.maxOrder = 1;
-      this.firstFilterChanged(this.firstDropDown[0]);
+      this.firstFilterChanged(this.firstDropDown[0].name);
       this.operator = StringOperator[StringOperator.Equals];
     }
 
@@ -104,7 +108,7 @@ export class GlobalReactiveComponent implements OnInit {
     this.globalFilterForm.get('name').setValue(this.globalFilter.name);
     this.globalFilter.values = [];
     // console.log(this.globalFilter.values);
-    for(let filter of this.globalFiltersMetadata[this.firstFilterSelected]) {
+    for(let filter of this.globalFiltersMetadataRE.filter(v=>v.name == this.firstFilterSelected)[0].properties) {
       if(filter["name"] == this.secondFilterSelected) {
         this.secondFilterDataType = filter["dataType"];
         this.options = filter["options"];
@@ -119,11 +123,11 @@ export class GlobalReactiveComponent implements OnInit {
   getDropdownList(order: number): any[] {
     switch (order) {
       case 0:
-        return Object.keys(this.globalFiltersMetadata);
+        return this.globalFiltersMetadataRE.map<string>(v=>v.name);//Object.keys(this.globalFiltersMetadata);
       case 1:
         // if(this.firstFilterSelected == "Geography")
         //   return this.segmentService.getCountries().subscribe();
-        var filters = this.globalFiltersMetadata[this.firstFilterSelected];
+        var filters = this.globalFiltersMetadataRE.filter(v=>v.name == this.firstFilterSelected)[0].properties;//this.globalFiltersMetadata[this.firstFilterSelected];
         console.log(filters);
         return filters;
     }
