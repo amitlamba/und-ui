@@ -34,6 +34,7 @@ export class SegmentBehaviorReactiveComponent implements OnInit {
   public singleDate: any;
 
   hidePropertySumFilter = true;
+  showSegmentInNl: boolean = false;
 
   constructor(private segmentService: SegmentService, private fb: FormBuilder,
               private messageService: MessageService,

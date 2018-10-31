@@ -22,27 +22,30 @@ import * as moment from "moment";
 })
 export class CreateReactiveSegmentComponent implements OnInit, OnDestroy {
 
-  @ViewChild('segmentNameModal')segmentNameModel:ElementRef;
-  display=false;
-  segment:Segment;
-  type:string='Process';
-  validatedSegment:Segment;
-  private segmentFormModel: FormGroup;
+  @ViewChild('segmentNameModal') segmentNameModel: ElementRef;
+  display = false;
+  segment: Segment;
+  type: string = 'Process';
+  validatedSegment: Segment;
+  segmentFormModel: FormGroup;
 
-  constructor(private fb:FormBuilder,
-              private segmentService:SegmentService,
-              private router:Router) {
+  constructor(private fb: FormBuilder,
+              private segmentService: SegmentService,
+              private router: Router) {
 
-    this.segment=segmentService.cloneSegment;
+    this.segment = segmentService.cloneSegment;
 
     this.initSegmentModalForm();
   }
 
-  ngOnInit() {}
-  ngOnDestroy() {}
+  ngOnInit() {
+  }
+
+  ngOnDestroy() {
+  }
 
   save() {
-    this.validatedSegment.name=this.segmentFormModel.get('segmentName').value;
+    this.validatedSegment.name = this.segmentFormModel.get('segmentName').value;
     this.segmentFormModel.reset();
     console.log(this.validatedSegment);
     this.segmentService.saveSegment(this.validatedSegment).subscribe(
@@ -51,24 +54,26 @@ export class CreateReactiveSegmentComponent implements OnInit, OnDestroy {
         this.router.navigate(['segment/segments']);
       }
     );
-    this.display=false;
+    this.display = false;
   }
 
-  openPopUp(segment:Segment){
-    this.validatedSegment=segment;
+  openPopUp(segment: Segment) {
+    this.validatedSegment = segment;
     console.log("segment");
     console.log(this.validatedSegment);
-    this.display=true;
+    this.display = true;
   }
+
   initSegmentModalForm() {
     this.segmentFormModel = this.fb.group({
       segmentName: [null, [Validators.required]]
     });
   }
 
-  closeModal(){
-    this.display=false;
+  closeModal() {
+    this.display = false;
   }
+
   get segmentNameControl(): FormControl {
     return <FormControl>this.segmentFormModel.get('segmentName')
   }
