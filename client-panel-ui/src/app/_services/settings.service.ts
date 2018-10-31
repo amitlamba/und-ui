@@ -22,6 +22,10 @@ export class SettingsService {
     return this.httpClient.post<ServiceProviderCredentials>(AppSettings.API_ENDPOINT_CLIENT_SETTING_SMS_SERVICE_PROVIDER_SAVE, serviceProviderCredentials);
   }
 
+  saveServiceProviderCredentialsNotification(serviceProviderCredentials: ServiceProviderCredentials): Observable<any> {
+    return this.httpClient.post<ServiceProviderCredentials>(AppSettings.API_ENDPOINT_CLIENT_SETTING_NOTIFICATION_SERVICE_PROVIDER_SAVE, serviceProviderCredentials);
+  }
+
   getServiceProvidersList(): Observable<ServiceProviderCredentials[]> {
     return this.httpClient.get<ServiceProviderCredentials[]>(AppSettings.API_ENDPOINT_CLIENT_SETTING_ALL_SERVICE_PROVIDERS);
   }

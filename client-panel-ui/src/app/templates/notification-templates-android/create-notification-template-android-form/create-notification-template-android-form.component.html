@@ -1,0 +1,178 @@
+<div class="container mb-5">
+  <h1 class="text-center" *ngIf="createNewTemplate">Create Notification Template</h1>
+  <h1 class="text-center" *ngIf="!createNewTemplate">Edit Notification Template</h1>
+  <div class="row py-4">
+    <div class="col-md-6">
+      <form (ngSubmit)="save()" [formGroup]="androidTemplateFormModel" *ngIf="androidTemplate">
+        <div class="form-group">
+          <label for="name">Name</label>
+          <input type="text" class="form-control" maxlength="100" id="name" name="name"
+                 placeholder="Name (Will help you in searching templates)" formControlName="name">
+        </div>
+        <div class="form-group">
+          <label for="messageTitle">Message Title</label>
+          <input type="text" class="form-control" id="messageTitle" name="messageTitle" placeholder="Message Title"
+                 formControlName="title">
+        </div>
+        <div class="form-group">
+          <label for="messageBody">Message Body</label>
+          <textarea type="text" class="form-control" id="messageBody" name="messageBody" placeholder="Message Body"
+                    rows="8" formControlName="body"></textarea>
+        </div>
+        <div class="custom-control custom-checkbox my-1 mr-sm-2">
+          <input type="checkbox" class="custom-control-input" id="advanced" [(ngModel)]="advanced"
+                 [ngModelOptions]="{standalone: true}">
+          <label class="custom-control-label" for="advanced">Advanced</label>
+        </div>
+        <div *ngIf="advanced" class="my-3">
+          <div class="form-group">
+            <label for="channelId">Channel Id</label>
+            <input type="text" class="form-control" id="channelId" name="channelId" placeholder="Channel Id"
+                   formControlName="channelId">
+          </div>
+          <div class="form-group">
+            <label for="channelName">Channel Name</label>
+            <input type="text" class="form-control" id="channelName" name="channelName" placeholder="Channel Name"
+                   formControlName="channelName">
+          </div>
+          <div class="form-group">
+            <label for="imageUrl">Image URL</label>
+            <input type="text" class="form-control" id="imageUrl" name="imageUrl" placeholder="Image URL"
+                   formControlName="imageUrl">
+          </div>
+          <div class="form-group">
+            <label for="largeIconUrl">Large Icon URL</label>
+            <input type="text" class="form-control" id="largeIconUrl" name="largeIconUrl" placeholder="Large Icon URL"
+                   formControlName="largeIconUrl">
+          </div>
+          <div class="form-group">
+            <label for="deepLink">Deep Link</label>
+            <input type="text" class="form-control" id="deepLink" name="deepLink" placeholder="Deep Link"
+                   formControlName="deepLink">
+          </div>
+          <div class="form-group" formArrayName="actionGroup">
+            <label>Action Group</label>
+            <div class="row my-2" *ngFor="let ag of actionGroup.controls;let i = index;"
+                 [formGroupName]="i">
+              <label class="col-12 my-2"><u>Action {{i+1}}</u></label>
+              <div class="col-10">
+                <div class="form-group">
+                  <input type="text" class="form-control" name="actionId" placeholder="Action ID"
+                         formControlName="actionId">
+                </div>
+                <div class="form-group">
+                  <input type="text" class="form-control" name="label" placeholder="Label"
+                         formControlName="label">
+                </div>
+                <div class="form-group">
+                  <input type="text" class="form-control" name="deepLink" placeholder="Deep Link"
+                         formControlName="deepLink">
+                </div>
+                <div class="form-group">
+                  <input type="text" class="form-control" name="icon" placeholder="Icon"
+                         formControlName="icon">
+                </div>
+                <div class="form-group">
+                  <div class="">
+                    <input type="checkbox" class="" [id]="'cancel'+i" formControlName="autoCancel">
+                    <label class="">Auto Cancel</label>
+                  </div>
+                </div>
+              </div>
+              <div class="col-2">
+                <button type="button"
+                        class="close ml-auto pos"
+                        aria-label="Close"
+                        (click)="removeAction(i)">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+            </div>
+            <div class="my-3">
+              <button class="btn btn-link" (click)="addAction()">+ Add Action</button>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="sound">URL for sound</label>
+            <input type="text" class="form-control" id="sound" name="sound" placeholder="URL for sound"
+                   formControlName="sound">
+          </div>
+          <div class="form-group">
+            <div class="form-group">
+              <div><label>Badge Icon</label></div>
+              <div class="form-control">
+                <label class="radio-inline mx-2" *ngFor="let b of badgeIcons">
+                  <input type="radio" name="badgeIcon" [value]="b.key"
+                         formControlName="badgeIcon">
+                  {{b.value.replace("BADGE_ICON_","") | titlecase}}</label>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="collapse_key">Collapse Key</label>
+            <input type="text" class="form-control" id="collapse_key" name="collapse_key" placeholder="Collapse Key"
+                   formControlName="collapse_key">
+          </div>
+          <div class="form-group">
+            <div><label>Priority</label></div>
+            <div class="form-control">
+              <label class="radio-inline mx-2" *ngFor="let p of priorities">
+                <input type="radio" name="priority" [value]="p.key"
+                       formControlName="priority">
+                {{p.value | titlecase}}</label>
+            </div>
+          </div>
+          <div class="form-group">
+            <div><label>Time to Live</label></div>
+            <div class="input-group mb-3">
+              <input type="number" class="form-control" placeholder="Time to live" aria-label="Time to live"
+                     aria-describedby="ttl-addon2" formControlName="timeToLive">
+              <div class="input-group-append">
+                <span class="input-group-text" id="ttl-addon2">seconds</span>
+              </div>
+            </div>
+          </div>
+          <div class="form-group" formArrayName="customKeyValuePair">
+            <label>Custom Key Value Pairs</label>
+            <div class="form-row my-2" *ngFor="let ckvp of customKeyValuePairsArray.controls;let i = index;"
+                 [formGroupName]="i">
+              <div class="col-5">
+                <input type="text" class="form-control" id="key" name="key" placeholder="Key" formControlName="key">
+              </div>
+              <div class="col-6">
+                <input type="text" class="form-control" id="value" name="value" placeholder="Value"
+                       formControlName="value">
+              </div>
+              <button type="button"
+                      class="close ml-auto pos col-1"
+                      aria-label="Close"
+                      (click)="removeCustomKeyValuePair(i)">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="my-3">
+              <button class="btn btn-link" (click)="addCustomKeyValuePair()">+ Add Pair</button>
+            </div>
+          </div>
+        </div>
+        <div class="text-right">
+          <button class="btn btn-light" (click)="onCancel()">Cancel
+          </button>
+          <button type="submit" class="btn btn-primary"
+                  [disabled]="androidTemplateFormModel.invalid">Save
+          </button>
+        </div>
+      </form>
+    </div>
+    <div class="col-md-6">
+      <div class="preview">
+        <div class="preview-sms preview-mobile preview-android">
+          <div class="preview-android-sms">
+            <div class="preview-androd-sms-text">{{androidTemplate.body}}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="clearfix"></div>

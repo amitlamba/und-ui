@@ -7,10 +7,6 @@ export class ServiceProviderCredentials {
   appuserID: number;
   serviceProviderType: string;
   serviceProvider: string;
-  url: string;
-  port: number;
-  username: string;
-  password: string;
   status: string;
   credentialsMap: any = {}; // store the map, key value pairs
 }

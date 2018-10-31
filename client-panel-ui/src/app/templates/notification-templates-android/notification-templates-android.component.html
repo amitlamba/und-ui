@@ -24,20 +24,18 @@
       <tr>
         <th scope="col">#</th>
         <th scope="col">Name</th>
-        <th scope="col">Type</th>
         <th scope="col">Notification Title</th>
         <th scope="col">Notification Body</th>
         <th scope="col">Action</th>
       </tr>
       </thead>
       <tbody>
-      <tr *ngFor="let nt of searchFilteredNotificationTemplates; let i = index">
+      <tr *ngFor="let nt of searchFilteredAndroidTemplates; let i = index">
         <th scope="row">{{i+1}}</th>
         <td>{{nt.name}}</td>
-        <td>{{nt.messageType}}</td>
-        <td>{{nt.notificationTemplateTitle}}</td>
-        <td>{{nt.notificationTemplateBody}}</td>
-        <td><button class="btn btn-outline-primary btn-sm" (click)="onEdit(nt)"><i class="fas fa-pencil-alt icon-light"></i></button> <button class="btn btn-outline-primary btn-sm"><i class="fas fa-trash icon-light"></i></button></td>
+        <td>{{nt.title}}</td>
+        <td>{{nt.body}}</td>
+        <td><button class="btn btn-outline-primary btn-sm" (click)="onEdit(nt)"><i class="fas fa-pencil-alt"></i></button> <button class="btn btn-outline-primary btn-sm"><i class="fas fa-trash-alt"></i></button></td>
       </tr>
       </tbody>
     </table>

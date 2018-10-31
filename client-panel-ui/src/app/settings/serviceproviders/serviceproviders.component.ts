@@ -98,7 +98,15 @@ export class ServiceprovidersComponent implements OnInit {
             this.getServiceProvidersList();
           }
         );
-        // this.router.navigate(["settings"]);
+      }
+      if (this.serviceProviderCredentials.serviceProviderType === 'Notification Service Provider') {
+        this.settingsService.saveServiceProviderCredentialsNotification(this.serviceProviderCredentials).subscribe(
+          (id) => {
+            console.log("serviceProviderCredentials:"+id);
+            // this.settingsService.serviceProvidersList.push(serviceProviderCredentials);
+            this.getServiceProvidersList();
+          }
+        );
       }
     }
 

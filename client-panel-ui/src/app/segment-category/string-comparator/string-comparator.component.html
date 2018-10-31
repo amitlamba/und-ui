@@ -1,6 +1,6 @@
 <div class="d-flex flex-row">
   <div class="form-group mx-2">
-    <select class="form-control" (change)="dropdownChanged($event.target.value)" [ngModel]="localOperator">
+    <select class="form-control" (change)="dropdownChanged($event.target.value)" [ngModel]="operator">
       <option value="" disabled selected>--Select--</option>
       <option *ngFor="let comp of stringComparatorOperators" value="{{comp}}">
         {{stringComparatorMetadata[comp]["displayName"]}}
