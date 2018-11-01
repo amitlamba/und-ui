@@ -6,7 +6,7 @@ import {Observable} from "rxjs/Observable";
 import {SmsTemplate} from "../_models/sms";
 import {BehaviorSubject} from "rxjs/BehaviorSubject";
 import {forEach} from "@angular/router/src/utils/collection";
-import {NotificationTemplate} from "../_models/notification";
+import {AndroidTemplate, KeyValuePair, NotificationTemplate, WebPushTemplate} from "../_models/notification";
 
 @Injectable()
 export class TemplatesService {
@@ -20,8 +20,10 @@ export class TemplatesService {
   smsTemplateForEdit = new BehaviorSubject<SmsTemplate>(new SmsTemplate());
   castSmsTemplateForEdit = this.smsTemplateForEdit.asObservable();
 
-  notificationTemplateForEdit = new BehaviorSubject<NotificationTemplate>(new NotificationTemplate());
-  castNotificationTemplateForEdit = this.notificationTemplateForEdit.asObservable();
+  androidTemplateForEdit = new BehaviorSubject<AndroidTemplate>(new AndroidTemplate());
+  castAndroidTemplateForEdit = this.androidTemplateForEdit.asObservable();
+  webPushTemplateForEdit = new BehaviorSubject<WebPushTemplate>(new WebPushTemplate());
+  castWebPushTemplateForEdit = this.webPushTemplateForEdit.asObservable();
 
   // closeModalDialogBox:boolean = false;
 
@@ -84,11 +86,35 @@ export class TemplatesService {
     return this.httpClient.post(AppSettings.API_ENDPOINT_CLIENT_CLIENT_SMS_SAVE_TEMPLATES, smsTemplate);
   }
 
-  getNotificationTemplates(): Observable<NotificationTemplate[]> {
-    return this.httpClient.get<NotificationTemplate[]>(AppSettings.API_ENDPOINT_CLIENT_CLIENT_NOTIFICATION_TEMPLATES);
+  getWebPushTemplates(): Observable<WebPushTemplate[]> {
+    return this.httpClient.get<WebPushTemplate[]>(AppSettings.API_ENDPOINT_CLIENT_WEBPUSH_TEMPLATES);
   }
 
-  saveNotificationTemplate(notificationTemplate: NotificationTemplate): Observable<any> {
-    return this.httpClient.post(AppSettings.API_ENDPOINT_CLIENT_CLIENT_SMS_NOTIFICATION_TEMPLATES, notificationTemplate);
+  saveWebPushTemplate(webPushTemplate: WebPushTemplate): Observable<any> {
+    return this.httpClient.post(AppSettings.API_ENDPOINT_CLIENT_WEBPUSH_SAVE, webPushTemplate);
+  }
+
+  getAndroidTemplates(): Observable<AndroidTemplate[]> {
+    return this.httpClient.get<any[]>(AppSettings.API_ENDPOINT_CLIENT_ANDROID_TEMPLATES)
+      // .pipe(map((data) => {
+      //   console.log(data);
+      //   return data.map<AndroidTemplate>((v,i,a) => {
+      //     console.log(v);
+      //     let hm = v['customKeyValuePair']; //it is a hash map at the backend
+      //     let keys = Object.keys(hm);
+      //     let kvpl: KeyValuePair[] = []
+      //     keys.forEach((v1,i1,a1) => kvpl.push({key: v1, value: hm[v1]}));
+      //     v['customKeyValuePair'] = kvpl; // hash map converted to a list
+      //     return v as AndroidTemplate;
+      //   })
+      // }));
+    //Object.entries(data).map(([key, value]) => ({key,value}))
+  }
+
+  saveAndroidTemplate(androidTemplate: any): Observable<any> {
+    if(androidTemplate['customKeyValuePair']) {
+      androidTemplate['customKeyValuePair'] = null;
+    }
+    return this.httpClient.post(AppSettings.API_ENDPOINT_CLIENT_ANDROID_SAVE, androidTemplate);
   }
 }

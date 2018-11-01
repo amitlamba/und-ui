@@ -46,8 +46,10 @@ import {SegmentReportComponent} from "./segment-report/segment-report.component"
 import {FunnelReportFilter} from "./_models/reports";
 import {FunnelComponent} from "./funnel/funnel.component";
 import {CampaignReportComponent} from "./campaigns/campaign-report/campaign-report.component";
-import {NotificationTemplatesComponent} from "./templates/notification-templates/notification-templates.component";
-import {CreateNotificationTemplateFormComponent} from "./templates/notification-templates/create-notification-template-form/create-notification-template-form.component";
+import {NotificationTemplatesAndroidComponent} from "./templates/notification-templates-android/notification-templates-android.component";
+import {CreateNotificationTemplateAndroidFormComponent} from "./templates/notification-templates-android/create-notification-template-android-form/create-notification-template-android-form.component";
+import {NotificationTemplatesWebPushComponent} from "./templates/notification-templates-web-push/notification-templates-web-push.component";
+import {CreateNotificationTemplateWebPushFormComponent} from "./templates/notification-templates-web-push/create-notification-template-web-push-form/create-notification-template-web-push-form.component";
 
 const routes: Routes = [
   //Pages without layout goes here
@@ -94,13 +96,15 @@ const routes: Routes = [
       {path:'reports/campaign', component:CampaignReportComponent, canActivate:[AuthGuard]},
       {path: 'create-email-template/:newTemplate', component: CreateEmailTemplateFormComponent, canActivate: [AuthGuard], pathMatch: 'full'},
       {path: 'create-sms-template/:newTemplate', component: CreateSmsTemplateFormComponent, canActivate: [AuthGuard], pathMatch: 'full'},
-      {path: 'create-notification-template/:newTemplate', component: CreateNotificationTemplateFormComponent, canActivate: [AuthGuard], pathMatch: 'full'},
+      {path: 'create-notification-template-android/:newTemplate', component: CreateNotificationTemplateAndroidFormComponent, canActivate: [AuthGuard], pathMatch: 'full'},
+      {path: 'create-notification-template-web-push/:newTemplate', component: CreateNotificationTemplateWebPushFormComponent, canActivate: [AuthGuard], pathMatch: 'full'},
       {path: 'templates', redirectTo: "templates/email", canActivate: [AuthGuard], pathMatch: "full"},
       {
         path: 'templates', component: TemplatesComponent, canActivate: [AuthGuard], children: [
         {path: 'email', component: EmailTemplatesComponent, pathMatch: 'full'},
         {path: 'sms', component: SmsTemplatesComponent},
-        {path: 'notification', component: NotificationTemplatesComponent}
+        {path: 'notification-android', component: NotificationTemplatesAndroidComponent},
+        {path: 'notification-web-push', component: NotificationTemplatesWebPushComponent}
       ]
       },
       {path: 'campaigns', component: CampaignsListComponent, canActivate: [AuthGuard], pathMatch: "full"},

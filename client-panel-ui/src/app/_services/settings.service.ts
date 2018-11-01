@@ -22,6 +22,22 @@ export class SettingsService {
     return this.httpClient.post<ServiceProviderCredentials>(AppSettings.API_ENDPOINT_CLIENT_SETTING_SMS_SERVICE_PROVIDER_SAVE, serviceProviderCredentials);
   }
 
+  saveServiceProviderCredentialsNotification(serviceProviderCredentials: ServiceProviderCredentials): Observable<any> {
+    return this.httpClient.post<ServiceProviderCredentials>(AppSettings.API_ENDPOINT_CLIENT_SETTING_NOTIFICATION_SERVICE_PROVIDER_SAVE, serviceProviderCredentials);
+  }
+
+  saveServiceProviderCredentialsAndroidPush(serviceProviderCredentials: ServiceProviderCredentials): Observable<any> {
+    return this.httpClient.post<ServiceProviderCredentials>(AppSettings.API_ENDPOINT_CLIENT_SETTING_NOTIFICATION_SERVICE_PROVIDER_SAVE, serviceProviderCredentials);
+  }
+
+  saveServiceProviderCredentialsWebPush(serviceProviderCredentials: ServiceProviderCredentials): Observable<any> {
+    return this.httpClient.post<ServiceProviderCredentials>(AppSettings.API_ENDPOINT_CLIENT_SETTING_NOTIFICATION_SERVICE_PROVIDER_SAVE, serviceProviderCredentials);
+  }
+
+  saveServiceProviderCredentialsIOSPush(serviceProviderCredentials: ServiceProviderCredentials): Observable<any> {
+    return this.httpClient.post<ServiceProviderCredentials>(AppSettings.API_ENDPOINT_CLIENT_SETTING_NOTIFICATION_SERVICE_PROVIDER_SAVE, serviceProviderCredentials);
+  }
+
   getServiceProvidersList(): Observable<ServiceProviderCredentials[]> {
     return this.httpClient.get<ServiceProviderCredentials[]>(AppSettings.API_ENDPOINT_CLIENT_SETTING_ALL_SERVICE_PROVIDERS);
   }
@@ -203,6 +219,78 @@ export class SettingsService {
     "Notification Service Provider": {
       "name": "Notification Service Provider",
       "displayName": "Notification Service Provider",
+      "providers": {
+        "Google - FCM": {
+          "name": "Google - FCM",
+          "displayName": "Google - FCM",
+          "fields": [
+            {
+              "fieldName": "apiKey",
+              "fieldDisplayName": "API Key",
+              "required": true,
+              "fieldType": "string"
+            },
+            {
+              "fieldName": "senderId",
+              "fieldDisplayName": "Sender ID",
+              "required": true,
+              "fieldType": "string"
+            }
+          ]
+        }
+      }
+    },
+    "Android Push Service Provider": {
+      "name": "Android Push Service Provider",
+      "displayName": "Android Push Service Provider",
+      "providers": {
+        "Google - FCM": {
+          "name": "Google - FCM",
+          "displayName": "Google - FCM",
+          "fields": [
+            {
+              "fieldName": "apiKey",
+              "fieldDisplayName": "API Key",
+              "required": true,
+              "fieldType": "string"
+            },
+            {
+              "fieldName": "senderId",
+              "fieldDisplayName": "Sender ID",
+              "required": true,
+              "fieldType": "string"
+            }
+          ]
+        }
+      }
+    },
+    "Web Push Service Provider": {
+      "name": "Web Push Service Provider",
+      "displayName": "Web Push Service Provider",
+      "providers": {
+        "Google - FCM": {
+          "name": "Google - FCM",
+          "displayName": "Google - FCM",
+          "fields": [
+            {
+              "fieldName": "apiKey",
+              "fieldDisplayName": "API Key",
+              "required": true,
+              "fieldType": "string"
+            },
+            {
+              "fieldName": "senderId",
+              "fieldDisplayName": "Sender ID",
+              "required": true,
+              "fieldType": "string"
+            }
+          ]
+        }
+      }
+    },
+    "iOS Push Service Provider": {
+      "name": "iOS Push Service Provider",
+      "displayName": "iOS Push Service Provider",
       "providers": {
         "Google - FCM": {
           "name": "Google - FCM",

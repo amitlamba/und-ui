@@ -22,7 +22,7 @@ export class FunnelComponent implements OnInit {
 
   data:ChartModel;
 
-  @Input() funnel:FunnelReportFilter
+  @Input() funnel:FunnelReportFilter;
   error:string='';
   segmentId:number;
   segments:Segment[];
@@ -119,14 +119,13 @@ export class FunnelComponent implements OnInit {
     console.log(this.funnelForm);
     Object.assign(this.funnel,this.funnelForm.value);
     this.reportService.getFunnelResult(this.funnel).subscribe(
-      response=>{
-        this.initializeGraph(response)
-        this.showSplitProperty=true;
+      response => {
+        this.initializeGraph(response);
+        this.showSplitProperty = true;
       },
-      error=> {
+      error => {
         console.error("error occur in funnel report");
-        console.error(error.error);
-        console.error(error.message);
+        console.error(error);
       }
     );
 
