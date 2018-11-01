@@ -1,23 +1,28 @@
 <div class="container mb-5">
-  <h1 class="text-center" *ngIf="createNewTemplate">Create Android Push Template</h1>
-  <h1 class="text-center" *ngIf="!createNewTemplate">Edit Android Push Template</h1>
-  <div class="row py-4">
-    <div class="col-md-6">
-      <form (ngSubmit)="save()" [formGroup]="androidTemplateFormModel" *ngIf="androidTemplate">
+  <h1 class="text-center" *ngIf="createNewTemplate">Create Web Push Template</h1>
+  <h1 class="text-center" *ngIf="!createNewTemplate">Edit Web Push Template</h1>
+  <div class="row py-4 justify-content-center">
+    <div class="col-md-8">
+      <form (ngSubmit)="save()" [formGroup]="webPushTemplateFormModel" *ngIf="webPushTemplate">
         <div class="form-group">
           <label for="name">Name<sup>*</sup></label>
           <input type="text" class="form-control" maxlength="100" id="name" name="name"
                  placeholder="Name (Will help you in searching templates)" formControlName="name">
         </div>
         <div class="form-group">
-          <label for="messageTitle">Message Title<sup>*</sup></label>
+          <label for="messageTitle">Web Push Title<sup>*</sup></label>
           <input type="text" class="form-control" id="messageTitle" name="messageTitle" placeholder="Message Title"
                  formControlName="title">
         </div>
         <div class="form-group">
-          <label for="messageBody">Message Body<sup>*</sup></label>
+          <label for="messageBody">Web Push Body<sup>*</sup></label>
           <textarea type="text" class="form-control" id="messageBody" name="messageBody" placeholder="Message Body"
                     rows="8" formControlName="body"></textarea>
+        </div>
+        <div class="form-group">
+          <label for="iconUrl">Icon URL</label>
+          <input type="text" class="form-control" id="iconUrl" name="iconUrl" placeholder="Icon URL"
+                 formControlName="iconUrl">
         </div>
         <div class="custom-control custom-checkbox my-1 mr-sm-2">
           <input type="checkbox" class="custom-control-input" id="advanced" [(ngModel)]="advanced"
@@ -26,14 +31,14 @@
         </div>
         <div *ngIf="advanced" class="my-3">
           <div class="form-group">
-            <label for="channelId">Channel Id</label>
-            <input type="text" class="form-control" id="channelId" name="channelId" placeholder="Channel Id"
-                   formControlName="channelId">
+            <label for="lang">Language</label>
+            <input type="text" class="form-control" id="lang" name="lang" placeholder="Language"
+                   formControlName="lang">
           </div>
           <div class="form-group">
-            <label for="channelName">Channel Name</label>
-            <input type="text" class="form-control" id="channelName" name="channelName" placeholder="Channel Name"
-                   formControlName="channelName">
+            <label for="badgeUrl">Badge Url</label>
+            <input type="text" class="form-control" id="badgeUrl" name="badgeUrl" placeholder="Badge Url"
+                   formControlName="badgeUrl">
           </div>
           <div class="form-group">
             <label for="imageUrl">Image URL</label>
@@ -41,14 +46,15 @@
                    formControlName="imageUrl">
           </div>
           <div class="form-group">
-            <label for="largeIconUrl">Large Icon URL</label>
-            <input type="text" class="form-control" id="largeIconUrl" name="largeIconUrl" placeholder="Large Icon URL"
-                   formControlName="largeIconUrl">
+            <label for="tag">Tag</label>
+            <input type="text" class="form-control" id="tag" name="tag" placeholder="Tag"
+                   formControlName="tag">
           </div>
           <div class="form-group">
-            <label for="deepLink">Deep Link</label>
-            <input type="text" class="form-control" id="deepLink" name="deepLink" placeholder="Deep Link"
-                   formControlName="deepLink">
+            <div class="">
+              <input type="checkbox" class="" id="requireInteraction" formControlName="requireInteraction">
+              <label class="">Require Interaction</label>
+            </div>
           </div>
           <div class="form-group" formArrayName="actionGroup">
             <label>Action Group</label>
@@ -57,26 +63,16 @@
               <label class="col-12 my-2"><u>Action {{i+1}}</u></label>
               <div class="col-10">
                 <div class="form-group">
-                  <input type="text" class="form-control" name="actionId" placeholder="Action ID"
-                         formControlName="actionId">
+                  <input type="text" class="form-control" name="action" placeholder="Action"
+                         formControlName="action">
                 </div>
                 <div class="form-group">
-                  <input type="text" class="form-control" name="label" placeholder="Label"
-                         formControlName="label">
+                  <input type="text" class="form-control" name="title" placeholder="Title"
+                         formControlName="title">
                 </div>
                 <div class="form-group">
-                  <input type="text" class="form-control" name="deepLink" placeholder="Deep Link"
-                         formControlName="deepLink">
-                </div>
-                <div class="form-group">
-                  <input type="text" class="form-control" name="icon" placeholder="Icon"
-                         formControlName="icon">
-                </div>
-                <div class="form-group">
-                  <div class="">
-                    <input type="checkbox" class="" [id]="'cancel'+i" formControlName="autoCancel">
-                    <label class="">Auto Cancel</label>
-                  </div>
+                  <input type="text" class="form-control" name="iconUrl" placeholder="Icon Url"
+                         formControlName="iconUrl">
                 </div>
               </div>
               <div class="col-2">
@@ -93,32 +89,11 @@
             </div>
           </div>
           <div class="form-group">
-            <label for="sound">URL for sound</label>
-            <input type="text" class="form-control" id="sound" name="sound" placeholder="URL for sound"
-                   formControlName="sound">
-          </div>
-          <div class="form-group">
-            <div class="form-group">
-              <div><label>Badge Icon</label></div>
-              <div class="form-control">
-                <label class="radio-inline mx-2" *ngFor="let b of badgeIcons">
-                  <input type="radio" name="badgeIcon" [value]="b.key"
-                         formControlName="badgeIcon">
-                  {{b.value.replace("BADGE_ICON_","") | titlecase}}</label>
-              </div>
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="collapse_key">Collapse Key</label>
-            <input type="text" class="form-control" id="collapse_key" name="collapse_key" placeholder="Collapse Key"
-                   formControlName="collapse_key">
-          </div>
-          <div class="form-group">
-            <div><label>Priority</label></div>
+            <div><label>Urgency</label></div>
             <div class="form-control">
               <label class="radio-inline mx-2" *ngFor="let p of priorities">
-                <input type="radio" name="priority" [value]="p.key"
-                       formControlName="priority">
+                <input type="radio" name="urgency" [value]="p.key"
+                       formControlName="urgency">
                 {{p.value | titlecase}}</label>
             </div>
           </div>
@@ -126,14 +101,19 @@
             <div><label>Time to Live</label></div>
             <div class="input-group mb-3">
               <input type="number" class="form-control" placeholder="Time to live" aria-label="Time to live"
-                     aria-describedby="ttl-addon2" formControlName="timeToLive">
+                     aria-describedby="ttl-addon2" formControlName="ttl">
               <div class="input-group-append">
                 <span class="input-group-text" id="ttl-addon2">seconds</span>
               </div>
             </div>
           </div>
-          <div class="form-group" formArrayName="customKeyValuePair">
-            <label>Custom Key Value Pairs</label>
+          <div class="form-group">
+            <label for="link">Link</label>
+            <input type="text" class="form-control" id="link" name="link" placeholder="Link"
+                   formControlName="link">
+          </div>
+          <div class="form-group" formArrayName="customDataPair">
+            <label>Custom Data Pairs</label>
             <div class="form-row my-2" *ngFor="let ckvp of customKeyValuePairsArray.controls;let i = index;"
                  [formGroupName]="i">
               <div class="col-5">
@@ -159,19 +139,10 @@
           <button class="btn btn-light" (click)="onCancel()">Cancel
           </button>
           <button type="submit" class="btn btn-primary"
-                  [disabled]="androidTemplateFormModel.invalid">Save
+                  [disabled]="webPushTemplateFormModel.invalid">Save
           </button>
         </div>
       </form>
-    </div>
-    <div class="col-md-6">
-      <div class="preview">
-        <div class="preview-sms preview-mobile preview-android">
-          <div class="preview-android-sms">
-            <div class="preview-androd-sms-text">{{androidTemplate.body}}</div>
-          </div>
-        </div>
-      </div>
     </div>
   </div>
 </div>

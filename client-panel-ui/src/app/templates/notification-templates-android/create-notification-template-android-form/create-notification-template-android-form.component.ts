@@ -56,8 +56,8 @@ export class CreateNotificationTemplateAndroidFormComponent implements OnInit {
   private initAndroidTemplateForm() {
     this.androidTemplateFormModel = this.fb.group({
       name: [this.androidTemplate.name, [Validators.required]],
-      title: [this.androidTemplate.title],
-      body: [this.androidTemplate.body],
+      title: [this.androidTemplate.title, [Validators.required]],
+      body: [this.androidTemplate.body, [Validators.required]],
       channelId: [this.androidTemplate.channelId],
       channelName: [this.androidTemplate.channelName],
       imageUrl: [this.androidTemplate.imageUrl],

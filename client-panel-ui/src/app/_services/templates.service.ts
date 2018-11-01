@@ -22,6 +22,8 @@ export class TemplatesService {
 
   androidTemplateForEdit = new BehaviorSubject<AndroidTemplate>(new AndroidTemplate());
   castAndroidTemplateForEdit = this.androidTemplateForEdit.asObservable();
+  webPushTemplateForEdit = new BehaviorSubject<WebPushTemplate>(new WebPushTemplate());
+  castWebPushTemplateForEdit = this.webPushTemplateForEdit.asObservable();
 
   // closeModalDialogBox:boolean = false;
 

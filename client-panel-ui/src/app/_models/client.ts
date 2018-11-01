@@ -14,7 +14,10 @@ export class ServiceProviderCredentials {
 export enum ServiceProviderType {
   "Email Service Provider" = "Email Service Provider",
   "SMS Service Provider" = "SMS Service Provider",
-  "Notification Service Provider" = "Notification Service Provider"
+  "Notification Service Provider" = "Notification Service Provider",
+  "Android Push Service Provider" = "Android Push Service Provider",
+  "Web Push Service Provider" = "Web Push Service Provider",
+  "iOS Push Service Provider" = "iOS Push Service Provider"
 }
 
 export class RegistrationRequest {
