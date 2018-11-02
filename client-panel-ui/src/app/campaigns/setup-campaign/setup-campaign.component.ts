@@ -109,8 +109,24 @@ export class SetupCampaignComponent implements OnInit {
         this.segmentsList = this.segmentService.segmentMini;
       }
     );
+    // Web Push Templates List
+    if (this.currentPath === 'webpush') {
+      this.templatesService.getSmsTemplates().subscribe(
+        (response) => {
+          this.smsTemplatesList = response;
+        }
+      );
+    }
+    // Android Push Templates List
+    else if (this.currentPath === 'androidpush') {
+      this.templatesService.getSmsTemplates().subscribe(
+        (response) => {
+          this.smsTemplatesList = response;
+        }
+      );
+    }
     // SmsTemplates List
-    if (this.currentPath === 'sms') {
+    else if (this.currentPath === 'sms') {
       this.templatesService.getSmsTemplates().subscribe(
         (response) => {
           this.smsTemplatesList = response;

@@ -109,7 +109,7 @@ export class ServiceprovidersComponent implements OnInit {
         );
       }
       if (this.serviceProviderCredentials.serviceProviderType === 'Android Push Service Provider') {
-        this.settingsService.saveServiceProviderCredentialsNotification(this.serviceProviderCredentials).subscribe(
+        this.settingsService.saveServiceProviderCredentialsAndroidPush(this.serviceProviderCredentials).subscribe(
           (id) => {
             console.log("serviceProviderCredentials:"+id);
             // this.settingsService.serviceProvidersList.push(serviceProviderCredentials);
@@ -118,7 +118,7 @@ export class ServiceprovidersComponent implements OnInit {
         );
       }
       if (this.serviceProviderCredentials.serviceProviderType === 'Web Push Service Provider') {
-        this.settingsService.saveServiceProviderCredentialsNotification(this.serviceProviderCredentials).subscribe(
+        this.settingsService.saveServiceProviderCredentialsWebPush(this.serviceProviderCredentials).subscribe(
           (id) => {
             console.log("serviceProviderCredentials:"+id);
             // this.settingsService.serviceProvidersList.push(serviceProviderCredentials);
@@ -127,7 +127,7 @@ export class ServiceprovidersComponent implements OnInit {
         );
       }
       if (this.serviceProviderCredentials.serviceProviderType === 'iOS Push Service Provider') {
-        this.settingsService.saveServiceProviderCredentialsNotification(this.serviceProviderCredentials).subscribe(
+        this.settingsService.saveServiceProviderCredentialsIOSPush(this.serviceProviderCredentials).subscribe(
           (id) => {
             console.log("serviceProviderCredentials:"+id);
             // this.settingsService.serviceProvidersList.push(serviceProviderCredentials);

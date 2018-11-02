@@ -145,19 +145,18 @@ export class CreateNotificationTemplateWebPushFormComponent implements OnInit {
   save() {
     this.loading = true;
     console.log(this.webPushTemplateFormModel.value);
-    // this.templatesService.saveAndroidTemplate(<WebPushTemplate>this.webPushTemplateFormModel.value).subscribe(
-    //   response => {
-    //     this.messageService.addSuccessMessage("Web Push Template Added Successfully");
-    //     this.router.navigateByUrl(this.returnUrl);
-    //     this.success = true;
-    //     this.loading = false;
-    //   },
-    //   error => {
-    //     this.success = false;
-    //     this.loading = false;
-    //   }
-    // );
-    this.loading = false;
+    this.templatesService.saveWebPushTemplate(<WebPushTemplate>this.webPushTemplateFormModel.value).subscribe(
+      response => {
+        this.messageService.addSuccessMessage("Web Push Template Added Successfully");
+        this.router.navigateByUrl(this.returnUrl);
+        this.success = true;
+        this.loading = false;
+      },
+      error => {
+        this.success = false;
+        this.loading = false;
+      }
+    );
   }
 
 }
