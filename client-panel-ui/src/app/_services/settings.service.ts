@@ -27,15 +27,15 @@ export class SettingsService {
   }
 
   saveServiceProviderCredentialsAndroidPush(serviceProviderCredentials: ServiceProviderCredentials): Observable<any> {
-    return this.httpClient.post<ServiceProviderCredentials>(AppSettings.API_ENDPOINT_CLIENT_SETTING_NOTIFICATION_SERVICE_PROVIDER_SAVE, serviceProviderCredentials);
+    return this.httpClient.post<ServiceProviderCredentials>(AppSettings.API_ENDPOINT_CLIENT_SETTING_ANDROID_PUSH_SERVICE_PROVIDER_SAVE, serviceProviderCredentials);
   }
 
   saveServiceProviderCredentialsWebPush(serviceProviderCredentials: ServiceProviderCredentials): Observable<any> {
-    return this.httpClient.post<ServiceProviderCredentials>(AppSettings.API_ENDPOINT_CLIENT_SETTING_NOTIFICATION_SERVICE_PROVIDER_SAVE, serviceProviderCredentials);
+    return this.httpClient.post<ServiceProviderCredentials>(AppSettings.API_ENDPOINT_CLIENT_SETTING_WEB_PUSH_SERVICE_PROVIDER_SAVE, serviceProviderCredentials);
   }
 
   saveServiceProviderCredentialsIOSPush(serviceProviderCredentials: ServiceProviderCredentials): Observable<any> {
-    return this.httpClient.post<ServiceProviderCredentials>(AppSettings.API_ENDPOINT_CLIENT_SETTING_NOTIFICATION_SERVICE_PROVIDER_SAVE, serviceProviderCredentials);
+    return this.httpClient.post<ServiceProviderCredentials>(AppSettings.API_ENDPOINT_CLIENT_SETTING_IOS_PUSH_SERVICE_PROVIDER_SAVE, serviceProviderCredentials);
   }
 
   getServiceProvidersList(): Observable<ServiceProviderCredentials[]> {
