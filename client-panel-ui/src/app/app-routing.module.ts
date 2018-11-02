@@ -111,7 +111,9 @@ const routes: Routes = [
       {
         path: 'campaigns', component: CampaignsComponent, canActivate: [AuthGuard], children: [
         {path: 'sms', component: SetupCampaignComponent},
-        {path: 'email', component: SetupCampaignComponent}
+        {path: 'email', component: SetupCampaignComponent},
+        {path: 'webpush', component: SetupCampaignComponent},
+        {path: 'androidpush', component: SetupCampaignComponent}
       ]
       }
     ]
