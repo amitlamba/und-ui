@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {KeyValuePair, Priority, WebPushAction, WebPushTemplate} from "../../../_models/notification";
 import {ActivatedRoute, Router, RouterStateSnapshot} from "@angular/router";
-import {FormArray, FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {TemplatesService} from "../../../_services/templates.service";
 import {MessageService} from "../../../_services/message.service";
 
@@ -138,14 +138,32 @@ export class CreateNotificationTemplateWebPushFormComponent implements OnInit {
     let p = Object.keys(Priority).map(key => {
       return {key: key, value: Priority[key]}
     });
-    console.log(p);
     return p;
+  }
+
+  get name(): FormControl {
+    return <FormControl>this.webPushTemplateFormModel.get('name');
+  }
+  get title(): FormControl {
+    return <FormControl>this.webPushTemplateFormModel.get('title');
+  }
+  get body(): FormControl {
+    return <FormControl>this.webPushTemplateFormModel.get('body');
+  }
+  getKeyControl(i): FormControl {
+    return <FormControl>((<FormGroup>this.customKeyValuePairsArray.controls[i]).controls['key']);
+  }
+  getValueControl(i): FormControl {
+    return <FormControl>((<FormGroup>this.customKeyValuePairsArray.controls[i]).controls['value']);
   }
 
   save() {
     this.loading = true;
-    console.log(this.webPushTemplateFormModel.value);
-    this.templatesService.saveWebPushTemplate(<WebPushTemplate>this.webPushTemplateFormModel.value).subscribe(
+    let wpt = <WebPushTemplate>this.webPushTemplateFormModel.value
+    if (this.createNewTemplate == false)
+      wpt.id = this.webPushTemplate.id;
+    console.log(wpt);
+    this.templatesService.saveWebPushTemplate(wpt).subscribe(
       response => {
         this.messageService.addSuccessMessage("Web Push Template Added Successfully");
         this.router.navigateByUrl(this.returnUrl);

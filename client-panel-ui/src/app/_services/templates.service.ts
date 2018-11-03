@@ -92,14 +92,16 @@ export class TemplatesService {
       map((res: any) => {
         console.log(res);
         return res.map((v)=> {
-          let hm = v['customKeyValuePair'] as Object; //it is a hash map at the backend
-          console.log(hm);
-          let keys = Object.keys(hm);
-          console.log(keys);
-          let kvpl: KeyValuePair[] = [];
-          keys.forEach((v1, i1, a1) => kvpl.push({key: v1, value: hm[v1]}));
-          v['customKeyValuePair'] = kvpl; // hash map converted to a list
-          console.log(v);
+          if(v['customKeyValuePair']) {
+            let hm = v['customKeyValuePair'] as Object; //it is a hash map at the backend
+            console.log(hm);
+            let keys = Object.keys(hm);
+            console.log(keys);
+            let kvpl: KeyValuePair[] = [];
+            keys.forEach((v1, i1, a1) => kvpl.push({key: v1, value: hm[v1]}));
+            v['customKeyValuePair'] = kvpl; // hash map converted to a list
+            console.log(v);
+          }
           return v as AndroidTemplate;
         });
         // return res;
@@ -128,14 +130,16 @@ export class TemplatesService {
       map((res: any) => {
         console.log(res);
         return res.map((v)=> {
-          let hm = v['customDataPair'] as Object; //it is a hash map at the backend
-          console.log(hm);
-          let keys = Object.keys(hm);
-          console.log(keys);
-          let kvpl: KeyValuePair[] = [];
-          keys.forEach((v1, i1, a1) => kvpl.push({key: v1, value: hm[v1]}));
-          v['customDataPair'] = kvpl; // hash map converted to a list
-          console.log(v);
+          if(v['customDataPair']) {
+            let hm = v['customDataPair'] as Object; //it is a hash map at the backend
+            console.log(hm);
+            let keys = Object.keys(hm);
+            console.log(keys);
+            let kvpl: KeyValuePair[] = [];
+            keys.forEach((v1, i1, a1) => kvpl.push({key: v1, value: hm[v1]}));
+            v['customDataPair'] = kvpl; // hash map converted to a list
+            console.log(v);
+          }
           return v as WebPushTemplate;
         });
         // return res;
