@@ -64,7 +64,7 @@ export class WebPushTemplate {
   urgency?: string;
   ttl?: number;
   link?: string;
-  customDataPair?: any; //HashMap<String, String>
+  customDataPair?: KeyValuePair[]; //HashMap<String, String>
   creationTime?: string;
   modifiedTime?: string;
   fromUserndot?: boolean;

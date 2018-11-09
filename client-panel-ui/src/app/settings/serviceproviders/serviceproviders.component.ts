@@ -108,6 +108,33 @@ export class ServiceprovidersComponent implements OnInit {
           }
         );
       }
+      if (this.serviceProviderCredentials.serviceProviderType === 'Android Push Service Provider') {
+        this.settingsService.saveServiceProviderCredentialsAndroidPush(this.serviceProviderCredentials).subscribe(
+          (id) => {
+            console.log("serviceProviderCredentials:"+id);
+            // this.settingsService.serviceProvidersList.push(serviceProviderCredentials);
+            this.getServiceProvidersList();
+          }
+        );
+      }
+      if (this.serviceProviderCredentials.serviceProviderType === 'Web Push Service Provider') {
+        this.settingsService.saveServiceProviderCredentialsWebPush(this.serviceProviderCredentials).subscribe(
+          (id) => {
+            console.log("serviceProviderCredentials:"+id);
+            // this.settingsService.serviceProvidersList.push(serviceProviderCredentials);
+            this.getServiceProvidersList();
+          }
+        );
+      }
+      if (this.serviceProviderCredentials.serviceProviderType === 'iOS Push Service Provider') {
+        this.settingsService.saveServiceProviderCredentialsIOSPush(this.serviceProviderCredentials).subscribe(
+          (id) => {
+            console.log("serviceProviderCredentials:"+id);
+            // this.settingsService.serviceProvidersList.push(serviceProviderCredentials);
+            this.getServiceProvidersList();
+          }
+        );
+      }
     }
 
   }

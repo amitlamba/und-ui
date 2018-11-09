@@ -36,6 +36,7 @@ export class NotificationTemplatesAndroidComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.getAndroidTemplates();
   }
 
   getAndroidTemplates() {
