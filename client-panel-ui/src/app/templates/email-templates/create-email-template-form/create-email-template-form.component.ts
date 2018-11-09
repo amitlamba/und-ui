@@ -56,7 +56,7 @@ export class CreateEmailTemplateFormComponent implements OnInit, OnChanges {
         }
       );
     }
-    this.setUpUnsubscribeButtonText()
+    this.setUpUnsubscribeButtonText();
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/templates/email';
     // this.returnUrl = '/template/email';
   }

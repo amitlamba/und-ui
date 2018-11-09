@@ -124,7 +124,7 @@ const routes: Routes = [
     children: [
       {path: 'login', component: LoginComponent},
       {path: 'test', component: TestComponent},
-      {path: 'home', component: LandingPageUndComponent},
+      {path: 'home', redirectTo: ""},
       {path: 'register', component: RegisterComponent},
       {path: 'resetpwd/:code', component: ResetPwdComponent},
       {path: 'verifyemail/:email/:code', component: VerifyEmailComponent},
