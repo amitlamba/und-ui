@@ -1,0 +1,173 @@
+<div class="container mb-5">
+  <h1 class="text-center" *ngIf="createNewTemplate">Create Web Push Template</h1>
+  <h1 class="text-center" *ngIf="!createNewTemplate">Edit Web Push Template</h1>
+  <div class="row py-4 justify-content-center">
+    <div class="col-md-8">
+      <form (ngSubmit)="save()" [formGroup]="webPushTemplateFormModel" *ngIf="webPushTemplate">
+        <div class="form-group">
+          <label for="name">Name<sup>*</sup></label>
+          <input type="text" class="form-control" maxlength="100" id="name" name="name"
+                 placeholder="Name (Will help you in searching templates)" formControlName="name">
+        </div>
+        <div class="feedback text-danger"
+             *ngIf="name.errors && (name.dirty || name.touched)">
+          <p *ngIf="name.errors.required">Name is required</p>
+        </div>
+        <div class="form-group">
+          <label for="messageTitle">Web Push Title<sup>*</sup></label>
+          <input type="text" class="form-control" id="messageTitle" name="messageTitle" placeholder="Message Title"
+                 formControlName="title">
+        </div>
+        <div class="feedback text-danger"
+             *ngIf="title.errors && (title.dirty || title.touched)">
+          <p *ngIf="title.errors.required">Message Title is required</p>
+        </div>
+        <div class="form-group">
+          <label for="messageBody">Web Push Body<sup>*</sup></label>
+          <textarea type="text" class="form-control" id="messageBody" name="messageBody" placeholder="Message Body"
+                    rows="8" formControlName="body"></textarea>
+        </div>
+        <div class="feedback text-danger"
+             *ngIf="body.errors && (body.dirty || body.touched)">
+          <p *ngIf="body.errors.required">Message Body is required</p>
+        </div>
+        <div class="form-group">
+          <label for="iconUrl">Icon URL</label>
+          <input type="text" class="form-control" id="iconUrl" name="iconUrl" placeholder="Icon URL"
+                 formControlName="iconUrl">
+        </div>
+        <div class="custom-control custom-checkbox my-1 mr-sm-2">
+          <input type="checkbox" class="custom-control-input" id="advanced" [(ngModel)]="advanced"
+                 [ngModelOptions]="{standalone: true}">
+          <label class="custom-control-label" for="advanced">Advanced
+            <span *ngIf="!advanced" class="text-muted small">(Check to show Advanced Features)</span>
+            <span *ngIf="advanced" class="text-muted small">(Uncheck to hide Advanced Features)</span>
+          </label>
+        </div>
+        <div *ngIf="advanced" class="my-3">
+          <div class="form-group">
+            <label for="lang">Language</label>
+            <input type="text" class="form-control" id="lang" name="lang" placeholder="Language"
+                   formControlName="lang">
+          </div>
+          <div class="form-group">
+            <label for="badgeUrl">Badge Url</label>
+            <input type="text" class="form-control" id="badgeUrl" name="badgeUrl" placeholder="Badge Url"
+                   formControlName="badgeUrl">
+          </div>
+          <div class="form-group">
+            <label for="imageUrl">Image URL</label>
+            <input type="text" class="form-control" id="imageUrl" name="imageUrl" placeholder="Image URL"
+                   formControlName="imageUrl">
+          </div>
+          <div class="form-group">
+            <label for="tag">Tag</label>
+            <input type="text" class="form-control" id="tag" name="tag" placeholder="Tag"
+                   formControlName="tag">
+          </div>
+          <div class="form-group">
+            <div class="">
+              <input type="checkbox" class="" id="requireInteraction" formControlName="requireInteraction">
+              <label class="">Require Interaction</label>
+            </div>
+          </div>
+          <div class="form-group" formArrayName="actionGroup">
+            <label>Action Group <span class="text-muted small">(You can add Multiple Actions)</span></label>
+            <div class="row my-2" *ngFor="let ag of actionGroup.controls;let i = index;"
+                 [formGroupName]="i">
+              <label class="col-12 my-2"><u>Action {{i+1}}</u></label>
+              <div class="col-10">
+                <div class="form-group">
+                  <input type="text" class="form-control" name="action" placeholder="Action"
+                         formControlName="action">
+                </div>
+                <div class="form-group">
+                  <input type="text" class="form-control" name="title" placeholder="Title"
+                         formControlName="title">
+                </div>
+                <div class="form-group">
+                  <input type="text" class="form-control" name="iconUrl" placeholder="Icon Url"
+                         formControlName="iconUrl">
+                </div>
+              </div>
+              <div class="col-2">
+                <button type="button"
+                        class="close ml-auto mb-auto"
+                        aria-label="Close"
+                        (click)="removeAction(i)">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+            </div>
+            <div class="my-3">
+              <button class="btn btn-link" (click)="addAction()">+ Add Action</button>
+            </div>
+          </div>
+          <div class="form-group">
+            <div><label>Urgency</label></div>
+            <div class="form-control">
+              <label class="radio-inline mx-2" *ngFor="let p of priorities">
+                <input type="radio" name="urgency" [value]="p.key"
+                       formControlName="urgency">
+                {{p.value | titlecase}}</label>
+            </div>
+          </div>
+          <div class="form-group">
+            <div><label>Time to Live</label></div>
+            <div class="input-group mb-3">
+              <input type="number" class="form-control" placeholder="Time to live" aria-label="Time to live"
+                     aria-describedby="ttl-addon2" formControlName="ttl">
+              <div class="input-group-append">
+                <span class="input-group-text" id="ttl-addon2">seconds</span>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="link">Link</label>
+            <input type="text" class="form-control" id="link" name="link" placeholder="Link"
+                   formControlName="link">
+          </div>
+          <div class="form-group" formArrayName="customDataPair">
+            <label>Custom Data Pairs</label>
+            <div class="text-muted small">(You can add multiple data pairs)</div>
+            <div class="form-row my-2" *ngFor="let ckvp of customKeyValuePairsArray.controls;let i = index;"
+                 [formGroupName]="i">
+              <div class="col-5">
+                <input type="text" class="form-control" id="key" name="key" placeholder="Key" formControlName="key">
+                <div class="feedback text-danger"
+                     *ngIf="getKeyControl(i).errors && (getKeyControl(i).dirty || getKeyControl(i).touched)">
+                  <p *ngIf="getKeyControl(i).errors.required">Key is required</p>
+                </div>
+              </div>
+              <div class="col-6">
+                <input type="text" class="form-control" id="value" name="value" placeholder="Value"
+                       formControlName="value">
+                <div class="feedback text-danger"
+                     *ngIf="getValueControl(i).errors && (getValueControl(i).dirty || getValueControl(i).touched)">
+                  <p *ngIf="getValueControl(i).errors.required">Value is required</p>
+                </div>
+              </div>
+              <button type="button"
+                      class="close ml-auto mb-auto col-1"
+                      aria-label="Close"
+                      (click)="removeCustomKeyValuePair(i)">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="my-3">
+              <button class="btn btn-link" (click)="addCustomKeyValuePair()">+ Add Pair</button>
+            </div>
+          </div>
+        </div>
+        <div class="text-right">
+          <button class="btn btn-light" (click)="onCancel()">Cancel
+          </button>
+          <button type="submit" class="btn btn-primary"
+                  [disabled]="webPushTemplateFormModel.invalid">Save
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<div class="clearfix"></div>

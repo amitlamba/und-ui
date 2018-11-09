@@ -59,6 +59,18 @@
                         [ngValue]="emailTemplate.id">{{emailTemplate.name}}
                 </option>
               </ng-container>
+              <ng-container
+                *ngIf="currentPath==='webpush'">
+                <option *ngFor="let template of webPushTemplatesList"
+                        [ngValue]="template.id">{{template.name}}
+                </option>
+              </ng-container>
+              <ng-container
+                *ngIf="currentPath==='androidpush'">
+                <option *ngFor="let template of androidTemplatesList"
+                        [ngValue]="template.id">{{template.name}}
+                </option>
+              </ng-container>
             </select>
 
           </div>

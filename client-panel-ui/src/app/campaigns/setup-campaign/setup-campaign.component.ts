@@ -18,6 +18,7 @@ import {CampaignService} from "../../_services/campaign.service";
 import {MessageService} from "../../_services/message.service";
 import cronstrue from "cronstrue";
 import {FormBuilder} from "@angular/forms";
+import {AndroidTemplate, WebPushTemplate} from "../../_models/notification";
 
 @Component({
   selector: 'app-setup-campaign',
@@ -41,6 +42,8 @@ export class SetupCampaignComponent implements OnInit {
   //Campaign
   smsTemplatesList: SmsTemplate[] = [];
   emailTemplatesList: EmailTemplate[] = [];
+  webPushTemplatesList: WebPushTemplate[] = [];
+  androidTemplatesList: AndroidTemplate[] = [];
   campaign: Campaign = new Campaign();
   campaignName: string = "";
   segmentsList: SegmentMini[] = [];
@@ -109,8 +112,24 @@ export class SetupCampaignComponent implements OnInit {
         this.segmentsList = this.segmentService.segmentMini;
       }
     );
+    // Web Push Templates List
+    if (this.currentPath === 'webpush') {
+      this.templatesService.getWebPushTemplates().subscribe(
+        (response) => {
+          this.webPushTemplatesList = response;
+        }
+      );
+    }
+    // Android Push Templates List
+    else if (this.currentPath === 'androidpush') {
+      this.templatesService.getAndroidTemplates().subscribe(
+        (response) => {
+          this.androidTemplatesList = response;
+        }
+      );
+    }
     // SmsTemplates List
-    if (this.currentPath === 'sms') {
+    else if (this.currentPath === 'sms') {
       this.templatesService.getSmsTemplates().subscribe(
         (response) => {
           this.smsTemplatesList = response;
@@ -154,7 +173,13 @@ export class SetupCampaignComponent implements OnInit {
   }
 
   checkCampaignType() {
-    if (this.currentPath === 'sms') {
+    if (this.currentPath === 'androidpush') {
+      this.campaign.campaignType = CampaignType.PUSH_ANDROID;
+    }
+    else if (this.currentPath === 'webpush') {
+      this.campaign.campaignType = CampaignType.PUSH_WEB;
+    }
+    else if (this.currentPath === 'sms') {
       this.campaign.campaignType = CampaignType.SMS;
     }
     else {

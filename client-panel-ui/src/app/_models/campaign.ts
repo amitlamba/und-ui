@@ -47,7 +47,9 @@ export enum FrequencyType {
 export enum CampaignType {
   EMAIL="EMAIL",
   SMS="SMS",
-  MOBILE_PUSH_NOTIFICATION="MOBILE_PUSH_NOTIFICATION"
+  PUSH_ANDROID="PUSH_ANDROID",
+  PUSH_WEB="PUSH_WEB",
+  PUSH_IOS="PUSH_IOS"
 }
 
 
