@@ -173,6 +173,7 @@ export class CreateNotificationTemplateWebPushFormComponent implements OnInit {
       error => {
         this.success = false;
         this.loading = false;
+        this.messageService.addDangerMessage(error.error.error);
       }
     );
   }

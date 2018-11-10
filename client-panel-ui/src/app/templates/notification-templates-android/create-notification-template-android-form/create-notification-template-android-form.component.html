@@ -3,7 +3,7 @@
   <h1 class="text-center" *ngIf="!createNewTemplate">Edit Android Push Template</h1>
   <div class="row py-4">
     <div class="col-md-6">
-      <form (ngSubmit)="save()" [formGroup]="androidTemplateFormModel" *ngIf="androidTemplate">
+      <form [formGroup]="androidTemplateFormModel" *ngIf="androidTemplate">
         <div class="form-group">
           <label for="name">Name<sup>*</sup></label>
           <input type="text" class="form-control" maxlength="100" id="name" name="name"
@@ -182,7 +182,7 @@
         <div class="text-right my-4">
           <button class="btn btn-light" (click)="onCancel()">Cancel
           </button>
-          <button type="submit" class="btn btn-primary"
+          <button class="btn btn-primary" (click)="save()"
                   [disabled]="androidTemplateFormModel.invalid">Save
           </button>
         </div>
