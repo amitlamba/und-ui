@@ -163,7 +163,7 @@
           <button class="btn btn-light" (click)="onCancel()">Cancel
           </button>
           <button  (click)="save()" class="btn btn-primary"
-                  [disabled]="webPushTemplateFormModel.invalid">Save
+                  [disabled]="webPushTemplateFormModel.invalid || loading">Save
           </button>
         </div>
       </form>

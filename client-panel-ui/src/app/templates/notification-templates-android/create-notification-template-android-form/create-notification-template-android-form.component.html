@@ -183,7 +183,7 @@
           <button class="btn btn-light" (click)="onCancel()">Cancel
           </button>
           <button class="btn btn-primary" (click)="save()"
-                  [disabled]="androidTemplateFormModel.invalid">Save
+                  [disabled]="androidTemplateFormModel.invalid || loading">Save
           </button>
         </div>
       </form>
