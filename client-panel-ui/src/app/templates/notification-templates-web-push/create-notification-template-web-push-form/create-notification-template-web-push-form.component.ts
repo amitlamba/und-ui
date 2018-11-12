@@ -144,15 +144,19 @@ export class CreateNotificationTemplateWebPushFormComponent implements OnInit {
   get name(): FormControl {
     return <FormControl>this.webPushTemplateFormModel.get('name');
   }
+
   get title(): FormControl {
     return <FormControl>this.webPushTemplateFormModel.get('title');
   }
+
   get body(): FormControl {
     return <FormControl>this.webPushTemplateFormModel.get('body');
   }
+
   getKeyControl(i): FormControl {
     return <FormControl>((<FormGroup>this.customKeyValuePairsArray.controls[i]).controls['key']);
   }
+
   getValueControl(i): FormControl {
     return <FormControl>((<FormGroup>this.customKeyValuePairsArray.controls[i]).controls['value']);
   }
@@ -173,6 +177,16 @@ export class CreateNotificationTemplateWebPushFormComponent implements OnInit {
       error => {
         this.success = false;
         this.loading = false;
+        if (error.error.error)
+          this.messageService.addDangerMessage(error.error.error);
+        if (error.error && error.error.length) {
+          error.error.forEach(v => {
+              this.messageService.addDangerMessage(
+                v.field + " : " + v.message
+              )
+            }
+          );
+        }
       }
     );
   }
