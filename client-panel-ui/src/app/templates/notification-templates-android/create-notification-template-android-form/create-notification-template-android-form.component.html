@@ -115,7 +115,7 @@
           <div class="form-group">
             <div class="form-group">
               <div><label>Badge Icon</label></div>
-              <div class="form-control">
+              <div class="form-control" >
                 <label class="radio-inline mx-2" *ngFor="let b of badgeIcons">
                   <input type="radio" name="badgeIcon" [value]="b.key"
                          formControlName="badgeIcon">
@@ -123,6 +123,7 @@
               </div>
             </div>
           </div>
+
           <div class="form-group">
             <label for="collapse_key">Collapse Key</label>
             <input type="text" class="form-control" id="collapse_key" name="collapse_key" placeholder="Collapse Key"
