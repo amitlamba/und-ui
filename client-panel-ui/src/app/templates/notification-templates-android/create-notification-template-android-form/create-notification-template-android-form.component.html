@@ -118,11 +118,14 @@
               <div class="form-control">
                 <label class="radio-inline mx-2" *ngFor="let b of badgeIcons">
                   <input type="radio" name="badgeIcon" [value]="b.key"
-                         formControlName="badgeIcon">
+                         formControlName="badgeIcon" (click)="badgeIconControl.setValue(b.key)">
                   {{b.value.replace("BADGE_ICON_","") | titlecase}}</label>
               </div>
             </div>
           </div>
+          <pre>
+            <div>{{androidTemplateFormModel.value | json}}</div>
+          </pre>
           <div class="form-group">
             <label for="collapse_key">Collapse Key</label>
             <input type="text" class="form-control" id="collapse_key" name="collapse_key" placeholder="Collapse Key"
@@ -133,7 +136,7 @@
             <div class="form-control">
               <label class="radio-inline mx-2" *ngFor="let p of priorities">
                 <input type="radio" name="priority" [value]="p.key"
-                       formControlName="priority">
+                       formControlName="priority" (click)="propertyControl.setValue(p.key)">
                 {{p.value | titlecase}}</label>
             </div>
           </div>
