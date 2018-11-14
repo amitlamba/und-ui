@@ -75,6 +75,7 @@ export class CreateNotificationTemplateAndroidFormComponent implements OnInit {
         this.createCustomKeyValuePairsForm(this.androidTemplate.customKeyValuePair)
       )
     });
+    new FormControl()
   }
 
   createActionGroup(actionGroup: AndroidAction[]): FormGroup[] {
@@ -164,6 +165,13 @@ export class CreateNotificationTemplateAndroidFormComponent implements OnInit {
   }
   getValueControl(i): FormControl {
     return <FormControl>((<FormGroup>this.customKeyValuePairsArray.controls[i]).controls['value']);
+  }
+
+  get badgeIconControl(): FormControl {
+    return <FormControl>this.androidTemplateFormModel.get('badgeIcon');
+  }
+  get propertyControl(): FormControl {
+    return <FormControl>this.androidTemplateFormModel.get('priority');
   }
 
   save() {
