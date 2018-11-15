@@ -16,7 +16,8 @@
         <div class="form-group">
           <label for="messageTitle">Web Push Title<sup>*</sup></label>
           <input type="text" class="form-control" id="messageTitle" name="messageTitle" placeholder="Message Title"
-                 formControlName="title">
+                 formControlName="title"
+                 [mention]="mentionItems">
         </div>
         <div class="feedback text-danger"
              *ngIf="title.errors && (title.dirty || title.touched)">
@@ -25,7 +26,8 @@
         <div class="form-group">
           <label for="messageBody">Web Push Body<sup>*</sup></label>
           <textarea type="text" class="form-control" id="messageBody" name="messageBody" placeholder="Message Body"
-                    rows="8" formControlName="body"></textarea>
+                    rows="8" formControlName="body"
+                    [mention]="mentionItems"></textarea>
         </div>
         <div class="feedback text-danger"
              *ngIf="body.errors && (body.dirty || body.touched)">
@@ -108,7 +110,7 @@
             <div class="form-control">
               <label class="radio-inline mx-2" *ngFor="let p of priorities">
                 <input type="radio" name="urgency" [value]="p.key"
-                       formControlName="urgency">
+                       formControlName="urgency" (click)="urgencyControl.setValue(p.key)">
                 {{p.value | titlecase}}</label>
             </div>
           </div>

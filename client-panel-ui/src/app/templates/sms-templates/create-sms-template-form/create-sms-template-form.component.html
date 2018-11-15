@@ -36,7 +36,8 @@
         <div class="form-group">
           <label for="smsBody">Sms Text</label>
           <textarea type="text" class="form-control" id="smsBody" name="smsBody" placeholder="Sms text" rows="8"
-                    [(ngModel)]="smsTemplate.smsTemplateBody" required></textarea>
+                    [(ngModel)]="smsTemplate.smsTemplateBody" required
+                    [mention]="mentionItems"></textarea>
         </div>
         <div class="text-right">
           <button class="btn btn-light" (click)="onCancel()">Cancel

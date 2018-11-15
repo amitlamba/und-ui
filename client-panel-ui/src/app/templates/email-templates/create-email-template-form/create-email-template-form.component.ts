@@ -24,7 +24,7 @@ export class CreateEmailTemplateFormComponent implements OnInit, OnChanges {
   @ViewChild("emailTemplateForm") form: any;
 
   userFields = UserFields.USER_DETAIILS;
-  public mentionItems: string[] = UserParams.params;
+  mentionItems: string[] = UserParams.params;
 
   returnUrl: string;
 

@@ -3,6 +3,7 @@ import {SmsTemplate} from "../../../_models/sms";
 import {TemplatesService} from "../../../_services/templates.service";
 import {MessageService} from "../../../_services/message.service";
 import {ActivatedRoute, Router, RouterStateSnapshot} from "@angular/router";
+import {UserParams} from "../../../_models/user";
 
 @Component({
   selector: 'app-create-sms-template-form',
@@ -13,6 +14,7 @@ export class CreateSmsTemplateFormComponent implements OnInit {
 
   smsTemplate: SmsTemplate = new SmsTemplate();
   @ViewChild("f") form: any;
+  mentionItems: string[] = UserParams.params;
 
   createNewTemplate: boolean;
   returnUrl: string;
