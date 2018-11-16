@@ -18,28 +18,88 @@
       </select2>
       <input disabled *ngIf="!segmentsDropdown.length" type="text" class="form-control"/>
     </div>
-    <div class="col-lg-3 col-md-5 col-sm-6 form-group">
+    <div hidden class="col-lg-3 col-md-5 col-sm-6 form-group">
       <label>Date Range</label><br>
       <input type="text" class="form-control" name="daterange" daterangepicker [options]="multiPicker"
              (selected)="selectedDate($event)"
       />
     </div>
   </div>
+
   <div *ngIf="segment">
-    <div class="card">
-      <div class="card-header">Reachability of Segment</div>
+    <div class="card mt-5 mb-3" *ngIf="reachability">
+      <div class="card-header">Reachable Users in Segment</div>
       <div class="card-body">
-        <div style="cursor: pointer;" (click)="createCampaign('email')">Emails: 2000</div>
-        <div>SMS: 4000</div>
+        <h4>Segment Name: {{segment.name}}</h4>
+        <table class="table">
+          <thead>
+          <tr>
+            <th scope="col">Users reachable by</th>
+            <th scope="col">Number of Users<br><div class="small text-muted">(Click to create campaign)</div></th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <th scope="row">Email</th>
+            <td><div class="btn btn-link" (click)="createCampaign('email')"
+                   tooltip="Create Email Campaign">
+              {{reachability.email}}</div></td>
+          </tr>
+          <tr>
+            <th scope="row">SMS</th>
+            <td><div class="btn btn-link" (click)="createCampaign('sms')"
+                   tooltip="Create SMS Campaign">{{reachability.sms}}</div></td>
+          </tr>
+          <tr>
+            <th scope="row">Android Push</th>
+            <td><div class="btn btn-link" (click)="createCampaign('androidpush')"
+                   tooltip="Create Android Push Campaign">{{reachability.android}}</div></td>
+          </tr>
+          <tr>
+            <th scope="row">Web Push</th>
+            <td><div class="btn btn-link" (click)="createCampaign('webpush')"
+                   tooltip="Create Web Push Campaign">{{reachability.webpush}}</div></td>
+          </tr>
+          <tr>
+            <th scope="row">iOS Push</th>
+            <td><div class="btn btn-link">{{reachability.ios}}</div></td>
+          </tr>
+          </tbody>
+        </table>
+
+      </div>
+    </div>
+
+    <div class="card mt-5 mb-3" *ngIf="associatedCampaigns">
+      <div class="card-header">Reachable Users in Segment</div>
+      <div class="card-body" *ngIf="!associatedCampaigns.length"><h3 class="text-muted text-center my-5">No associated campaigns</h3></div>
+      <div class="card-body" *ngIf="associatedCampaigns.length">
+        <h4>Segment Name: {{segment.name}}</h4>
+        <table class="table">
+          <thead>
+          <tr>
+            <th scope="col">Campaign Name<div class="small text-muted">(Click to see campaign report)</div></th>
+            <th scope="col">Created On</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let c of associatedCampaigns">
+            <th scope="row"><div class="btn btn-link" [routerLink]="['/reports/campaign']" [queryParams]="{cid: c.id}"
+            tooltip="See campaign report">{{c.name}}</div></th>
+            <td>{{c.dateCreated}}</td>
+          </tr>
+          </tbody>
+        </table>
+
       </div>
     </div>
   </div>
 
   <div *ngIf="!segment" class="text-muted text-center my-5">
-    <div *ngIf="!segmentId">
+    <div *ngIf="!segmentId || segmentid <= 0">
       <h3>No Segment Selected. Please select a Segment.</h3>
     </div>
-    <div *ngIf="segmentId">
+    <div *ngIf="segmentId && segmentId > 0">
       <h3>Loading Segment Report...</h3>
     </div>
   </div>

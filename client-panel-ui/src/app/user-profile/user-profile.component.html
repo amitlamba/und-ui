@@ -91,7 +91,7 @@
               <table *ngIf="userProfile=='userDetails'" class="table table-bordered mt-4 w-75">
                 <tbody>
                 <tr *ngIf="eventUser.country">
-                  <td>Nationality</td>
+                  <td>Country</td>
                   <td>{{ eventUser.country }}</td>
                 </tr>
                 <tr *ngIf="eventUser.firstName">
@@ -195,12 +195,12 @@
                 <div class="table-responsive-sm">
                   <table class="table table-bordered  w-100">
                     <tbody>
-                    <tr *ngFor="let eventSelected of eventsSelectedList">
+                    <tr *ngFor="let eventName of uniqueEventNames">
                       <td class="text-center">
-                        <input type="checkbox" [checked]="eventSelected.selected" name="{{eventSelected.event.name}}"
-                               (change)="showEventDetails(eventSelected.event.name)">
+                        <input type="checkbox" [checked]="eventName.selected" name="{{eventName.eventName}}"
+                               (change)="showEventDetails(eventName.eventName)">
                       </td>
-                      <td>{{eventSelected.event.name}}</td>
+                      <td>{{eventName.eventName}}</td>
                       <!--<td>{{eventSelected.event.name}}<span class="badge ml-4 event-count">9</span></td>-->
                     </tr>
                     </tbody>

@@ -1,6 +1,7 @@
 <div class="container">
   <div class="row my-3">
     <div class="col-lg-3 col-md-3 col-sm-4">
+      <label>Campaign</label>
       <select [(ngModel)]="campaign" class="form-control" (change)="campaignChange()">
         <option selected [ngValue]="undefined">--Select Campaign--</option>
         <option *ngFor="let cpn of campaigns" [ngValue]="cpn">
@@ -14,7 +15,7 @@
     <div class="card">
       <div class="card-header">
         <div class="row">
-          <div class="col-6"><strong>Campaign Info:</strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Campaign Name: <strong>{{campaign.name}}</strong>
+          <div class="col-6">Campaign Name: <strong>{{campaign.name}}</strong>
           </div>
           <div class="col-6 pl-auto">Status: <strong>{{campaign.status}}</strong></div>
         </div>

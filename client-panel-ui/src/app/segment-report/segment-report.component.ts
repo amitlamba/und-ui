@@ -3,6 +3,9 @@ import {moment} from "ngx-bootstrap/chronos/test/chain";
 import {Segment} from "../_models/segment";
 import {SegmentService} from "../_services/segment.service";
 import {ActivatedRoute, Router} from "@angular/router";
+import {Reachability} from "../_models/reports";
+import {ReportsService} from "../_services/reports.service";
+import {Campaign} from "../_models/campaign";
 
 @Component({
   selector: 'app-segment-report',
@@ -26,6 +29,8 @@ export class SegmentReportComponent implements OnInit {
 
   segment: Segment;
   segmentId: number;
+  reachability: Reachability;
+  associatedCampaigns: Campaign[];
 
   segmentsDropdown: any[] = []; //id and text
 
@@ -33,6 +38,7 @@ export class SegmentReportComponent implements OnInit {
   toDate: string;
 
   constructor(private activatedRoute: ActivatedRoute, private segmentService: SegmentService,
+              private reportsService: ReportsService,
               private router: Router) {
   }
 
@@ -43,7 +49,28 @@ export class SegmentReportComponent implements OnInit {
       this.segment = this._segments.find(v=>{
         return v.id == this.segmentId;
       });
+      if (this.segmentId) {
+        this.getReachability(this.segmentId);
+        this.getAssociatedCampaigns(this.segmentId);
+      }
     });
+  }
+
+  private getReachability(segmentId: number) {
+    this.reportsService.getSegmentReachability(segmentId).subscribe(
+      response => {
+        this.reachability = response;
+      }
+    );
+  }
+
+  private getAssociatedCampaigns(segmentId: number) {
+    this.reportsService.getAssociatedCampaigns(this.segmentId).subscribe(
+      response => {
+        console.log(response);
+        this.associatedCampaigns = response;
+      }
+    );
   }
 
   public multiPicker = {
@@ -71,10 +98,14 @@ export class SegmentReportComponent implements OnInit {
     console.log(segmentDropdownSelected);
     this.segmentId = segmentDropdownSelected.value;
     this.segment = this._segments.find(v=>{return v.id == this.segmentId});
+    if (this.segmentId) {
+      this.getReachability(this.segmentId);
+      this.getAssociatedCampaigns(this.segmentId);
+    }
     //re render reports
   }
 
   createCampaign(campaignType: string) {
-    this.router.navigate(['/campaigns/email'],{queryParams: {sid: this.segmentId}});
+    this.router.navigate(['/campaigns/'+campaignType],{queryParams: {sid: this.segmentId}});
   }
 }

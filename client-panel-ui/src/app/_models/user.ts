@@ -82,6 +82,10 @@ export class EventSelected {
   event: Event;
   selected: boolean;
 }
+export class EventNamesSelected {
+  eventName: string;
+  selected: boolean;
+}
 
 export class Identity {
   deviceId: string;

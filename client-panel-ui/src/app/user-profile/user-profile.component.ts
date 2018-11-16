@@ -1,6 +1,6 @@
 import {Component, OnInit, Pipe, PipeTransform, ViewChild} from '@angular/core';
 import {SegmentService} from "../_services/segment.service";
-import {Event, EventSelected, EventUser} from "../_models/user";
+import {Event, EventNamesSelected, EventSelected, EventUser} from "../_models/user";
 import {Router} from "@angular/router";
 import {HttpErrorResponse} from "@angular/common/http";
 import {UserService} from "../_services/user.service";
@@ -16,6 +16,7 @@ export class UserProfileComponent implements OnInit {
   eventUser: EventUser = new EventUser();
   eventList: Event[] = [];
   eventsSelectedList: EventSelected[] = [];
+  uniqueEventNames: EventNamesSelected[] = [];
   markTestUser: boolean = false;
 
   constructor(private segmentService: SegmentService,
@@ -35,6 +36,7 @@ export class UserProfileComponent implements OnInit {
         (response: Event[]) => {
           console.log(response);
           this.eventList = response;
+          this.initUniqueEventNames(this.eventList);
           this.eventsSelectedList = this.eventList.map((v, i, a) => {
             let es = new EventSelected();
             es.event = v;
@@ -48,6 +50,16 @@ export class UserProfileComponent implements OnInit {
       // this.segmentService.eventUser = new EventUser();
     }
     this.userProfile = 'userDetails';
+  }
+
+  initUniqueEventNames(eventList: Event[]) {
+    this.uniqueEventNames = [];
+    eventList.forEach(v=>{
+      let found = this.uniqueEventNames.filter(v1 => v1.eventName == v.name);
+      if(!(found && found.length)) {
+        this.uniqueEventNames.push({eventName: v.name, selected: true});
+      }
+    });
   }
 
   myValue($event) {
