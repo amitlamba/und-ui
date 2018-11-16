@@ -135,8 +135,8 @@
     <div class="card-header">Users Events Trend</div>
     <div class="card-body">
       <div class="my-3">
-        <button class="btn btn-primary" (click)="onTable()">Table</button>
-        <button class="btn btn-primary" (click)="onGraph()">Graph</button>
+        <button class="btn btn-primary" (click)="onTable()" [ngClass]="{active:viewType=='table'}">Table</button>
+        <button class="btn btn-primary" (click)="onGraph()" [ngClass]="{active:viewType=='graph'}">Graph</button>
       </div>
       <app-draw-table *ngIf="viewType ==='table'" [eventUserData]="userCountByEventData"></app-draw-table>
       <app-draw-simple-clickable-chart *ngIf="viewType==='graph' "

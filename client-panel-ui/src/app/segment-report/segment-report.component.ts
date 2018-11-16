@@ -20,7 +20,8 @@ export class SegmentReportComponent implements OnInit {
   private _segments: Segment[];
   set segments(value: Segment[]) {
     this._segments = value;
-    this.segmentsDropdown = this._segments.map(v=>{return {id: v.id, text: v.name}})
+    this.segmentsDropdown = [{id: -1, text: "--Select Segment--"}];
+    this.segmentsDropdown.push(...this._segments.map(v=>{return {id: v.id, text: v.name}}));
   }
 
   segment: Segment;
@@ -36,10 +37,12 @@ export class SegmentReportComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.segmentId = this.activatedRoute.snapshot.params['id'];
+    this.segmentId = this.activatedRoute.snapshot.queryParams['sid'];
     this.segmentService.getSegments().subscribe(response => {
       this.segments = response;
-      this.segment = this._segments.find(v=>{return v.id === this.segmentId});
+      this.segment = this._segments.find(v=>{
+        return v.id == this.segmentId;
+      });
     });
   }
 
@@ -67,7 +70,7 @@ export class SegmentReportComponent implements OnInit {
   segmentChange(segmentDropdownSelected: any) {
     console.log(segmentDropdownSelected);
     this.segmentId = segmentDropdownSelected.value;
-    this.segment = this._segments.find(v=>{return v.id === this.segmentId});
+    this.segment = this._segments.find(v=>{return v.id == this.segmentId});
     //re render reports
   }
 

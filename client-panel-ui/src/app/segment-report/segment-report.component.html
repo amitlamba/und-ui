@@ -1,12 +1,12 @@
 <div class="container">
   <div class="row">
     <!--<div class="col">-->
-      <!--<div class="form-group">-->
-        <!--<label for="segment">Segment</label>-->
-        <!--<select class="form-control" id="segment" (change)="segmentChange($event)" [ngModel]="segment">-->
-          <!--<option *ngFor="let segment of segments" [ngValue]="segment">{{segment.name}}</option>-->
-        <!--</select>-->
-      <!--</div>-->
+    <!--<div class="form-group">-->
+    <!--<label for="segment">Segment</label>-->
+    <!--<select class="form-control" id="segment" (change)="segmentChange($event)" [ngModel]="segment">-->
+    <!--<option *ngFor="let segment of segments" [ngValue]="segment">{{segment.name}}</option>-->
+    <!--</select>-->
+    <!--</div>-->
     <!--</div>-->
     <div class="col-lg-3 col-md-5 col-sm-6 form-group">
       <label>Segment</label><br>
@@ -16,7 +16,7 @@
                (valueChanged)="segmentChange($event)"
       >
       </select2>
-      <input disabled *ngIf="!segmentsDropdown.length" type="text" class="form-control" />
+      <input disabled *ngIf="!segmentsDropdown.length" type="text" class="form-control"/>
     </div>
     <div class="col-lg-3 col-md-5 col-sm-6 form-group">
       <label>Date Range</label><br>
@@ -25,11 +25,22 @@
       />
     </div>
   </div>
-  <div class="card">
-    <div class="card-header">Reachability of Segment</div>
-    <div class="card-body">
-      <div style="cursor: pointer;" (click)="createCampaign('email')">Emails: 2000</div>
-      <div>SMS: 4000</div>
+  <div *ngIf="segment">
+    <div class="card">
+      <div class="card-header">Reachability of Segment</div>
+      <div class="card-body">
+        <div style="cursor: pointer;" (click)="createCampaign('email')">Emails: 2000</div>
+        <div>SMS: 4000</div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="!segment" class="text-muted text-center my-5">
+    <div *ngIf="!segmentId">
+      <h3>No Segment Selected. Please select a Segment.</h3>
+    </div>
+    <div *ngIf="segmentId">
+      <h3>Loading Segment Report...</h3>
     </div>
   </div>
 </div>
