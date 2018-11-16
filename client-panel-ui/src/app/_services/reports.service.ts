@@ -1,6 +1,6 @@
 import {EventEmitter, Injectable} from "@angular/core";
 import {
-  Aggregate, AggregateBy, EntityType,
+  Aggregate, AggregateBy, CampaignReach, EntityType,
   EventCount, EventPeriodCount, EventReportFilter, EventTimeFrequency, EventUserFrequency, FunnelReportFilter,
   FunnelStep, GroupBy, PERIOD, Reachability,
   Step,
@@ -212,6 +212,12 @@ export class ReportsService {
     var params: Params = new HttpParams()
       .set("segmentid", segmentId.toString());
     return this.httpClient.get<Campaign[]>(AppSettings.API_ENDPOINT_CLIENT_REPORT_SEGMENT_CAMPAIGNS, {params});
+  }
+
+  getCampaignReach(campaignId: number): Observable<CampaignReach> {
+    var params: Params = new HttpParams()
+      .set("campaignId", campaignId.toString());
+    return this.httpClient.get<CampaignReach>(AppSettings.API_ENDPOINT_CLIENT_REPORT_CAMPAIGN_REACH, {params});
   }
 
   reportsDataFormat = [

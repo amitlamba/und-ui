@@ -169,3 +169,10 @@ export class Reachability {
   android: number;
   ios: number;
 }
+
+export class CampaignReach {
+  delivered: number;
+  failed: number;
+  read: number;
+  interacted: number;
+}

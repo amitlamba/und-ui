@@ -30,36 +30,18 @@
     </div>
     <div class="card">
       <div class="card-header">
-        Total User Selected
+        Campaign Reach
       </div>
       <div class="card-body">
-        <div class="row">
-          <div class="col">
-            Sent
-          </div>
-          <div class="col">
-            Unsent
-          </div>
-          <div class="col">
-            <div class="row">
-              <div>Status</div>
-            </div>
-            <div class="row">
-              <div class="col">
-                Running
-              </div>
-              <div class="col">
-                Pause
-              </div>
-              <div class="col">
-                Stop
-              </div>
-              <div class="col">
-                Error
-              </div>
-            </div>
-          </div>
-        </div>
+        <h3 class="text-muted my-5 py-5 text-center" *ngIf="!campaignReach">Chart of the campaign reachout</h3>
+        <app-draw-simple-chart *ngIf="campaignReach && campaignReachChartData"
+                               [title]="campaign.name+' campaign reach'"
+                               [xAxisTitle]="'Message Status'"
+                               [yAxisTitle]="'Status Count'"
+                               [chartType]="'column'"
+                               [categories]="['Delivered', 'Failed', 'Read', 'Interacted']"
+                               [dataSeries]="campaignReachChartData">
+        </app-draw-simple-chart>
       </div>
     </div>
 
