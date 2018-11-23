@@ -23,7 +23,7 @@ export class CreateEmailTemplateFormComponent implements OnInit, OnChanges {
   sendersInfoList: SendersInfo[] = [];
   @ViewChild("emailTemplateForm") form: any;
 
-  userFields = UserFields.USER_DETAIILS;
+  // userFields = UserFields.USER_DETAIILS;
   mentionItems: string[] = UserParams.params;
 
   returnUrl: string;
