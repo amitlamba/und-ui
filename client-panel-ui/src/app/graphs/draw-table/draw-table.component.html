@@ -6,9 +6,9 @@
   </tr>
   </thead>
   <tbody>
-  <tr *ngFor="let event of eventName let i=index">
-    <td><a [routerLink]="['/reports/event/overall']" [queryParams]="{event:event}">{{event}}</a></td>
-    <td *ngFor="let data of data[i]">{{data}}</td>
+  <tr *ngFor="let event of eventName; let i=index">
+    <td>{{event}}</td>
+    <td *ngFor="let data of data[i]; let j=index"><a [routerLink]="['/reports/event']" [queryParams]="{event:event, date:dates[j]}">{{data}}</a></td>
   </tr>
   </tbody>
 </table>

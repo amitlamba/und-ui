@@ -7,6 +7,7 @@ import {
   Priority
 } from "../../../_models/notification";
 import {Form, FormArray, FormBuilder, FormControl, FormGroup, Validator, Validators} from "@angular/forms";
+import {UserParams} from "../../../_models/user";
 
 @Component({
   selector: 'app-create-notification-template-form',
@@ -19,6 +20,7 @@ export class CreateNotificationTemplateAndroidFormComponent implements OnInit {
   state: RouterStateSnapshot;
   androidTemplate: AndroidTemplate;
   returnUrl: string;
+  mentionItems: string[] = UserParams.params;
 
   advanced: boolean = false;
 
@@ -170,7 +172,7 @@ export class CreateNotificationTemplateAndroidFormComponent implements OnInit {
   get badgeIconControl(): FormControl {
     return <FormControl>this.androidTemplateFormModel.get('badgeIcon');
   }
-  get propertyControl(): FormControl {
+  get priorityControl(): FormControl {
     return <FormControl>this.androidTemplateFormModel.get('priority');
   }
 

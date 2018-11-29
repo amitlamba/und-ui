@@ -1,8 +1,8 @@
 import {EventEmitter, Injectable} from "@angular/core";
 import {
-  Aggregate, AggregateBy, EntityType,
+  Aggregate, AggregateBy, CampaignReach, EntityType,
   EventCount, EventPeriodCount, EventReportFilter, EventTimeFrequency, EventUserFrequency, FunnelReportFilter,
-  FunnelStep, GroupBy, PERIOD,
+  FunnelStep, GroupBy, PERIOD, Reachability,
   Step,
   TrendCount,
   TrendTimeSeries,
@@ -16,6 +16,7 @@ import {of} from "rxjs/observable/of";
 import {AppSettings} from "../_settings/app-settings";
 import {GlobalFilter} from "../_models/segment";
 import {Params} from "@angular/router";
+import {Campaign} from "../_models/campaign";
 
 @Injectable()
 export class ReportsService {
@@ -27,7 +28,8 @@ export class ReportsService {
   /*
   Lisinging the click on draw simple graph on /dashboard route
    */
-  graphClick=new EventEmitter<string>();
+  graphClick = new EventEmitter<string>();
+
   /*
   DASHBOARD APIs
    */
@@ -41,11 +43,7 @@ export class ReportsService {
   }
 
   getTrendCount_1(segmentid: number, groupby: GroupBy, interval: number): Observable<UserCountForProperty[]> {
-    const params = new HttpParams().
-    set("segmentid", segmentid.toString()).
-    set("groupName",groupby.name).
-    set("interval", interval.toString()).
-    set("groupFilterType",groupby.globalFilterType);
+    const params = new HttpParams().set("segmentid", segmentid.toString()).set("groupName", groupby.name).set("interval", interval.toString()).set("groupFilterType", groupby.globalFilterType);
 
     return this.httpClient.get<UserCountForProperty[]>(AppSettings.API_ENDPOINT_CLIENT_DASHBOARD_LIVEUSERS, {
       params: params
@@ -106,6 +104,7 @@ export class ReportsService {
     const params = new HttpParams().set("date", date).set("segmentid", segmentid.toString());
     return this.httpClient.get<any[]>(AppSettings.API_ENDPOINT_CLIENT_DASHBOARD_SAMPLEUSERSBYEVENT, {params});
   }
+
   /*
   DASHBOARD APIs end
    */
@@ -114,70 +113,72 @@ export class ReportsService {
   /*
   EVENT APIs Begin
    */
+
   //event report api call
 
-  getCountTrend(erf: EventReportFilter, entitytype: EntityType, groupby:GroupBy): Observable<EventCount[]> {
+  getCountTrend(erf: EventReportFilter, entitytype: EntityType, groupby: GroupBy): Observable<EventCount[]> {
     //group by optional  os
     // const params = new HttpParams().set("ftr", eventReportFilter.toString()).set("entityType", entitytype);
-    const params=new HttpParams()
-      .set("entityType",entitytype)
-      .set("segmentid",erf.segmentid.toString())
-      .set("fromDate",erf.fromDate)
-      .set("toDate",erf.toDate)
-      .set("eventName",erf.eventName)
-      .set("groupFilterType",groupby.globalFilterType)
-      .set("groupName",groupby.name);
-    const propFilter=erf.propFilter;
-    return this.httpClient.post<EventCount[]>(AppSettings.API_ENDPOINT_CLIENT_REPORT_EVENT_EVENTCOUNT, propFilter,{params:params});
+    const params = new HttpParams()
+      .set("entityType", entitytype)
+      .set("segmentid", erf.segmentid.toString())
+      .set("fromDate", erf.fromDate)
+      .set("toDate", erf.toDate)
+      .set("eventName", erf.eventName)
+      .set("groupFilterType", groupby.globalFilterType)
+      .set("groupName", groupby.name);
+    const propFilter = erf.propFilter;
+    return this.httpClient.post<EventCount[]>(AppSettings.API_ENDPOINT_CLIENT_REPORT_EVENT_EVENTCOUNT, propFilter, {params: params});
   }
 
-  getTimePeriodTrend(erf: EventReportFilter, entitytype: EntityType,period:PERIOD): Observable<EventPeriodCount[]> {
+  getTimePeriodTrend(erf: EventReportFilter, entitytype: EntityType, period: PERIOD): Observable<EventPeriodCount[]> {
 
-    const params=new HttpParams()
-      .set("entityType",entitytype)
-      .set("segmentid",erf.segmentid.toString())
-      .set("fromDate",erf.fromDate)
-      .set("toDate",erf.toDate)
-      .set("eventName",erf.eventName)
-      .set("period",period);
-    const propFilter=erf.propFilter;
-    return this.httpClient.post<EventPeriodCount[]>(AppSettings.API_ENDPOINT_CLIENT_REPORT_EVENT_TRENDBYTIMEPERIOD, propFilter,{params});
+    const params = new HttpParams()
+      .set("entityType", entitytype)
+      .set("segmentid", erf.segmentid.toString())
+      .set("fromDate", erf.fromDate)
+      .set("toDate", erf.toDate)
+      .set("eventName", erf.eventName)
+      .set("period", period);
+    const propFilter = erf.propFilter;
+    return this.httpClient.post<EventPeriodCount[]>(AppSettings.API_ENDPOINT_CLIENT_REPORT_EVENT_TRENDBYTIMEPERIOD, propFilter, {params});
   }
 
   getEventUserTrend(erf: EventReportFilter): Observable<EventUserFrequency[]> {
-    const params=new HttpParams()
-      .set("segmentid",erf.segmentid.toString())
-      .set("fromDate",erf.fromDate)
-      .set("toDate",erf.toDate)
-      .set("eventName",erf.eventName);
-    const propFilter=erf.propFilter;
-    return this.httpClient.post<EventUserFrequency[]>(AppSettings.API_ENDPOINT_CLIENT_REPORT_EVENT_EVENTUSERTREND, propFilter,{params});
+    const params = new HttpParams()
+      .set("segmentid", erf.segmentid.toString())
+      .set("fromDate", erf.fromDate)
+      .set("toDate", erf.toDate)
+      .set("eventName", erf.eventName);
+    const propFilter = erf.propFilter;
+    return this.httpClient.post<EventUserFrequency[]>(AppSettings.API_ENDPOINT_CLIENT_REPORT_EVENT_EVENTUSERTREND, propFilter, {params});
   }
 
   getEventTimeTrend(erf: EventReportFilter): Observable<EventTimeFrequency[]> {
-    const params=new HttpParams()
-      .set("segmentid",erf.segmentid.toString())
-      .set("fromDate",erf.fromDate)
-      .set("toDate",erf.toDate)
-      .set("eventName",erf.eventName);
-    const propFilter=erf.propFilter;
-    return this.httpClient.post<EventTimeFrequency[]>(AppSettings.API_ENDPOINT_CLIENT_REPORT_EVENT_EVENTTIMETREND, propFilter,{params});
+    const params = new HttpParams()
+      .set("segmentid", erf.segmentid.toString())
+      .set("fromDate", erf.fromDate)
+      .set("toDate", erf.toDate)
+      .set("eventName", erf.eventName);
+    const propFilter = erf.propFilter;
+    return this.httpClient.post<EventTimeFrequency[]>(AppSettings.API_ENDPOINT_CLIENT_REPORT_EVENT_EVENTTIMETREND, propFilter, {params});
   }
 
-  getEventAggregateTrend(erf: EventReportFilter, period:PERIOD, aggregateOn:AggregateBy): Observable<Aggregate[]> {
+  getEventAggregateTrend(erf: EventReportFilter, period: PERIOD, aggregateOn: AggregateBy): Observable<Aggregate[]> {
     //aggregate are unrequire
-    const params=new HttpParams()
-      .set("segmentid",erf.segmentid.toString())
-      .set("fromDate",erf.fromDate)
-      .set("toDate",erf.toDate)
-      .set("eventName",erf.eventName)
-      .set("period",period)
-      .set("aggregationType",aggregateOn.aggregationType)
-      .set("globalFilterType",aggregateOn.globalFilterType)
-      .set("name",aggregateOn.name);
-    const propFilter=erf.propFilter;
-    return this.httpClient.post<Aggregate[]>(AppSettings.API_ENDPOINT_CLIENT_REPORT_EVENT_EVENTAGGREGATETREND,propFilter, {params});
+    const params = new HttpParams()
+      .set("segmentid", erf.segmentid.toString())
+      .set("fromDate", erf.fromDate)
+      .set("toDate", erf.toDate)
+      .set("eventName", erf.eventName)
+      .set("period", period)
+      .set("aggregationType", aggregateOn.aggregationType)
+      .set("globalFilterType", aggregateOn.globalFilterType)
+      .set("name", aggregateOn.name);
+    const propFilter = erf.propFilter;
+    return this.httpClient.post<Aggregate[]>(AppSettings.API_ENDPOINT_CLIENT_REPORT_EVENT_EVENTAGGREGATETREND, propFilter, {params});
   }
+
   /*
   EVENT APIs end
    */
@@ -186,20 +187,39 @@ export class ReportsService {
   Funnel API
    */
 
-  getFunnelResult(funnelReportFilter:FunnelReportFilter):Observable<FunnelStep[]>{
-    var params:Params=new HttpParams()
-    .set("segmentid",funnelReportFilter.segmentid.toString())
-    .set("days",funnelReportFilter.days.toString())
-    .set("funnelOrder",funnelReportFilter.funnelOrder)
-    .set("conversionTime",funnelReportFilter.conversionTime.toString());
-    if(!(funnelReportFilter.splitProperty==='None')){
-      params=params.set("splitProperty",funnelReportFilter.splitProperty);
-      params=params.set("splitPropertyType",funnelReportFilter.splitPropertyType);
+  getFunnelResult(funnelReportFilter: FunnelReportFilter): Observable<FunnelStep[]> {
+    var params: Params = new HttpParams()
+      .set("segmentid", funnelReportFilter.segmentid.toString())
+      .set("days", funnelReportFilter.days.toString())
+      .set("funnelOrder", funnelReportFilter.funnelOrder)
+      .set("conversionTime", funnelReportFilter.conversionTime.toString());
+    if (!(funnelReportFilter.splitProperty === 'None')) {
+      params = params.set("splitProperty", funnelReportFilter.splitProperty);
+      params = params.set("splitPropertyType", funnelReportFilter.splitPropertyType);
     }
-    var steps:Array<Step>=funnelReportFilter.steps;
+    var steps: Array<Step> = funnelReportFilter.steps;
 
-    return this.httpClient.post<FunnelStep[]>(AppSettings.API_ENDPOINT_CLIENT_FUNNEL,steps,{params});
+    return this.httpClient.post<FunnelStep[]>(AppSettings.API_ENDPOINT_CLIENT_FUNNEL, steps, {params});
   }
+
+  getSegmentReachability(segmentId: number): Observable<Reachability> {
+    var params: Params = new HttpParams()
+      .set("segmentid", segmentId.toString());
+    return this.httpClient.get<Reachability>(AppSettings.API_ENDPOINT_CLIENT_REPORT_SEGMENT_REACHABILITY, {params});
+  }
+
+  getAssociatedCampaigns(segmentId: number): Observable<Campaign[]> {
+    var params: Params = new HttpParams()
+      .set("segmentid", segmentId.toString());
+    return this.httpClient.get<Campaign[]>(AppSettings.API_ENDPOINT_CLIENT_REPORT_SEGMENT_CAMPAIGNS, {params});
+  }
+
+  getCampaignReach(campaignId: number): Observable<CampaignReach> {
+    var params: Params = new HttpParams()
+      .set("campaignId", campaignId.toString());
+    return this.httpClient.get<CampaignReach>(AppSettings.API_ENDPOINT_CLIENT_REPORT_CAMPAIGN_REACH, {params});
+  }
+
   reportsDataFormat = [
     {
       "date": "2018-06-26",

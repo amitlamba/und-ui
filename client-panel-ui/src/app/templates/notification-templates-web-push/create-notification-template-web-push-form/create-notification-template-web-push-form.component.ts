@@ -4,6 +4,7 @@ import {ActivatedRoute, Router, RouterStateSnapshot} from "@angular/router";
 import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {TemplatesService} from "../../../_services/templates.service";
 import {MessageService} from "../../../_services/message.service";
+import {UserParams} from "../../../_models/user";
 
 @Component({
   selector: 'app-create-notification-template-web-push-form',
@@ -16,6 +17,7 @@ export class CreateNotificationTemplateWebPushFormComponent implements OnInit {
   state: RouterStateSnapshot;
   webPushTemplate: WebPushTemplate;
   returnUrl: string;
+  mentionItems: string[] = UserParams.params;
 
   advanced: boolean = false;
 
@@ -159,6 +161,9 @@ export class CreateNotificationTemplateWebPushFormComponent implements OnInit {
 
   getValueControl(i): FormControl {
     return <FormControl>((<FormGroup>this.customKeyValuePairsArray.controls[i]).controls['value']);
+  }
+  get urgencyControl(): FormControl {
+    return <FormControl>this.webPushTemplateFormModel.get('urgency');
   }
 
   save() {

@@ -161,3 +161,18 @@ export interface ChartSeriesData {
   seriesName: string;
   data: number[];
 }
+
+export class Reachability {
+  email: number;
+  sms: number;
+  webpush: number;
+  android: number;
+  ios: number;
+}
+
+export class CampaignReach {
+  delivered: number;
+  failed: number;
+  read: number;
+  interacted: number;
+}

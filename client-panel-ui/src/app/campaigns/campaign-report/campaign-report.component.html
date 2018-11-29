@@ -1,8 +1,9 @@
 <div class="container">
   <div class="row my-3">
     <div class="col-lg-3 col-md-3 col-sm-4">
+      <label>Campaign</label>
       <select [(ngModel)]="campaign" class="form-control" (change)="campaignChange()">
-        <option selected [ngValue]="undefined" >--Select Campaign--</option>
+        <option selected [ngValue]="undefined">--Select Campaign--</option>
         <option *ngFor="let cpn of campaigns" [ngValue]="cpn">
           {{cpn.name}}
         </option>
@@ -14,72 +15,60 @@
     <div class="card">
       <div class="card-header">
         <div class="row">
-          <div class="col-6"><strong>Campaign Info:</strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Campaign Name: <strong>{{campaign.name}}</strong>
+          <div class="col-6">Campaign Name: <strong>{{campaign.name}}</strong>
           </div>
           <div class="col-6 pl-auto">Status: <strong>{{campaign.status}}</strong></div>
         </div>
       </div>
       <div class="card-body">
         <!--<div class="row mb-3">-->
-          <!--<div class="col-6">Campaign Name: <strong>{{campaign.name}}</strong></div>-->
-          <!--<div class="col-6 pl-auto">Status: <strong>{{campaign.status}}</strong></div>-->
+        <!--<div class="col-6">Campaign Name: <strong>{{campaign.name}}</strong></div>-->
+        <!--<div class="col-6 pl-auto">Status: <strong>{{campaign.status}}</strong></div>-->
         <!--</div>-->
         <app-campaigns-info [campaignInfoObject]="campaign"></app-campaigns-info>
       </div>
     </div>
-  </div>
-
-  <div class="card">
-    <div class="card-header">
-      Total User Selected
+    <div class="card">
+      <div class="card-header">
+        Campaign Reach
+      </div>
+      <div class="card-body">
+        <h3 class="text-muted my-5 py-5 text-center" *ngIf="!campaignReach">Chart of the campaign reachout</h3>
+        <app-draw-simple-chart *ngIf="campaignReach && campaignReachChartData"
+                               [title]="campaign.name+' campaign reach'"
+                               [xAxisTitle]="'Message Status'"
+                               [yAxisTitle]="'Status Count'"
+                               [chartType]="'column'"
+                               [categories]="['Delivered', 'Failed', 'Read', 'Interacted']"
+                               [dataSeries]="campaignReachChartData">
+        </app-draw-simple-chart>
+      </div>
     </div>
-    <div class="card-body">
-      <div class="row">
-        <div class="col">
-          Sent
-        </div>
-        <div class="col">
-          Unsent
-        </div>
-        <div class="col">
-          <div class="row">
-            <div>Status</div>
+
+    <div class="card">
+      <div class="card-header"><span>User Who Clicked</span></div>
+      <div class="card-body"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><span>Conversion Rate</span></div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col">
+            <span>Influenced User</span>
           </div>
-            <div class="row">
-              <div class="col">
-                Running
-              </div>
-              <div class="col">
-                Pause
-              </div>
-              <div class="col">
-                Stop
-              </div>
-              <div class="col">
-                Error
-              </div>
-            </div>
+        </div>
+        <div class="row">
+
         </div>
       </div>
     </div>
   </div>
 
-  <div class="card">
-    <div class="card-header"><span>User Who Clicked</span></div>
-    <div class="card-body"></div>
+  <div *ngIf="!campaign" class="text-center my-5 text-muted">
+    <div *ngIf="!campaignId"><h3>No Campaign Selected. Please select a campaign.</h3></div>
+    <div *ngIf="campaignId"><h3>Loading Campaign ...</h3></div>
   </div>
 
-  <div class="card">
-    <div class="card-header"><span>Conversion Rate</span></div>
-    <div class="card-body">
-      <div class="row">
-        <div class="col">
-          <span>Influenced User</span>
-        </div>
-      </div>
-      <div class="row">
 
-      </div>
-    </div>
-  </div>
 </div>

@@ -24,10 +24,10 @@ export class StandardInfo {
 
 export class UserParams {
   public static params = [
-    "{user.socialId.email}",
-    "{user.socialId.mobile}",
-    "{user.standardInfo.firstName}",
-    "{user.standardInfo.lastName}",
+    "{user.identity.email}",
+    "{user.identity.mobile}",
+    "{user.standardInfo.firstname}",
+    "{user.standardInfo.lastname}",
     "{user.standardInfo.gender}",
     "{user.standardInfo.dob}",
     "{user.standardInfo.country}",
@@ -80,6 +80,10 @@ export class Event {
 
 export class EventSelected {
   event: Event;
+  selected: boolean;
+}
+export class EventNamesSelected {
+  eventName: string;
   selected: boolean;
 }
 
