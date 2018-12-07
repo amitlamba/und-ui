@@ -61,7 +61,7 @@ export class WebPushTemplate {
   tag?: string;
   requireInteraction: boolean;
   actionGroup?: WebPushAction[];
-  urgency?: string;
+  urgency?: string = Priority.NORMAL;
   ttl?: number;
   link?: string;
   customDataPair?: KeyValuePair[]; //HashMap<String, String>

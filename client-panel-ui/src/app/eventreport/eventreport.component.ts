@@ -13,7 +13,7 @@ export class EventreportComponent implements OnInit, OnChanges, DoCheck {
 
   button: string = 'overall';
   eventName: string = "";
-  segmentId: number;
+  private _segmentId: number;
   fromDate: string;
   toDate: string;
   public multiPicker: any;
@@ -60,10 +60,16 @@ globalFilterType: GlobalFilterType;
 
   events: RegisteredEvent[] = [];
 
-  segments: any[] = [{id: 1, name: "Segment 1"}, {id: 2, name: "Segment 2"}, {id: 3, name: "Segment 3"}, {
-    id: 4,
-    name: "Segment 4"
-  }, {id: 5, name: "Segment 5"}];
+  segments: any[] = [];
+
+  get segmentId(): number {
+    return this._segmentId;
+  }
+
+  set segmentId(value: number) {
+    this._segmentId = value;
+    this.getSegmentById();
+  }
 
 
   constructor(private route: ActivatedRoute, private segmentService: SegmentService) {
@@ -80,7 +86,7 @@ globalFilterType: GlobalFilterType;
     this.fromDate = this.toDate = this.route.snapshot.queryParams['date'];
     this.events = this.segmentService.cachedRegisteredEvents;
     this.segments = this.segmentService.segmentMini;
-    this.segmentId = 1003;
+    this._segmentId = -1;
     var date = new Date();
     if(!this.toDate) {
       let day = date.getDate();
@@ -107,11 +113,15 @@ globalFilterType: GlobalFilterType;
   }
 
   private getSegmentById() {
-    this.segmentService.getSegmentById(this.segmentId).subscribe(
-      (segment) => {
-        this.segment = segment;
-      }
-    );
+    if(this._segmentId > 0) {
+      this.segmentService.getSegmentById(this._segmentId).subscribe(
+        (segment) => {
+          this.segment = segment;
+        }
+      );
+    } else {
+      this.segment = null;
+    }
   }
 
   ngOnChanges() {

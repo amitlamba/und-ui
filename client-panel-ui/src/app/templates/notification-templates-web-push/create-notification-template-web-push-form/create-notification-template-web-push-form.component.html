@@ -110,7 +110,8 @@
             <div class="form-control">
               <label class="radio-inline mx-2" *ngFor="let p of priorities">
                 <input type="radio" name="urgency" [value]="p.key"
-                       formControlName="urgency" (click)="urgencyControl.setValue(p.key)">
+                       formControlName="urgency" (click)="urgencyControl.setValue(p.key)"
+                       [checked]="urgencyControl.value == p.key">
                 {{p.value | titlecase}}</label>
             </div>
           </div>

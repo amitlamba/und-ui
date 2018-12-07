@@ -120,7 +120,8 @@
               <div class="form-control" >
                 <label class="radio-inline mx-2" *ngFor="let b of badgeIcons">
                   <input type="radio" name="badgeIcon" [value]="b.key"
-                         formControlName="badgeIcon" (click)="badgeIconControl.setValue(b.key)">
+                         formControlName="badgeIcon" (click)="badgeIconControl.setValue(b.key)"
+                         [checked]="badgeIconControl.value == b.key">
                   {{b.value.replace("BADGE_ICON_","") | titlecase}}</label>
               </div>
             </div>
@@ -135,7 +136,8 @@
             <div class="form-control">
               <label class="radio-inline mx-2" *ngFor="let p of priorities">
                 <input type="radio" name="priority" [value]="p.key"
-                       formControlName="priority" (click)="priorityControl.setValue(p.key)">
+                       formControlName="priority" (click)="priorityControl.setValue(p.key)"
+                        [checked]="priorityControl.value == p.key">
                 {{p.value | titlecase}}</label>
             </div>
           </div>

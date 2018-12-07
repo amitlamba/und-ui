@@ -79,7 +79,7 @@ export class HomeComponent implements OnInit,OnChanges,OnDestroy {
   constructor(private userService: UserService, private reportsService: ReportsService,private router:Router,
               private segmentService: SegmentService) {
     console.log('inside constructor');
-    this.segmentId=1003;
+    this.segmentId=-1;
     this.interval=this.tempinterval=5;
     this.groupBy=new GroupBy();
     this.groupBy.globalFilterType="Technographics";
