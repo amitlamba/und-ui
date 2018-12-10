@@ -13,7 +13,7 @@
     <div class="col-sm-4 col-md-3">
       <label for="segmentId">Segment</label>
       <select class="form-control" id="segmentId" [(ngModel)]="segmentId" ng-init="segmentId='1003'">
-        <option hidden selected>--Select Segment--</option>
+        <option value="-1" selected>All Users</option>
         <option *ngFor="let segment of segments" [ngValue]="segment.id">{{segment.name}}</option>
       </select>
     </div>
