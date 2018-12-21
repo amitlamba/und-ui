@@ -40,7 +40,7 @@ export class EventUser {
   address: string;
   city: string;
   clientId: number;
-  clientUserId: string;
+  uid: string;
   communication: Communication;
   country: string;
   countryCode: string;
