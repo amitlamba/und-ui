@@ -95,7 +95,7 @@
                *ngIf="password.errors && (password.dirty || password.touched)">
             <div *ngIf="password.errors.required">Password is required</div>
             <div *ngIf="password.errors.minlength">Password must be at least 8 characters long</div>
-            <div *ngIf="password.errors.pattern">Password must have one caps, one small and one special character</div>
+            <div *ngIf="password.errors.pattern">Password must have one caps, one small, one digit, and one special character</div>
           </div>
         </div>
 

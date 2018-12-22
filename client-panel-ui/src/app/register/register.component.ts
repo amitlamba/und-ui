@@ -51,7 +51,10 @@ export class RegisterComponent implements OnInit {
             if(error.status == 400) {
               this.error = "Not Registered. Server Error: ";
               //FIXME : Handle in a single way at the backend.
-              (<any[]>(error.error)).forEach((v)=> this.error += v.field +":"+ v.message + ", ");
+              if (error.error.length)
+                (<any[]>(error.error)).forEach((v) => this.error += v.field + ":" + v.message + ", ");
+              else
+                this.error +=  JSON.stringify(error.error);
             } else {
               this.error = "Not Registered. Server Error: " + JSON.stringify(error.error);
             }

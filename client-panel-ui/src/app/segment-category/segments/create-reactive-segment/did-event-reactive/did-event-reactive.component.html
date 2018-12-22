@@ -16,6 +16,7 @@
     <app-date-comparator [(operator)]="operator"
                          [(values)]="values"
                          [(valueUnit)]="valueUnit"
+                         [removeComparators]="['InTheFuture','WillBeExactly']"
                          class="row d-flex flex-row"></app-date-comparator>
 
     <button type="button"
@@ -72,6 +73,7 @@
     <app-number-comparator class="ml-2"
                            [(operator)]="numberOperator"
                            [(values)]="numberValues"
+                           [min]="'0'"
                            [numberComparatorOperators]="['Equals', 'Between', 'GreaterThan', 'LessThan']"></app-number-comparator>
   </div>
   </div>

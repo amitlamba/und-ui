@@ -3,7 +3,7 @@
     <div class="col-sm-6">
       <label>For Users</label>
       <select class="form-control" formControlName="segmentid">
-        <option value="-1">Select Segment</option>
+        <option value="-1" selected>All Users</option>
         <option *ngFor="let segment of segments" [value]="segment.id">{{segment.name}}</option>
       </select>
     </div>
@@ -69,13 +69,11 @@
       <div class="form-group">
         <label for="conversionTime">Conversion Time<br>
         <small class="text-muted"> * The time in which all steps are completed</small></label>
-        <div class="input-group col-sm-6 col-md-4 col-lg-3 pl-0">
-          <input type="number" min="1" class="form-control" placeholder="Conversion Time" id="conversionTime" formControlName="conversionTime">
-          <div class="input-group-append">
-            <span class="input-group-text">days</span>
-          </div>
-        </div>
+        <select class="form-control col-sm-6 col-md-4 col-lg-3" id="conversionTime" formControlName="conversionTime">
+          <option *ngFor="let t of conversionTimeMetadataKeys" [value]="conversionTimeMetadata[t]">{{t}}</option>
+        </select>
       </div>
+
     </div>
 
     <div class="ml-auto my-5 mr-md-5 mr-1">
@@ -86,35 +84,36 @@
 
 
 <div class="container" *ngIf="showSplitProperty">
-<div  class=" col-lg-3 col-md-3 col-sm-4" >
-  <h5 style="font-weight: bold">Compare By</h5>
-  <select class="form-control " (change)="filterOnSplitByProperty($event)">
-    <optgroup label="Default">
-    <option>None</option>
-    </optgroup>
-    <optgroup label={{step1Event.name}}>
-      <option *ngFor="let prop of registerdEventProperty" [value]="prop.name">
-        {{prop.name}}
-      </option>
-    </optgroup>
-    <optgroup label="Technographics">
-      <option *ngFor="let tech of technographics" [value]="tech">
-        {{tech}}
-      </option>
-    </optgroup>
-    <optgroup label="Geographics">
-      <option *ngFor="let geo of geography" [value]="geo">
-        {{geo}}
-      </option>
-    </optgroup>
-  </select>
-</div>
+  <div class=" col-lg-3 col-md-3 col-sm-4 mb-3 mr-auto ml-0 pl-0">
+    <h5 style="font-weight: bold">Compare By</h5>
+    <select class="form-control " (change)="filterOnSplitByProperty($event)" [(ngModel)]="splitproperty">
+      <optgroup label="Default">
+        <option>None</option>
+      </optgroup>
+      <optgroup label={{step1Event.name}}>
+        <option *ngFor="let prop of registerdEventProperty" [value]="prop.name">
+          {{prop.name}}
+        </option>
+      </optgroup>
+      <optgroup label="Technographics">
+        <option *ngFor="let tech of technographics" [value]="tech">
+          {{tech}}
+        </option>
+      </optgroup>
+      <optgroup label="Geographics">
+        <option *ngFor="let geo of geography" [value]="geo">
+          {{geo}}
+        </option>
+      </optgroup>
+    </select>
+  </div>
   <div class="card mb-5">
     <div class="card-header">
-      <div class="row">
-        <div class="col">All Users 10000</div>
-        <div class="col">Dropoffs 8000</div>
-      </div>
+      Funnel Report
+      <!--<div class="row">-->
+        <!--<div class="col">All Users 10000</div>-->
+        <!--<div class="col">Dropoffs 8000</div>-->
+      <!--</div>-->
     </div>
     <div class="card-body">
       <app-draw-simple-chart *ngIf="data.dataSeries"

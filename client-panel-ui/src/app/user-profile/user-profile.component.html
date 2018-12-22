@@ -10,12 +10,13 @@
         <div class="form-group form-check ml-auto mr-4">
           <input type="checkbox" class="form-check-input" id="testUser" required [checked]="markTestUser" (change)="markTestUserChanged();">
           <label class="form-check-label" for="testUser">
-            <a tooltip="If marked, this user could be used to send test messages.">
-              <i class="far fa-question-circle text-primary pb-1"></i>
-            </a>
             Mark User as Test User
+            <div class="row">
+              <div class="ml-auto mr-4 small text-muted">* If marked, this user could be used to send test messages</div>
+            </div>
           </label>
         </div>
+        <br>
       </div>
       <div class="row mx-4 py-3 my-2">
         <div class="col-md-4 col-sm-6 py-2 border-right">

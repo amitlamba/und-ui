@@ -65,6 +65,8 @@ export class DateComparatorComponent implements OnInit {
 
   @Output() valueUnitChange = new EventEmitter();
 
+  @Input() removeComparators = [];
+
   dateComparatorMetadata: any;
   absoluteDateComparatorMetadata: string[];
   relativeDateComparatorMetadata: string[];
@@ -146,6 +148,9 @@ export class DateComparatorComponent implements OnInit {
 
     this.changeDetectorRef.detectChanges();
     console.log(moment().startOf('day').format("YYYY-MM-DD"));
+
+    this.relativeDateComparatorMetadata = this.relativeDateComparatorMetadata.filter((v)=>{return !this.removeComparators.includes(v)});
+    this.absoluteDateComparatorMetadata = this.absoluteDateComparatorMetadata.filter((v)=>{return !this.removeComparators.includes(v)});
   }
 
   resetOperatorValuesArray() {

@@ -19,6 +19,7 @@ export class FilterReactiveComponent implements OnInit {
 
   private _propertyFilterOperator: string;
   private _propertyFilterValues: string[];
+  private _propertyFilterOptions: any[];
 
   public select2Options: Select2Options;
 
@@ -30,7 +31,15 @@ export class FilterReactiveComponent implements OnInit {
 
   set selectedProperty(value: RegisteredEventProperties) {
     this._selectedProperty = value;
-    this.filterForm.get('type').setValue(value.dataType);
+    if(this._selectedProperty) {
+      this.filterForm.get('type').setValue(PropertyType[this._selectedProperty.dataType]);
+      if (this._selectedProperty['options']) {
+        console.log(this._selectedProperty['options']);
+        this.propertyFilterOptions = this._selectedProperty['options'];
+      } else {
+        this.propertyFilterOptions = [];
+      }
+    }
   }
 
   get propertyFilterOperator(): string {
@@ -50,6 +59,18 @@ export class FilterReactiveComponent implements OnInit {
   set propertyFilterValues(value: string[]) {
     this._propertyFilterValues = value;
     this.filterForm.get('values').setValue(value);
+  }
+
+  set propertyFilterValue(value) {
+    this.propertyFilterValues = [value];
+  }
+
+  get propertyFilterOptions(): any[] {
+    return this._propertyFilterOptions;
+  }
+
+  set propertyFilterOptions(value: any[]) {
+    this._propertyFilterOptions = value;
   }
 
   @Input() filter: PropertyFilter;
@@ -82,7 +103,7 @@ export class FilterReactiveComponent implements OnInit {
     }else{
       this._propertyFilterValues=this.filterForm.get('values').value;
     }
-
+    this.setSelectedProperty();
   }
 
   ngOnChanges(change: SimpleChanges) {
@@ -90,15 +111,25 @@ export class FilterReactiveComponent implements OnInit {
     // console.log(change);
     // this.eventProperties.forEach(data => console.log(data.name));
 
-    this._selectedProperty = this.eventProperties.find(data => data.name === this.filterForm.get('name').value);
-    console.log(this.filterForm.get('name').value);
+    this.setSelectedProperty();
+  }
+
+  private setSelectedProperty() {
+    if (this.filterForm.get('name').value) {
+      this.selectedProperty = this.eventProperties.find(data => data.name === this.filterForm.get('name').value);
+      if (!this.selectedProperty) {
+        console.log(this.defaultProperties.find(data => data.name === this.filterForm.get('name').value));
+        this.selectedProperty = this.defaultProperties.find(data => data.name === this.filterForm.get('name').value);
+      }
+      console.log(this.filterForm.get('name').value);
+    }
   }
 
   get propertyFilterType() {
-    if (!this._selectedProperty)
+    if (!this.selectedProperty)
       return "string";
     else
-      return this._selectedProperty.dataType;
+      return this.selectedProperty.dataType;
   }
 
   removeFilter() {
@@ -108,8 +139,29 @@ export class FilterReactiveComponent implements OnInit {
   property(event) {
     // console.log("inside peroperty");
     // console.log(event.target.value);
-    this._selectedProperty = this.eventProperties.find(data => data.name === event.target.value);
-    this.filterForm.get('type').setValue(this._selectedProperty.dataType);
-    console.log(this._selectedProperty.dataType);
+    this.selectedProperty = this.eventProperties.find(data => data.name === event.target.value);
+    if(!this.selectedProperty) {
+      this.selectedProperty = this.defaultProperties.find(data => data.name === event.target.value);
+    }
+    this.filterForm.get('type').setValue(PropertyType[this.selectedProperty.dataType]);
+    console.log(this.selectedProperty.dataType);
+  }
+
+  getSelectedPropertyOptions(): any[] {
+    let options = this.selectedProperty.options
+      .map((option, index) => {
+        return {'id': option, 'text': option}
+      });
+    return options;
+  }
+
+  select2ValueChanged(val: any, selectedProperty: any) {
+    console.log("Select 2 Value Changed: " + JSON.stringify(val) + ", Selected Property: " + JSON.stringify(this.selectedProperty));
+    this.propertyFilterValues = val["value"];
+  }
+
+  timeRangeValueChanged($event) {
+    console.log($event);
+    this.propertyFilterValues = $event;
   }
 }

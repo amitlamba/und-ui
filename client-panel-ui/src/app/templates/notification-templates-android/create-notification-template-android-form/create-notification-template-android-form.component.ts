@@ -176,6 +176,10 @@ export class CreateNotificationTemplateAndroidFormComponent implements OnInit {
     return <FormControl>this.androidTemplateFormModel.get('priority');
   }
 
+  radioClicked(key: any) {
+    console.log('clicked: '+key);
+  }
+
   save() {
     this.loading = true;
     let at = <AndroidTemplate>this.androidTemplateFormModel.value;

@@ -1,4 +1,4 @@
-<div class="container-fluid" *ngIf='segment && emailTemplate'>
+<div class="container-fluid" *ngIf='segment && (emailTemplate||smsTemplate||androidTemplate||webPushTemplate)'>
   <section class="bg-white p-4 mb-4 rounded section-box-shadow">
     <i class="fas fa-check-circle text-success fa-2x mr-3"></i>
     <p class="text-uppercase mb-1 section-property d-inline-block">
@@ -49,13 +49,27 @@
       What
     </p>
     <div class="card mb-0 mt-1" style="width: 21rem;">
-      <div class="card-header">
-        {{emailTemplate.name}}
+      <div class="card-header" *ngIf="emailTemplate">
+        Template Name: {{emailTemplate.name}}
+      </div>
+      <div class="card-header" *ngIf="smsTemplate">
+        Template Name: {{smsTemplate.name}}
+      </div>
+      <div class="card-header" *ngIf="androidTemplate">
+        Template Name: {{androidTemplate.name}}
+      </div>
+      <div class="card-header" *ngIf="webPushTemplate">
+        Template Name: {{webPushTemplate.name}}
       </div>
       <ul class="list-group list-group-flush">
-        <li class="list-group-item">From &mdash; {{emailTemplate.from}}</li>
-        <li class="list-group-item">Messaage Type &mdash; {{emailTemplate.messageType}}</li>
-        <li class="list-group-item">Subject &mdash; {{emailTemplate.emailTemplateSubject}}</li>
+        <li class="list-group-item" *ngIf="emailTemplate">From &mdash; {{emailTemplate.from}}</li>
+        <li class="list-group-item" *ngIf="emailTemplate">Messaage Type &mdash; {{emailTemplate.messageType}}</li>
+        <li class="list-group-item" *ngIf="emailTemplate">Subject &mdash; {{emailTemplate.emailTemplateSubject}}</li>
+        <li class="list-group-item" *ngIf="smsTemplate">Template &mdash; {{smsTemplate.smsTemplateBody}}</li>
+        <li class="list-group-item" *ngIf="androidTemplate">Subject &mdash; {{androidTemplate.title}}</li>
+        <li class="list-group-item" *ngIf="androidTemplate">Body &mdash; {{androidTemplate.body}}</li>
+        <li class="list-group-item" *ngIf="webPushTemplate">Subject &mdash; {{webPushTemplate.title}}</li>
+        <li class="list-group-item" *ngIf="webPushTemplate">Body &mdash; {{webPushTemplate.body}}</li>
       </ul>
     </div>
   </section>

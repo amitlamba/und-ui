@@ -150,7 +150,7 @@ export class EventreportDemographicsComponent implements OnInit ,OnChanges,OnDes
 }
 
 export class ChartModel {
-  title:string='';
+  title:string='Funnel Report';
   subTitle:string='';
   xAxisTitle:string='';
   yAxisTitle:string='';

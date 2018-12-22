@@ -94,7 +94,6 @@ export class StringComparatorComponent implements OnInit, OnChanges {
     if(this.localOperator){
       this.dropdownChanged(this.localOperator);
     }
-
   }
 
   dropdownChanged(comparator: string) {

@@ -83,6 +83,10 @@ export class TemplatesService {
     return this.httpClient.get<SmsTemplate[]>(AppSettings.API_ENDPOINT_CLIENT_CLIENT_SMS_TEMPLATES);
   }
 
+  getSmsTemplateById(id: number): Observable<SmsTemplate> {
+    return this.httpClient.get<SmsTemplate>(AppSettings.API_ENDPOINT_CLIENT_CLIENT_GET_SMS_TEMPLATE_BY_ID + "/" + id);
+  }
+
   saveSmsTemplate(smsTemplate: SmsTemplate): Observable<any> {
     return this.httpClient.post(AppSettings.API_ENDPOINT_CLIENT_CLIENT_SMS_SAVE_TEMPLATES, smsTemplate);
   }
@@ -108,6 +112,10 @@ export class TemplatesService {
       })
     );
     //Object.entries(data).map(([key, value]) => ({key,value}))
+  }
+
+  getAndroidTemplateById(id: number): Observable<AndroidTemplate> {
+    return this.httpClient.get<AndroidTemplate>(AppSettings.API_ENDPOINT_CLIENT_GET_ANDROID_TEMPLATE_BY_ID + "/" + id);
   }
 
   saveAndroidTemplate(androidTemplate: AndroidTemplate): Observable<any> {
@@ -145,6 +153,10 @@ export class TemplatesService {
         // return res;
       })
     );
+  }
+
+  getWebPushTemplateById(id: number): Observable<WebPushTemplate> {
+    return this.httpClient.get<WebPushTemplate>(AppSettings.API_ENDPOINT_CLIENT_GET_WEBPUSH_TEMPLATE_BY_ID + "/" + id);
   }
 
   saveWebPushTemplate(webPushTemplate: WebPushTemplate): Observable<any> {

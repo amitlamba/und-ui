@@ -640,4 +640,16 @@ export class SegmentService {
     });
     return error;
   }
+
+  isNotSet(segment: Segment): boolean {
+    if(!segment)
+      return true;
+    if(
+      (!segment.globalFilters || (segment.globalFilters.length == 0))
+      && (!segment.didEvents || !segment.didEvents.events || segment.didEvents.events.length == 0)
+      && (!segment.didNotEvents || !segment.didNotEvents.events || segment.didNotEvents.events.length == 0)
+      && (!segment.geographyFilters || segment.geographyFilters.length == 0)
+    )
+      return true;
+  }
 }

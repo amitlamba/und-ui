@@ -178,6 +178,10 @@ export class FindUsersComponent implements OnInit {
 
   find(segment:Segment) {
     // this.showSegmentInNl = true;
+    if(this.segmentService.isNotSet(segment)) {
+      this.messageService.addWarningMessage("No Criteria Set for the segment. Please set some criteria.");
+      return;
+    }
     this.segmentService.getEventUsersBySegment(segment)
       .subscribe(response => {
         console.log(response);
@@ -185,6 +189,9 @@ export class FindUsersComponent implements OnInit {
         // this.router.navigate(["segment","find-users"],{fragment: "event-user-list"});
       }, (error: HttpErrorResponse)=> {
         console.log(error);
+        if(error.error.error == 'Event user list not found') {
+          this.receiveEventUserList([]);
+        }
         this.messageService.addInfoMessage("No Such user Exists!!");
       });
   }

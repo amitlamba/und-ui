@@ -17,7 +17,7 @@ export class FunnelComponent implements OnInit {
   geography:string[]=['country','state','city'];
   registerdEventProperty:RegisteredEventProperties[];
   step1Event:RegisteredEvent;
-  splitproperty:string;
+  splitproperty:string = "None";
   splitPropertyType:string;
 
   data:ChartModel;
@@ -64,7 +64,7 @@ export class FunnelComponent implements OnInit {
       this.funnel.segmentid=-1;
       this.funnel.steps = [];
       this.funnel.days = 30;
-      this.funnel.conversionTime=5;
+      this.funnel.conversionTime=5*24*60*60;
       this.funnel.funnelOrder=FunnelOrder.default;
       this.funnel.splitProperty="None";
     }
@@ -140,6 +140,7 @@ export class FunnelComponent implements OnInit {
   filterOnSplitByProperty(filter){
     this.showSplitProperty=false;
     console.log(filter.target.value);
+    // this.splitproperty = filter.target.value;
     if(this.geography.indexOf(filter.target.value)>=0){
       console.log("Demographics");
       this.funnel.splitProperty=filter.target.value;
@@ -157,7 +158,8 @@ export class FunnelComponent implements OnInit {
 
     this.reportService.getFunnelResult(this.funnel).subscribe(
       response=>{
-        this.initializeGraph(response)
+        console.log(response);
+        this.initializeGraph(response);
         this.showSplitProperty=true;
       },
       error=>console.error("error occur in funnel report"+error)
@@ -167,10 +169,39 @@ export class FunnelComponent implements OnInit {
 
   initializeGraph(data:FunnelStep[]){
 
-    this.data.category=data.map(v=>v.step.eventName);
+    this.data.category=data.map(v=>v.property);
     console.log(this.data.category);
 
-    this.data.dataSeries;
+    this.data.dataSeries = [];
 
+    data.forEach(v=> {
+      this.data.dataSeries.push({
+        showInLegend: true,
+        seriesName: v.step.eventName,
+        data: [v.count]
+      });
+    })
+    // data.map(v=>v.count)
   }
+
+  conversionTimeMetadata = {
+      "5 minutes": 5 * 60,
+      "10 minutes": 10 * 60,
+      "30 minutes": 30 * 60,
+      "1 hour": 60 * 60,
+      "2 hours": 2 * 60 * 60,
+      "6 hours": 5 * 60 * 60,
+      "12 hours": 12 * 60 * 60,
+      "18 hours": 18 * 60 * 60,
+      "1 day": 24 * 60 * 60,
+      "2 days": 2 * 24 * 60 * 60,
+      "5 days": 5 * 24 * 60 * 60,
+      "7 days": 7 * 24 * 60 * 60,
+      "15 days": 15 * 24 * 60 * 60,
+      "30 days": 30 * 24 * 60 * 60,
+      "60 days": 60 * 24 * 60 * 60,
+      "180 days": 180 * 24 * 60 * 60
+  };
+
+  conversionTimeMetadataKeys = Object.keys(this.conversionTimeMetadata);
 }

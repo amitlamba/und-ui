@@ -13,6 +13,9 @@ export class NumberComparatorComponent implements OnInit {
   @Input() options: string[];
   numberComparatorMetadata: any;
   @Input() numberComparatorOperators: string[];
+  @Input() min: string = "";
+  @Input() max: string = "";
+  @Input() step: string = "";
   private singleFieldRequiredComparators: string[] = ["Equals", "NotEquals", "GreaterThan", "LessThan"];
   private doubleFieldRequiredComparators: string[] = ["Between"];
   private noFieldRequiredComparators: string[] = ["Exists", "DoesNotExist"];

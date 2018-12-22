@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {AuthenticationService} from "../_services/authentication.service";
+import {MessageService} from "../_services/message.service";
 
 @Component({
   selector: 'app-logout-header',
@@ -6,9 +8,24 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LogoutHeaderComponent implements OnInit {
 
-  constructor() { }
+  constructor(private authenticationService: AuthenticationService, private messageService: MessageService) { }
 
   ngOnInit() {
   }
 
+  get isLoggedIn(): boolean {
+    return this.authenticationService.token?true:false;
+  }
+
+  get logoLink(): string {
+    return this.isLoggedIn?"/dashboard":"/";
+  }
+
+  get loginLink(): string {
+    return this.isLoggedIn?"/dashboard":"/login";
+  }
+
+  get registerLink(): string {
+    return this.isLoggedIn?"/dashboard":"/register";
+  }
 }

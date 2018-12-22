@@ -53,7 +53,9 @@ export class SmsTemplatesComponent implements OnInit {
   }
 
   onEdit(smsTemplate: SmsTemplate) {
-    this.templatesService.smsTemplateForEdit.next(JSON.parse(JSON.stringify(smsTemplate)));
+    let smsForClone = JSON.parse(JSON.stringify(smsTemplate)) as SmsTemplate;
+    smsForClone.id = null;
+    this.templatesService.smsTemplateForEdit.next(smsForClone);
     this.router.navigate(['create-sms-template',false], {queryParams: {returnUrl: this.state.url}});
   }
 

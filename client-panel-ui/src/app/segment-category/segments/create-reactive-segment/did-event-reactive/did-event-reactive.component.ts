@@ -124,6 +124,12 @@ export class DidEventReactiveComponent implements OnInit ,OnChanges{
       console.log("where filter");
       console.log(this.didEventForm.get('whereFilter').get('operator').value);
       this._numberOperator=this.didEventForm.get('whereFilter').get('operator').value;
+
+      if(this.didEventForm.get('whereFilter').get('whereFilterName').value==='SumOfValuesOf'){
+        this.hidePropertySumFilter=false;
+      } else if(this.didEventForm.get('whereFilter').get('whereFilterName').value==='Count') {
+        this.hidePropertySumFilter=true;
+      }
     }else{
       this._numberOperator=NumberOperator.GreaterThan;
     }
@@ -193,6 +199,8 @@ export class DidEventReactiveComponent implements OnInit ,OnChanges{
   wherePropertyChange(event){
     if(event.target.value==='SumOfValuesOf'){
       this.hidePropertySumFilter=false;
+    } else if(event.target.value==='Count') {
+      this.hidePropertySumFilter=true;
     }
   }
 }
