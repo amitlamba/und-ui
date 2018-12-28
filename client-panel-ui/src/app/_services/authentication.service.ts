@@ -7,12 +7,13 @@ import {RegistrationRequest, ServiceProviderCredentials, UserProfileRequest} fro
 import {MessageService} from "./message.service";
 import {of} from "rxjs/observable/of";
 import {catchError, tap} from "rxjs/operators";
+import {SegmentService} from "./segment.service";
 
 @Injectable()
 export class AuthenticationService {
   public token: string;
 
-  constructor(private httpClient: HttpClient, private messageService: MessageService) {
+  constructor(private httpClient: HttpClient, private messageService: MessageService, private segmentService: SegmentService) {
     // set token if saved in local storage
     var currentUser = JSON.parse(localStorage.getItem('currentUser'));
     this.token = currentUser && currentUser.token;
@@ -44,6 +45,9 @@ export class AuthenticationService {
     // clear token remove user from local storage to log user out
     this.token = null;
     localStorage.removeItem('currentUser');
+
+    //Clean Lists and other things if necessary
+    this.segmentService.eventUserList = null;
   }
 
   register(registrationRequest: RegistrationRequest, recaptchaToken: string): Observable<any> {

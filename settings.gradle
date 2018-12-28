@@ -1,8 +1,1 @@
-rootProject.name = 'und'
-//include 'auth-client'
-include 'auth-service'
-include 'event-api'
-include 'client-panel'
-include 'emailsendservice'
-include 'und-scheduler'
-
+rootProject.name = 'und-ui'
