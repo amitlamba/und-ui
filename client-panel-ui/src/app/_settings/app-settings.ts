@@ -78,6 +78,7 @@ export class AppSettings {
 
   public static API_ENDPOINT_CLIENT_SETTING = AppSettings.API_ENDPOINT_CLIENT + "/setting";
   public static API_ENDPOINT_CLIENT_SETTING_ALL_SERVICE_PROVIDERS = AppSettings.API_ENDPOINT_CLIENT_SETTING + "/service-providers";
+  public static API_ENDPOINT_CLIENT_SETTING_SERVICE_PROVIDER_MARK_DEFAULT = AppSettings.API_ENDPOINT_CLIENT_SETTING + "/mark/default";///setting/mark/default?type=Email&id=1212&default=true
   public static API_ENDPOINT_CLIENT_SETTING_EMAIL_SERVICE_PROVIDERS = AppSettings.API_ENDPOINT_CLIENT_SETTING + "/email-service-providers";
   public static API_ENDPOINT_CLIENT_SETTING_EMAIL_SERVICE_PROVIDER = AppSettings.API_ENDPOINT_CLIENT_SETTING + "/email-service-provider";
   public static API_ENDPOINT_CLIENT_SETTING_EMAIL_SERVICE_PROVIDER_SAVE = AppSettings.API_ENDPOINT_CLIENT_SETTING + "/email-service-provider/save";

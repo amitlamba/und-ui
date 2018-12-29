@@ -13,6 +13,7 @@
        (click)="onChangeServiceProviderType(serviceProviderType)">{{serviceProviderType}}</a>
   </div>
 </div>
+
 <!-- Modal -->
 <div *ngIf=" serviceProviders.length>0 "
      class="modal fade" id="serviceProviderModal" tabindex="-1" role="dialog"
@@ -42,6 +43,14 @@
                      id="{{field.fieldName}}" name="{{field.fieldName}}"
                      [(ngModel)]="serviceProviderCredentials.credentialsMap[field.fieldName]">
             </div>
+            <div class="form-check">
+              <input type="checkbox" class="form-check-input" id="isDefault" [(ngModel)]="serviceProviderCredentials.isDefault"
+                     [ngModelOptions]="{standalone: true}">
+              <label class="form-check-label" for="isDefault">Mark as default</label>
+              <div class="text-muted small">* Only single Service Provider could be default for a given type (Email, SMS, etc.)</div>
+              <div class="text-muted small">* Marking a service provider as default, would mark other providers, if any, for that type as non-default</div>
+              <div class="text-muted small">* First service provider of a type would be marked default irrespectively</div>
+            </div>
           </form>
         </div>
       </div>
@@ -57,6 +66,7 @@
   </div>
 </div>
 
+
 <div class="row justify-content-center">
 
   <div class="col-sm-10">
@@ -67,6 +77,7 @@
         <th scope="col">Service Provider Type</th>
         <th scope="col">Service Provider</th>
         <th scope="col">Status</th>
+        <th scope="col">Default</th>
         <th scope="col">Action</th>
       </tr>
       </thead>
@@ -76,9 +87,45 @@
         <td>{{serviceProviderCredential.serviceProviderType}}</td>
         <td>{{serviceProviderCredential.serviceProvider}}</td>
         <td>{{serviceProviderCredential.status}}</td>
-        <td><button class="btn" disabled style="cursor: no-drop">Edit</button></td>
+        <td>{{serviceProviderCredential.isDefault?'Yes':'No'}}</td>
+        <td><button class="btn not-allowed" disabled>Edit</button>
+          <a      href="#serviceProviderViewModal"
+                  data-toggle="modal"
+                  (click)="viewServiceProvider(serviceProviderCredential)">
+            <button class="btn">View</button>
+          </a>
+          <button class="btn btn-outline-primary" (click)="markAsDefault(serviceProviderCredential)" [disabled]="serviceProviderCredential.isDefault" [ngClass]="{'not-allowed': serviceProviderCredential.isDefault}">Mark Default</button></td>
       </tr>
       </tbody>
     </table>
+  </div>
+
+  <!--Modal 2-->
+  <div *ngIf=" serviceProviders.length>0"
+       class="modal fade" id="serviceProviderViewModal" tabindex="-1" role="dialog"
+       aria-labelledby="serviceProviderViewModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document" >
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="serviceProviderViewModalLabel">{{serviceProviderViewData.serviceProviderType}}</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body py-2 px-5">
+          <table class="table" >
+            <tbody>
+            <tr *ngFor="let c of credentialsArray">
+              <td>{{c[0]}}</td>
+              <td style="max-width:300px; word-wrap: break-word;">{{c[1]}}</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

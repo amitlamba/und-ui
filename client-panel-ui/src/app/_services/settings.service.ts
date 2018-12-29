@@ -1,9 +1,12 @@
 import {Injectable} from '@angular/core';
-import {AccountSettings, SendersInfo, ServiceProviderCredentials, UnSubscribeLink} from "../_models/client";
+import {
+  AccountSettings, SendersInfo, ServiceProviderCredentials, ServiceProviderType,
+  UnSubscribeLink
+} from "../_models/client";
 import {Campaign} from "../_models/campaign";
 import {Observable} from "rxjs/Observable";
 import {AppSettings} from "../_settings/app-settings";
-import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
 
 @Injectable()
 export class SettingsService {
@@ -75,6 +78,12 @@ export class SettingsService {
   deleteSendersInfo(sendersInfo): Observable<any> {
     const headers = new HttpHeaders().set('Content-Type', 'application/json; charset=utf-8');
     return this.httpClient.post<SendersInfo>(AppSettings.API_ENDPOINT_CLIENT_SETTING_SENDERS_EMAIL_DELETE, sendersInfo, {headers: headers});
+  }
+
+  setDefaultServiceProvider(serviceProviderType: string, serviceProviderId: string): Observable<any> {
+    // const headers = new HttpHeaders().set('Content-Type', 'application/json; charset=utf-8');
+    const params = new HttpParams().set("type", serviceProviderType).set("id",serviceProviderId).set("default","true");
+    return this.httpClient.post(AppSettings.API_ENDPOINT_CLIENT_SETTING_SERVICE_PROVIDER_MARK_DEFAULT, null, {params: params});
   }
 
   readonly serviceProviders: any = {
@@ -216,30 +225,30 @@ export class SettingsService {
         }
       }
     },
-    "Notification Service Provider": {
-      "name": "Notification Service Provider",
-      "displayName": "Notification Service Provider",
-      "providers": {
-        "Google - FCM": {
-          "name": "Google - FCM",
-          "displayName": "Google - FCM",
-          "fields": [
-            {
-              "fieldName": "apiKey",
-              "fieldDisplayName": "API Key",
-              "required": true,
-              "fieldType": "string"
-            },
-            {
-              "fieldName": "senderId",
-              "fieldDisplayName": "Sender ID",
-              "required": true,
-              "fieldType": "string"
-            }
-          ]
-        }
-      }
-    },
+    // "Notification Service Provider": {
+    //   "name": "Notification Service Provider",
+    //   "displayName": "Notification Service Provider",
+    //   "providers": {
+    //     "Google - FCM": {
+    //       "name": "Google - FCM",
+    //       "displayName": "Google - FCM",
+    //       "fields": [
+    //         {
+    //           "fieldName": "apiKey",
+    //           "fieldDisplayName": "API Key",
+    //           "required": true,
+    //           "fieldType": "string"
+    //         },
+    //         {
+    //           "fieldName": "senderId",
+    //           "fieldDisplayName": "Sender ID",
+    //           "required": true,
+    //           "fieldType": "string"
+    //         }
+    //       ]
+    //     }
+    //   }
+    // },
     "Android Push Service Provider": {
       "name": "Android Push Service Provider",
       "displayName": "Android Push Service Provider",

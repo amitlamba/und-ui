@@ -5,6 +5,7 @@ import {AuthenticationService} from "../../_services/authentication.service";
 import {SettingsService} from "../../_services/settings.service";
 import {Router} from "@angular/router";
 import {parseHttpResponse} from "selenium-webdriver/http";
+import {HttpErrorResponse} from "@angular/common/http";
 
 @Component({
   selector: 'app-profile-serviceproviders',
@@ -19,6 +20,8 @@ export class ServiceprovidersComponent implements OnInit {
   serviceProviders: string[] = [];
   serviceProviderFields: any = {};
   serviceProviderCredentialsList: ServiceProviderCredentials[] = [];
+  // showServiceProviderView: boolean = false;
+  serviceProviderViewData: ServiceProviderCredentials;
 
   constructor(private messageService: MessageService,
               private authenticationService: AuthenticationService,
@@ -137,5 +140,27 @@ export class ServiceprovidersComponent implements OnInit {
       }
     }
 
+  }
+
+  markAsDefault(serviceProviderCredential: ServiceProviderCredentials) {
+    this.settingsService.setDefaultServiceProvider(serviceProviderCredential.serviceProviderType, serviceProviderCredential.id)
+      .subscribe((response) => {
+          this.messageService.addSuccessMessage("Service Provider Marked as Default successfully.");
+          this.getServiceProvidersList();
+      },
+        (error: HttpErrorResponse) => {
+          this.messageService.addDangerMessage(error.error.message);
+        })
+  }
+
+  viewServiceProvider(spc: ServiceProviderCredentials) {
+    console.log(spc);
+    this.serviceProviderViewData = spc;
+    // this.showServiceProviderView = true;
+  }
+
+  get credentialsArray(): Array<Array<string>> {
+    let keys = Object.keys(this.serviceProviderViewData.credentialsMap);
+    return keys.map<Array<string>>((v)=>{return [v, this.serviceProviderViewData.credentialsMap[v]]});
   }
 }
