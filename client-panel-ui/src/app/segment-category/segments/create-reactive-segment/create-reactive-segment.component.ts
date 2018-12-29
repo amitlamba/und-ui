@@ -31,7 +31,8 @@ export class CreateReactiveSegmentComponent implements OnInit, OnDestroy {
 
   constructor(private fb: FormBuilder,
               private segmentService: SegmentService,
-              private router: Router) {
+              private router: Router,
+              private messageService: MessageService) {
 
     this.segment = segmentService.cloneSegment;
 
@@ -45,13 +46,17 @@ export class CreateReactiveSegmentComponent implements OnInit, OnDestroy {
   }
 
   save() {
-    this.validatedSegment.name = this.segmentFormModel.get('segmentName').value;
+    this.validatedSegment.name = this.segmentFormModel.get('segmentName').value.trim();
     this.segmentFormModel.reset();
     console.log(this.validatedSegment);
     this.segmentService.saveSegment(this.validatedSegment).subscribe(
       (segment) => {
         this.segmentService.segments.push(this.validatedSegment);
         this.router.navigate(['segment/segments']);
+      },
+      (error) => {
+        console.log(error);
+        this.messageService.addDangerMessage(error.error.error);
       }
     );
     this.display = false;

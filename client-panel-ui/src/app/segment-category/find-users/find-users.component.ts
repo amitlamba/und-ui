@@ -187,6 +187,7 @@ export class FindUsersComponent implements OnInit {
         console.log(response);
         this.receiveEventUserList(response);
         // this.router.navigate(["segment","find-users"],{fragment: "event-user-list"});
+        this.messageService.addSuccessMessage(this.eventUserList.length + " users found. Please scroll down to see the data.");
       }, (error: HttpErrorResponse)=> {
         console.log(error);
         if(error.error.error == 'Event user list not found') {

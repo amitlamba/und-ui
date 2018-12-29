@@ -60,7 +60,7 @@ export class EmailTemplatesComponent implements OnInit {
     );
   }
 
-  onEdit(emailTemplate: EmailTemplate) {
+  onClone(emailTemplate: EmailTemplate) {
     this.removeComponent();
     console.log(JSON.parse(JSON.stringify(emailTemplate)));
     this.templatesService.emailTemplateForEdit.next(JSON.parse(JSON.stringify(emailTemplate)));
