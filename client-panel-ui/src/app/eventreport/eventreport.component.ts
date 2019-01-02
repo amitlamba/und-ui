@@ -1,6 +1,6 @@
 import {Component, DoCheck, Input, OnChanges, OnInit} from '@angular/core';
 import {ActivatedRoute, ActivatedRouteSnapshot, Params} from "@angular/router";
-import {moment} from "ngx-bootstrap/chronos/test/chain";
+import * as moment from "moment";
 import {SegmentService} from "../_services/segment.service";
 import {GlobalFilter, GlobalFilterType, RegisteredEvent, Segment} from "../_models/segment";
 

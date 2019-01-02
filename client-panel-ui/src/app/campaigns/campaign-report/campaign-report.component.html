@@ -46,16 +46,17 @@
     </div>
 
     <div class="card">
-      <div class="card-header"><span>Conversion Rate</span></div>
+      <div class="card-header"><span>Conversion Funnel</span></div>
       <div class="card-body">
-        <div class="row">
-          <div class="col">
-            <span>Influenced User</span>
-          </div>
-        </div>
-        <div class="row">
-
-        </div>
+        <app-draw-simple-chart *ngIf="conversionFunnelChartData.dataSeries"
+                               [title]=conversionFunnelChartData.title
+                               [subtitle]=conversionFunnelChartData.subTitle
+                               [xAxisTitle]=conversionFunnelChartData.xAxisTitle
+                               [yAxisTitle]=conversionFunnelChartData.yAxisTitle
+                               [chartType]=conversionFunnelChartData.graphType
+                               [categories]=conversionFunnelChartData.category
+                               [dataSeries]=conversionFunnelChartData.dataSeries
+        ></app-draw-simple-chart>
       </div>
     </div>
   </div>

@@ -2,8 +2,9 @@ import {Component, Input, OnChanges, OnInit, SimpleChanges} from "@angular/core"
 import {Campaign} from "../../_models/campaign";
 import {ActivatedRoute} from "@angular/router";
 import {CampaignService} from "../../_services/campaign.service";
-import {CampaignReach, ChartSeriesData} from "../../_models/reports";
+import {CampaignReach, ChartSeriesData, FunnelReportFilter} from "../../_models/reports";
 import {ReportsService} from "../../_services/reports.service";
+import {ChartModel} from "../../eventreport/eventreport-demographics/eventreport-demographics.component";
 
 @Component({
   selector:'app-campaign-report',
@@ -17,6 +18,9 @@ export class CampaignReportComponent implements OnInit {
   campaignId: number;
   campaignReach: CampaignReach;
   campaignReachChartData: ChartSeriesData[] = [];
+
+  conversionFunnel: FunnelReportFilter;
+  conversionFunnelChartData: ChartModel;
 
   constructor(private campaignService: CampaignService,
               private reportsService: ReportsService,
@@ -69,4 +73,24 @@ export class CampaignReportComponent implements OnInit {
     this.getCampaignReach(this.campaign.id);
   }
 
+  getConversionFunnel() {
+    this.conversionFunnel = new FunnelReportFilter();
+    this.conversionFunnel.segmentid = this.campaign.segmentationID;
+    this.conversionFunnel.steps = [{order: 2, eventName: "Notification_Sent"},{order: 2, eventName: this.campaign.conversionEvent}]
+    this.reportsService.getFunnelResult(this.conversionFunnel).subscribe(
+      response => {
+        this.setCoversionFunnelChartData(response);
+      },
+      error => {
+        console.error("error occur in funnel report");
+        console.error(error);
+      }
+    );
+  }
+
+  setCoversionFunnelChartData(data: any) {
+    this.conversionFunnelChartData.yAxisTitle = "Number of users";
+    this.conversionFunnelChartData.xAxisTitle = "Events";
+    console.log(data);
+  }
 }
