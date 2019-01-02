@@ -1,10 +1,14 @@
 import {Component, DoCheck, Input, OnChanges, OnDestroy, OnInit} from '@angular/core';
-import {AggregateBy, ChartSeriesData, EntityType, EventReportFilter, GroupBy, PERIOD} from "../../_models/reports";
+import {
+  AggregateBy, ChartSeriesData, EntityType, EventPeriodCount, EventReportFilter, GroupBy,
+  PERIOD
+} from "../../_models/reports";
 import {ReportsService} from "../../_services/reports.service";
 import {HttpClient} from "@angular/common/http";
 import {ChartModel} from "../eventreport-demographics/eventreport-demographics.component";
 import {GlobalFilter} from "../../_models/segment";
 import {forEach} from "@angular/router/src/utils/collection";
+import * as moment from "moment";
 
 @Component({
   selector: 'app-eventreport-overall',
@@ -203,7 +207,10 @@ export class EventreportOverallComponent implements OnInit ,OnChanges,OnDestroy,
               this.eventTimeTrendChart.category=response.map(data=>data.period['year']+"-"+data.period['month']+"-"+data.period['dayOfMonth']);
               break;
             case PERIOD.dayOfWeek:
-              this.eventTimeTrendChart.category=response.map(data=>data.period['year']+"-"+data.period['month']+"-"+data.period['dayOfWeek']);
+              console.log(response);
+              response = this.converDailyDataToWeekly(response);
+              console.log(response);
+              this.eventTimeTrendChart.category=response.map(data=>data.period['year']+"-"+data.period['month']+"-"+data.period['day'] + " -");
               break;
             case PERIOD.month:
               this.eventTimeTrendChart.category=response.map(data=>data.period['year']+"-"+data.period['month']);
@@ -221,6 +228,51 @@ export class EventreportOverallComponent implements OnInit ,OnChanges,OnDestroy,
         }
       );
   }
+
+  converDailyDataToWeekly(data: EventPeriodCount[]) {
+    let res = {};
+    let firstDate=data[0].period['year']+"-"+data[0].period['month']+"-"+data[0].period['dayOfMonth'];
+    let firstStartOfWeek =moment(firstDate).startOf('week');
+    data.forEach((value)=>{
+      let newDate=value.period['year']+"-"+value.period['month']+"-"+value.period['dayOfMonth'];
+      let startOfWeek = moment(newDate).startOf('week');
+      if(!res[startOfWeek.format('YYYY-MM-DD')]) {
+        res[startOfWeek.format('YYYY-MM-DD')] = value.count;
+      } else {
+        res[startOfWeek.format('YYYY-MM-DD')] += value.count;
+      }
+    });
+    console.log(res);
+    return Object.keys(res).map<EventPeriodCount>(v => {
+      return {
+        period: JSON.parse(JSON.stringify({
+          'year': v.substr(0, 4),
+          'month': v.substr(5, 2),
+          'day': v.substr(8, 2)
+        })),
+        count: res[v]
+      };
+    });
+  }
+
+  convertDailyDataToMap(data:EventPeriodCount[]){
+    var map:Map<number,EventPeriodCount>=new Map();
+    data.forEach((value, index) => {
+        var year=value.period['year'];
+        var month=value.period['month'];
+        var date=value.period['dayOfMonth'];
+        var time=moment(year+"-"+month+"-"+date);
+        var week=time.week();
+      if(map.has(week)){
+          var v=map.get(week);
+          v.count+=value.count;
+          map.set(week,v)
+      }else{
+          map.set(week,value)
+      }
+    });
+  }
+
 
   ngDoCheck(){
 
