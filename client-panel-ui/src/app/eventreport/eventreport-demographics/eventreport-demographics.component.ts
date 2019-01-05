@@ -2,7 +2,7 @@ import {Component, Input, OnChanges, OnDestroy, OnInit} from '@angular/core';
 import {ChartSeriesData, EntityType, EventCount, EventReportFilter, GroupBy} from "../../_models/reports";
 import {GlobalFilter} from "../../_models/segment";
 import {ReportsService} from "../../_services/reports.service";
-import {getFullYear} from "ngx-bootstrap/chronos/utils/date-getters";
+// import {getFullYear} from "ngx-bootstrap/chronos/utils/date-getters";
 
 @Component({
   selector: 'app-eventreport-demographics',

@@ -10,7 +10,7 @@ import {
   UserCountTimeSeries, UserCountTrendForDate, UserTypeTrendForDate
 } from "../_models/reports";
 import {NgForm} from "@angular/forms";
-import {moment} from "ngx-bootstrap/chronos/test/chain";
+import * as moment from "moment";
 import {Router} from "@angular/router";
 import {forEach} from "@angular/router/src/utils/collection";
 import {SegmentService} from "../_services/segment.service";
