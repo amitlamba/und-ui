@@ -64,6 +64,7 @@ export class CreateEmailTemplateFormComponent implements OnInit, OnChanges {
   onSave(form: FormData) {
     // console.log(JSON.stringify(this.emailTemplate));
     if (this.form.valid) {
+      this.emailTemplate.id = null;
       if (this.emailTemplate.id) {
         this.templatesService.saveEmailTemplate(this.emailTemplate)
           .subscribe(
@@ -87,7 +88,10 @@ export class CreateEmailTemplateFormComponent implements OnInit, OnChanges {
               this.router.navigateByUrl(this.returnUrl);
             },
             (error: HttpErrorResponse) => {
-              this.messageService.addDangerMessage(error.error.message);
+              if(Array.isArray(error.error)) {
+                error.error.forEach(v=>this.messageService.addDangerMessage(v.field +": "+v.message));
+              } else
+                this.messageService.addDangerMessage(error.error.error);
             }
           );
       }

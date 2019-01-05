@@ -5,7 +5,7 @@ import {
   RegisteredEventProperties
 } from "../../../../_models/segment";
 import {SegmentService} from "../../../../_services/segment.service";
-import {moment} from "ngx-bootstrap/chronos/test/chain";
+import * as moment from "moment";
 
 @Component({
   selector: 'app-did-event-reactive',

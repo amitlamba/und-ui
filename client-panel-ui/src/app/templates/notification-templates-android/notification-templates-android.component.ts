@@ -47,7 +47,7 @@ export class NotificationTemplatesAndroidComponent implements OnInit {
     );
   }
 
-  onEdit(notificationTemplate: AndroidTemplate) {
+  onClone(notificationTemplate: AndroidTemplate) {
     this.templatesService.androidTemplateForEdit.next(JSON.parse(JSON.stringify(notificationTemplate)));
     this.router.navigate(['create-notification-template-android',false], {queryParams: {returnUrl: this.state.url}});
   }

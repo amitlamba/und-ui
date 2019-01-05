@@ -10,7 +10,7 @@ import {DaterangepickerConfig} from "ng2-daterangepicker";
 import {Router} from "@angular/router";
 import {MessageService} from "../../../_services/message.service";
 import {SegmentService} from "../../../_services/segment.service";
-import {moment} from "ngx-bootstrap/chronos/test/chain";
+import * as moment from "moment";
 
 @Component({
   selector: 'app-segment-behavior-reactive',

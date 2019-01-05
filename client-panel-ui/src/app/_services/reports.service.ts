@@ -131,6 +131,21 @@ export class ReportsService {
     return this.httpClient.post<EventCount[]>(AppSettings.API_ENDPOINT_CLIENT_REPORT_EVENT_EVENTCOUNT, propFilter, {params: params});
   }
 
+  getEventReachability(erf: EventReportFilter, entitytype: EntityType, groupby: GroupBy): Observable<EventCount[]> {
+    //group by optional  os
+    // const params = new HttpParams().set("ftr", eventReportFilter.toString()).set("entityType", entitytype);
+    const params = new HttpParams()
+      .set("entityType", entitytype)
+      .set("segmentid", erf.segmentid.toString())
+      .set("fromDate", erf.fromDate)
+      .set("toDate", erf.toDate)
+      .set("eventName", erf.eventName)
+      .set("groupFilterType", groupby.globalFilterType)
+      .set("groupName", groupby.name);
+    const propFilter = erf.propFilter;
+    return this.httpClient.post<EventCount[]>(AppSettings.API_ENDPOINT_CLIENT_REPORT_EVENT_EVENTREACHABILITY, propFilter, {params: params});
+  }
+
   getTimePeriodTrend(erf: EventReportFilter, entitytype: EntityType, period: PERIOD): Observable<EventPeriodCount[]> {
 
     const params = new HttpParams()

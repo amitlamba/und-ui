@@ -56,6 +56,12 @@ export class CreateSmsTemplateFormComponent implements OnInit {
               this.templatesService.addSmsTemplate(this.smsTemplate);
               this.messageService.addSuccessMessage("Sms Template Created Successfully");
               this.router.navigateByUrl(this.returnUrl);
+            },
+            error => {
+              if (Array.isArray(error.error)) {
+                error.error.forEach(v => this.messageService.addDangerMessage(v.field + ": " + v.message));
+              } else
+                this.messageService.addDangerMessage(error.error.error);
             }
           );
       }

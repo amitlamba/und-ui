@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {moment} from "ngx-bootstrap/chronos/test/chain";
+import * as moment from "moment";
 import {Segment} from "../_models/segment";
 import {SegmentService} from "../_services/segment.service";
 import {ActivatedRoute, Router} from "@angular/router";

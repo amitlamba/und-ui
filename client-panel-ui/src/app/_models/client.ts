@@ -9,6 +9,7 @@ export class ServiceProviderCredentials {
   serviceProvider: string;
   status: string;
   credentialsMap: any = {}; // store the map, key value pairs
+  isDefault: boolean = false;
 }
 
 export enum ServiceProviderType {

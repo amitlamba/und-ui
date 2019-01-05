@@ -47,7 +47,7 @@ export class NotificationTemplatesWebPushComponent implements OnInit {
     );
   }
 
-  onEdit(notificationTemplate: WebPushTemplate) {
+  onClone(notificationTemplate: WebPushTemplate) {
     this.templatesService.webPushTemplateForEdit.next(JSON.parse(JSON.stringify(notificationTemplate)));
     this.router.navigate(['create-notification-template-web-push',false], {queryParams: {returnUrl: this.state.url}});
   }

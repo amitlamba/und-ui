@@ -32,6 +32,9 @@ export class FunnelComponent implements OnInit {
 
   registeredEvents: RegisteredEvent[];
 
+  loading = false;
+  success = false;
+
   // globalFiltersMetadata:any;
   constructor(private fb:FormBuilder,
               private segmentService:SegmentService,
@@ -118,14 +121,19 @@ export class FunnelComponent implements OnInit {
   viewFunnel(){
     console.log(this.funnelForm);
     Object.assign(this.funnel,this.funnelForm.value);
+    this.loading = true;
     this.reportService.getFunnelResult(this.funnel).subscribe(
       response => {
         this.initializeGraph(response);
         this.showSplitProperty = true;
+        this.loading = false;
+        this.success = true;
       },
       error => {
         console.error("error occur in funnel report");
         console.error(error);
+        this.loading = false;
+        this.success = false;
       }
     );
 
@@ -155,32 +163,85 @@ export class FunnelComponent implements OnInit {
       this.funnel.splitPropertyType=GlobalFilterType.EventAttributeProperties;
     }
 
-
+    this.loading = true;
     this.reportService.getFunnelResult(this.funnel).subscribe(
       response=>{
         console.log(response);
+        this.orderData(response);
+        console.log(response);
         this.initializeGraph(response);
         this.showSplitProperty=true;
+        this.loading =false;
+        this.success = true;
       },
-      error=>console.error("error occur in funnel report"+error)
+      error=> {
+        console.error("error occur in funnel report" + error);
+        this.loading = false;
+        this.success = false;
+      }
     );
 
   }
 
+  orderData(data: FunnelStep[]) {
+    data.sort((a,b)=>
+    {
+      if(a.step.order == b.step.order) {
+        return b.count - a.count;
+      } else {
+        return a.step.order - b.step.order;
+      }
+    });
+  }
+
   initializeGraph(data:FunnelStep[]){
 
-    this.data.category=data.map(v=>v.property);
-    console.log(this.data.category);
+    if(this.splitproperty == 'None') {
+      this.data.category = data.map(v => v.property).filter(function(item, i, ar){ return ar.indexOf(item) === i; });
+      console.log(this.data.category);
 
-    this.data.dataSeries = [];
+      this.data.dataSeries = [];
 
-    data.forEach(v=> {
-      this.data.dataSeries.push({
-        showInLegend: true,
-        seriesName: v.step.eventName,
-        data: [v.count]
+      data.forEach(v => {
+        this.data.dataSeries.push({
+          showInLegend: true,
+          seriesName: v.step.eventName,
+          data: [v.count]
+        });
+      })
+    } else {
+      console.log(data);
+      let category = data.map(v => v.property).filter(function(item, i, ar){ return ar.indexOf(item) === i; });
+      let categorized = [];
+      data.forEach((v,i)=>{
+        let found = categorized.find((v1)=> v1.name === v.step.eventName);
+        if(!found) {
+          let n: any = {};
+          n['name'] = v.step.eventName;
+          n['data'] = {};
+          n['data'][v.property] = v.count;
+          categorized.push(n);
+        } else {
+          found.data[v.property] = v.count;
+        }
       });
-    })
+      console.log(categorized);
+      let dataSeries = []
+      categorized.forEach((v) => {
+        let d = {};
+        d['seriesName'] = v['name'];
+        let data = [];
+        category.forEach((v1, i)=> {
+          data[i] = (v['data'][v1] == undefined) ? 0 : v['data'][v1];
+        })
+        d['data'] = data;
+        d['showInLegend'] = true;
+        dataSeries.push(d);
+      });
+      this.data.category = category;
+      this.data.dataSeries = dataSeries;
+      console.log(this.data);
+    }
     // data.map(v=>v.count)
   }
 

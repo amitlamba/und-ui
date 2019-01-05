@@ -29,6 +29,7 @@
                      aria-describedby="segmentNameHelp"
                      placeholder="Enter Segment Name"
                      [ngClass]="{'border-danger':segmentNameControl.errors && (segmentNameControl.touched || segmentNameControl.dirty )}"
+                     trim="blur"
               >
               <div class="alert-alert-danger" *ngIf="segmentNameControl.errors && (segmentNameControl.touched || segmentNameControl.dirty )">
                 Name is Required.

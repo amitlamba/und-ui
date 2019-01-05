@@ -48,17 +48,20 @@ export class EventreportReachabilityComponent implements OnInit,OnDestroy ,OnCha
     var groupBy= new GroupBy();
     groupBy.globalFilterType=this.groupByFilterType;
     groupBy.name='email';
-    this.reportService.getCountTrend(this.eventReportFilterParam,this.entityTypeParam,groupBy)
+    this.reportService.getEventReachability(this.eventReportFilterParam,this.entityTypeParam,groupBy)
       .subscribe(
         response=>{
-          this.drawChart.category=response.map(data=>data.groupedBy['name']);
-          var data=response.map(data=>data.count);
-          var chartSeriesData={
+          this.drawChart.category=Object.keys(response);
+          let data=this.drawChart.category.map<number>((v)=>{
+            return response[v] as number;
+          });
+          let chartSeriesData={
             showInLegend:false,
-            seriesName:'email',
+            seriesName:'Reachability',
             data:data
           };
-
+          this.drawChart.xAxisTitle = "Reachable by";
+          this.drawChart.yAxisTitle = "Number of users";
           this.drawChart.dataSeries.push(chartSeriesData);
 
           console.log(response);

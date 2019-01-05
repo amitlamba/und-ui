@@ -182,16 +182,10 @@ export class CreateNotificationTemplateWebPushFormComponent implements OnInit {
       error => {
         this.success = false;
         this.loading = false;
-        if (error.error.error)
+        if (Array.isArray(error.error)) {
+          error.error.forEach(v => this.messageService.addDangerMessage(v.field + ": " + v.message));
+        } else
           this.messageService.addDangerMessage(error.error.error);
-        if (error.error && error.error.length) {
-          error.error.forEach(v => {
-              this.messageService.addDangerMessage(
-                v.field + " : " + v.message
-              )
-            }
-          );
-        }
       }
     );
   }

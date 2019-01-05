@@ -1,6 +1,6 @@
 <div class="container mb-4">
   <h1 class="text-center" *ngIf="createNewTemplate">Create Email Template</h1>
-  <h1 class="text-center" *ngIf="!createNewTemplate">Edit Email Template</h1>
+  <h1 class="text-center" *ngIf="!createNewTemplate">Create Email Template</h1>
   <div class="py-4">
     <form (ngSubmit)="onSave(emailTemplateForm)" #emailTemplateForm="ngForm">
       <div class="row mx-auto">

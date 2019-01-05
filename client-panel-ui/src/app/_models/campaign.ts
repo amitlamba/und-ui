@@ -9,6 +9,8 @@ export class Campaign {
   templateID: number;
   status: CampaignStatus;
   dateCreated: string;
+  conversionEvent: string;
+  serviceProviderId: number;
   // createdOn: Date;
   // clientID: number;
   // appuserID: number;

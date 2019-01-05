@@ -43,7 +43,7 @@
 
       </div>
       <div class="my-3">
-        <button class="btn btn-primary" (click)="addStep()">Add Step</button>
+        <button class="btn btn-primary" (click)="addStep()" [disabled]="loading">Add Step</button>
       </div>
     </div>
 
@@ -77,7 +77,7 @@
     </div>
 
     <div class="ml-auto my-5 mr-md-5 mr-1">
-      <button type="button" class="btn btn-primary" [disabled]="funnelForm.invalid"(click)="viewFunnel()">Create Funnel</button>
+      <button type="button" class="btn btn-primary" [disabled]="funnelForm.invalid || loading"(click)="viewFunnel()">Create Funnel</button>
     </div>
   </div>
 </div>

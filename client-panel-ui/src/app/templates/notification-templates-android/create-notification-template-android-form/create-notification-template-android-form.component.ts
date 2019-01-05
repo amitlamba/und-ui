@@ -196,6 +196,9 @@ export class CreateNotificationTemplateAndroidFormComponent implements OnInit {
       error => {
         this.success = false;
         this.loading = false;
+        if(Array.isArray(error.error)) {
+          error.error.forEach(v=>this.messageService.addDangerMessage(v.field +": "+v.message));
+        } else
         this.messageService.addDangerMessage(error.error.error);
       }
     );
