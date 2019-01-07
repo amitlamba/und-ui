@@ -208,7 +208,14 @@ export class EventreportOverallComponent implements OnInit, OnChanges, OnDestroy
               this.eventTimeTrendChart.category = response.map(data => data.period['year'] + "-" + data.period['month'] + "-" + data.period['dayOfMonth']);
               break;
             case PERIOD.dayOfWeek:
-              response = this.converDailyDataToWeekly(response);
+              let start=moment(this.eventReportFilterParam.fromDate);
+              let end=moment(this.eventReportFilterParam.toDate);
+              let map=new Map();
+              for(;start.isSameOrBefore(end);){
+                map.set(start.startOf('week').format('YYYY-MM-DD'),0);
+                start=start.add(7,'day');
+              }
+              response = this.convertDailyDataToWeekly(response,map);
               this.eventTimeTrendChart.category = response.map((data,index) => {
                 if(index==0){
                   let startdate=moment(this.eventReportFilterParam.fromDate);
@@ -243,30 +250,32 @@ export class EventreportOverallComponent implements OnInit, OnChanges, OnDestroy
       );
   }
 
-  converDailyDataToWeekly(data: EventPeriodCount[]) {
-    let res = {};
+  convertDailyDataToWeekly(data: EventPeriodCount[],res:Map<string,number>) {
+
     let firstDate = data[0].period['year'] + "-" + data[0].period['month'] + "-" + data[0].period['dayOfMonth'];
     let firstStartOfWeek = moment(firstDate).startOf('week');
     data.forEach((value) => {
       let newDate = value.period['year'] + "-" + value.period['month'] + "-" + value.period['dayOfMonth'];
       let startOfWeek = moment(newDate).startOf('week');
-      if (!res[startOfWeek.format('YYYY-MM-DD')]) {
-        res[startOfWeek.format('YYYY-MM-DD')] = value.count;
-      } else {
-        res[startOfWeek.format('YYYY-MM-DD')] += value.count;
-      }
+      // if(res.has(startOfWeek.format("YYYY-MM-DD"))){
+        let v=res.get(startOfWeek.format("YYYY-MM-DD"));
+        res.set(startOfWeek.format("YYYY-MM-DD"),v+value.count);
+      // }
+
     });
-    console.log(res);
-    return Object.keys(res).map<EventPeriodCount>(v => {
-      return {
-        period: JSON.parse(JSON.stringify({
-          'year': v.substr(0, 4),
-          'month': v.substr(5, 2),
-          'day': v.substr(8, 2)
-        })),
-        count: res[v]
-      };
+    let r:EventPeriodCount[]=[];
+    res.forEach((value, key) => {
+      r.push(JSON.parse(JSON.stringify(
+        {
+          "period": {
+            'year': key.substr(0, 4),
+            'month': key.substr(5, 2),
+            'day': key.substr(8, 2)
+          },
+          "count": value
+        })));
     });
+    return r;
   }
 
   ngDoCheck() {
