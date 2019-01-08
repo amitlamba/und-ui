@@ -49,6 +49,7 @@ export class ServiceprovidersComponent implements OnInit {
   }
 
   setServiceProviders(serviceProviderType: string) {
+    debugger
     let sp = Object.keys(this.settingsService.serviceProviders[serviceProviderType]['providers']);
     this.serviceProviderCredentials.serviceProvider = sp[0];
     this.setServiceProviderFields();
@@ -57,6 +58,7 @@ export class ServiceprovidersComponent implements OnInit {
   }
 
   onChangeServiceProviderType(data: string) {
+    debugger
     this.serviceProviderCredentials.serviceProviderType = data;
     console.log(this.serviceProviderCredentials.serviceProviderType);
     this.setServiceProviders(this.serviceProviderCredentials.serviceProviderType);
@@ -154,7 +156,6 @@ export class ServiceprovidersComponent implements OnInit {
   }
 
   viewServiceProvider(spc: ServiceProviderCredentials) {
-    console.log(spc);
     this.serviceProviderViewData = spc;
     // this.showServiceProviderView = true;
   }

@@ -16,6 +16,8 @@ export class AccountSettingsComponent implements OnInit {
   UnSubscribeLink: UnSubscribeLink = new UnSubscribeLink();
   protocol: string = 'https://';
   websiteURL: string;
+  androidAppId:string;
+  iosAppId:string;
   protocolsArray: string[] = ['http://', 'https://'];
   codeSnippet: string;
   tokenValue: string;
@@ -47,20 +49,26 @@ export class AccountSettingsComponent implements OnInit {
 
             this.websiteURL = accountSettings.urls[0].substring(accountSettings.urls[0].indexOf("/") + 2);
           }
+          if (accountSettings && accountSettings !== 'null' && typeof accountSettings.andAppId[0] !== "undefined") {
+            this.androidAppId=accountSettings.andAppId[0]
+          }
+          if (accountSettings && accountSettings !== 'null' && typeof accountSettings.iosAppId[0] !== "undefined") {
+            this.iosAppId=accountSettings.iosAppId[0]
+          }
         }
       );
-    this.settingsService.refreshToken().subscribe(
-      (response) => {
-        console.log(response.data.value.token);
-        this.tokenValue = response.data.value.token;
-        this.codeSnippet =
-          "<script>(function(i,s,o,g,r,a,m){i['UserNDotObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*newDate();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//userndot.com/sdk/js/a.js','_und');\n" +
-          "      _und('create', '"+this.tokenValue+"', {\n" +
-          "      sites: ['"+this.protocol+"://"+this.websiteURL+"']\n" +
-          "    });\n" +
-          "</script>";
-      }
-    );
+    // this.settingsService.refreshToken().subscribe(
+    //   (response) => {
+    //     console.log(response.data.value.token);
+    //     this.tokenValue = response.data.value.token;
+    //     this.codeSnippet =
+    //       "<script>(function(i,s,o,g,r,a,m){i['UserNDotObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*newDate();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//userndot.com/sdk/js/a.js','_und');\n" +
+    //       "      _und('create', '"+this.tokenValue+"', {\n" +
+    //       "      sites: ['"+this.protocol+"://"+this.websiteURL+"']\n" +
+    //       "    });\n" +
+    //       "</script>";
+    //   }
+    // );
     this.settingsService.getUnSubscribeLink()
       .subscribe(
         (unSubscribeLink:UnSubscribeLink) => {
@@ -75,14 +83,18 @@ export class AccountSettingsComponent implements OnInit {
   getJSIntegrationCode() {
     this.showCodeBlock = true;
     this.accountSettings.urls.push(this.protocol + this.websiteURL);
+    this.accountSettings.andAppId.push(this.androidAppId);
+    this.accountSettings.iosAppId.push(this.iosAppId);
     this.settingsService.saveAccountSettings(this.accountSettings)
       .subscribe(
         (response) => {
-          this.messageService.addSuccessMessage('Website Url Added Succesfully');
+          this.messageService.addSuccessMessage('Account Setting Added Succesfully');
           this.accountSettings.urls = [];
+          this.accountSettings.andAppId = [];
+          this.accountSettings.iosAppId = [];
         },
         (error: HttpErrorResponse) => {
-          this.messageService.addDangerMessage('Error in Adding Website Url,Please try again')
+          this.messageService.addDangerMessage('Error in Adding Account Setting,Please try again')
         }
       );
   }

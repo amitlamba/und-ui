@@ -44,6 +44,8 @@ export class AccountSettings {
   id: number;
   urls: string[];
   timezone: string;
+  andAppId:string[];
+  iosAppId:string[];
 }
 
 export class UnSubscribeLink {

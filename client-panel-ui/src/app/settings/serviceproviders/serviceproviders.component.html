@@ -82,7 +82,7 @@
       </tr>
       </thead>
       <tbody>
-      <tr *ngFor="let serviceProviderCredential of serviceProviderCredentialsList">
+      <tr *ngFor=" let serviceProviderCredential of serviceProviderCredentialsList">
         <th scope="row">{{serviceProviderCredential.id}}</th>
         <td>{{serviceProviderCredential.serviceProviderType}}</td>
         <td>{{serviceProviderCredential.serviceProvider}}</td>
@@ -101,31 +101,31 @@
   </div>
 
   <!--Modal 2-->
-  <div *ngIf=" serviceProviders.length>0"
-       class="modal fade" id="serviceProviderViewModal" tabindex="-1" role="dialog"
-       aria-labelledby="serviceProviderViewModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document" >
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="serviceProviderViewModalLabel">{{serviceProviderViewData.serviceProviderType}}</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body py-2 px-5">
-          <table class="table" >
-            <tbody>
-            <tr *ngFor="let c of credentialsArray">
-              <td>{{c[0]}}</td>
-              <td style="max-width:300px; word-wrap: break-word;">{{c[1]}}</td>
-            </tr>
-            </tbody>
-          </table>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        </div>
-      </div>
-    </div>
-  </div>
+  <!--<div *ngIf=" serviceProviders.length>0"-->
+       <!--class="modal fade" id="serviceProviderViewModal" tabindex="-1" role="dialog"-->
+       <!--aria-labelledby="serviceProviderViewModalLabel" aria-hidden="true">-->
+    <!--<div class="modal-dialog" role="document" >-->
+      <!--<div class="modal-content">-->
+        <!--<div class="modal-header">-->
+          <!--<h5 class="modal-title" id="serviceProviderViewModalLabel">{{serviceProviderViewData.serviceProviderType}}</h5>-->
+          <!--<button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
+            <!--<span aria-hidden="true">&times;</span>-->
+          <!--</button>-->
+        <!--</div>-->
+        <!--<div class="modal-body py-2 px-5">-->
+          <!--<table class="table" >-->
+            <!--<tbody>-->
+            <!--<tr *ngFor="let c of credentialsArray">-->
+              <!--<td>{{c[0]}}</td>-->
+              <!--<td style="max-width:300px; word-wrap: break-word;">{{c[1]}}</td>-->
+            <!--</tr>-->
+            <!--</tbody>-->
+          <!--</table>-->
+        <!--</div>-->
+        <!--<div class="modal-footer">-->
+          <!--<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>-->
+        <!--</div>-->
+      <!--</div>-->
+    <!--</div>-->
+  <!--</div>-->
 </div>
