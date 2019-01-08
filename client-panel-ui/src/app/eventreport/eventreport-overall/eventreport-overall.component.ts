@@ -205,35 +205,30 @@ export class EventreportOverallComponent implements OnInit, OnChanges, OnDestroy
           );
           switch (this.periodParam) {
             case PERIOD.dayOfMonth:
+              response=this.fillMissingDateData(response);
               this.eventTimeTrendChart.category = response.map(data => data.period['year'] + "-" + data.period['month'] + "-" + data.period['dayOfMonth']);
               break;
             case PERIOD.dayOfWeek:
-              let start=moment(this.eventReportFilterParam.fromDate);
-              let end=moment(this.eventReportFilterParam.toDate);
-              let map=new Map();
-              for(;start.isSameOrBefore(end);){
-                map.set(start.startOf('week').format('YYYY-MM-DD'),0);
-                start=start.add(7,'day');
-              }
-              response = this.convertDailyDataToWeekly(response,map);
+              response = this.convertDailyDataToWeekly(response);
               this.eventTimeTrendChart.category = response.map((data,index) => {
                 if(index==0){
                   let startdate=moment(this.eventReportFilterParam.fromDate);
-                  let date=moment(data.period['year'] + "-" + data.period['month'] + "-" + data.period['day']);
+                  let date=moment(data.period['year'] + "-" + data.period['month'] + "-" + data.period['dayOfMonth']);
                   return startdate.format("YYYY-MM-DD")+" - "+date.endOf('week').format("YYYY-MM-DD")
                 }else if(index==response.length-1){
                   let enddate=moment(this.eventReportFilterParam.toDate);
-                  let date=moment(data.period['year'] + "-" + data.period['month'] + "-" + data.period['day']);
+                  let date=moment(data.period['year'] + "-" + data.period['month'] + "-" + data.period['dayOfMonth']);
                   return date.format("YYYY-MM-DD")+" - "+enddate.format("YYYY-MM-DD");
                 }
                 else{
-                  let date=moment(data.period['year'] + "-" + data.period['month'] + "-" + data.period['day']);
+                  let date=moment(data.period['year'] + "-" + data.period['month'] + "-" + data.period['dayOfMonth']);
                   return date.format("YYYY-MM-DD")+" - "+date.endOf('week').format("YYYY-MM-DD");
                 }
 
               });
               break;
             case PERIOD.month:
+              response=this.fillMissingMonthData(response);
               this.eventTimeTrendChart.category = response.map(data => data.period['year'] + "-" + data.period['month']);
               break;
           }
@@ -250,28 +245,84 @@ export class EventreportOverallComponent implements OnInit, OnChanges, OnDestroy
       );
   }
 
-  convertDailyDataToWeekly(data: EventPeriodCount[],res:Map<string,number>) {
+  fillMissingMonthData(response:EventPeriodCount[]){
+    let start=moment(this.eventReportFilterParam.fromDate).startOf('months');
+    let end=moment(this.eventReportFilterParam.toDate);
+    let map=new Map();
+    for(;start.isSameOrBefore(end);){
+      map.set(start.format("YYYY-MM"),0);
+      start=start.add(1,'months');
+    }
+    response.forEach(value => {
+      let date=moment(value.period['year']+"-"+value.period['month']).format("YYYY-MM");
+      let v=map.get(date);
+      map.set(date,v+value.count);
+    });
+    let r:EventPeriodCount[]=[];
+    map.forEach((value, key) => {
+      r.push(JSON.parse(JSON.stringify(
+        {
+          "period": {
+            'year': key.substr(0, 4),
+            'month': key.substr(5, 2)
+          },
+          "count": value
+        })));
+    });
+    return r;
+
+  }
+
+  fillMissingDateData(response:EventPeriodCount[]){
+    let start=moment(this.eventReportFilterParam.fromDate);
+    let end=moment(this.eventReportFilterParam.toDate);
+    let map=new Map();
+    for(;start.isSameOrBefore(end);){
+      map.set(start.format("YYYY-MM-DD"),0);
+      start=start.add(1,'day');
+    }
+    response.forEach(value => {
+      let date=moment(value.period['year']+"-"+value.period['month']+"-"+value.period['dayOfMonth']).format("YYYY-MM-DD");
+      let v=map.get(date);
+      map.set(date,v+value.count);
+    });
+    return this.convertMapIntoEventPeriodCount(map);
+  }
+
+  convertDailyDataToWeekly(data: EventPeriodCount[]) {
+
+    let start=moment(this.eventReportFilterParam.fromDate);
+    let end=moment(this.eventReportFilterParam.toDate);
+    let res=new Map();
+    for(;start.isSameOrBefore(end);){
+      res.set(start.startOf('week').format('YYYY-MM-DD'),0);
+      start=start.add(7,'day');
+    }
 
     let firstDate = data[0].period['year'] + "-" + data[0].period['month'] + "-" + data[0].period['dayOfMonth'];
     let firstStartOfWeek = moment(firstDate).startOf('week');
     data.forEach((value) => {
       let newDate = value.period['year'] + "-" + value.period['month'] + "-" + value.period['dayOfMonth'];
       let startOfWeek = moment(newDate).startOf('week');
-      // if(res.has(startOfWeek.format("YYYY-MM-DD"))){
         let v=res.get(startOfWeek.format("YYYY-MM-DD"));
         res.set(startOfWeek.format("YYYY-MM-DD"),v+value.count);
-      // }
 
     });
+    return this.convertMapIntoEventPeriodCount(res);
+  }
+
+  convertMapIntoEventPeriodCount(map:Map<string,number>){
+    console.log(map);
     let r:EventPeriodCount[]=[];
-    res.forEach((value, key) => {
+
+    map.forEach((value, key) => {
       r.push(JSON.parse(JSON.stringify(
         {
           "period": {
-            'year': key.substr(0, 4),
-            'month': key.substr(5, 2),
-            'day': key.substr(8, 2)
-          },
+               "year":key.substr(0, 4),
+               "month":key.substr(5, 2),
+               "dayOfMonth":key.substr(8, 2)
+        },
           "count": value
         })));
     });
