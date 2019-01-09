@@ -12,15 +12,20 @@ import {HttpErrorResponse} from "@angular/common/http";
 })
 export class AccountSettingsComponent implements OnInit {
   showCodeBlock: boolean = false;
+  showIosCodeBlock:boolean=false;
+  showAndroidCodeBlock:boolean=false;
   accountSettings: AccountSettings = new AccountSettings();
   UnSubscribeLink: UnSubscribeLink = new UnSubscribeLink();
   protocol: string = 'https://';
-  websiteURL: string;
-  androidAppId:string;
+  websiteURL: string="";
+  androidAppId:string="";
   iosAppId:string;
   protocolsArray: string[] = ['http://', 'https://'];
   codeSnippet: string;
-  tokenValue: string;
+  webToken: string;
+  androidToken:string;
+  iosToken:string;
+
   unSubscribeLink: string='';
 
   // ng2-timezone-picker is used from https://samuelnygaard.github.io/ng2-timezone-selector/docs/
@@ -33,6 +38,8 @@ export class AccountSettingsComponent implements OnInit {
   ngOnInit() {
     this.accountSettings.timezone = "Asia/Kolkata";
     this.accountSettings.urls = [];
+    this.accountSettings.andAppId=[];
+    this.accountSettings.iosAppId=[];
     console.log(this.UnSubscribeLink);
     this.settingsService.getAccountSettings()
       .subscribe(
@@ -81,10 +88,9 @@ export class AccountSettingsComponent implements OnInit {
 
 
   getJSIntegrationCode() {
-    this.showCodeBlock = true;
     this.accountSettings.urls.push(this.protocol + this.websiteURL);
-    this.accountSettings.andAppId.push(this.androidAppId);
-    this.accountSettings.iosAppId.push(this.iosAppId);
+    if(this.androidAppId && this.androidAppId.trim()) this.accountSettings.andAppId.push(this.androidAppId);
+    if(this.iosAppId && this.iosAppId.trim()) this.accountSettings.iosAppId.push(this.iosAppId);
     this.settingsService.saveAccountSettings(this.accountSettings)
       .subscribe(
         (response) => {
@@ -92,6 +98,15 @@ export class AccountSettingsComponent implements OnInit {
           this.accountSettings.urls = [];
           this.accountSettings.andAppId = [];
           this.accountSettings.iosAppId = [];
+          let a;
+          if(response['android'])  a=response['android'].data.value.token;
+          let w;
+          if(response['web']) w=response['web'].data.value.token;
+          let i;
+          if(response['ios'])i=response['ios'].data.value.token;
+          if(a) {this.androidToken=a ; this.showAndroidCodeBlock=true;}
+          if(w) {this.webToken=w ; this.showCodeBlock=true;}
+          if(i) {this.iosToken=i ; this.showIosCodeBlock=true;}
         },
         (error: HttpErrorResponse) => {
           this.messageService.addDangerMessage('Error in Adding Account Setting,Please try again')

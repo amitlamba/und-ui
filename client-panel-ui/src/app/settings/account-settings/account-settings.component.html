@@ -32,12 +32,12 @@
         <div class="input-group">
           <input type="text" class="form-control"
                  id="iosId"
-                 placeholder="Example: app.myiosapp.com"
+                 placeholder="Example: app.mydiary.com"
                  name="iosId"
                  [(ngModel)]="iosAppId"
                  #iosId="ngModel"
-                 pattern="^\w+(.)\w+(.)\w+$"
-                 required>
+                 pattern="^[a-zA-Z]+\.[a-zA-Z]+\.[a-zA-Z]+$"
+                 >
         </div>
         <div class="feedback text-danger" *ngIf="iosId.invalid && (iosId.touched || iosId.dirty)">
           <div *ngIf="iosId.errors.required">
@@ -53,12 +53,12 @@
         <div class="input-group">
           <input type="text" class="form-control"
                  id="androidId"
-                 placeholder="Example: app.mybook.com"
+                 placeholder="Example: app.mydiary.com"
                  name="androidId"
                  [(ngModel)]="androidAppId"
                  #andAppId="ngModel"
-                 pattern="^\w+(.)\w+(.)\w+$"
-                 required>
+                 pattern="^[a-zA-Z]+\.[a-zA-Z]+\.[a-zA-Z]+$"
+                 >
         </div>
         <div class="feedback text-danger" *ngIf="andAppId.invalid && (andAppId.touched || andAppId.dirty)">
           <div *ngIf="andAppId.errors.required">
@@ -88,17 +88,25 @@
     </div>
     <br>
     <div class="form-group" *ngIf="showCodeBlock">
-      <label>Account ID:</label>
-      <div><textarea rows="7" class="form-control" readonly>{{tokenValue}}</textarea></div>
+      <label>Web Token:</label>
+      <div><textarea rows="7" class="form-control" readonly>{{webToken}}</textarea></div>
+    </div>
+    <div class="form-group" *ngIf="showAndroidCodeBlock">
+      <label>Android Token:</label>
+      <div><textarea rows="7" class="form-control" readonly>{{androidToken}}</textarea></div>
+    </div>
+    <div class="form-group" *ngIf="showIosCodeBlock">
+      <label>Ios Token:</label>
+      <div><textarea rows="7" class="form-control" readonly>{{iosToken}}</textarea></div>
     </div>
     <br>
-    <figure class="mt-5" style="background: #EBEBE4;" *ngIf="showCodeBlock">
-      <pre>
-           <code id="codeValue">
-             {{codeSnippet}}
-          </code>
-        </pre>
-    </figure>
+    <!--<figure class="mt-5" style="background: #EBEBE4;" *ngIf="showCodeBlock">-->
+      <!--<pre>-->
+           <!--<code id="codeValue">-->
+             <!--{{codeSnippet}}-->
+          <!--</code>-->
+        <!--</pre>-->
+    <!--</figure>-->
 
     <br class="mt-5">
     <hr>
