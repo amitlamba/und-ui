@@ -36,7 +36,7 @@
                  name="iosId"
                  [(ngModel)]="iosAppId"
                  #iosId="ngModel"
-                 pattern="^[a-z][a-z0-9_](.[a-z][a-z0-9_])+$"
+                 pattern="^[a-z][a-z0-9]*(.[a-z][a-z0-9]*)+$"
                  >
         </div>
         <div class="feedback text-danger" *ngIf="iosId.invalid && (iosId.touched || iosId.dirty)">
@@ -57,7 +57,7 @@
                  name="androidId"
                  [(ngModel)]="androidAppId"
                  #andAppId="ngModel"
-                 pattern="^[a-z][a-z0-9_](.[a-z][a-z0-9_])+$"
+                 pattern="^[a-z][a-z0-9]*(.[a-z][a-z0-9]*)+$"
                  >
         </div>
         <div class="feedback text-danger" *ngIf="andAppId.invalid && (andAppId.touched || andAppId.dirty)">
