@@ -48,7 +48,7 @@
     <div class="card">
       <div class="card-header"><span>Conversion Funnel</span></div>
       <div class="card-body">
-        <app-draw-simple-chart *ngIf="conversionFunnelChartData.dataSeries"
+        <app-draw-simple-chart *ngIf="conversionFunnelChartData && conversionFunnelChartData.dataSeries"
                                [title]=conversionFunnelChartData.title
                                [subtitle]=conversionFunnelChartData.subTitle
                                [xAxisTitle]=conversionFunnelChartData.xAxisTitle
