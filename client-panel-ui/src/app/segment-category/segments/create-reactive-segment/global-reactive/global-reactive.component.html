@@ -21,9 +21,17 @@
         </select>
       </div>
       <app-string-comparator [(values)]="values"
-                             [(operator)]="operator" *ngIf="maxOrder>=1"
+                             [(operator)]="operator" *ngIf="maxOrder>=1 && secondFilterSelected!='age'"
                              [options]="options"
       ></app-string-comparator>
+      <app-number-comparator [(values)]="values"
+                             [(operator)]="operator" *ngIf="maxOrder>=1 && secondFilterSelected=='age'"
+                             [options]="options"
+                             [numberComparatorOperators]="['Between']"
+                             [min]="1"
+                             [max]="100"
+                             [step]="1"
+      ></app-number-comparator>
       <button type="button" class="close ml-auto mr-4 pos" aria-label="Close" (click)="removeFilter()">
         <span aria-hidden="true">&times;</span>
       </button>

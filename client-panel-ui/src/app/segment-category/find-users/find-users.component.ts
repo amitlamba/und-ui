@@ -1,3 +1,4 @@
+
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {SegmentService} from "../../_services/segment.service";
 import {Segment} from "../../_models/segment";
