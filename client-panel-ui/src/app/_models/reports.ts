@@ -91,6 +91,7 @@ export class FunnelReportFilter {
   funnelOrder: FunnelOrder;
   splitProperty: string;
   splitPropertyType = GlobalFilterType.EventAttributeProperties;
+  filters: Array<GlobalFilter> = [];
 }
 
 export enum FunnelOrder {

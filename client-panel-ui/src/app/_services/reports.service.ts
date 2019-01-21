@@ -213,8 +213,9 @@ export class ReportsService {
       params = params.set("splitPropertyType", funnelReportFilter.splitPropertyType);
     }
     var steps: Array<Step> = funnelReportFilter.steps;
+    var filters: Array<GlobalFilter> = funnelReportFilter.filters;
 
-    return this.httpClient.post<FunnelStep[]>(AppSettings.API_ENDPOINT_CLIENT_FUNNEL, steps, {params});
+    return this.httpClient.post<FunnelStep[]>(AppSettings.API_ENDPOINT_CLIENT_FUNNEL, {steps: steps, filters: filters}, {params});
   }
 
   getSegmentReachability(segmentId: number): Observable<Reachability> {
