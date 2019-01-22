@@ -119,6 +119,15 @@ export class SettingsService {
               "required": true,
               "fieldType": "string",
             }
+            ,
+            {
+              "fieldName": "security",
+              "fieldDisplayName": "Security",
+              "required": false,
+              "fieldType": "select",
+              "options":["NONE","SSL","TLS","STARTTLS"],
+              "defaultOption":"NONE"
+            }
           ]
         },
         "AWS - Simple Email Service (API)": {

@@ -39,9 +39,14 @@
             </div>
             <div *ngFor="let field of serviceProviderFields" class="form-group">
               <label for="{{field.fieldName}}">{{field.fieldDisplayName}}</label>
-              <input required type="text" placeholder="{{field.fieldDisplayName}}" class="form-control"
+              <input *ngIf="field.fieldType !='select'" required type="text" placeholder="{{field.fieldDisplayName}}" class="form-control"
                      id="{{field.fieldName}}" name="{{field.fieldName}}"
                      [(ngModel)]="serviceProviderCredentials.credentialsMap[field.fieldName]">
+
+              <select *ngIf="field.fieldType =='select'" [(ngModel)]="serviceProviderCredentials.credentialsMap[field.fieldName]"
+                      class="form-control" id="{{field.fieldName}}" name="{{field.fieldName}}">
+                <option *ngFor="let v of field.options" [value]="v">{{v}}</option>
+              </select>
             </div>
             <div class="form-check">
               <input type="checkbox" class="form-check-input" id="isDefault" [(ngModel)]="serviceProviderCredentials.isDefault"

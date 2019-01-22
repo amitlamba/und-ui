@@ -53,7 +53,7 @@ export class ServiceprovidersComponent implements OnInit {
     this.serviceProviderCredentials.serviceProvider = sp[0];
     this.setServiceProviderFields();
     this.serviceProviders = sp;
-    this.serviceProviderCredentials.credentialsMap = {};
+    // this.serviceProviderCredentials.credentialsMap = {};
   }
 
   onChangeServiceProviderType(data: string) {
@@ -69,7 +69,11 @@ export class ServiceprovidersComponent implements OnInit {
   setServiceProviderFields() {
     let f = this.settingsService.serviceProviders[this.serviceProviderCredentials.serviceProviderType]['providers'][this.serviceProviderCredentials.serviceProvider]["fields"];
     this.serviceProviderFields = f;
-    this.serviceProviderCredentials.credentialsMap = {};
+    let cmap:any={};
+    this.serviceProviderFields.forEach((v)=>{
+      if(v.fieldType=="select") cmap[v.fieldName]=v.defaultOption;
+    });
+    this.serviceProviderCredentials.credentialsMap = cmap;
   }
 
   getServiceProvidersList() {

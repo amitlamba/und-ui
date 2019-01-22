@@ -86,11 +86,11 @@ export class EventreportDemographicsComponent implements OnInit ,OnChanges,OnDes
   drawAgeChart(){
     var groupBy= new GroupBy();
     groupBy.globalFilterType=this.groupByFilterType;
-    groupBy.name='dob';
+    groupBy.name='age';
     this.reportService.getCountTrend(this.eventReportFilterParam,this.entityTypeParam,groupBy)
       .subscribe(
       response=>{
-        response = this.groupByAge(response);
+        response = this.groupAge(response);
         this.ageChart.category=response.map(data=>data.groupedBy['name']);
         var data=response.map(data=>data.count);
         var chartSeriesData={
@@ -134,6 +134,52 @@ export class EventreportDemographicsComponent implements OnInit ,OnChanges,OnDes
     }
     return yeardiff + offset
   }
+
+  private groupAge(data:EventCount[]) {
+    let currentYear = new Date().getFullYear();
+    let map = new Map<string, number>();
+    map.set("10-18",0);
+    map.set("18-25",0);
+    map.set("25-35",0);
+    map.set("35-50",0);
+    map.set("50-65",0);
+    map.set("65+",0);
+
+    data.forEach(value => {
+    let v=value.groupedBy['_id'];
+    console.log("value is ",v);
+      if(v<currentYear-65 && v!=null){
+        map.set("65+",map.get('65+')+value.count);
+      }else if(v<=currentYear-50 && v!=null){
+        map.set("50-65",map.get('50-65')+value.count);
+      }else if(v<=currentYear-35 && v!=null){
+        map.set("35-50",map.get('35-50')+value.count);
+      }else if(v<=currentYear-25 && v!=null){
+        map.set("25-35",map.get('25-35')+value.count);
+      }else if(v<=currentYear-18 && v!=null){
+        map.set("18-25",map.get('18-25')+value.count);
+      }else if(v<=currentYear-10 && v!=null){
+        map.set("10-18",map.get('10-18')+value.count);
+      }
+      });
+     return this.convertMapIntoEventCount(map);
+  }
+
+  private convertMapIntoEventCount(v:Map<string,number>):EventCount[]{
+    let eventcount=[];
+    v.forEach((value,key,map)=>{
+      eventcount.push({
+        'count':map.get(key),
+        'groupedBy':{
+          'name':key
+        }
+      });
+    });
+    return eventcount;
+  }
+
+
+
   private getMonthDiff(dobDate): number {
     return new Date().getMonth() - new Date(dobDate).getMonth();
   }
