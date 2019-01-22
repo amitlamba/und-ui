@@ -50,6 +50,7 @@ import {NotificationTemplatesAndroidComponent} from "./templates/notification-te
 import {CreateNotificationTemplateAndroidFormComponent} from "./templates/notification-templates-android/create-notification-template-android-form/create-notification-template-android-form.component";
 import {NotificationTemplatesWebPushComponent} from "./templates/notification-templates-web-push/notification-templates-web-push.component";
 import {CreateNotificationTemplateWebPushFormComponent} from "./templates/notification-templates-web-push/create-notification-template-web-push-form/create-notification-template-web-push-form.component";
+import {PrivacyPolicyComponent} from "./terms-of-service/privacy-policy/privacy-policy.component";
 
 const routes: Routes = [
   //Pages without layout goes here
@@ -131,6 +132,7 @@ const routes: Routes = [
       {path: 'dummyJson', component: DummyComponent},
       {path: 'aboutus', component: AboutUsComponent},
       {path: 'terms-of-service', component: TermsOfServiceComponent},
+      {path: 'privacy-policy', component: PrivacyPolicyComponent},
       {path: 'contact-us', component: ContactUsComponent},
       {path: '**', component: PageNotFoundComponent},
     ]
