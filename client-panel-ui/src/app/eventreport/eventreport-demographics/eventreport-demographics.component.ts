@@ -193,6 +193,22 @@ export class EventreportDemographicsComponent implements OnInit ,OnChanges,OnDes
     this.ngOnChanges();
   }
 
+  addAgeFilter(event) {
+    event.operator = "Between";
+    event.type = "number";
+    let v=event.values[0].split("-");
+    if(v[0]=='65+'){
+      event.values=[65,120];
+    }else{
+      event.values=[parseInt(v[0]),parseInt(v[1])];
+    }
+
+
+    console.log(event);
+    this.filterList.push(event);
+    this.ngOnChanges();
+  }
+
 }
 
 export class ChartModel {

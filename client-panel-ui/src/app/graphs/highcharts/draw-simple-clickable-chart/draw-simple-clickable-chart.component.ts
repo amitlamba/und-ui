@@ -96,16 +96,8 @@ export class DrawSimpleClickableChartComponent implements OnInit {
                 let gf = new GlobalFilter();
                 gf.name = that.filterName;
                 gf.globalFilterType = that.filterType;
-
-                if(gf.name=='age'){
-                  gf.operator = "Between";
-                  gf.type = "number";
-                  let v=event.point.category.toString().split("-");
-                  gf.values=[parseInt(v[0]),parseInt(v[1])];
-                }else {
-                  gf.values = [event.point.category.toString()];
-                  gf.operator = "Equals";
-                }
+                gf.values = [event.point.category.toString()];
+                gf.operator = "Equals";
                 that.chartClick.emit(gf);
               }
             }
