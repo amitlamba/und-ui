@@ -19,14 +19,18 @@
 <div class="card">
   <div class="card-header">Age</div>
   <div class="card-body">
-    <app-draw-simple-chart  *ngIf="ageChart"
-                           [title]="ageChart.title"
-                           [subtitle]="ageChart.subTitle"
-                           [xAxisTitle]="ageChart.xAxisTitle"
-                           [yAxisTitle]="ageChart.yAxisTitle"
-                           [chartType]="ageChart.graphType"
-                           [categories]="ageChart.category"
-                           [dataSeries]="ageChart.dataSeries">
-    </app-draw-simple-chart>
+    <app-draw-simple-clickable-chart *ngIf="ageChart"
+                                      [title]="ageChart.title"
+                                      [subtitle]="ageChart.subTitle"
+                                      [xAxisTitle]="ageChart.xAxisTitle"
+                                      [yAxisTitle]="ageChart.yAxisTitle"
+                                      [chartType]="ageChart.graphType"
+                                      [categories]="ageChart.category"
+                                      [dataSeries]="ageChart.dataSeries"
+                                      [filterType]="'Demographics'"
+                                      [filterName]="'age'"
+                                      (chartClick)="addFilter($event)"
+    >
+    </app-draw-simple-clickable-chart>
   </div>
 </div>
