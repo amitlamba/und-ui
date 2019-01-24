@@ -37,6 +37,10 @@
                 </option>
               </select>
             </div>
+            <div class="form-group">
+              <label>Name</label>
+              <input type="text" name="name" placeholder="Name Of Service Provider" [(ngModel)]="serviceProviderCredentials.name" class="form-control">
+            </div>
             <div *ngFor="let field of serviceProviderFields" class="form-group">
               <label for="{{field.fieldName}}">{{field.fieldDisplayName}}</label>
               <input *ngIf="field.fieldType !='select'" required type="text" placeholder="{{field.fieldDisplayName}}" class="form-control"

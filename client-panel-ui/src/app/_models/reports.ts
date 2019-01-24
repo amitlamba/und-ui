@@ -164,6 +164,7 @@ export interface ChartSeriesData {
 }
 
 export class Reachability {
+  totalUser: number;
   email: number;
   sms: number;
   webpush: number;

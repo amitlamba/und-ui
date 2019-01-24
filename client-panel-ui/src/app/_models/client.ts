@@ -5,6 +5,7 @@ export class ServiceProviderCredentials {
   id: string;
   clientID: number;
   appuserID: number;
+  name: string;
   serviceProviderType: string;
   serviceProvider: string;
   status: string;

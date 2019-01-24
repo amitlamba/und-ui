@@ -5,6 +5,7 @@ import {CampaignService} from "../../_services/campaign.service";
 import {CampaignReach, ChartSeriesData, FunnelReportFilter} from "../../_models/reports";
 import {ReportsService} from "../../_services/reports.service";
 import {ChartModel} from "../../eventreport/eventreport-demographics/eventreport-demographics.component";
+import {GlobalFilter, GlobalFilterType} from "../../_models/segment";
 
 @Component({
   selector:'app-campaign-report',
@@ -76,7 +77,24 @@ export class CampaignReportComponent implements OnInit {
   getConversionFunnel() {
     this.conversionFunnel = new FunnelReportFilter();
     this.conversionFunnel.segmentid = this.campaign.segmentationID;
-    this.conversionFunnel.steps = [{order: 2, eventName: "Notification_Sent"},{order: 2, eventName: this.campaign.conversionEvent}]
+    let conversionE: string = this.campaign.conversionEvent?this.campaign.conversionEvent:"Charged";
+    this.conversionFunnel.steps = [{order: 1, eventName: "Notification Sent"},{order: 2, eventName: conversionE}];
+    /*
+    globalFilterType: GlobalFilterType;
+  name: string;
+  type: string;
+  operator: string;
+  values: any[] = [];
+  valueUnit: string;
+     */
+    let gf: GlobalFilter = JSON.parse(JSON.stringify({
+      globalFilterType: "EventAttributes",
+      name: "campaign_id",
+      type: "number",
+      operator: "Equals",
+      values: [this.campaignId]
+    }));
+    this.conversionFunnel.filters = [gf];
     this.reportsService.getFunnelResult(this.conversionFunnel).subscribe(
       response => {
         this.setCoversionFunnelChartData(response);

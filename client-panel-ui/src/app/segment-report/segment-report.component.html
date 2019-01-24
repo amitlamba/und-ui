@@ -28,7 +28,7 @@
 
   <div *ngIf="segment">
     <div class="card mt-5 mb-3" *ngIf="reachability">
-      <div class="card-header">Reachable Users in Segment</div>
+      <div class="card-header">Reachable Users in Segment {{reachability.totalUser}}</div>
       <div class="card-body">
         <h4>Segment Name: {{segment.name}}</h4>
         <table class="table">
