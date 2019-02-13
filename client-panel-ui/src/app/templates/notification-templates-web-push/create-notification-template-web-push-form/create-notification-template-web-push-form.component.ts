@@ -168,7 +168,7 @@ export class CreateNotificationTemplateWebPushFormComponent implements OnInit {
 
   save() {
     this.loading = true;
-    let wpt = <WebPushTemplate>this.webPushTemplateFormModel.value
+    let wpt = <WebPushTemplate>this.webPushTemplateFormModel.value;
     if (this.createNewTemplate == false)
       wpt.id = this.webPushTemplate.id;
     console.log(wpt);

@@ -1,6 +1,6 @@
 import {Component, Input, OnChanges, OnDestroy, OnInit} from '@angular/core';
 import {GlobalFilter} from "../../_models/segment";
-import {EntityType, EventReportFilter, GroupBy} from "../../_models/reports";
+import {EntityType, EventReportFilter, GroupBy, Reachability} from "../../_models/reports";
 import {ReportsService} from "../../_services/reports.service";
 import {ChartModel} from "../eventreport-demographics/eventreport-demographics.component";
 
@@ -51,7 +51,8 @@ export class EventreportReachabilityComponent implements OnInit,OnDestroy ,OnCha
     this.reportService.getEventReachability(this.eventReportFilterParam,this.entityTypeParam,groupBy)
       .subscribe(
         response=>{
-          this.drawChart.category=Object.keys(response);
+          let result=this.removeTotalUser(response);
+          this.drawChart.category=Object.keys(result);
           let data=this.drawChart.category.map<number>((v)=>{
             return response[v] as number;
           });
@@ -68,6 +69,16 @@ export class EventreportReachabilityComponent implements OnInit,OnDestroy ,OnCha
         }
       );
     // add it another time
+  }
+
+  removeTotalUser(response){
+    return {
+    "email":response.email,
+      "sms":response.sms,
+      "android":response.android,
+      "webpush":response.webpush,
+      "ios":response.ios
+    }
   }
 
   ngOnDestroy(){

@@ -164,7 +164,7 @@ export interface ChartSeriesData {
 }
 
 export class Reachability {
-  totalUser: number;
+  totalUser: number|null;
   email: number;
   sms: number;
   webpush: number;
@@ -177,4 +177,9 @@ export class CampaignReach {
   failed: number;
   read: number;
   interacted: number;
+}
+
+export class SegmentCount{
+  date:string;
+  count:number;
 }

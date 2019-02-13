@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {SendersInfo} from "../../../_models/client";
+import {SendersInfo, ServiceProviderCredentials} from "../../../_models/client";
 import {SettingsService} from "../../../_services/settings.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {MessageService} from "../../../_services/message.service";
@@ -13,6 +13,8 @@ export class EmailListComponent implements OnInit {
   sendersInfo: SendersInfo = new SendersInfo();
   sendersInfoList: SendersInfo[] = [];
   returnUrl: string;
+  serviceProviders:ServiceProviderCredentials[]=[];
+  srpId:string;
 
   constructor(private settingsService: SettingsService, private route: ActivatedRoute,
               private messageService: MessageService, private router: Router) {
@@ -24,11 +26,19 @@ export class EmailListComponent implements OnInit {
       (sendersInfoList) => {
         this.sendersInfoList = sendersInfoList;
       }
-    )
+    );
+    this.settingsService.getEmailServiceProviders().subscribe(
+      (response) => {
+        this.serviceProviders = response;
+        this.srpId=response[0].id;
+      }
+    );
   }
 
   addSendersInfo() {
     // console.log(JSON.stringify(this.sendersInfo));
+    console.log(this.srpId);
+    this.sendersInfo.serviceProviderId=parseInt(this.srpId);
     this.settingsService.saveSendersInfo(JSON.stringify(this.sendersInfo))
       .subscribe(
         (response) => {

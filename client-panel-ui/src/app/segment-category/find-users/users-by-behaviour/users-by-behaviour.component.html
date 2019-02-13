@@ -5,7 +5,7 @@
   <div class="card-body">
     <div class="card">
       <div class="card-body">
-        <div class="card-title"><div class="d-inline">Users who did </div><span class="small text-muted">(optional)</span>
+        <div class="card-title"><div class="d-inline">Users with actions </div><span class="small text-muted">(optional)</span>
         </div>
         <app-did-events [didEvents]="segment.didEvents"></app-did-events>
       </div>
@@ -13,7 +13,7 @@
     AND
     <div class="card">
       <div class="card-body">
-        <div class="card-title">Users who did not do <span class="small text-muted">(optional)</span></div>
+        <div class="card-title">Users without any of these actions <span class="small text-muted">(optional)</span></div>
         <app-did-events [didEvents]="segment.didNotEvents" [didNotEvent]="true"></app-did-events>
       </div>
     </div>

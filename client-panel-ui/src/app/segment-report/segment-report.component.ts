@@ -3,7 +3,7 @@ import * as moment from "moment";
 import {Segment} from "../_models/segment";
 import {SegmentService} from "../_services/segment.service";
 import {ActivatedRoute, Router} from "@angular/router";
-import {Reachability} from "../_models/reports";
+import {ChartSeriesData, Reachability} from "../_models/reports";
 import {ReportsService} from "../_services/reports.service";
 import {Campaign} from "../_models/campaign";
 
@@ -31,11 +31,12 @@ export class SegmentReportComponent implements OnInit {
   segmentId: number;
   reachability: Reachability;
   associatedCampaigns: Campaign[];
+  segmentChart:SegmentChartModel;
 
   segmentsDropdown: any[] = []; //id and text
 
-  fromDate: string;
-  toDate: string;
+  toDate=moment().format("YYYY-MM-DD");
+  fromDate=moment().subtract(30,'day').format("YYYY-MM-DD");
 
   constructor(private activatedRoute: ActivatedRoute, private segmentService: SegmentService,
               private reportsService: ReportsService,
@@ -43,6 +44,7 @@ export class SegmentReportComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.segmentChart=new SegmentChartModel();
     this.segmentId = this.activatedRoute.snapshot.queryParams['sid'];
     this.segmentService.getSegments().subscribe(response => {
       this.segments = response;
@@ -52,11 +54,13 @@ export class SegmentReportComponent implements OnInit {
       if (this.segmentId) {
         this.getReachability(this.segmentId);
         this.getAssociatedCampaigns(this.segmentId);
+        this.getSegmentTrendOverTime(this.segmentId,this.fromDate,this.toDate);
       }
     });
   }
 
   private getReachability(segmentId: number) {
+    console.log("recgability called");
     this.reportsService.getSegmentReachability(segmentId).subscribe(
       response => {
         this.reachability = response;
@@ -72,6 +76,26 @@ export class SegmentReportComponent implements OnInit {
       }
     );
   }
+
+  private getSegmentTrendOverTime(segmentId:number,startDate:string,endDate:string){
+    this.reportsService.getSegmentTrendReport(segmentId,startDate,endDate).subscribe(
+      (value => {
+      this.segmentChart.category=value.map<string>(value =>
+          value.date.substr(0,4)+"-"+value.date.substr(4,2)+"-"+value.date.substr(6,2)
+      );
+      this.segmentChart.dataSeries=[{
+        showInLegend:false,
+        seriesName:"Users",
+        data: value.map(value => value.count)
+      }];
+    }
+    ),
+      (error) =>{
+        console.log(error)
+      }
+    )
+  }
+
 
   public multiPicker = {
     singleDatePicker: false,
@@ -91,6 +115,9 @@ export class SegmentReportComponent implements OnInit {
   selectedDate(event) {
     this.fromDate = (event.start).format("YYYY-MM-DD");
     this.toDate = (event.end).format("YYYY-MM-DD");
+    if(this.segmentId){
+      this.getSegmentTrendOverTime(this.segmentId,this.fromDate,this.toDate);
+    }
     //re render reports
   }
 
@@ -101,6 +128,7 @@ export class SegmentReportComponent implements OnInit {
     if (this.segmentId) {
       this.getReachability(this.segmentId);
       this.getAssociatedCampaigns(this.segmentId);
+      this.getSegmentTrendOverTime(this.segmentId,this.fromDate,this.toDate);
     }
     //re render reports
   }
@@ -108,4 +136,14 @@ export class SegmentReportComponent implements OnInit {
   createCampaign(campaignType: string) {
     this.router.navigate(['/campaigns/'+campaignType],{queryParams: {sid: this.segmentId}});
   }
+}
+
+export class SegmentChartModel {
+  title:string='';
+  subTitle:string='';
+  xAxisTitle:string='';
+  yAxisTitle:string='';
+  graphType:string='line';
+  category:string[];
+  dataSeries:ChartSeriesData[]=[];
 }

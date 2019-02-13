@@ -1,4 +1,4 @@
-import {Campaign} from "../_models/campaign";
+import {Campaign, ClientEmailSettIdFromAddrSrp, ClientFromAddressAndSrp} from "../_models/campaign";
 import {Observable} from "rxjs/Observable";
 import {HttpClient} from "@angular/common/http";
 import {AppSettings} from "../_settings/app-settings";
@@ -43,5 +43,9 @@ export class CampaignService {
 
   getCampaignError(id: number): Observable<any> {
     return this.httpClient.get<any>(AppSettings.API_ENDPOINT_CLIENT_CAMPAIGN_ERROR + "/" + id);
+  }
+
+  getEmailCampaignFromUserAndSrp():Observable<ClientEmailSettIdFromAddrSrp[]>{
+    return this.httpClient.get<ClientEmailSettIdFromAddrSrp[]>(AppSettings.API_ENDPOINT_CLIENT_CAMPAIGN_EMAIL_SETTING)
   }
 }

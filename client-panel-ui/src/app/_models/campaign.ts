@@ -11,6 +11,8 @@ export class Campaign {
   dateCreated: string;
   conversionEvent: string;
   serviceProviderId: number;
+  fromUser:string;
+  clientEmailSettingId:number;
   // createdOn: Date;
   // clientID: number;
   // appuserID: number;
@@ -113,3 +115,19 @@ export enum AmPm {
   AM = "AM",
   PM = "PM"
 }
+
+export class ClientFromAddressAndSrp {
+
+  settings:Map<string,Array<number>>
+}
+
+export class ServiceProvider{
+  id:number;
+  name:string;
+}
+
+export class ClientEmailSettIdFromAddrSrp{
+  fromAddress:string;
+  ceid:number;
+  srpName:string;
+};

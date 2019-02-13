@@ -25,22 +25,22 @@
             <option value='TRANSACTIONAL' disabled>TRANSACTIONAL</option>
           </select>
         </div>
-        <div class="form-group col-sm-4">
-          <label for="fromEmailAddress">From Email address</label>
-          <select class="form-control" id="fromEmailAddress" name="fromEmailAddress"
-                  [(ngModel)]="emailTemplate.from" required>
-            <option value="" disabled selected>Select your option</option>
-            <option *ngFor="let sendersInfo of sendersInfoList;"
-                    [value]="sendersInfo.address" [selected]="emailTemplate.from == sendersInfo.address">
-              {{sendersInfo.address}}
-            </option>
-          </select>
-          <button class="btn btn-link"
-                  (click)="redirectToSendersInfoPage()"
-                  data-toggle="modal"
-                  data-target="#exampleModalLong">Add From Email Address
-          </button>
-        </div>
+        <!--<div class="form-group col-sm-4">-->
+          <!--<label for="fromEmailAddress">From Email address</label>-->
+          <!--<select class="form-control" id="fromEmailAddress" name="fromEmailAddress"-->
+                  <!--[(ngModel)]="emailTemplate.from" required>-->
+            <!--<option value="" disabled selected>Select your option</option>-->
+            <!--<option *ngFor="let sendersInfo of sendersInfoList;"-->
+                    <!--[value]="sendersInfo.address" [selected]="emailTemplate.from == sendersInfo.address">-->
+              <!--{{sendersInfo.address}}-->
+            <!--</option>-->
+          <!--</select>-->
+          <!--<button class="btn btn-link"-->
+                  <!--(click)="redirectToSendersInfoPage()"-->
+                  <!--data-toggle="modal"-->
+                  <!--data-target="#exampleModalLong">Add From Email Address-->
+          <!--</button>-->
+        <!--</div>-->
       </div>
       <div class="form-group col-sm-12">
         <label for="emailSubject">Email Subject

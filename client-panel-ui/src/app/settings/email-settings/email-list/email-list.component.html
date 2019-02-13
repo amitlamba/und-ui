@@ -14,12 +14,18 @@
   <input type="email"
          name="email"
          placeholder="Email*"
-         class="form-control col-md-5 mr-auto mt-2"
+         class="form-control col-md-4 mr-auto mt-2"
          [(ngModel)]="sendersInfo.address"
          [ngClass]="{'border-danger':email.invalid && (email.touched || email.dirty)}"
          #email="ngModel"
          required
          email>
+  <!--<div class="col-md-4 mr-4 mt-2">-->
+  <!--<label for="srp">Service Provider</label>-->
+  <!--</div>-->
+  <select class="form-control col-md-4 mr-4 mt-2" [(ngModel)]="srpId" #srp="ngModel" id="srp" [ngModelOptions]="{standalone: true}">
+    <option *ngFor="let sp of serviceProviders" [ngValue]="sp.id">Service Provider {{sp.name}}</option>
+  </select>
   <div>
     <button *ngIf="returnUrl !== ''" class="btn btn-secondary mt-2 info-add"
             type="add"

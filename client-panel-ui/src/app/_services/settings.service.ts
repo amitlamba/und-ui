@@ -7,6 +7,7 @@ import {Campaign} from "../_models/campaign";
 import {Observable} from "rxjs/Observable";
 import {AppSettings} from "../_settings/app-settings";
 import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
+import {EmptyObservable} from "rxjs/observable/EmptyObservable";
 
 @Injectable()
 export class SettingsService {
@@ -78,6 +79,22 @@ export class SettingsService {
   deleteSendersInfo(sendersInfo): Observable<any> {
     const headers = new HttpHeaders().set('Content-Type', 'application/json; charset=utf-8');
     return this.httpClient.post<SendersInfo>(AppSettings.API_ENDPOINT_CLIENT_SETTING_SENDERS_EMAIL_DELETE, sendersInfo, {headers: headers});
+  }
+
+  getEmailServiceProviders(): Observable<ServiceProviderCredentials[]>{
+    return this.httpClient.get<ServiceProviderCredentials[]>(AppSettings.API_ENDPOINT_CLIENT_SETTING_EMAIL_SERVICE_PROVIDERS);
+  }
+  getSmsServiceProviders(): Observable<ServiceProviderCredentials[]>{
+    return this.httpClient.get<ServiceProviderCredentials[]>(AppSettings.API_ENDPOINT_CLIENT_SETTING_SMS_SERVICE_PROVIDERS);
+  }
+  getAndroidServiceProviders(): Observable<ServiceProviderCredentials[]>{
+    return this.httpClient.get<ServiceProviderCredentials[]>(AppSettings.API_ENDPOINT_CLIENT_SETTING_ANDROID_SERVICE_PROVIDERS);
+  }
+  getWebServiceProviders(): Observable<ServiceProviderCredentials[]>{
+    return this.httpClient.get<ServiceProviderCredentials[]>(AppSettings.API_ENDPOINT_CLIENT_SETTING_WEB_SERVICE_PROVIDERS);
+  }
+  getIosServiceProviders(): Observable<ServiceProviderCredentials[]>{
+    return this.httpClient.get<ServiceProviderCredentials[]>(AppSettings.API_ENDPOINT_CLIENT_SETTING_IOS_SERVICE_PROVIDERS);
   }
 
   setDefaultServiceProvider(serviceProviderType: string, serviceProviderId: string): Observable<any> {

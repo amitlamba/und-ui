@@ -16,7 +16,7 @@
                  [(ngModel)]="websiteURL"
                  #siteURL="ngModel"
                  pattern="[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)"
-                 required>
+                 >
         </div>
         <div class="feedback text-danger" *ngIf="siteURL.invalid && (siteURL.touched || siteURL.dirty)">
           <div *ngIf="siteURL.errors.required">

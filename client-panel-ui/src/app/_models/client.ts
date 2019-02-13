@@ -55,6 +55,7 @@ export class UnSubscribeLink {
 export class SendersInfo {
   personal: string;
   address: string;
+  serviceProviderId:number;
 }
 
 class UnsubscribeLink {

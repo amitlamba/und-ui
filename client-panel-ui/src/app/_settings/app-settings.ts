@@ -25,7 +25,8 @@ export class AppSettings {
 
   public static API_ENDPOINT_CLIENT_FUNNEL = AppSettings.API_ENDPOINT_CLIENT + "/report/funnel/funnel";
 
-  public static API_ENDPOINT_CLIENT_REPORT_SEGMENT = AppSettings.API_ENDPOINT_CLIENT + "/report/segment"
+  public static API_ENDPOINT_CLIENT_REPORT_SEGMENT = AppSettings.API_ENDPOINT_CLIENT + "/report/segment";
+  public static API_ENDPOINT_CLIENT_REPORT_SEGMENT_COUNT = AppSettings.API_ENDPOINT_CLIENT_REPORT_SEGMENT+"/get";
   public static API_ENDPOINT_CLIENT_REPORT_SEGMENT_REACHABILITY = AppSettings.API_ENDPOINT_CLIENT_REPORT_SEGMENT + "/reachability";
   public static API_ENDPOINT_CLIENT_REPORT_SEGMENT_CAMPAIGNS = AppSettings.API_ENDPOINT_CLIENT_REPORT_SEGMENT + "/campaigns";
 
@@ -88,8 +89,11 @@ export class AppSettings {
   public static API_ENDPOINT_CLIENT_SETTING_SMS_SERVICE_PROVIDER_SAVE = AppSettings.API_ENDPOINT_CLIENT_SETTING + "/sms-service-provider/save";
   public static API_ENDPOINT_CLIENT_SETTING_NOTIFICATION_SERVICE_PROVIDER_SAVE = AppSettings.API_ENDPOINT_CLIENT_SETTING + "/notification-service-provider/save";
   public static API_ENDPOINT_CLIENT_SETTING_ANDROID_PUSH_SERVICE_PROVIDER_SAVE = AppSettings.API_ENDPOINT_CLIENT_SETTING + "/android-push-service-provider/save";
+  public static API_ENDPOINT_CLIENT_SETTING_WEB_SERVICE_PROVIDERS = AppSettings.API_ENDPOINT_CLIENT_SETTING + "/web-service-providers";
   public static API_ENDPOINT_CLIENT_SETTING_WEB_PUSH_SERVICE_PROVIDER_SAVE = AppSettings.API_ENDPOINT_CLIENT_SETTING + "/web-push-service-provider/save";
+  public static API_ENDPOINT_CLIENT_SETTING_ANDROID_SERVICE_PROVIDERS = AppSettings.API_ENDPOINT_CLIENT_SETTING + "/android-service-providers";
   public static API_ENDPOINT_CLIENT_SETTING_IOS_PUSH_SERVICE_PROVIDER_SAVE = AppSettings.API_ENDPOINT_CLIENT_SETTING + "/ios-push-service-provider/save";
+  public static API_ENDPOINT_CLIENT_SETTING_IOS_SERVICE_PROVIDERS = AppSettings.API_ENDPOINT_CLIENT_SETTING + "/ios-service-providers";
   public static API_ENDPOINT_CLIENT_SETTING_SENDERS_EMAIL_ADD = AppSettings.API_ENDPOINT_CLIENT_SETTING + "/senders-email/add";
   public static API_ENDPOINT_CLIENT_SETTING_SENDERS_EMAIL_LIST = AppSettings.API_ENDPOINT_CLIENT_SETTING + "/senders-email/list";
   public static API_ENDPOINT_CLIENT_SETTING_SENDERS_EMAIL_DELETE = AppSettings.API_ENDPOINT_CLIENT_SETTING + "/senders-email/delete";
@@ -130,6 +134,7 @@ export class AppSettings {
   public static API_ENDPOINT_CLIENT_CAMPAIGN_STOP = AppSettings.API_ENDPOINT_CLIENT_CAMPAIGN + "/stop";
   public static API_ENDPOINT_CLIENT_CAMPAIGN_DELETE = AppSettings.API_ENDPOINT_CLIENT_CAMPAIGN + "/delete";
   public static API_ENDPOINT_CLIENT_CAMPAIGN_ERROR = AppSettings.API_ENDPOINT_CLIENT_CAMPAIGN + "/error";
+  public static API_ENDPOINT_CLIENT_CAMPAIGN_EMAIL_SETTING = AppSettings.API_ENDPOINT_CLIENT_CAMPAIGN + "/email/faddrandsrp";
 
 
   public static API_ENDPOINT_CLIENT_LOCATION = AppSettings.API_ENDPOINT_CLIENT + "/location";

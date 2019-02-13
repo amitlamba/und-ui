@@ -88,7 +88,7 @@ export class AccountSettingsComponent implements OnInit {
 
 
   getJSIntegrationCode() {
-    this.accountSettings.urls.push(this.protocol + this.websiteURL);
+    if(this.websiteURL && this.websiteURL.trim()) this.accountSettings.urls.push(this.protocol + this.websiteURL);
     if(this.androidAppId && this.androidAppId.trim()) this.accountSettings.andAppId.push(this.androidAppId);
     if(this.iosAppId && this.iosAppId.trim()) this.accountSettings.iosAppId.push(this.iosAppId);
     this.settingsService.saveAccountSettings(this.accountSettings)

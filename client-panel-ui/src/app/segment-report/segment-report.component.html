@@ -18,7 +18,7 @@
       </select2>
       <input disabled *ngIf="!segmentsDropdown.length" type="text" class="form-control"/>
     </div>
-    <div hidden class="col-lg-3 col-md-5 col-sm-6 form-group">
+    <div class="col-lg-3 col-md-5 col-sm-6 form-group">
       <label>Date Range</label><br>
       <input type="text" class="form-control" name="daterange" daterangepicker [options]="multiPicker"
              (selected)="selectedDate($event)"
@@ -90,6 +90,23 @@
           </tr>
           </tbody>
         </table>
+
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Segment Trend over last days</div>
+      <div class="card-body">
+
+        <app-draw-simple-chart [title]="segmentChart.title"
+                               [subtitle]="segmentChart.subTitle"
+                               [xAxisTitle]="segmentChart.xAxisTitle"
+                               [yAxisTitle]="segmentChart.yAxisTitle"
+                               [chartType]="segmentChart.graphType"
+                               [categories]="segmentChart.category"
+                               [dataSeries]="segmentChart.dataSeries">
+
+        </app-draw-simple-chart>
 
       </div>
     </div>

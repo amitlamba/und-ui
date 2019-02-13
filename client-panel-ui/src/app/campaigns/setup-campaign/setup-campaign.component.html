@@ -2,7 +2,7 @@
   <div class="col-lg-8 col-md-10 col-sm-12 mx-auto mt-4">
     <h2 class="text-center mb-5">{{currentPath.toUpperCase()}} Campaign</h2>
     <div class="card mx-3"
-         *ngIf="!showScheduleForm">
+         *ngIf="setupCampaignPage == 1">
       <h3 class="card-header">
         Setup Your Campaign
       </h3>
@@ -25,7 +25,7 @@
                 Name is required.
               </div>
               <div *ngIf="campaignN.errors.pattern">
-                Name cannot contain any special characters and cannot start with the space.
+                Name cannot contain any special characters and cannot start with the space and length must be 2 or more character.
               </div>
 
             </div>
@@ -76,23 +76,25 @@
 
           </div>
           <!--<div class="custom-control custom-checkbox my-1 mr-sm-2">-->
-            <!--<input type="checkbox" class="custom-control-input" id="advanced" [(ngModel)]="advanced"-->
-                   <!--[ngModelOptions]="{standalone: true}">-->
+            <!--<input type="checkbox" class="custom-control-input" id="advanced"-->
+                    <!--(click)="advancedSelected()">-->
             <!--<label class="custom-control-label" for="advanced">Advanced-->
               <!--<span *ngIf="!advanced" class="text-muted small">(Check to show Advanced Features)</span>-->
               <!--<span *ngIf="advanced" class="text-muted small">(Uncheck to hide Advanced Features)</span>-->
             <!--</label>-->
           <!--</div>-->
           <!--<div *ngIf="advanced">-->
-            <!--<div class="form-group">-->
-              <!--<label for="conversionevent">Channel Id</label>-->
-              <!--<input type="text" class="form-control" id="channelId" name="channelId" placeholder="Channel Id"-->
-                     <!--formControlName="channelId">-->
+            <!--<div class="form-group col-9">-->
+              <!--<label for="cevent">Conversion Event</label>-->
+              <!--<select class="form-control" [(ngModel)]="cEvent" >-->
+                <!--<option *ngFor="let event of conversionEvents" [ngValue]="event" id="cevent">{{event}}</option>-->
+              <!--</select>-->
             <!--</div>-->
-            <!--<div class="form-group">-->
-              <!--<label for="channelId">Channel Id</label>-->
-              <!--<input type="text" class="form-control" id="channelId" name="channelId" placeholder="Channel Id"-->
-                     <!--formControlName="channelId">-->
+            <!--<div class="form-group col-9">-->
+              <!--<label for="sprov">Service Provider</label>-->
+              <!--<select class="form-control" id="sprov" [(ngModel)]="srpId">-->
+                <!--<option *ngFor="let sp of serviceProviders" [ngValue]="sp.id">{{sp.name}}</option>-->
+              <!--</select>-->
             <!--</div>-->
           <!--</div>-->
           <button class="btn btn-primary ml-3 px-4"
@@ -168,15 +170,14 @@
       </div>
     </div>
 
-    <div class="ml-3 mb-3 back-btn" (click)="showScheduleForm=false" *ngIf="showScheduleForm"><i class="fas fa-arrow-left"></i> Back</div>
+    <div class="ml-3 mb-3 back-btn" (click)="setupCampaignPage = 1" *ngIf="setupCampaignPage == 2"><i class="fas fa-arrow-left"></i> Back</div>
     <div class="card mx-3"
-         *ngIf="showScheduleForm">
+         *ngIf="setupCampaignPage == 2">
       <h3 class="card-header">
         When do you want to schedule this campaign?
       </h3>
       <div class="card-body">
-        <form (ngSubmit)="onSubmit(f)"
-              #f="ngForm">
+        <form >
           <div class="row px-3">
             <div class="col-12">
               <label class="card-title h5">Message Type</label>
@@ -365,8 +366,58 @@
             </p>
           </div>
           <button class="btn btn-primary ml-3 px-4"
-                  type="submit"
+                  (click)="continueToSave()"
+                  type="button"
                   [disabled]="disableSubmit">Continue
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <div class="ml-3 mb-3 back-btn" (click)="setupCampaignPage = 2" *ngIf="setupCampaignPage == 3"><i class="fas fa-arrow-left"></i> Back</div>
+    <div class="card mx-3"
+         *ngIf="setupCampaignPage == 3">
+      <h3 class="card-header">
+        Set Conversion Event, Service Provider and Save the Campaign
+      </h3>
+      <div class="card-body">
+        <form (ngSubmit)="onSubmit(f3)" #f3="ngForm">
+          <div>
+            <!--<div class="form-group col-9" *ngIf="emailcmp">-->
+              <!--<label for="fromUser">From User</label>-->
+              <!--<select class="form-control" [(ngModel)]="fromuser" (change)="getServiceProviderOfFromUser()" [ngModelOptions]="{standalone: true}">-->
+                <!--<option *ngFor="let from of clientFromAddress" [ngValue]="from" id="fromUser">{{from}}</option>-->
+              <!--</select>-->
+            <!--</div>-->
+            <!--<div class="form-group col-9" *ngIf="emailcmp">-->
+              <!--<label for="sprov1">Service Provider</label>-->
+              <!--<select class="form-control" id="sprovemail" [(ngModel)]="srpId" [ngModelOptions]="{standalone: true}" required>-->
+                <!--<option *ngFor="let sp of emailServiceProviders" [ngValue]="sp.id">{{sp.name}}</option>-->
+              <!--</select>-->
+            <!--</div>-->
+            <label for="fromuser">From user(f) And Service Provider(Sp) *</label>
+            <div class="form-group col-9" *ngIf="emailcmp">
+              <select class="form-control" id="fromuser" [(ngModel)]="cesid" [ngModelOptions]="{standalone: true}" required>
+                <option *ngFor="let cs of clientEmailSettings" [ngValue]="cs.ceid">f-{{cs.fromAddress}} , sp-{{cs.srpName}}</option>
+              </select>
+            </div>
+            <div class="form-group col-9">
+              <label for="cevent1">Conversion Event</label>
+              <select class="form-control" [(ngModel)]="cEvent" [ngModelOptions]="{standalone: true}">
+                <option *ngFor="let event of conversionEvents" [ngValue]="event" id="cevent1">{{event}}</option>
+              </select>
+            </div>
+            <div class="form-group col-9" *ngIf="!emailcmp">
+              <label for="sprov1">Service Provider</label>
+              <select class="form-control" id="sprov1" [(ngModel)]="srpId" [ngModelOptions]="{standalone: true}">
+                <option *ngFor="let sp of serviceProviders" [ngValue]="sp.id">{{sp.name}}</option>
+              </select>
+            </div>
+
+          </div>
+          <button class="btn btn-primary ml-3 px-4"
+                  type="submit"
+                  [disabled]="disableSubmit || f3.invalid">Continue
           </button>
         </form>
       </div>

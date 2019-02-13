@@ -21,7 +21,7 @@ export class EmailTemplate {
   emailTemplateSubject: string;
   parentID: number;
   messageType: string = '';
-  from: string = '';
+  // from: string = '';
   editorSelected: EditorSelected = EditorSelected.tinymceEditor;
   tags: string;
   dateCreated: Date;

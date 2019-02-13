@@ -73,6 +73,7 @@ export class ServiceprovidersComponent implements OnInit {
     this.serviceProviderFields.forEach((v)=>{
       if(v.fieldType=="select") cmap[v.fieldName]=v.defaultOption;
     });
+    this.serviceProviderCredentials.name="";
     this.serviceProviderCredentials.credentialsMap = cmap;
   }
 
@@ -93,6 +94,9 @@ export class ServiceprovidersComponent implements OnInit {
             console.log("serviceProviderCredentials:"+id);
             // this.settingsService.serviceProvidersList.push(serviceProviderCredentials);
             this.getServiceProvidersList();
+          },
+          error =>{
+            this.messageService.addDangerMessage(error.error.error)
           }
         );
 
@@ -103,6 +107,9 @@ export class ServiceprovidersComponent implements OnInit {
             console.log("serviceProviderCredentials:"+id);
             // this.settingsService.serviceProvidersList.push(serviceProviderCredentials);
             this.getServiceProvidersList();
+          },
+          error =>{
+            this.messageService.addDangerMessage(error.error.error)
           }
         );
       }
@@ -121,6 +128,9 @@ export class ServiceprovidersComponent implements OnInit {
             console.log("serviceProviderCredentials:"+id);
             // this.settingsService.serviceProvidersList.push(serviceProviderCredentials);
             this.getServiceProvidersList();
+          },
+          error =>{
+            this.messageService.addDangerMessage(error.error.error)
           }
         );
       }
@@ -130,6 +140,9 @@ export class ServiceprovidersComponent implements OnInit {
             console.log("serviceProviderCredentials:"+id);
             // this.settingsService.serviceProvidersList.push(serviceProviderCredentials);
             this.getServiceProvidersList();
+          },
+          error =>{
+            this.messageService.addDangerMessage(error.error.error)
           }
         );
       }
@@ -139,6 +152,9 @@ export class ServiceprovidersComponent implements OnInit {
             console.log("serviceProviderCredentials:"+id);
             // this.settingsService.serviceProvidersList.push(serviceProviderCredentials);
             this.getServiceProvidersList();
+          },
+          error =>{
+            this.messageService.addDangerMessage(error.error.error)
           }
         );
       }

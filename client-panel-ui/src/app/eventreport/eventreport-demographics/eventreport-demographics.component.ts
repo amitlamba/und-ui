@@ -30,7 +30,7 @@ export class EventreportDemographicsComponent implements OnInit ,OnChanges,OnDes
   constructor(private reportService:ReportsService) {
     this.groupByFilterType='Demographics';
     this.eventReportFilterParam=new EventReportFilter();
-    this.entityTypeParam=EntityType.event;
+    this.entityTypeParam=EntityType.user;
     this.genderChart=new ChartModel();
     this.ageChart=new ChartModel();
 

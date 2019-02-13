@@ -3,14 +3,16 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {SegmentService} from "../../_services/segment.service";
 import {DateTimeComponent} from "./date-time/date-time.component";
 import {
-  Campaign, CampaignDateTime, CampaignType, Now, Schedule, ScheduleEnd, ScheduleEndType, ScheduleMultipleDates,
+  Campaign, CampaignDateTime, CampaignType, ClientEmailSettIdFromAddrSrp, ClientFromAddressAndSrp, Now, Schedule,
+  ScheduleEnd, ScheduleEndType,
+  ScheduleMultipleDates,
   ScheduleOneTime, ScheduleRecurring,
-  ScheduleType
+  ScheduleType, ServiceProvider
 } from "../../_models/campaign";
 import {CronOptions} from "../../cron-editor/CronOptions";
 import {TemplatesService} from "../../_services/templates.service";
 import {SmsTemplate} from "../../_models/sms";
-import {Segment, SegmentMini} from "../../_models/segment";
+import {RegisteredEvent, Segment, SegmentMini} from "../../_models/segment";
 import * as moment from "moment";
 import {ActivatedRoute, Router} from "@angular/router";
 import {Email, EmailTemplate} from "../../_models/email";
@@ -19,6 +21,8 @@ import {MessageService} from "../../_services/message.service";
 import cronstrue from "cronstrue";
 import {FormBuilder} from "@angular/forms";
 import {AndroidTemplate, WebPushTemplate} from "../../_models/notification";
+import {ServiceProviderCredentials} from "../../_models/client";
+import {SettingsService} from "../../_services/settings.service";
 
 @Component({
   selector: 'app-setup-campaign',
@@ -27,18 +31,29 @@ import {AndroidTemplate, WebPushTemplate} from "../../_models/notification";
 })
 export class SetupCampaignComponent implements OnInit {
   currentPath: string;
-  showScheduleForm: boolean = false;
+  // showScheduleForm: boolean = false;
+  setupCampaignPage: number = 1; //1,2 and 3
   showCloseButton: boolean = false;
   disableSubmit: boolean = false;
   invalidCron: boolean = false;
   occurencesValueFalse: boolean = false;
   cronExpression = '0 0 10 1 1/1 ? *'; //FIXME
   isCronDisabled: boolean = false;
+  advanced:boolean=false;
+  conversionEvents:string[]=[];
+  serviceProviders:ServiceProviderCredentials[]=[];
+  emailServiceProviders:ServiceProviderCredentials[]=[];
+  clientEmailSettings:ClientEmailSettIdFromAddrSrp[]=[];
+  clientFromAddress:string[];
+  emailcmp:boolean=false;
+  fromuser:string;
+  cEvent:string="None";
+  srpId:string="None";
+  cesid:number;
   // schedule: Schedule = new Schedule();
   schedule: Schedule;
   // scheduleType: ScheduleType = ScheduleType.oneTime;
   scheduleType: ScheduleType;
-
   //Campaign
   smsTemplatesList: SmsTemplate[] = [];
   emailTemplatesList: EmailTemplate[] = [];
@@ -89,7 +104,8 @@ export class SetupCampaignComponent implements OnInit {
               private router: Router,
               private campaignService: CampaignService,
               private messageService: MessageService,
-              private fb: FormBuilder) {
+              private fb: FormBuilder,
+              private settingsService:SettingsService) {
     // this.scheduleType = ScheduleType.oneTime;
     // this.schedule.oneTime = new ScheduleOneTime();
     // this.schedule.oneTime.nowOrLater = Now.Now;
@@ -104,7 +120,12 @@ export class SetupCampaignComponent implements OnInit {
     this.schedule.oneTime.nowOrLater = Now.Now;
     this.schedule.oneTime.campaignDateTime = new CampaignDateTime();
     this.currentPath = this.route.snapshot.url[0].path;
-
+    //TODO if register event are null fetch from api
+    let re:RegisteredEvent[]=JSON.parse(localStorage.getItem("registeredEvents"));
+    this.conversionEvents=re.map<string>((value)=>{
+       return value.name
+    });
+    this.conversionEvents.push("None");
     // Segments List
     this.segmentService.getSegments().subscribe(
       (segments) => {
@@ -119,6 +140,12 @@ export class SetupCampaignComponent implements OnInit {
           this.webPushTemplatesList = response;
         }
       );
+      this.settingsService.getWebServiceProviders().subscribe(
+        (response) => {
+          this.serviceProviders = response;
+        }
+      );
+      this.emailcmp=false;
     }
     // Android Push Templates List
     else if (this.currentPath === 'androidpush') {
@@ -127,6 +154,13 @@ export class SetupCampaignComponent implements OnInit {
           this.androidTemplatesList = response;
         }
       );
+
+      this.settingsService.getAndroidServiceProviders().subscribe(
+        (response) => {
+          this.serviceProviders=response;
+        }
+      );
+      this.emailcmp=false;
     }
     // SmsTemplates List
     else if (this.currentPath === 'sms') {
@@ -135,6 +169,13 @@ export class SetupCampaignComponent implements OnInit {
           this.smsTemplatesList = response;
         }
       );
+
+      this.settingsService.getSmsServiceProviders().subscribe(
+        (response) => {
+          this.serviceProviders=response;
+        }
+      );
+      this.emailcmp=false;
     }
     // EmailTemplates List
     else {
@@ -143,6 +184,23 @@ export class SetupCampaignComponent implements OnInit {
           this.emailTemplatesList = response;
         }
       );
+      this.settingsService.getEmailServiceProviders().subscribe(
+        (response) => {
+          this.serviceProviders=response;
+        }
+      );
+      this.campaignService.getEmailCampaignFromUserAndSrp().subscribe(
+        response =>{
+          this.clientEmailSettings=response;
+          // this.clientFromAddress=Object.keys(this.clientEmailSettings);
+          this.cesid=response[0].ceid;
+          console.log(this.cesid);
+          console.log(this.clientEmailSettings);
+        }
+      );
+
+      this.emailcmp=true;
+
     }
     this.campaign.segmentationID = parseInt(this.route.snapshot.queryParams['sid'])?parseInt(this.route.snapshot.queryParams['sid']):-1;
     this.campaign.templateID = parseInt(this.route.snapshot.queryParams['tid'])?parseInt(this.route.snapshot.queryParams['tid']):-1;
@@ -151,7 +209,10 @@ export class SetupCampaignComponent implements OnInit {
   }
 
   continueToSchedule(): void {
-    this.showScheduleForm = true;
+    this.setupCampaignPage = 2;
+  }
+  continueToSave(): void {
+    this.setupCampaignPage = 3;
   }
 
   onSubmit(): void {
@@ -163,11 +224,24 @@ export class SetupCampaignComponent implements OnInit {
     }
     this.campaign.schedule = this.schedule;
     this.checkCampaignType();
+    if(this.campaign.campaignType==CampaignType.EMAIL && this.cesid){
+      this.campaign.fromUser=this.clientEmailSettings.find(value => value.ceid==this.cesid).fromAddress;
+    }
+    // if(this.srpId!="None")this.campaign.serviceProviderId=parseInt(this.srpId);
+    if(this.cEvent!="None")this.campaign.conversionEvent=this.cEvent;
+
+    if(this.cesid) {
+      this.campaign.clientEmailSettingId=this.cesid;
+
+    }
     console.log(JSON.stringify(this.campaign));
     this.campaignService.saveCampaign(this.campaign).subscribe(
       (campaign) => {
         this.campaignService.campaigns.push(campaign);
         this.router.navigate(["/campaigns"]);
+      },
+      error => {
+          this.messageService.addDangerMessage(error.error.error.split(".")[0]);
       }
     );
   }
@@ -187,6 +261,18 @@ export class SetupCampaignComponent implements OnInit {
     }
   }
 
+  advancedSelected(){
+    this.advanced=true;
+    this.campaign.conversionEvent=this.cEvent;
+    this.campaign.serviceProviderId=parseInt(this.srpId);
+  }
+
+  conversionEventChanged(){
+    this.campaign.conversionEvent=this.cEvent;
+  }
+  srProviderChanged(){
+    this.campaign.serviceProviderId=parseInt(this.srpId);
+  }
   // saveSegmentID(segmentID: number): void {
   //   this.campaign.segmentationID = segmentID;
   // }
@@ -290,6 +376,20 @@ export class SetupCampaignComponent implements OnInit {
   getCronExpressionSummary(){
     return cronstrue.toString(this.cronExpression);
   }
+
+  // getServiceProviderOfFromUser(){
+  //   console.log(this.fromuser);
+  //   // this.emailServiceProviders= this.serviceProviders.find((value)=>{this.clientEmailSettings.get(from).includes(value.id)});
+  //   let s=this.clientEmailSettings[this.fromuser];
+  //   console.log(s);
+  //   this.emailServiceProviders=this.serviceProviders.filter((value)=>{
+  //     if(s.indexOf(parseInt(value.id))>-1){
+  //       return value
+  //     }
+  //   });
+  //   console.log(this.serviceProviders);
+  //   console.log(this.emailServiceProviders);
+  // }
 }
 
 
