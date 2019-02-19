@@ -141,11 +141,11 @@ globalFilterType: GlobalFilterType;
       startDate: this.fromDate,
       endDate: this.toDate,
       ranges: {
-        "Today": [moment(), moment().add("1", "day")],
-        "Yesterday": [moment().subtract("1", "day"), moment()],
-        "Last 7 Days": [moment().subtract("7", "day"), moment()],
-        "Last 30 Days": [moment().subtract("30", "day"), moment()],
-        "Last Month": [moment().subtract("1", "month").subtract(moment().date() - 1, "day"), moment().subtract(moment().date() - 1, "day")],
+        "Today": [moment(), moment().add("0", "day")],
+        "Yesterday": [moment().subtract("1", "day"), moment().subtract("1","day")],
+        "Last 7 Days": [moment().subtract("7", "day"), moment().subtract("1","day")],
+        "Last 30 Days": [moment().subtract("30", "day"), moment().subtract("1","day")],
+        "Last Month": [moment().subtract("1", "month").subtract(moment().date() - 1, "day"), moment().subtract(moment().date(), "day")],
       },
       locale: {
         format: "YYYY-MM-DD"

@@ -89,7 +89,7 @@ export class FunnelReportFilter {
   conversionTime: number;
   steps: Array<Step>;
   funnelOrder: FunnelOrder;
-  splitProperty: string;
+  splitProperty: string="None";
   splitPropertyType = GlobalFilterType.EventAttributeProperties;
   filters: Array<GlobalFilter> = [];
 }

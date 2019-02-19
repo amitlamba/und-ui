@@ -1,11 +1,12 @@
-import {Component, Input, OnChanges, OnInit, SimpleChanges} from "@angular/core";
+import {Component, Input, OnInit} from "@angular/core";
 import {Campaign} from "../../_models/campaign";
 import {ActivatedRoute} from "@angular/router";
 import {CampaignService} from "../../_services/campaign.service";
-import {CampaignReach, ChartSeriesData, FunnelReportFilter} from "../../_models/reports";
+import {CampaignReach, ChartSeriesData, FunnelOrder, FunnelReportFilter} from "../../_models/reports";
 import {ReportsService} from "../../_services/reports.service";
 import {ChartModel} from "../../eventreport/eventreport-demographics/eventreport-demographics.component";
 import {GlobalFilter, GlobalFilterType} from "../../_models/segment";
+import {moment} from "ngx-bootstrap/chronos/test/chain";
 
 @Component({
   selector:'app-campaign-report',
@@ -40,6 +41,7 @@ export class CampaignReportComponent implements OnInit {
             console.error(e);
           }
           this.getCampaignReach(this.campaignId);
+          this.getConversionFunnel()
         }
       });
     }
@@ -72,6 +74,7 @@ export class CampaignReportComponent implements OnInit {
   campaignChange() {
     console.log(this.campaign);
     this.getCampaignReach(this.campaign.id);
+    this.getConversionFunnel()
   }
 
   getConversionFunnel() {
@@ -79,6 +82,12 @@ export class CampaignReportComponent implements OnInit {
     this.conversionFunnel.segmentid = this.campaign.segmentationID;
     let conversionE: string = this.campaign.conversionEvent?this.campaign.conversionEvent:"Charged";
     this.conversionFunnel.steps = [{order: 1, eventName: "Notification Sent"},{order: 2, eventName: conversionE}];
+    if(this.campaign.dateCreated){
+      this.conversionFunnel.days=moment().dayOfYear()-moment(this.campaign.dateCreated).dayOfYear();
+      this.conversionFunnel.conversionTime=this.conversionFunnel.days*24*60*60;
+    }
+    // this.conversionFunnel.splitProperty=null;
+    this.conversionFunnel.funnelOrder=FunnelOrder.default;
     /*
     globalFilterType: GlobalFilterType;
   name: string;
@@ -87,8 +96,9 @@ export class CampaignReportComponent implements OnInit {
   values: any[] = [];
   valueUnit: string;
      */
+
     let gf: GlobalFilter = JSON.parse(JSON.stringify({
-      globalFilterType: "EventAttributes",
+      globalFilterType: GlobalFilterType.EventAttributeProperties,
       name: "campaign_id",
       type: "number",
       operator: "Equals",

@@ -17,7 +17,7 @@
                    placeholder="Campaign Name"
                    name="campaignName"
                    [(ngModel)]="campaignName"
-                   pattern="[A-Za-z0-9-_][A-Za-z0-9\s-_]*"
+                   pattern="[A-Za-z0-9-_][A-Za-z0-9\s-_]+"
                    #campaignN="ngModel"
                    required>
             <div class="feedback text-danger" *ngIf="campaignN.errors && (campaignN.dirty || campaignN.touched)">

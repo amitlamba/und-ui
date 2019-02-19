@@ -208,7 +208,7 @@ export class ReportsService {
       .set("days", funnelReportFilter.days.toString())
       .set("funnelOrder", funnelReportFilter.funnelOrder)
       .set("conversionTime", funnelReportFilter.conversionTime.toString());
-    if (!(funnelReportFilter.splitProperty === 'None')) {
+    if (!(funnelReportFilter.splitProperty === "None")) {
       params = params.set("splitProperty", funnelReportFilter.splitProperty);
       params = params.set("splitPropertyType", funnelReportFilter.splitPropertyType);
     }
