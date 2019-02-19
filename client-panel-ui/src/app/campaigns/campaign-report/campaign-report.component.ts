@@ -6,7 +6,7 @@ import {CampaignReach, ChartSeriesData, FunnelOrder, FunnelReportFilter} from ".
 import {ReportsService} from "../../_services/reports.service";
 import {ChartModel} from "../../eventreport/eventreport-demographics/eventreport-demographics.component";
 import {GlobalFilter, GlobalFilterType} from "../../_models/segment";
-import {moment} from "ngx-bootstrap/chronos/test/chain";
+import * as moment from "moment";
 
 @Component({
   selector:'app-campaign-report',
