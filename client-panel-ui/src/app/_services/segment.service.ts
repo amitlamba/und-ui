@@ -636,7 +636,12 @@ export class SegmentService {
       if(!gf.globalFilterType || gf.globalFilterType == null) error.push("User Property filter type must be defined for user property number " + i+1);
       if(!gf.name || gf.name == "") error.push("User Property Name must be defined for user property filter" + gf.globalFilterType);
       if(!gf.operator || gf.operator == "") error.push("User Property operator must be defined for User property filter " + gf.globalFilterType + " and User Property " + gf.name);
-      if(!gf.values || !gf.values.length || !gf.values[0]) error.push("User Property values must be defined for User property filter " + gf.globalFilterType + " and User Property " + gf.name);
+      if(gf.operator != "Exists") {
+        if (!gf.values || !gf.values.length || !gf.values[0]) error.push("User Property values must be defined for User property filter " + gf.globalFilterType + " and User Property " + gf.name);
+      }
+      if(gf.operator != "DoesNotExist") {
+        if (!gf.values || !gf.values.length || !gf.values[0]) error.push("User Property values must be defined for User property filter " + gf.globalFilterType + " and User Property " + gf.name);
+      }
     });
     return error;
   }
