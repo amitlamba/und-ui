@@ -54,7 +54,7 @@ export class AuthenticationService {
     const params = new HttpParams().set("recaptchaToken", recaptchaToken);
     return this.httpClient.post(AppSettings.API_ENDPOINT_AUTH_REGISTER, registrationRequest, {params})
       .pipe(
-        tap(next => this.messageService.addSuccessMessage(registrationRequest.name + " registered successfuly."))
+        tap(next => this.messageService.addSuccessMessage(registrationRequest.name + " registered successfully. An email has been sent to your registered email address. Please validate before login."))
         // ,
         // catchError(this.handleError<any>('register'))
       );
