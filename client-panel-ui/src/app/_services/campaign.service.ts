@@ -18,6 +18,7 @@ export class CampaignService {
   }
 
   saveCampaign(campaign: Campaign): Observable<Campaign> {
+    console.log(campaign);
     return this.httpClient.post<Campaign>(AppSettings.API_ENDPOINT_CLIENT_CAMPAIGN_SAVE, campaign);
   }
 

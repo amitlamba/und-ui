@@ -3,6 +3,7 @@ import {AuthenticationService} from "../../_services/authentication.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {HttpErrorResponse} from "@angular/common/http";
 import {MessageService} from "../../_services/message.service";
+import {utf8Encode} from "@angular/compiler/src/util";
 
 @Component({
   selector: 'app-verify-email',
@@ -22,10 +23,14 @@ export class VerifyEmailComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.code = this.route.snapshot.params["code"];
-    this.email = this.route.snapshot.params["email"];
-    // debugger;
-    this.verifyEmail();
+    // this.code = this.route.snapshot.params["code"];
+    // this.email = this.route.snapshot.params["email"];
+    this.code = this.route.snapshot.queryParams["code"];
+    this.email = this.route.snapshot.queryParams["email"];
+    if(this.email=="addfemail")
+      this.verifyAddEmail();
+    else
+      this.verifyEmail();
   }
 
   verifyEmail() {
@@ -39,5 +44,16 @@ export class VerifyEmailComponent implements OnInit {
         this.messageService.addDangerMessage("There is an issue verifying your email address.");
       }
     );
+  }
+
+  verifyAddEmail(){
+    this.authenticationService.verifyFromEmailAddress(this.code).subscribe((response)=>{
+      this.messageService.addSuccessMessage("From Email Address verified Successfully.");
+      this.router.navigate(['login']);
+    },
+      (error: HttpErrorResponse) => {
+        this.messageService.addDangerMessage("There is an issue verifying your from email address.");
+        this.router.navigate(['login']);
+    });
   }
 }

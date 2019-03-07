@@ -45,7 +45,8 @@ export class EmailListComponent implements OnInit {
           this.settingsService.getSendersInfoList().subscribe(
             (sendersInfoList) => {
               this.sendersInfoList = sendersInfoList;
-              this.sendersInfo = new SendersInfo();
+              // this.sendersInfo = new SendersInfo();
+              this.messageService.addSuccessMessage("Email will be sent to your registered email address. Please verify it by clicking on link.")
               if(this.returnUrl)
                 this.router.navigateByUrl(this.returnUrl);
             }

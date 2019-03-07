@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import 'rxjs/add/operator/map'
-import {HttpClient, HttpParams} from '@angular/common/http';
+import {HttpClient, HttpParameterCodec, HttpParams} from '@angular/common/http';
 import {AppSettings} from "../_settings/app-settings";
 import {RegistrationRequest, ServiceProviderCredentials, UserProfileRequest} from "../_models/client";
 import {MessageService} from "./message.service";
@@ -108,6 +108,11 @@ export class AuthenticationService {
       );
   }
 
+  verifyFromEmailAddress(code:string):Observable<any>{
+    let params:HttpParams=new HttpParams({encoder: new CustomEncoder()}).set("c",code);
+    return this.httpClient.get(AppSettings.API_ENDPOINT_CLIENT_SETTING_VERIFY_FROM_EMAIL,{params})
+  }
+
   /**
    * Handle Http operation that failed.
    * Let the app continue.
@@ -126,5 +131,23 @@ export class AuthenticationService {
       // Let the app keep running by returning an empty result.
       return of(result as T);
     };
+  }
+}
+
+class CustomEncoder implements HttpParameterCodec {
+  encodeKey(key: string): string {
+    return encodeURIComponent(key);
+  }
+
+  encodeValue(value: string): string {
+    return encodeURIComponent(value);
+  }
+
+  decodeKey(key: string): string {
+    return decodeURIComponent(key);
+  }
+
+  decodeValue(value: string): string {
+    return decodeURIComponent(value);
   }
 }
