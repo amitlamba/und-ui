@@ -18,12 +18,25 @@ import * as moment from "moment";
   styleUrls: ['./segment-behavior-reactive.component.scss']
 })
 export class SegmentBehaviorReactiveComponent implements OnInit {
+  get triggerValidatedSegment(): boolean {
+    return this._triggerValidatedSegment;
+  }
+
+  @Input()
+  set triggerValidatedSegment(value: boolean) {
+    console.log("triggerValidatedSegment set to "+value);
+    if(value)
+      this.validateSegment();
+    this._triggerValidatedSegment = value;
+  }
 
   @Input() segment: Segment;
   @Input() type: string = "create";//"create","find","none"
   // @Output() filledSegment = new EventEmitter<Segment>();
 
   @Output() validatedSegment:EventEmitter<Segment>=new EventEmitter();
+
+  private _triggerValidatedSegment: boolean;
 
   segmentErrors: string[] = [];
   segmentForm: FormGroup;
@@ -54,6 +67,7 @@ export class SegmentBehaviorReactiveComponent implements OnInit {
       this.segment.didNotEvents.joinCondition.conditionType = "AnyOf";
       this.segment.globalFilters = [];
       this.segment.geographyFilters = [];
+      this.segment.type = "Behaviour";
     }
 
     this.daterangepickerOptions.settings = {
@@ -194,6 +208,7 @@ export class SegmentBehaviorReactiveComponent implements OnInit {
     newEvent.dateFilter.values = [this.getCurrentFormattedDate()];
     newEvent.propertyFilters = [];
     newEvent.whereFilter = new WhereFilter();
+    newEvent.whereFilter.propertyName = "";
     newEvent.whereFilter.whereFilterName = WhereFilterName.Count;
     newEvent.whereFilter.operator = NumberOperator.GreaterThan;
     newEvent.whereFilter.values = [0];
@@ -203,6 +218,7 @@ export class SegmentBehaviorReactiveComponent implements OnInit {
     this.didEventArray.push(newEventForm);
     console.log(this.segment);
     console.log(this.segmentForm);
+    return false;
   }
 
   removeDidEvent(index) {
@@ -249,7 +265,8 @@ export class SegmentBehaviorReactiveComponent implements OnInit {
 
 
   get didEventArray(): FormArray {
-    return <FormArray>(<FormGroup>this.segmentForm.get('didEvents')).get('events');
+    let fg = <FormGroup>(this.segmentForm.get('didEvents'));
+    return <FormArray>(fg).get('events');
   }
 
   didEventPropertyFilterArray(index): FormArray {
@@ -342,7 +359,7 @@ export class SegmentBehaviorReactiveComponent implements OnInit {
           delete v.whereFilter.propertyName;
         }
       });
-      segment.type="Behaviour";
+      segment.type=this.segment.type;
       this.validatedSegment.emit(segment);
       return true;
     }

@@ -10,6 +10,17 @@ export class Segment {
   geographyFilters: Geography[];
 }
 
+export class LiveSegment {
+  segment: Segment;
+  startEvent: string;
+  endEvent: string;
+  startEventFilters: PropertyFilter[];
+  endEventFilters: PropertyFilter[];
+  endEventDone: boolean;
+  intervalSeconds: number;
+  liveSegmentType: string;
+}
+
 export interface SegmentMini {
   id: number;
   name: string;

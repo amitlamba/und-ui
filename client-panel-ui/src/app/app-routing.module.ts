@@ -51,6 +51,8 @@ import {CreateNotificationTemplateAndroidFormComponent} from "./templates/notifi
 import {NotificationTemplatesWebPushComponent} from "./templates/notification-templates-web-push/notification-templates-web-push.component";
 import {CreateNotificationTemplateWebPushFormComponent} from "./templates/notification-templates-web-push/create-notification-template-web-push-form/create-notification-template-web-push-form.component";
 import {PrivacyPolicyComponent} from "./terms-of-service/privacy-policy/privacy-policy.component";
+import {CreateSegmentComponent} from "./segment-category/segments/create-segment/create-segment.component";
+import {CreateLiveSegmentComponent} from "./segment-category/segments/live-segments/create-live-segment/create-live-segment.component";
 
 const routes: Routes = [
   //Pages without layout goes here
@@ -89,7 +91,9 @@ const routes: Routes = [
         {path: 'create-new-segment', component: CreateNewSegmentComponent},
         {path: 'create-reactive-segment', component: CreateReactiveSegmentComponent},
         {path: 'segments', component: SegmentsComponent},
-        {path: 'user-profile', component: UserProfileComponent}
+        {path: 'user-profile', component: UserProfileComponent},
+        {path: 'create-segment', component: CreateSegmentComponent},
+        {path: 'create-live-segment', component: CreateLiveSegmentComponent}
       ]
       },
       {path:'reports/segment', component:SegmentReportComponent, canActivate:[AuthGuard]},

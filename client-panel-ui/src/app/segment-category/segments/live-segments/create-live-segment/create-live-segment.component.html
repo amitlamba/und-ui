@@ -1,0 +1,40 @@
+<div class="container">
+  <h2 class="text-center">Live Segment</h2>
+
+  <form [formGroup]="liveSegmentForm">
+    <div class="form-group col-sm-6 col-md-3 col-lg-3 mb-0">
+      <label for="triggerEvent">Trigger Event</label>
+      <select class="form-control" id="triggerEvent" formControlName="startEvent" (change)="change($event)">
+        <option value="" disabled selected>--Select--</option>
+        <option *ngFor="let event of registeredEvents" [value]="event.name">{{event.name}}</option>
+      </select>
+      <small id="triggerEventHelp" class="form-text text-muted">The Action on which the Live segment triggers.</small>
+    </div>
+    <div *ngIf="startEventFilterArray.controls && startEventFilterArray.controls.length">
+      <app-filter-reactive *ngFor="let propFilter of startEventFilterArray.controls; let j=index;"
+                           [filterForm]="propFilter"
+                           [eventProperties]="registeredEventProperties"
+                           [filterIndex]="j"
+                           (remove)="removeStartEventFilter($event)"
+      ></app-filter-reactive>
+    </div>
+    <div class="btn btn-link" *ngIf="registeredEventProperties && registeredEventProperties.length" (click)="addStartEventFilter()">+ Filter</div>
+  </form>
+
+  <div class="col-12 my-5">
+    <div class="form-check mb-3">
+      <input type="checkbox" class="form-check-input" id="includeUserBehavior" [(ngModel)]="showBehaviorSegment">
+      <label class="form-check-label" for="includeUserBehavior">Include User Behavior properties</label>
+    </div>
+
+    <div *ngIf="showBehaviorSegment">
+      <app-segment-behavior-reactive
+        [segment]="liveSegment.segment" [type]="null" (validatedSegment)="insertSegmentValue($event)" [triggerValidatedSegment]="triggerValidatedSegment"
+      ></app-segment-behavior-reactive>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <div class="btn btn-primary" (click)="onSave()">Save</div>
+  </div>
+</div>

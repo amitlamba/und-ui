@@ -125,6 +125,8 @@ import { NotificationTemplatesAndroidComponent } from './templates/notification-
 import { CreateNotificationTemplateAndroidFormComponent } from './templates/notification-templates-android/create-notification-template-android-form/create-notification-template-android-form.component';
 import {NotificationTemplatesWebPushComponent} from "./templates/notification-templates-web-push/notification-templates-web-push.component";
 import { CreateNotificationTemplateWebPushFormComponent } from './templates/notification-templates-web-push/create-notification-template-web-push-form/create-notification-template-web-push-form.component';
+import { CreateSegmentComponent } from './segment-category/segments/create-segment/create-segment.component';
+import { CreateLiveSegmentComponent } from './segment-category/segments/live-segments/create-live-segment/create-live-segment.component';
 
 
 @NgModule({
@@ -242,7 +244,9 @@ import { CreateNotificationTemplateWebPushFormComponent } from './templates/noti
     NotificationTemplatesAndroidComponent,
     CreateNotificationTemplateAndroidFormComponent,
     NotificationTemplatesWebPushComponent,
-    CreateNotificationTemplateWebPushFormComponent
+    CreateNotificationTemplateWebPushFormComponent,
+    CreateSegmentComponent,
+    CreateLiveSegmentComponent
   ],
   providers: [
     AuthGuard,
