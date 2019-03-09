@@ -101,6 +101,7 @@ export class AppSettings {
   public static API_ENDPOINT_CLIENT_SETTING_ACCOUNT_SETTINGS_GET = AppSettings.API_ENDPOINT_CLIENT_SETTING + "/account-settings/get";
   public static API_ENDPOINT_CLIENT_SETTING_ACCOUNT_SETTINGS_UNSUBSCRIBE_LINK_SAVE = AppSettings.API_ENDPOINT_CLIENT_SETTING + "/unsubscribe-link/save";
   public static API_ENDPOINT_CLIENT_SETTING_ACCOUNT_SETTINGS_UNSUBSCRIBE_LINK_GET = AppSettings.API_ENDPOINT_CLIENT_SETTING + "/unsubscribe-link/get";
+  public static API_ENDPOINT_CLIENT_SETTING_VERIFY_FROM_EMAIL = AppSettings.API_ENDPOINT_CLIENT_SETTING+"/verifyemail";
 
 
   public static API_ENDPOINT_CLIENT_SEGMENT = AppSettings.API_ENDPOINT_CLIENT + "/segment";
