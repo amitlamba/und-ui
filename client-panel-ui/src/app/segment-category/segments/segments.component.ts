@@ -63,7 +63,8 @@ export class SegmentsComponent implements OnInit {
   }
 
   onCreateNew() {
-    this.router.navigate(["segment", "create-reactive-segment"]);
+    // this.router.navigate(["segment", "create-reactive-segment"]);
+    this.router.navigate(["segment", "create-segment"]);
   }
 
   toggleSegmentDetail(id: number) {

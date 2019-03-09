@@ -53,9 +53,12 @@
               (click)="submitDemoForm(f)"
               [disabled]="f.invalid">Get your free demo now !</button>
     </div>
-    <div class="form-group row col-sm-7 pull-right pl-0" *ngIf="!modalDemoButton">
-      <button type="button" class="btn btn-primary "
-              (click)="submitDemoForm(f)">Schedule a Demo</button>
+    <div class="form-group row" *ngIf="!modalDemoButton">
+      <div class="ml-auto col-sm-7">
+        <button type="button" class="btn btn-primary "
+                                      (click)="submitDemoForm(f)">Schedule a Demo</button>
+      </div>
+
     </div>
   </div>
 </form>

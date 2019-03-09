@@ -10,15 +10,20 @@
       </select>
       <small id="triggerEventHelp" class="form-text text-muted">The Action on which the Live segment triggers.</small>
     </div>
-    <div *ngIf="startEventFilterArray.controls && startEventFilterArray.controls.length">
-      <app-filter-reactive *ngFor="let propFilter of startEventFilterArray.controls; let j=index;"
-                           [filterForm]="propFilter"
-                           [eventProperties]="registeredEventProperties"
-                           [filterIndex]="j"
-                           (remove)="removeStartEventFilter($event)"
-      ></app-filter-reactive>
+    <div class="card mx-3" *ngIf="startEventFilterArray.controls && startEventFilterArray.controls.length">
+      <div class="card-body">
+        <div class="mb-2">With Property Filters:</div>
+        <app-filter-reactive *ngFor="let propFilter of startEventFilterArray.controls; let j=index;"
+                             [filterForm]="propFilter"
+                             [eventProperties]="registeredEventProperties"
+                             [filterIndex]="j"
+                             (remove)="removeStartEventFilter($event)"
+        ></app-filter-reactive>
+      </div>
     </div>
-    <div class="btn btn-link" *ngIf="registeredEventProperties && registeredEventProperties.length" (click)="addStartEventFilter()">+ Filter</div>
+    <div class="btn btn-link" *ngIf="registeredEventProperties && registeredEventProperties.length"
+         (click)="addStartEventFilter()">+ Filter
+    </div>
   </form>
 
   <div class="col-12 my-5">
@@ -29,7 +34,8 @@
 
     <div *ngIf="showBehaviorSegment">
       <app-segment-behavior-reactive
-        [segment]="liveSegment.segment" [type]="null" (validatedSegment)="insertSegmentValue($event)" [triggerValidatedSegment]="triggerValidatedSegment"
+        [segment]="liveSegment.segment" [type]="null" (validatedSegment)="insertSegmentValue($event)"
+        [triggerValidatedSegment]="triggerValidatedSegment"
       ></app-segment-behavior-reactive>
     </div>
   </div>

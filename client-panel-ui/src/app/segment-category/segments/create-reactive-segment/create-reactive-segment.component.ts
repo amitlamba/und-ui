@@ -34,7 +34,9 @@ export class CreateReactiveSegmentComponent implements OnInit, OnDestroy {
               private router: Router,
               private messageService: MessageService) {
 
-    this.segment = segmentService.cloneSegment;
+    if (this.segmentService.cloneSegment) {
+      this.segment = segmentService.cloneSegment;
+    }
 
     this.initSegmentModalForm();
   }

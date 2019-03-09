@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {
+  DidEvents, JoinCondition,
   LiveSegment, PropertyFilter, RegisteredEvent, RegisteredEventProperties,
   Segment
 } from "../../../../_models/segment";
@@ -99,12 +100,30 @@ export class CreateLiveSegmentComponent implements OnInit {
 
   insertSegmentValue(event: any) {
     console.log(event);
-    this.liveSegment.segment = event;
+    if(event && this.showBehaviorSegment) {
+      this.liveSegment.segment = event;
+    }
   }
 
   onSave() {
     this.triggerValidatedSegment = !this.triggerValidatedSegment;
     // this.triggerValidatedSegment = true;
+    Object.assign(this.liveSegment, this.liveSegmentForm['value']);
     console.log(this.liveSegment);
+  }
+
+  initSegment() {
+    if (!this.liveSegment.segment) {
+      this.liveSegment.segment = new Segment();
+      this.liveSegment.segment.didEvents = new DidEvents();
+      this.liveSegment.segment.didEvents.joinCondition = new JoinCondition();
+      this.liveSegment.segment.didEvents.joinCondition.conditionType = "AllOf";
+      this.liveSegment.segment.didNotEvents = new DidEvents();
+      this.liveSegment.segment.didNotEvents.joinCondition = new JoinCondition();
+      this.liveSegment.segment.didNotEvents.joinCondition.conditionType = "AnyOf";
+      this.liveSegment.segment.globalFilters = [];
+      this.liveSegment.segment.geographyFilters = [];
+      this.liveSegment.segment.type = "Live";
+    }
   }
 }

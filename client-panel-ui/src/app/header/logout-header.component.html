@@ -1,7 +1,7 @@
 <div class="fluid">
-  <nav class="navbar navbar-expand-md navbar-dark bg-primary">
+  <nav class="navbar navbar-expand-md navbar-light bg-white">
     <div class="container">
-    <a class="navbar-brand" [routerLink]="[logoLink]">UserNDot</a>
+    <a class="navbar-brand text-primary" [routerLink]="[logoLink]">User<span class="text-secondary">N</span>Dot</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -33,10 +33,22 @@
       <!--</ul>-->
       <ul class="navbar-nav ml-auto">
         <li class="nav-item mx-md-2">
-          <a class="nav-link" [routerLink]="[loginLink]">Login</a>
+          <a class="nav-link" [routerLink]="['/']"><span class="btn btn-link">Why UserNDot?</span></a>
         </li>
         <li class="nav-item mx-md-2">
-          <a class="nav-link" [routerLink]="[registerLink]">Sign Up</a>
+          <a class="nav-link" href="/d/docs/fundamentals/about" target="_blank"><span class="btn btn-link">Documentation</span></a>
+        </li>
+        <li class="nav-item mx-md-2">
+          <a class="nav-link" [routerLink]="['/contact-us']"><span class="btn btn-link">Pricing</span></a>
+        </li>
+        <li class="nav-item mx-md-2">
+          <a class="nav-link" [routerLink]="['/contact-us']"><span class="btn btn-link">ContactUs</span></a>
+        </li>
+        <li class="nav-item mx-md-2">
+          <a class="nav-link" [routerLink]="[loginLink]"><span class="btn btn-primary">Login</span></a>
+        </li>
+        <li class="nav-item mx-md-2">
+          <a class="nav-link" [routerLink]="[registerLink]"><span class="btn btn-outline-primary">Sign Up</span></a>
         </li>
       </ul>
     </div>

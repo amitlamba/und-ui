@@ -4,38 +4,39 @@
   <h3 class="text-center my-4">Based on behavior</h3>
   <div class="d-flex flex-row flex-wrap justify-content-around">
     <div class="col-sm-6 col-md-4 p-3">
-      <div class="card clickable">
+      <div class="card clickable" (click)="onCreateBehaviourSegmentBasedOnAction()">
         <div class="card-header">Based On Action</div>
         <div class="card-body">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ea hic nisi reiciendis! Aperiam deserunt iste
-          officia, placeat quia temporibus voluptatibus.
+          <div>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ea hic nisi reiciendis! Aperiam deserunt iste
+          officia, placeat quia temporibus voluptatibus.</div>
+          <div class="text-right">
+            <div class="btn btn-primary">Create</div>
+          </div>
+
         </div>
       </div>
     </div>
     <div class="col-sm-6 col-md-4 p-3">
-      <div class="card clickable">
+      <div class="card clickable" (click)="onCreateBehaviourSegmentBasedOnAction()">
         <div class="card-header">Based On Inaction</div>
         <div class="card-body">
           Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ea hic nisi reiciendis! Aperiam deserunt iste
           officia, placeat quia temporibus voluptatibus.
+          <div class="text-right">
+            <div class="btn btn-primary">Create</div>
+          </div>
         </div>
       </div>
     </div>
     <div class="col-sm-6 col-md-4 p-3">
-      <div class="card clickable">
+      <div class="card clickable" (click)="onCreateBehaviourSegmentBasedOnAction()">
         <div class="card-header">Based On Inaction</div>
         <div class="card-body">
           Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ea hic nisi reiciendis! Aperiam deserunt iste
           officia, placeat quia temporibus voluptatibus.
-        </div>
-      </div>
-    </div>
-    <div class="col-sm-6 col-md-4 p-3">
-      <div class="card clickable">
-        <div class="card-header">Based On Inaction</div>
-        <div class="card-body">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ea hic nisi reiciendis! Aperiam deserunt iste
-          officia, placeat quia temporibus voluptatibus.
+          <div class="text-right">
+            <div class="btn btn-primary">Create</div>
+          </div>
         </div>
       </div>
     </div>
@@ -46,23 +47,29 @@
 
   <div class="d-flex flex-row flex-wrap justify-content-around">
     <div class="col-sm-6 col-md-4 p-3">
-      <div class="card clickable">
+      <div class="card clickable" (click)="onCreateLiveSegmentBasedOnSingleAction()">
         <div class="card-header">Single Action</div>
         <div class="card-body">
           Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ea hic nisi reiciendis! Aperiam deserunt iste
           officia,
           placeat quia temporibus voluptatibus.
+          <div class="text-right">
+            <div class="btn btn-primary">Create</div>
+          </div>
         </div>
       </div>
     </div>
 
     <div class="col-sm-6 col-md-4 p-3">
-      <div class="card clickable">
+      <div class="card clickable" (click)="onCreateLiveSegmentBasedOnSingleAction()">
         <div class="card-header">Single Action With No Action</div>
         <div class="card-body">
           Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ea hic nisi reiciendis! Aperiam deserunt iste
           officia,
           placeat quia temporibus voluptatibus.
+          <div class="text-right">
+            <div class="btn btn-primary">Create</div>
+          </div>
         </div>
       </div>
     </div>

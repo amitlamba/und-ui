@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {
   DateFilter, DateOperator, DidEvents, Event, Geography, GlobalFilter, JoinCondition, NumberOperator, PropertyFilter,
   RegisteredEvent,
@@ -17,15 +17,16 @@ import * as moment from "moment";
   templateUrl: './segment-behavior-reactive.component.html',
   styleUrls: ['./segment-behavior-reactive.component.scss']
 })
-export class SegmentBehaviorReactiveComponent implements OnInit {
+export class SegmentBehaviorReactiveComponent implements OnInit, OnChanges {
   get triggerValidatedSegment(): boolean {
     return this._triggerValidatedSegment;
   }
 
   @Input()
   set triggerValidatedSegment(value: boolean) {
-    console.log("triggerValidatedSegment set to "+value);
-    if(value)
+    // console.log("triggerValidatedSegment set to "+value);
+    // if (value)
+    if(this.segment)
       this.validateSegment();
     this._triggerValidatedSegment = value;
   }
@@ -34,7 +35,7 @@ export class SegmentBehaviorReactiveComponent implements OnInit {
   @Input() type: string = "create";//"create","find","none"
   // @Output() filledSegment = new EventEmitter<Segment>();
 
-  @Output() validatedSegment:EventEmitter<Segment>=new EventEmitter();
+  @Output() validatedSegment: EventEmitter<Segment> = new EventEmitter();
 
   private _triggerValidatedSegment: boolean;
 
@@ -57,18 +58,7 @@ export class SegmentBehaviorReactiveComponent implements OnInit {
 
   ngOnInit() {
 
-    if(!this.segment){
-      this.segment = new Segment();
-      this.segment.didEvents = new DidEvents();
-      this.segment.didEvents.joinCondition = new JoinCondition();
-      this.segment.didEvents.joinCondition.conditionType = "AllOf";
-      this.segment.didNotEvents = new DidEvents();
-      this.segment.didNotEvents.joinCondition = new JoinCondition();
-      this.segment.didNotEvents.joinCondition.conditionType = "AnyOf";
-      this.segment.globalFilters = [];
-      this.segment.geographyFilters = [];
-      this.segment.type = "Behaviour";
-    }
+    this.initSegment();
 
     this.daterangepickerOptions.settings = {
       locale: {format: 'YYYY-MM-DD'},
@@ -84,15 +74,35 @@ export class SegmentBehaviorReactiveComponent implements OnInit {
     this.defaultProperties = this.segmentService.defaultEventProperties;
     this.eventProperties = this.registeredEvents[0].properties;
 
-    if(this.segmentService.cloneSegment) {
+    if (this.segmentService.cloneSegment) {
       this.segment = this.segmentService.cloneSegment;
     }
     this.createForm(this.segment);
 
   }
 
+  ngOnChanges(changes: SimpleChanges) {
+    console.log(changes);
+    this.initSegment();
+  }
+
   ngOnDestroy() {
     this.segmentService.cloneSegment = null;
+  }
+
+  initSegment() {
+    if (!this.segment) {
+      this.segment = new Segment();
+      this.segment.didEvents = new DidEvents();
+      this.segment.didEvents.joinCondition = new JoinCondition();
+      this.segment.didEvents.joinCondition.conditionType = "AllOf";
+      this.segment.didNotEvents = new DidEvents();
+      this.segment.didNotEvents.joinCondition = new JoinCondition();
+      this.segment.didNotEvents.joinCondition.conditionType = "AnyOf";
+      this.segment.globalFilters = [];
+      this.segment.geographyFilters = [];
+      this.segment.type = "Behaviour";
+    }
   }
 
 
@@ -184,7 +194,7 @@ export class SegmentBehaviorReactiveComponent implements OnInit {
   }
 
   createPropertyFilter(propertyFilter: PropertyFilter): FormGroup {
-    var fg= this.fb.group({
+    var fg = this.fb.group({
       name: [propertyFilter.name],
       operator: [propertyFilter.operator],
       values: [propertyFilter.values],
@@ -248,7 +258,7 @@ export class SegmentBehaviorReactiveComponent implements OnInit {
     newEvent.propertyFilters = [];
     newEvent.whereFilter = new WhereFilter();
     newEvent.whereFilter.whereFilterName = null;
-    newEvent.whereFilter.operator =null ;
+    newEvent.whereFilter.operator = null;
     newEvent.whereFilter.values = null;
 
     this.segment.didNotEvents.events.push(newEvent);
@@ -338,28 +348,30 @@ export class SegmentBehaviorReactiveComponent implements OnInit {
 
 
   validateSegment(segment: Segment = null): boolean {
-    if(!segment) {
+    if (!segment) {
       segment = new Segment();
       Object.assign(segment, this.segmentForm['value']);
       console.log(segment);
     }
     let error = this.segmentService.validateSegment(segment);
     this.segmentErrors = error;
-    if(error && error.length > 0) {
-      error.forEach((value) => {console.error(value);});
+    if (error && error.length > 0) {
+      error.forEach((value) => {
+        console.error(value);
+      });
       return false;
-    }else{
+    } else {
 
-      segment.didNotEvents.events.forEach(v=>{
-        v.whereFilter=new WhereFilter();
+      segment.didNotEvents.events.forEach(v => {
+        v.whereFilter = new WhereFilter();
       });
 
-      segment.didEvents.events.forEach(v=>{
-        if(!v.whereFilter.propertyName){
+      segment.didEvents.events.forEach(v => {
+        if (!v.whereFilter.propertyName) {
           delete v.whereFilter.propertyName;
         }
       });
-      segment.type=this.segment.type;
+      segment.type = this.segment.type;
       this.validatedSegment.emit(segment);
       return true;
     }
