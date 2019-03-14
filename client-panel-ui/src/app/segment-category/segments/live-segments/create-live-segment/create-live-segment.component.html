@@ -2,27 +2,55 @@
   <h2 class="text-center">Live Segment</h2>
 
   <form [formGroup]="liveSegmentForm">
-    <div class="form-group col-sm-6 col-md-3 col-lg-3 mb-0">
-      <label for="triggerEvent">Trigger Event</label>
-      <select class="form-control" id="triggerEvent" formControlName="startEvent" (change)="change($event)">
-        <option value="" disabled selected>--Select--</option>
-        <option *ngFor="let event of registeredEvents" [value]="event.name">{{event.name}}</option>
-      </select>
-      <small id="triggerEventHelp" class="form-text text-muted">The Action on which the Live segment triggers.</small>
-    </div>
-    <div class="card mx-3" *ngIf="startEventFilterArray.controls && startEventFilterArray.controls.length">
-      <div class="card-body">
-        <div class="mb-2">With Property Filters:</div>
-        <app-filter-reactive *ngFor="let propFilter of startEventFilterArray.controls; let j=index;"
-                             [filterForm]="propFilter"
-                             [eventProperties]="registeredEventProperties"
-                             [filterIndex]="j"
-                             (remove)="removeStartEventFilter($event)"
-        ></app-filter-reactive>
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="form-group col-sm-6 col-md-4 col-lg-3 mb-0">
+            <label for="triggerEvent">Trigger Event</label>
+            <select class="form-control" id="triggerEvent" formControlName="startEvent" (change)="change($event)">
+              <option value="" disabled selected>--Select--</option>
+              <option *ngFor="let event of registeredEvents" [value]="event.name">{{event.name}}</option>
+            </select>
+            <small id="triggerEventHelp" class="form-text text-muted">The Action on which the Live segment triggers.
+            </small>
+          </div>
+          <div class="card mx-3" *ngIf="startEventFilterArray.controls && startEventFilterArray.controls.length">
+            <div class="card-body">
+              <div class="mb-2">With Property Filters:</div>
+              <app-filter-reactive *ngFor="let propFilter of startEventFilterArray.controls; let j=index;"
+                                   [filterForm]="propFilter"
+                                   [eventProperties]="registeredEventProperties"
+                                   [filterIndex]="j"
+                                   (remove)="removeStartEventFilter($event)"
+              ></app-filter-reactive>
+            </div>
+          </div>
+          <div class="btn btn-link" *ngIf="registeredEventProperties && registeredEventProperties.length"
+               (click)="addStartEventFilter()">+ Filter
+          </div>
+        </div>
       </div>
-    </div>
-    <div class="btn btn-link" *ngIf="registeredEventProperties && registeredEventProperties.length"
-         (click)="addStartEventFilter()">+ Filter
+
+
+      <div *ngIf="liveSegmentWithInaction" class="mt-3">
+        <div class="card">
+          <div class="card-body">
+            <div class="form-group col-sm-6 col-md-4 col-lg-3">
+              <label for="endEvent">And does not perform event</label>
+              <select class="form-control" id="endEvent" formControlName="endEvent">
+                <option value="" disabled selected>--Select--</option>
+                <option *ngFor="let event of registeredEvents" [value]="event.name">{{event.name}}</option>
+              </select>
+              <small id="endEventHelp" class="form-text text-muted">The Inaction.</small>
+            </div>
+            <div class="form-group col-sm-6 col-md-4 col-lg-3 form-inline">
+              <label>within </label>
+              <input class="form-control col" formControlName="interval" type="number" min="0" step="1">
+              <label> seconds</label>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </form>
 
@@ -42,5 +70,56 @@
 
   <div class="form-group">
     <div class="btn btn-primary" (click)="onSave()">Save</div>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="segmentNameModal" tabindex="-1" role="dialog" aria-labelledby="segmentNameModalLabel"
+       aria-hidden="true"
+       [ngStyle]="{'display':displaySegmentNameModal ? 'block' : 'none', 'opacity': 1}"
+       #segmentNameModal>
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="segmentNameModalLabel">Save Segment as</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="closeModal()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div [formGroup]="segmentFormModel">
+            <div class="form-group">
+              <label for="segmentName">Segment Name</label>
+              <input formControlName="segmentName"
+                     class="form-control"
+                     id="segmentName"
+                     aria-describedby="segmentNameHelp"
+                     placeholder="Enter Segment Name"
+                     [ngClass]="{'border-danger':segmentNameControl.errors && (segmentNameControl.touched || segmentNameControl.dirty )}"
+                     trim="blur"
+              >
+              <div class="alert-alert-danger" *ngIf="segmentNameControl.errors && (segmentNameControl.touched || segmentNameControl.dirty )">
+                Name is Required.
+              </div>
+              <small id="segmentNameHelp" class="form-text text-muted">We'll use this name to identify segments.</small>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button"
+                  class="btn btn-secondary"
+                  data-dismiss="modal"
+                  (click)="closeModal()">Close
+          </button>
+          <button [disabled]="segmentFormModel.invalid"
+                  type="button"
+                  class="btn btn-primary"
+                  data-toggle="modal"
+                  aria-label="Close"
+                  data-target="#segmentNameModal"
+                  (click)="sendSaveRequest()">Save Segment
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

@@ -8,6 +8,7 @@ export class Segment {
   didNotEvents: DidEvents;
   globalFilters: GlobalFilter[];
   geographyFilters: Geography[];
+  liveSegment: LiveSegment = null;
 }
 
 export class LiveSegment {
@@ -17,7 +18,7 @@ export class LiveSegment {
   startEventFilters: PropertyFilter[];
   endEventFilters: PropertyFilter[];
   endEventDone: boolean;
-  intervalSeconds: number;
+  interval: number; //(seconds)
   liveSegmentType: string;
 }
 

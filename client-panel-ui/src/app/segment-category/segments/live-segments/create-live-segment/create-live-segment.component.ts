@@ -1,11 +1,13 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {
   DidEvents, JoinCondition,
   LiveSegment, PropertyFilter, RegisteredEvent, RegisteredEventProperties,
   Segment
 } from "../../../../_models/segment";
 import {SegmentService} from "../../../../_services/segment.service";
-import {Form, FormArray, FormBuilder, FormGroup} from "@angular/forms";
+import {Form, FormArray, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {ActivatedRoute} from "@angular/router";
+import {MessageService} from "../../../../_services/message.service";
 
 @Component({
   selector: 'app-create-live-segment',
@@ -36,7 +38,15 @@ export class CreateLiveSegmentComponent implements OnInit {
 
   triggerValidatedSegment: boolean = false;
 
-  constructor(private segmentService: SegmentService, private fb: FormBuilder) {
+  @Input()
+  liveSegmentWithInaction: boolean = false;
+
+  displaySegmentNameModal: boolean = false;
+
+  segmentFormModel: FormGroup;
+
+  constructor(private segmentService: SegmentService, private fb: FormBuilder, private route: ActivatedRoute,
+              private messageService: MessageService) {
   }
 
   ngOnInit() {
@@ -46,6 +56,11 @@ export class CreateLiveSegmentComponent implements OnInit {
     this.liveSegment.startEventFilters = [];
     this.liveSegment.endEventFilters = [];
     this.initLiveSegmentForm();
+    let inaction = this.route.snapshot.queryParams["i"]; //i=1 for inaction
+    if((inaction && inaction == 1)) {
+      this.liveSegmentWithInaction = true;
+    }
+    this.initSegmentModalForm();
   }
 
   change(event: any) {
@@ -62,9 +77,9 @@ export class CreateLiveSegmentComponent implements OnInit {
     this.liveSegmentForm = this.fb.group({
       startEvent: [this.liveSegment.startEvent ? this.liveSegment.startEvent : ""],
       startEventFilters: this.fb.array(this.createEventFilters(this.liveSegment.startEventFilters)),
-      endEvent: [this.liveSegment.endEvent],
+      endEvent: [this.liveSegment.endEvent? this.liveSegment.endEvent : ""],
       endEventFilters: this.fb.array(this.createEventFilters(this.liveSegment.endEventFilters)),
-      intervalSeconds: [this.liveSegment.intervalSeconds]
+      interval: [this.liveSegment.interval]
     });
   }
 
@@ -98,18 +113,62 @@ export class CreateLiveSegmentComponent implements OnInit {
     this.startEventFilterArray.removeAt(index);
   }
 
+  get endEventFilterArray(): FormArray {
+    return <FormArray>(this.liveSegmentForm.get('endEventFilters'));
+  }
+
+  addEndEventFilter() {
+    this.endEventFilterArray.push(this.createEventFilter(new PropertyFilter()));
+  }
+
+  removeEndEventFilter(index) {
+    this.endEventFilterArray.removeAt(index);
+  }
+
   insertSegmentValue(event: any) {
-    console.log(event);
+    // console.log(event);
     if(event && this.showBehaviorSegment) {
       this.liveSegment.segment = event;
+      if(this.liveSegmentWithInaction) {
+        this.liveSegment.endEventDone = false;
+        this.liveSegment.liveSegmentType = "InactionWithinTime";
+      } else {
+        this.liveSegment.liveSegmentType = "SingleAction";
+      }
+      console.log(this.liveSegment);
+      this.openPopUp();
     }
   }
 
   onSave() {
-    this.triggerValidatedSegment = !this.triggerValidatedSegment;
-    // this.triggerValidatedSegment = true;
     Object.assign(this.liveSegment, this.liveSegmentForm['value']);
-    console.log(this.liveSegment);
+    if( !this.showBehaviorSegment ) {
+      if(this.liveSegmentWithInaction) {
+        this.liveSegment.endEventDone = false;
+        this.liveSegment.liveSegmentType = "InactionWithinTime";
+      } else {
+        this.liveSegment.liveSegmentType = "SingleAction";
+      }
+      console.log(this.liveSegment);
+      this.openPopUp();
+    } else {
+      this.triggerValidatedSegment = !this.triggerValidatedSegment;
+    }
+  }
+
+  sendSaveRequest() {
+    this.initSegment();
+    this.liveSegment.segment.name = this.segmentFormModel.get('segmentName').value.trim();
+    this.segmentFormModel.reset();
+    this.liveSegment.segment.type = "Live";
+    this.segmentService.saveLiveSegment(this.liveSegment).subscribe(
+      (response) => {
+        this.messageService.addSuccessMessage("Live segment Created Successfully");
+      },
+      (error) => {
+        this.messageService.addDangerMessage("There is an issue creating live segment");
+      }
+    );
   }
 
   initSegment() {
@@ -125,5 +184,23 @@ export class CreateLiveSegmentComponent implements OnInit {
       this.liveSegment.segment.geographyFilters = [];
       this.liveSegment.segment.type = "Live";
     }
+  }
+
+  openPopUp() {
+    this.displaySegmentNameModal = true;
+  }
+
+  initSegmentModalForm() {
+    this.segmentFormModel = this.fb.group({
+      segmentName: [null, [Validators.required]]
+    });
+  }
+
+  closeModal() {
+    this.displaySegmentNameModal = false;
+  }
+
+  get segmentNameControl(): FormControl {
+    return <FormControl>this.segmentFormModel.get('segmentName')
   }
 }

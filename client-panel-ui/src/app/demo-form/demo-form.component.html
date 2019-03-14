@@ -48,15 +48,16 @@
                   site_key="{{_site_key}}" #ReCaptchaComponent></re-captcha>
     </div>
     <div class="modal-footer" *ngIf="modalDemoButton">
-      <button type="button" class="btn btn-primary text-capitalize w-100 h-25"
+      <button type="button" class="btn btn-secondary text-capitalize w-100 h-25"
               data-dismiss="modal"
               (click)="submitDemoForm(f)"
               [disabled]="f.invalid">Get your free demo now !</button>
     </div>
     <div class="form-group row" *ngIf="!modalDemoButton">
-      <div class="ml-auto col-sm-7">
-        <button type="button" class="btn btn-primary "
-                                      (click)="submitDemoForm(f)">Schedule a Demo</button>
+      <div class="mx-auto">
+        <button type="button" class="btn btn-secondary"
+                (click)="submitDemoForm(f)"
+                [disabled]="f.invalid">Schedule a Demo</button>
       </div>
 
     </div>

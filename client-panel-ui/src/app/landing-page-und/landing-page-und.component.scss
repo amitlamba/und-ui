@@ -1,18 +1,18 @@
 #homepage {
   //margin-top:-1.5em;
   font-weight: 400;
-  color: #555555 !important;
+  color: #333333 !important;
   background: white;
 }
 
-header {
-  background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.9)), url("../../assets/img/und-header-background.jpg");
-  background-position: center;
-  background-attachment: fixed;
-  height: calc(100vh - 2.5em);
-  background-size: cover;
-  position: relative;
-}
+//header {
+//  background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.9)), url("../../assets/img/und-header-background.jpg");
+//  background-position: center;
+//  background-attachment: fixed;
+//  height: calc(100vh - 2.5em);
+//  background-size: cover;
+//  position: relative;
+//}
 
 .und-heading {
   position: absolute;

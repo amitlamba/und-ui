@@ -8,7 +8,7 @@
       <div class="card" formGroupName="didEvents">
         <div class="card-body">
           <div class="card-title">
-            <div class="d-inline">Users who did</div>
+            <div class="d-inline">Users who performed</div>
             <span class="small text-muted">(optional)</span>
           </div>
           <div class="form-group d-inline-flex mt-3" formGroupName="joinCondition"
@@ -20,7 +20,7 @@
               </select>
             </div>
             <div class="mt-2">
-              <p>of these events</p>
+              <p>of these events (actions)</p>
             </div>
           </div>
           <div formArrayName="events">
@@ -45,7 +45,7 @@
       <div class="card" formGroupName="didNotEvents">
         <div class="card-body">
           <div class="card-title">
-            <div class="d-inline">Users who did not do any of these events</div>
+            <div class="d-inline">Users who did not perform any of these events (actions)</div>
             <span class="small text-muted">(optional)</span>
           </div>
           <div formArrayName="events">

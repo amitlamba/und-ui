@@ -3,7 +3,7 @@ import {HttpClient} from "@angular/common/http";
 import {
   City,
   Country,
-  DidEvents, GlobalFilter,
+  DidEvents, GlobalFilter, LiveSegment,
   RegisteredEvent,
   RegisteredEventProperties,
   Segment, SegmentMini,
@@ -150,6 +150,9 @@ export class SegmentService {
     return this.httpClient.post<Segment>(AppSettings.API_ENDPOINT_CLIENT_SEGMENT_SAVE, segment);
   }
 
+  saveLiveSegment(liveSegment: LiveSegment): Observable<any> {
+    return this.httpClient.post<LiveSegment>(AppSettings.API_ENDPOINT_CLIENT_LIVESEGMENT_SAVE, liveSegment);
+  }
 
   sampleEvents: RegisteredEvent[] = [
     {

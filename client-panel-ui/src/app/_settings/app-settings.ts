@@ -111,6 +111,9 @@ export class AppSettings {
   public static API_ENDPOINT_CLIENT_SEGMENT_SAVE = AppSettings.API_ENDPOINT_CLIENT_SEGMENT + "/save";
   public static API_ENDPOINT_CLIENT_GET_SEGMENT_BY_ID = AppSettings.API_ENDPOINT_CLIENT_SEGMENT + "/segment";
 
+  public static API_ENDPOINT_CLIENT_LIVESEGMENT = AppSettings.API_ENDPOINT_CLIENT + "/livesegment";
+  public static API_ENDPOINT_CLIENT_LIVESEGMENT_SAVE = AppSettings.API_ENDPOINT_CLIENT_LIVESEGMENT + "/save";
+
 
   public static API_ENDPOINT_CLIENT_USER = AppSettings.API_ENDPOINT_CLIENT + "/user";
   public static API_ENDPOINT_CLIENT_USER_GOOGLE_ID = AppSettings.API_ENDPOINT_CLIENT_USER + '/google';

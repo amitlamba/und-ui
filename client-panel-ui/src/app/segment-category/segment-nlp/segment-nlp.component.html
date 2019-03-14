@@ -1,5 +1,17 @@
 <div>
   {{segment.name}}
+  <div *ngIf="segment.liveSegment">
+    Live Segment
+    <ul>
+      <li>On trigger of action {{segment.liveSegment.startEvent}}</li>
+      <ul>
+        <li *ngFor="let filter of segment.liveSegment.startEventFilters">{{filter.name}} {{filter.operator}} {{filter.values[0]}} <span *ngIf="filter.values[1]"> and {{filter.values[1]}}</span> <span *ngIf="filter.valueUnit && filter.valueUnit !== 'NONE'"> and {{filter.valueUnit}}</span></li>
+      </ul>
+    </ul>
+    <div *ngIf="segment && ((segment.didEvents && segment.didEvents.events && segment.didEvents.events.length) || (segment.didNotEvents && segment.didNotEvents.events && segment.didNotEvents.events.length > 0) || (segment.globalFilters && segment.globalFilters.length > 0) || (segment.geographyFilters && segment.geographyFilters.length > 0))">
+      and further filter with behaviour
+    </div>
+  </div>
   <ul>
     <li *ngIf="segment.didEvents && segment.didEvents.events && segment.didEvents.events.length > 0">Users who did {{segment.didEvents.joinCondition.conditionType}} {{segment.didEvents.joinCondition.anyOfCount}} of these events
       <ul>
