@@ -11,8 +11,9 @@ export class Campaign {
   dateCreated: string;
   conversionEvent: string;
   serviceProviderId: number;
-  fromUser:string;
-  clientEmailSettingId:number;
+  fromUser: string;
+  clientEmailSettingId: number;
+  liveSchedule: LiveSchedule;
   // createdOn: Date;
   // clientID: number;
   // appuserID: number;
@@ -23,19 +24,27 @@ export class Campaign {
   // smsCampaign: SmsCampaign;
 }
 
+
+class LiveSchedule {
+  nowOrLater: Now = Now.Now;
+  startTime: CampaignDateTime;
+  endTime: CampaignDateTime;
+}
+
 export enum CampaignStatus {
-  PAUSED="PAUSED",
-  RESUMED="RESUMED",
-  CREATED="CREATED",
-  ERROR="ERROR",
-  SCHEDULE_PENDING="SCHEDULE_PENDING",
-  SCHEDULE_ERROR="SCHEDULE_ERROR",
-  DELETED="DELETED",
-  STOPPED="STOPPED",
-  COMPLETED="COMPLETED",
-  FORCE_PAUSED="FORCE_PAUSED"
+  PAUSED = "PAUSED",
+  RESUMED = "RESUMED",
+  CREATED = "CREATED",
+  ERROR = "ERROR",
+  SCHEDULE_PENDING = "SCHEDULE_PENDING",
+  SCHEDULE_ERROR = "SCHEDULE_ERROR",
+  DELETED = "DELETED",
+  STOPPED = "STOPPED",
+  COMPLETED = "COMPLETED",
+  FORCE_PAUSED = "FORCE_PAUSED"
 
 }
+
 export enum DeliveryStatus {
   NOT_SCHEDULED,
   SCHEDULED,
@@ -49,13 +58,12 @@ export enum FrequencyType {
 }
 
 export enum CampaignType {
-  EMAIL="EMAIL",
-  SMS="SMS",
-  PUSH_ANDROID="PUSH_ANDROID",
-  PUSH_WEB="PUSH_WEB",
-  PUSH_IOS="PUSH_IOS"
+  EMAIL = "EMAIL",
+  SMS = "SMS",
+  PUSH_ANDROID = "PUSH_ANDROID",
+  PUSH_WEB = "PUSH_WEB",
+  PUSH_IOS = "PUSH_IOS"
 }
-
 
 
 //new
@@ -79,6 +87,7 @@ export class ScheduleRecurring {
   scheduleStartDate: string;
   scheduleEnd: ScheduleEnd;
 }
+
 //new end
 
 export class ScheduleEnd {
@@ -118,16 +127,16 @@ export enum AmPm {
 
 export class ClientFromAddressAndSrp {
 
-  settings:Map<string,Array<number>>
+  settings: Map<string, Array<number>>
 }
 
-export class ServiceProvider{
-  id:number;
-  name:string;
+export class ServiceProvider {
+  id: number;
+  name: string;
 }
 
-export class ClientEmailSettIdFromAddrSrp{
-  fromAddress:string;
-  ceid:number;
-  srpName:string;
+export class ClientEmailSettIdFromAddrSrp {
+  fromAddress: string;
+  ceid: number;
+  srpName: string;
 };

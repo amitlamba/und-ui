@@ -103,14 +103,14 @@ export class CreateEmailTemplateFormComponent implements OnInit, OnChanges {
   }
 
   addUnsubscribeLink(event) {
-    if (this.emailTemplate.emailTemplateBody.indexOf('##UND_UNSUBSCRIBE_LINK##') < 0) {
+    if (this.emailTemplate.emailTemplateBody.indexOf('${unsubscribeLink}') < 0) {
       // document.querySelector('textarea').value = document.querySelector('textarea').value + '<a href="##UND_UNSUBSCRIBE_LINK##">Unsubscribe</a>';
-      this.emailTemplate.emailTemplateBody = this.emailTemplate.emailTemplateBody + '<a href="##UND_UNSUBSCRIBE_LINK##">Unsubscribe</a>';
+      this.emailTemplate.emailTemplateBody = this.emailTemplate.emailTemplateBody + '<a href="${unsubscribeLink}">Unsubscribe</a>';
       event.srcElement.textContent = 'Remove Unsubscribe';
     }
     else {
       // document.querySelector('textarea').value = document.querySelector('textarea').value.replace('<a href="##UND_UNSUBSCRIBE_LINK##">Unsubscribe</a>', '');
-      this.emailTemplate.emailTemplateBody = this.emailTemplate.emailTemplateBody.replace('<a href="##UND_UNSUBSCRIBE_LINK##">Unsubscribe</a>','');
+      this.emailTemplate.emailTemplateBody = this.emailTemplate.emailTemplateBody.replace('<a href="${unsubscribeLink}">Unsubscribe</a>','');
       event.srcElement.textContent = 'Add Unsubscribe';
     }
   }

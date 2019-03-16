@@ -69,9 +69,9 @@
         <td>{{campaignItem.campaignType}}</td>
         <td>{{campaignItem.dateCreated+"Z" | date:'medium'}}</td>
         <td>
-          <span *ngIf="campaignItem.schedule.oneTime!==null">One Time</span>
-          <span *ngIf="campaignItem.schedule.multipleDates!==null">Multiple Dates</span>
-          <span *ngIf="campaignItem.schedule.recurring!==null">Recurring</span>
+          <span *ngIf="campaignItem && campaignItem.schedule!=null && campaignItem.schedule.oneTime!==null">One Time</span>
+          <span *ngIf="campaignItem && campaignItem.schedule!=null && campaignItem.schedule.multipleDates!==null">Multiple Dates</span>
+          <span *ngIf="campaignItem && campaignItem.schedule!=null && campaignItem.schedule.recurring!==null">Recurring</span>
         </td>
         <td *ngIf="campaignItem.status == 'ERROR'">
           <a href="#" (click)="getCampaignError(campaignItem)" data-toggle="modal" data-target="#campaignErrorModal"
