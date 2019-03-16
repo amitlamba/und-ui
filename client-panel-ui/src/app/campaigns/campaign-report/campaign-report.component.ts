@@ -2,7 +2,7 @@ import {Component, Input, OnInit} from "@angular/core";
 import {Campaign} from "../../_models/campaign";
 import {ActivatedRoute} from "@angular/router";
 import {CampaignService} from "../../_services/campaign.service";
-import {CampaignReach, ChartSeriesData, FunnelOrder, FunnelReportFilter} from "../../_models/reports";
+import {CampaignReach, ChartSeriesData, FunnelOrder, FunnelReportFilter, FunnelStep} from "../../_models/reports";
 import {ReportsService} from "../../_services/reports.service";
 import {ChartModel} from "../../eventreport/eventreport-demographics/eventreport-demographics.component";
 import {GlobalFilter, GlobalFilterType} from "../../_models/segment";
@@ -117,8 +117,60 @@ export class CampaignReportComponent implements OnInit {
   }
 
   setCoversionFunnelChartData(data: any) {
-    this.conversionFunnelChartData.yAxisTitle = "Number of users";
-    this.conversionFunnelChartData.xAxisTitle = "Events";
+    this.conversionFunnelChartData= new ChartModel();
+    this.initializeGraph(data);
     console.log(data);
+  }
+  initializeGraph(data:FunnelStep[]){
+
+    if(true) {
+      this.conversionFunnelChartData.category = data.map(v => v.property).filter(function(item, i, ar){ return ar.indexOf(item) === i; });
+      console.log(this.conversionFunnelChartData.category);
+
+      this.conversionFunnelChartData.dataSeries = [];
+
+      data.forEach(v => {
+        this.conversionFunnelChartData.dataSeries.push({
+          showInLegend: true,
+          seriesName: v.step.eventName,
+          data: [v.count]
+        });
+      })
+    } else {
+      console.log(data);
+      let category = data.map(v => v.property).filter(function(item, i, ar){ return ar.indexOf(item) === i; });
+      let categorized = [];
+      data.forEach((v,i)=>{
+        let found = categorized.find((v1)=> v1.name === v.step.eventName);
+        if(!found) {
+          let n: any = {};
+          n['name'] = v.step.eventName;
+          n['data'] = {};
+          n['data'][v.property] = v.count;
+          categorized.push(n);
+        } else {
+          found.data[v.property] = v.count;
+        }
+      });
+      console.log(categorized);
+      let dataSeries = []
+      categorized.forEach((v) => {
+        let d = {};
+        d['seriesName'] = v['name'];
+        let data = [];
+        category.forEach((v1, i)=> {
+          data[i] = (v['data'][v1] == undefined) ? 0 : v['data'][v1];
+        })
+        d['data'] = data;
+        d['showInLegend'] = true;
+        dataSeries.push(d);
+      });
+      this.conversionFunnelChartData.yAxisTitle = "Number of users";
+      this.conversionFunnelChartData.xAxisTitle = "Events";
+      this.conversionFunnelChartData.category = category;
+      this.conversionFunnelChartData.dataSeries = dataSeries;
+      console.log(this.conversionFunnelChartData);
+    }
+    // data.map(v=>v.count)
   }
 }
