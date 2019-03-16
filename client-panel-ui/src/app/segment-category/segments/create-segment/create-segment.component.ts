@@ -16,10 +16,22 @@ export class CreateSegmentComponent implements OnInit {
   }
 
   onCreateBehaviourSegmentBasedOnAction() {
-    this.router.navigate(["segment", "create-reactive-segment"]);
+    this.router.navigate(["segment", "create-reactive-segment"], {queryParams:{a:1}});
+  }
+
+  onCreateBehaviourSegmentBasedOnInaction() {
+    this.router.navigate(["segment", "create-reactive-segment"], {queryParams:{i:1}});
+  }
+
+  onCreateBehaviourSegmentBasedOnUserProperties() {
+    this.router.navigate(["segment", "create-reactive-segment"], {queryParams:{u:1}})
   }
 
   onCreateLiveSegmentBasedOnSingleAction() {
     this.router.navigate(["segment", "create-live-segment"]);
+  }
+
+  onCreateLiveSegmentBasedOnSingleActionWithInactionWithinTime() {
+    this.router.navigate(["segment", "create-live-segment"], {queryParams:{i:1}});
   }
 }

@@ -75,7 +75,7 @@ export class CreateLiveSegmentComponent implements OnInit {
 
   private initLiveSegmentForm() {
     this.liveSegmentForm = this.fb.group({
-      startEvent: [this.liveSegment.startEvent ? this.liveSegment.startEvent : ""],
+      startEvent: [this.liveSegment.startEvent ? this.liveSegment.startEvent : "", Validators.required],
       startEventFilters: this.fb.array(this.createEventFilters(this.liveSegment.startEventFilters)),
       endEvent: [this.liveSegment.endEvent? this.liveSegment.endEvent : ""],
       endEventFilters: this.fb.array(this.createEventFilters(this.liveSegment.endEventFilters)),
@@ -93,9 +93,9 @@ export class CreateLiveSegmentComponent implements OnInit {
 
   private createEventFilter(propertyFilter: PropertyFilter): FormGroup {
     var fg = this.fb.group({
-      name: [propertyFilter.name],
-      operator: [propertyFilter.operator],
-      values: [propertyFilter.values],
+      name: [propertyFilter.name, Validators.required],
+      operator: [propertyFilter.operator, Validators.required],
+      values: [propertyFilter.values, Validators.required],
       type: [propertyFilter.type]
     });
     return fg;

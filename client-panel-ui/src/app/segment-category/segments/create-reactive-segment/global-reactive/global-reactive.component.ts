@@ -85,7 +85,7 @@ export class GlobalReactiveComponent implements OnInit {
       this.globalFilterForm.get('globalFilterType').setValue(this.firstDropDown[0].name);
       this.maxOrder = 1;
       this.firstFilterChanged(this.firstDropDown[0].name);
-      this.operator = StringOperator[StringOperator.Equals];
+      this.operator = this.filters.includes("Equals")?StringOperator[StringOperator.Equals]:this.filters[0];
     }
 
     this.globalFilterForm.valueChanges.subscribe(data => console.log(data));
@@ -135,5 +135,12 @@ export class GlobalReactiveComponent implements OnInit {
 
   removeFilter(){
     this.remove.emit(this.globalFilterFormIndex);
+  }
+
+  get filters(): string[] {
+    if(this.firstFilterSelected == "Reachability" && this.secondFilterSelected.startsWith("has"))
+      return ['Exists', 'DoesNotExist'];
+    else
+      return Object.keys(this.segmentService.stringComparatorMetadata);
   }
 }

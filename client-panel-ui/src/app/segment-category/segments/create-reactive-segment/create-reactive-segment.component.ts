@@ -29,10 +29,15 @@ export class CreateReactiveSegmentComponent implements OnInit, OnDestroy {
   validatedSegment: Segment;
   segmentFormModel: FormGroup;
 
+  withAction: boolean = false;
+  withInaction: boolean = false;
+  withUserProperties: boolean = false;
+
   constructor(private fb: FormBuilder,
               private segmentService: SegmentService,
               private router: Router,
-              private messageService: MessageService) {
+              private messageService: MessageService,
+              private route: ActivatedRoute) {
 
     if (this.segmentService.cloneSegment) {
       this.segment = segmentService.cloneSegment;
@@ -42,6 +47,9 @@ export class CreateReactiveSegmentComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.withAction = this.route.snapshot.queryParams["a"] == 1;
+    this.withInaction = this.route.snapshot.queryParams["i"] == 1;
+    this.withUserProperties = this.route.snapshot.queryParams["u"] == 1;
   }
 
   ngOnDestroy() {

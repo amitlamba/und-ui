@@ -60,7 +60,7 @@ export class SegmentService {
   set segments(value: Segment[]) {
     this._segments = value;
     localStorage.setItem("segmentNames", JSON.stringify(this._segments.map<SegmentMini>(
-      (v) => {return {id: v.id, name: v.name}}
+      (v) => {return {id: v.id, name: v.name, type: v.type}}
     )));
   }
   get segmentMini(): SegmentMini[] {

@@ -4,6 +4,7 @@
       <app-segment-behavior-reactive [type]="type"
                                      [segment]="segment"
                                      (validatedSegment)="find($event)"
+                                     [withAction]="true"
       >
       </app-segment-behavior-reactive>
     </div>
@@ -49,7 +50,7 @@
       </div>
     </div>
     <a id="event-user-list"></a>
-    <div class="col-lg-9 mt-5" *ngIf="eventUserList.length!=0;">
+    <div class="col-lg-9 mt-5" *ngIf="eventUserList && eventUserList.length!=0;">
       <app-event-user-list [eventUserList]="eventUserList"></app-event-user-list>
     </div>
   </div>

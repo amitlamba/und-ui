@@ -7,8 +7,7 @@
       <div class="card clickable" (click)="onCreateBehaviourSegmentBasedOnAction()">
         <div class="card-header">Based On Action</div>
         <div class="card-body">
-          <div>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ea hic nisi reiciendis! Aperiam deserunt iste
-          officia, placeat quia temporibus voluptatibus.</div>
+          <div>Create Segments based on user actions (events performed).</div>
           <div class="text-right">
             <div class="btn btn-primary">Create</div>
           </div>
@@ -17,11 +16,10 @@
       </div>
     </div>
     <div class="col-sm-6 col-md-4 p-3">
-      <div class="card clickable" (click)="onCreateBehaviourSegmentBasedOnAction()">
+      <div class="card clickable" (click)="onCreateBehaviourSegmentBasedOnInaction()">
         <div class="card-header">Based On Inaction</div>
         <div class="card-body">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ea hic nisi reiciendis! Aperiam deserunt iste
-          officia, placeat quia temporibus voluptatibus.
+          Create Segment based on user inactions (events done and not done).
           <div class="text-right">
             <div class="btn btn-primary">Create</div>
           </div>
@@ -29,11 +27,10 @@
       </div>
     </div>
     <div class="col-sm-6 col-md-4 p-3">
-      <div class="card clickable" (click)="onCreateBehaviourSegmentBasedOnAction()">
-        <div class="card-header">Based On Inaction</div>
+      <div class="card clickable" (click)="onCreateBehaviourSegmentBasedOnUserProperties()">
+        <div class="card-header">Based On User Properties</div>
         <div class="card-body">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ea hic nisi reiciendis! Aperiam deserunt iste
-          officia, placeat quia temporibus voluptatibus.
+          Create Segment based on user properties, demographics, technology used etc.
           <div class="text-right">
             <div class="btn btn-primary">Create</div>
           </div>
@@ -50,9 +47,7 @@
       <div class="card clickable" (click)="onCreateLiveSegmentBasedOnSingleAction()">
         <div class="card-header">Single Action</div>
         <div class="card-body">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ea hic nisi reiciendis! Aperiam deserunt iste
-          officia,
-          placeat quia temporibus voluptatibus.
+          Create real-time segment based on an action (event performed).
           <div class="text-right">
             <div class="btn btn-primary">Create</div>
           </div>
@@ -61,12 +56,10 @@
     </div>
 
     <div class="col-sm-6 col-md-4 p-3">
-      <div class="card clickable" (click)="onCreateLiveSegmentBasedOnSingleAction()">
+      <div class="card clickable" (click)="onCreateLiveSegmentBasedOnSingleActionWithInactionWithinTime()">
         <div class="card-header">Single Action With No Action</div>
         <div class="card-body">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ea hic nisi reiciendis! Aperiam deserunt iste
-          officia,
-          placeat quia temporibus voluptatibus.
+          Create real-time segment based on an action (event performed) and does not perform a subsequent action (event) within specified duration.
           <div class="text-right">
             <div class="btn btn-primary">Create</div>
           </div>

@@ -15,6 +15,12 @@ export class StringComparatorComponent implements OnInit, OnChanges {
 
 
   ngOnChanges(changes: SimpleChanges): void {
+    console.log(changes);
+    console.log(this.noFieldRequiredComparators.includes(StringOperator[this.operator]));
+    if(this.noFieldRequiredComparators.includes(StringOperator[this.operator])) {
+      this.values = [];
+      this.fieldRequired = false;
+    }
     // console.log(this.form);
     // this.form.get('operator').setValue(this.operator);
     // this.form.get('values').setValue(this.values);
@@ -92,7 +98,11 @@ export class StringComparatorComponent implements OnInit, OnChanges {
     }
 
     if(this.localOperator){
-      this.dropdownChanged(this.localOperator);
+      this.dropdownChanged(StringOperator[this.localOperator]);
+    }
+
+    if(!this.operator && this.stringComparatorOperators && this.stringComparatorOperators.length) {
+      this.dropdownChanged(this.stringComparatorOperators[0]);
     }
   }
 
