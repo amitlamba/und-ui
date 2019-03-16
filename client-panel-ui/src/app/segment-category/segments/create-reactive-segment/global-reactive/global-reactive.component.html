@@ -23,6 +23,7 @@
       <app-string-comparator [(values)]="values"
                              [(operator)]="operator" *ngIf="maxOrder>=1 && secondFilterSelected!='age'"
                              [options]="options"
+                             [stringComparatorOperators]="filters"
       ></app-string-comparator>
       <app-number-comparator [(values)]="values"
                              [(operator)]="operator" *ngIf="maxOrder>=1 && secondFilterSelected=='age'"

@@ -35,6 +35,10 @@ export class SegmentBehaviorReactiveComponent implements OnInit, OnChanges {
   @Input() type: string = "create";//"create","find","none"
   // @Output() filledSegment = new EventEmitter<Segment>();
 
+  @Input() withAction: boolean = false;
+  @Input() withInaction: boolean = false;
+  @Input() withUserProperties: boolean = false;
+
   @Output() validatedSegment: EventEmitter<Segment> = new EventEmitter();
 
   private _triggerValidatedSegment: boolean;
@@ -79,6 +83,7 @@ export class SegmentBehaviorReactiveComponent implements OnInit, OnChanges {
     }
     this.createForm(this.segment);
 
+    this.openRelevantSection();
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -102,6 +107,17 @@ export class SegmentBehaviorReactiveComponent implements OnInit, OnChanges {
       this.segment.globalFilters = [];
       this.segment.geographyFilters = [];
       this.segment.type = "Behaviour";
+    }
+  }
+
+  openRelevantSection() {
+    if(this.withAction) {
+      this.addDidEvent();
+    } else if(this.withInaction) {
+      this.addDidEvent();
+      this.addDidNotEvent();
+    } else if(this.withUserProperties) {
+      this.addGlobalFilter();
     }
   }
 

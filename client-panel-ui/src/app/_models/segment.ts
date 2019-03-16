@@ -25,6 +25,7 @@ export class LiveSegment {
 export interface SegmentMini {
   id: number;
   name: string;
+  type: string
 }
 
 export class DidEvents {

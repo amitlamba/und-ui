@@ -63,6 +63,15 @@ export class SetupCampaignComponent implements OnInit {
   campaignName: string = "";
   segmentsList: SegmentMini[] = [];
 
+  private _selectedSegment: SegmentMini;
+  get selectedSegment(): SegmentMini {
+    return this._selectedSegment;
+  }
+
+  set selectedSegment(value: SegmentMini) {
+    this._selectedSegment = value;
+    this.campaign.segmentationID = value.id;
+  }
 
   cronOptions: CronOptions = {
     formInputClass: 'form-control cron-editor-input',
@@ -206,6 +215,9 @@ export class SetupCampaignComponent implements OnInit {
     this.campaign.templateID = parseInt(this.route.snapshot.queryParams['tid'])?parseInt(this.route.snapshot.queryParams['tid']):-1;
     console.log(this.campaign);
     console.log(this.segmentsList);
+    if(this.campaign && this.campaign.segmentationID) {
+      this._selectedSegment = this.segmentsList.find(v=>v.id==this.campaign.segmentationID);
+    }
   }
 
   continueToSchedule(): void {

@@ -3,7 +3,10 @@
     <div class="col-lg-10 col-sm-8  mt-2">
       <app-segment-behavior-reactive [segment]="segment"
                                      [type]="type"
-                                     (validatedSegment)="openPopUp($event)"></app-segment-behavior-reactive>
+                                     (validatedSegment)="openPopUp($event)"
+      [withAction]="withAction"
+      [withInaction]="withInaction"
+      [withUserProperties]="withUserProperties"></app-segment-behavior-reactive>
     </div>
   </div>
   <!-- Modal -->
