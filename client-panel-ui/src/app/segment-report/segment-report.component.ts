@@ -136,6 +136,10 @@ export class SegmentReportComponent implements OnInit {
   createCampaign(campaignType: string) {
     this.router.navigate(['/campaigns/'+campaignType],{queryParams: {sid: this.segmentId}});
   }
+
+  getLiveSegmentCount() {
+    // API to hit livesegment/get/ls/users
+  }
 }
 
 export class SegmentChartModel {

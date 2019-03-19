@@ -15,9 +15,10 @@
     <div class="card">
       <div class="card-header">
         <div class="row">
-          <div class="col-6">Campaign Name: <strong>{{campaign.name}}</strong>
+          <div class="col-4">Campaign Name: <strong>{{campaign.name}}</strong>
           </div>
-          <div class="col-6 pl-auto">Status: <strong>{{campaign.status}}</strong></div>
+          <div class="col-4 pl-auto">Status: <strong>{{campaign.status}}</strong></div>
+          <div class="col-4 pl-auto"><strong><span *ngIf="campaign.liveSchedule">Live</span><span *ngIf="!campaign.liveSchedule">Behaviour</span> {{campaign.campaignType}} Campaign</strong></div>
         </div>
       </div>
       <div class="card-body">

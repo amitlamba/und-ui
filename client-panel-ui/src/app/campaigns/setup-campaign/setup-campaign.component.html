@@ -77,28 +77,6 @@
             </select>
 
           </div>
-          <!--<div class="custom-control custom-checkbox my-1 mr-sm-2">-->
-          <!--<input type="checkbox" class="custom-control-input" id="advanced"-->
-          <!--(click)="advancedSelected()">-->
-          <!--<label class="custom-control-label" for="advanced">Advanced-->
-          <!--<span *ngIf="!advanced" class="text-muted small">(Check to show Advanced Features)</span>-->
-          <!--<span *ngIf="advanced" class="text-muted small">(Uncheck to hide Advanced Features)</span>-->
-          <!--</label>-->
-          <!--</div>-->
-          <!--<div *ngIf="advanced">-->
-          <!--<div class="form-group col-9">-->
-          <!--<label for="cevent">Conversion Event</label>-->
-          <!--<select class="form-control" [(ngModel)]="cEvent" >-->
-          <!--<option *ngFor="let event of conversionEvents" [ngValue]="event" id="cevent">{{event}}</option>-->
-          <!--</select>-->
-          <!--</div>-->
-          <!--<div class="form-group col-9">-->
-          <!--<label for="sprov">Service Provider</label>-->
-          <!--<select class="form-control" id="sprov" [(ngModel)]="srpId">-->
-          <!--<option *ngFor="let sp of serviceProviders" [ngValue]="sp.id">{{sp.name}}</option>-->
-          <!--</select>-->
-          <!--</div>-->
-          <!--</div>-->
           <button class="btn btn-primary ml-3 px-4"
                   (click)="continueToSchedule()"
                   type="button"
@@ -106,69 +84,6 @@
             Continue
           </button>
         </form>
-        <!--<form novalidate
-              #f="ngForm">
-          <div class="form-group col-9">
-            <label class="card-title h5">Campaign Name <sup>*</sup></label>
-
-            <input class="form-control"
-                   type="text"
-                   placeholder="Campaign Name"
-                   name="campaignName"
-                   [(ngModel)]="campaignName"
-                   pattern="[A-Za-z0-9-_][A-Za-z0-9\s-_]*"
-                   #campaignN="ngModel"
-                   required>
-            <div class="feedback text-danger" *ngIf="campaignN.errors && (campaignN.dirty || campaignN.touched)">
-              <div *ngIf="campaignN.errors.required">
-                Name is required.
-              </div>
-              <div *ngIf="campaignN.errors.pattern">
-                Name cannot contain any special characters and cannot start with the space.
-              </div>
-
-            </div>
-          </div>
-          <div class="form-group col-9">
-            <label class="card-title h5">Who do you want to send this campaign to? <sup>*</sup></label>
-            <select class="form-control"
-                    name="segmentName"
-                    #segmentID
-                    (change)="saveSegmentID(segmentID.value)">
-              <option value="selectSegment" selected>Choose from a list of Segments . . .</option>
-              <option *ngFor="let segment of segmentsList"
-                      [value]="segment.id">{{segment.name}}
-              </option>
-            </select>
-          </div>
-          <div class="form-group col-9">
-            <label class="card-title h5">What do you want to Send? <sup>*</sup></label>
-            <select class="form-control"
-                    #templateID
-                    (change)="saveTemplateID(templateID.value)">
-              <option value="selectTemplate" selected>Choose from a list of Templates . . .</option>
-              <ng-container
-                *ngIf="currentPath==='sms'">
-                <option *ngFor="let smsTemplate of smsTemplatesList"
-                        [value]="smsTemplate.id">{{smsTemplate.name}}
-                </option>
-              </ng-container>
-              <ng-container
-                *ngIf="currentPath==='email'">
-                <option *ngFor="let emailTemplate of emailTemplatesList"
-                        [value]="emailTemplate.id">{{emailTemplate.name}}
-                </option>
-              </ng-container>
-            </select>
-
-          </div>
-          <button class="btn btn-primary ml-3 px-4"
-                  (click)="continueToSchedule()"
-                  type="button"
-                  [disabled]='f.invalid || templateID.value=="selectTemplate" || segmentID.value=="selectSegment"'>
-            Continue
-          </button>
-        </form>-->
       </div>
     </div>
 
@@ -368,7 +283,7 @@
                 <b> {{getCronExpressionSummary()}} </b>
               </p>
             </div>
-            <button class="btn btn-primary ml-3 px-4"
+            <button class="btn btn-secondary ml-3 px-4"
                     (click)="continueToSave()"
                     type="button"
                     [disabled]="disableSubmit">Continue
@@ -384,6 +299,45 @@
         </h3>
         <div class="card-body">
           <form >
+            <div class="form-group">
+              <strong class="mr-4">Live Campaign Starts</strong>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="lsNow" id="lsNow1" value="Now" checked [(ngModel)]="campaign.liveSchedule.nowOrLater">
+                <label class="form-check-label" for="lsNow1">
+                  Now
+                </label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="lsNow" id="lsNow2" value="Later" [(ngModel)]="campaign.liveSchedule.nowOrLater">
+                <label class="form-check-label" for="lsNow2">
+                  Later
+                </label>
+              </div>
+            </div>
+            <app-date-time *ngIf="campaign.liveSchedule.nowOrLater == 'Later'"
+                           [(campaignLaterTime)]="campaign.liveSchedule.startTime"></app-date-time>
+            <div class="form-group mt-5">
+              <strong class="mr-4">Live Campaign Ends</strong>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="lsEnd" id="lsEnd1" value="NeverEnds" checked [(ngModel)]="liveSegmentEnds">
+                <label class="form-check-label" for="lsEnd1">
+                  Never Ends
+                </label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="lsEnd" id="lsEnd2" value="EndsOn" [(ngModel)]="liveSegmentEnds">
+                <label class="form-check-label" for="lsEnd2">
+                  Ends On
+                </label>
+              </div>
+            </div>
+            <app-date-time *ngIf="liveSegmentEnds == 'EndsOn'"
+                           [(campaignLaterTime)]="campaign.liveSchedule.endTime"></app-date-time>
+
+            <button class="btn btn-secondary ml-3 px-4"
+                    (click)="continueToSave()"
+                    type="button">Continue
+            </button>
           </form>
         </div>
       </div>

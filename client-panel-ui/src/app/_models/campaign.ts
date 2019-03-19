@@ -25,7 +25,7 @@ export class Campaign {
 }
 
 
-class LiveSchedule {
+export class LiveSchedule {
   nowOrLater: Now = Now.Now;
   startTime: CampaignDateTime;
   endTime: CampaignDateTime;

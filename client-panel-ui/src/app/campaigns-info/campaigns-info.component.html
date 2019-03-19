@@ -4,32 +4,50 @@
     <p class="text-uppercase mb-1 section-property d-inline-block">
       When
     </p>
-    <div class="mb-0" *ngIf="campaignInfoObject.schedule.oneTime">
-      <p *ngIf="campaignInfoObject.schedule.oneTime.nowOrLater=='Now'">
-        Run the campaign on {{campaignInfoObject.dateCreated | date:'medium'}}
-      </p>
-      <p *ngIf="campaignInfoObject.schedule.oneTime.nowOrLater=='Later'">
-        Run the campaign on {{campaignInfoObject.schedule.oneTime.campaignDateTime.date|date}} at
-        {{campaignInfoObject.schedule.oneTime.campaignDateTime.hours}}:{{campaignInfoObject.schedule.oneTime.campaignDateTime.minutes}}
-        {{campaignInfoObject.schedule.oneTime.campaignDateTime.ampm}}
-      </p>
+    <div *ngIf="campaignInfoObject.schedule">
+      <div class="mb-0" *ngIf="campaignInfoObject.schedule.oneTime">
+        <p *ngIf="campaignInfoObject.schedule.oneTime.nowOrLater=='Now'">
+          Run the campaign on {{campaignInfoObject.dateCreated | date:'medium'}}
+        </p>
+        <p *ngIf="campaignInfoObject.schedule.oneTime.nowOrLater=='Later'">
+          Run the campaign on {{campaignInfoObject.schedule.oneTime.campaignDateTime.date|date}} at
+          {{campaignInfoObject.schedule.oneTime.campaignDateTime.hours}}:{{campaignInfoObject.schedule.oneTime.campaignDateTime.minutes}}
+          {{campaignInfoObject.schedule.oneTime.campaignDateTime.ampm}}
+        </p>
+      </div>
+      <div class="mb-0" *ngIf="campaignInfoObject.schedule.multipleDates">
+        <p>Run the campaign on
+          <span class="mx-1"
+                *ngFor="let campaignDateTime of campaignInfoObject.schedule.multipleDates.campaignDateTimeList;let i=index;">
+          [ {{campaignDateTime.date|date}} at {{campaignDateTime.hours}}:{{campaignDateTime.minutes}} {{campaignDateTime.ampm}} ]
+          <span class="mx-1" *ngIf="i!=campaignInfoObject.schedule.multipleDates.campaignDateTimeList.length-1">,</span>
+        </span>
+        </p>
+      </div>
+      <div class="mb-0" *ngIf="campaignInfoObject.schedule.recurring">
+        <p class="text-capitalize mb-0">Start Date : <span>{{campaignInfoObject.schedule.recurring.scheduleStartDate|date}}</span>
+        </p>
+        <p>Run the campaign <b><span [innerHtml]="getCronExpressionSummary()"></span></b>.</p>
+        <p *ngIf="campaignInfoObject.schedule.recurring.scheduleEnd.endType == 'EndsOnDate'"> Ends On: <span >{{campaignInfoObject.schedule.recurring.scheduleEnd.endsOn}}</span></p>
+        <p *ngIf="campaignInfoObject.schedule.recurring.scheduleEnd.endType == 'Occurrences'"> Ends after: <span >{{campaignInfoObject.schedule.recurring.scheduleEnd.occurrences}} occurrences</span></p>
+        <p *ngIf="campaignInfoObject.schedule.recurring.scheduleEnd.endType == 'NeverEnd'"> Campaign Never Ends</p>
+      </div>
     </div>
-    <div class="mb-0" *ngIf="campaignInfoObject.schedule.multipleDates">
-      <p>Run the campaign on
-        <span class="mx-1"
-              *ngFor="let campaignDateTime of campaignInfoObject.schedule.multipleDates.campaignDateTimeList;let i=index;">
-        [ {{campaignDateTime.date|date}} at {{campaignDateTime.hours}}:{{campaignDateTime.minutes}} {{campaignDateTime.ampm}} ]
-        <span class="mx-1" *ngIf="i!=campaignInfoObject.schedule.multipleDates.campaignDateTimeList.length-1">,</span>
-      </span>
-      </p>
-    </div>
-    <div class="mb-0" *ngIf="campaignInfoObject.schedule.recurring">
-      <p class="text-capitalize mb-0">Start Date : <span>{{campaignInfoObject.schedule.recurring.scheduleStartDate|date}}</span>
-      </p>
-      <p>Run the campaign <b><span [innerHtml]="getCronExpressionSummary()"></span></b>.</p>
-      <p *ngIf="campaignInfoObject.schedule.recurring.scheduleEnd.endType == 'EndsOnDate'"> Ends On: <span >{{campaignInfoObject.schedule.recurring.scheduleEnd.endsOn}}</span></p>
-      <p *ngIf="campaignInfoObject.schedule.recurring.scheduleEnd.endType == 'Occurrences'"> Ends after: <span >{{campaignInfoObject.schedule.recurring.scheduleEnd.occurrences}} occurrences</span></p>
-      <p *ngIf="campaignInfoObject.schedule.recurring.scheduleEnd.endType == 'NeverEnd'"> Campaign Never Ends</p>
+    <div *ngIf="campaignInfoObject.liveSchedule">
+      Live Campaign runs as soon as the Live Segment "Who" criteria satisfies and
+      <div *ngIf="campaignInfoObject.liveSchedule.startTime">
+        Starts on <strong>
+        {{campaignInfoObject.liveSchedule.startTime.date|date}} at
+        {{campaignInfoObject.liveSchedule.startTime.hours}}:{{campaignInfoObject.liveSchedule.startTime.minutes}}
+        {{campaignInfoObject.liveSchedule.startTime.ampm}}
+        </strong>
+      </div>
+      and ends on
+      <strong>
+        {{campaignInfoObject.liveSchedule.endTime.date|date}} at
+        {{campaignInfoObject.liveSchedule.endTime.hours}}:{{campaignInfoObject.liveSchedule.endTime.minutes}}
+        {{campaignInfoObject.liveSchedule.endTime.ampm}}
+      </strong>
     </div>
   </section>
   <section class="bg-white p-4 mb-4 rounded section-box-shadow">

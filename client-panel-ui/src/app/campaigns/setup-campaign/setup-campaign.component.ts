@@ -3,7 +3,8 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {SegmentService} from "../../_services/segment.service";
 import {DateTimeComponent} from "./date-time/date-time.component";
 import {
-  Campaign, CampaignDateTime, CampaignType, ClientEmailSettIdFromAddrSrp, ClientFromAddressAndSrp, Now, Schedule,
+  Campaign, CampaignDateTime, CampaignType, ClientEmailSettIdFromAddrSrp, ClientFromAddressAndSrp, LiveSchedule, Now,
+  Schedule,
   ScheduleEnd, ScheduleEndType,
   ScheduleMultipleDates,
   ScheduleOneTime, ScheduleRecurring,
@@ -73,6 +74,8 @@ export class SetupCampaignComponent implements OnInit {
     this.campaign.segmentationID = value.id;
   }
 
+  liveSegmentEnds: string = 'NeverEnds';
+
   cronOptions: CronOptions = {
     formInputClass: 'form-control cron-editor-input',
     formSelectClass: 'form-control cron-editor-select mx-1',
@@ -115,11 +118,6 @@ export class SetupCampaignComponent implements OnInit {
               private messageService: MessageService,
               private fb: FormBuilder,
               private settingsService:SettingsService) {
-    // this.scheduleType = ScheduleType.oneTime;
-    // this.schedule.oneTime = new ScheduleOneTime();
-    // this.schedule.oneTime.nowOrLater = Now.Now;
-    // this.schedule.oneTime.campaignTime = new CampaignTime();
-    // this.currentPath = this.route.snapshot.url[0].path;
   }
 
   ngOnInit() {
@@ -136,12 +134,16 @@ export class SetupCampaignComponent implements OnInit {
     });
     this.conversionEvents.push("None");
     // Segments List
-    this.segmentService.getSegments().subscribe(
-      (segments) => {
-        this.segmentService.segments = segments;
-        this.segmentsList = this.segmentService.segmentMini;
-      }
-    );
+    this.segmentsList = this.segmentService.segmentMini;
+    if(!this.segmentsList) {
+      this.segmentService.getSegments().subscribe(
+        (segments) => {
+          this.segmentService.segments = segments;
+          this.segmentsList = this.segmentService.segmentMini;
+        }
+      );
+    }
+
     // Web Push Templates List
     if (this.currentPath === 'webpush') {
       this.templatesService.getWebPushTemplates().subscribe(
@@ -213,14 +215,17 @@ export class SetupCampaignComponent implements OnInit {
     }
     this.campaign.segmentationID = parseInt(this.route.snapshot.queryParams['sid'])?parseInt(this.route.snapshot.queryParams['sid']):-1;
     this.campaign.templateID = parseInt(this.route.snapshot.queryParams['tid'])?parseInt(this.route.snapshot.queryParams['tid']):-1;
-    console.log(this.campaign);
-    console.log(this.segmentsList);
     if(this.campaign && this.campaign.segmentationID) {
       this._selectedSegment = this.segmentsList.find(v=>v.id==this.campaign.segmentationID);
     }
   }
 
   continueToSchedule(): void {
+    if(this.selectedSegment.type == 'Live') {
+      this.campaign.liveSchedule = new LiveSchedule();
+      this.campaign.liveSchedule.nowOrLater = Now.Now;
+      this.campaign.liveSchedule.startTime = new CampaignDateTime();
+    }
     this.setupCampaignPage = 2;
   }
   continueToSave(): void {
@@ -234,7 +239,11 @@ export class SetupCampaignComponent implements OnInit {
     if (this.scheduleType === ScheduleType.recurring) {
       this.schedule.recurring.cronExpression = this.cronExpression;
     }
-    this.campaign.schedule = this.schedule;
+    if(this.selectedSegment.type == 'Live') {
+      this.campaign.schedule = null;
+    } else {
+      this.campaign.schedule = this.schedule;
+    }
     this.checkCampaignType();
     if(this.campaign.campaignType==CampaignType.EMAIL && this.cesid){
       this.campaign.fromUser=this.clientEmailSettings.find(value => value.ceid==this.cesid).fromAddress;
@@ -285,13 +294,6 @@ export class SetupCampaignComponent implements OnInit {
   srProviderChanged(){
     this.campaign.serviceProviderId=parseInt(this.srpId);
   }
-  // saveSegmentID(segmentID: number): void {
-  //   this.campaign.segmentationID = segmentID;
-  // }
-  //
-  // saveTemplateID(templateID: number): void {
-  //   this.campaign.templateID = templateID;
-  // }
 
   campaignStartDateSelect(value: any): void {
     this.schedule.recurring.scheduleStartDate = moment(value.end.valueOf()).format("YYYY-MM-DD");
@@ -389,19 +391,6 @@ export class SetupCampaignComponent implements OnInit {
     return cronstrue.toString(this.cronExpression);
   }
 
-  // getServiceProviderOfFromUser(){
-  //   console.log(this.fromuser);
-  //   // this.emailServiceProviders= this.serviceProviders.find((value)=>{this.clientEmailSettings.get(from).includes(value.id)});
-  //   let s=this.clientEmailSettings[this.fromuser];
-  //   console.log(s);
-  //   this.emailServiceProviders=this.serviceProviders.filter((value)=>{
-  //     if(s.indexOf(parseInt(value.id))>-1){
-  //       return value
-  //     }
-  //   });
-  //   console.log(this.serviceProviders);
-  //   console.log(this.emailServiceProviders);
-  // }
 }
 
 

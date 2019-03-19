@@ -103,7 +103,7 @@ export class CampaignReportComponent implements OnInit {
       name: "campaign_id",
       type: "number",
       operator: "Equals",
-      values: [this.campaignId]
+      values: [this.campaign.id]
     }));
     this.conversionFunnel.filters = [gf];
     this.reportsService.getFunnelResult(this.conversionFunnel).subscribe(
