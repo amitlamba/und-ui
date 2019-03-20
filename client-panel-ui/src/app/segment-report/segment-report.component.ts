@@ -61,6 +61,10 @@ export class SegmentReportComponent implements OnInit {
 
   private getReachability(segmentId: number) {
     console.log("recgability called");
+    if(this.segment.type == 'Live') {
+      this.reachability = null;
+      return;
+    }
     this.reportsService.getSegmentReachability(segmentId).subscribe(
       response => {
         this.reachability = response;

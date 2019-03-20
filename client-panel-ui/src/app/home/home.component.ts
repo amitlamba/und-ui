@@ -115,7 +115,7 @@ export class HomeComponent implements OnInit,OnChanges,OnDestroy {
   }
 
   ngOnInit() {
-    this.segments = this.segmentService.segmentMini;
+    this.segments = this.segmentService.segmentMini.filter(v=>v.type!='Live');
   }
 
   ngOnChanges() {
@@ -162,25 +162,6 @@ export class HomeComponent implements OnInit,OnChanges,OnDestroy {
     this.userCountByEventYAxisTitle = 'users';
     this.userCountByEventChartType = 'column';
 
-// <<<<<<< Updated upstream
-    // var category = data.map(data =>
-    //   data.userCountData.map(data => data.eventname));
-    //
-    // this.userCountByEventCategory = category.pop();
-    //
-    // this.userCountByEventDataSeries = data.map<ChartSeriesData>(data => {
-    //     return {
-    //       showInLegend: true,
-    //       seriesName: data.date,
-    //       data: data.userCountData.map<number>(data => {
-    //
-    //          return data.usercount
-    //       }
-    //     )
-    //     };
-    //   }
-    // );
-
     var dates=data.map(data=>data.date);
     var cat=new Set();
 
@@ -213,25 +194,6 @@ export class HomeComponent implements OnInit,OnChanges,OnDestroy {
 
     this.userCountByEventCategory=newcat;
     this.userCountByEventDataSeries=dataseries;
-// =======
-//     var category = data.map(data =>
-//       data.userCountData.map(data => data.eventname));
-//
-//     this.userCountByEventCategory = category.pop();
-//
-//     this.userCountByEventDataSeries = data.map<ChartSeriesData>(data => {
-//         return {
-//           showInLegend: true,
-//           seriesName: data.date,
-//           data: data.userCountData.map<number>(data => {
-//
-//              return data.usercount
-//           }
-//         )
-//         };
-//       }
-//     );
-// >>>>>>> Stashed changes
 
   }
 

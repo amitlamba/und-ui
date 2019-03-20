@@ -85,7 +85,7 @@ globalFilterType: GlobalFilterType;
     this.eventName = this.route.snapshot.queryParams['event'];
     this.fromDate = this.toDate = this.route.snapshot.queryParams['date'];
     this.events = this.segmentService.cachedRegisteredEvents;
-    this.segments = this.segmentService.segmentMini;
+    this.segments = this.segmentService.segmentMini.filter(v=>v.type!='Live');
     this._segmentId = -1;
     var date = new Date();
     if(!this.toDate) {

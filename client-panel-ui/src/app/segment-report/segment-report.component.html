@@ -28,6 +28,17 @@
   </div>
 
   <div *ngIf="segment">
+
+    <div class="card mt-5 mb-3">
+      <div class="card-header">Segment Definition </div>
+      <div class="card-body">
+        <div class="my-2 row"><strong class="col-3 text">Segment Name:</strong> <div class="col">{{segment.name}}</div></div>
+        <div class="mb-2 row"><strong class="col-3">Segment Type:</strong> <div class="col">{{segment.type=='Live'?'Real-Time':segment.type}}</div></div>
+        <!--<div class="mb-3 row"><strong class="col-3">Behaviour or Real-Time:</strong> <div class="col">{{segment.liveSegment ? "Real-Time Segment" : "Based on Past Behaviour"}}</div></div>-->
+        <app-segment-nlp [segment]="segment"></app-segment-nlp>
+      </div>
+    </div>
+
     <div class="card mt-5 mb-3" *ngIf="reachability">
       <div class="card-header">Total Users in Segment  {{reachability.totalUser}}</div>
       <div class="card-body">

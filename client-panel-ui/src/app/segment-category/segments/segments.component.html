@@ -37,7 +37,7 @@
             </span>
           </span>
         </td>
-        <td>{{segment.type}}</td>
+        <td>{{segment.type == 'Live'?'Real-Time':'Behaviour'}}</td>
         <td>{{segment.creationDate+"Z" | date:'medium'}}</td>
         <td>
           <button class="btn btn-sm btn-outline-primary" data-toggle="tooltip" data-placement="top" title="View Reports" (click)="viewReport(segment)"><i class="far fa-chart-bar"></i></button>

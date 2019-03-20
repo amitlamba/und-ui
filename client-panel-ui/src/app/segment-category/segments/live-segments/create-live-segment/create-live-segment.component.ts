@@ -6,7 +6,7 @@ import {
 } from "../../../../_models/segment";
 import {SegmentService} from "../../../../_services/segment.service";
 import {Form, FormArray, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {MessageService} from "../../../../_services/message.service";
 
 @Component({
@@ -46,7 +46,7 @@ export class CreateLiveSegmentComponent implements OnInit {
   segmentFormModel: FormGroup;
 
   constructor(private segmentService: SegmentService, private fb: FormBuilder, private route: ActivatedRoute,
-              private messageService: MessageService) {
+              private messageService: MessageService, private router: Router) {
   }
 
   ngOnInit() {
@@ -163,6 +163,7 @@ export class CreateLiveSegmentComponent implements OnInit {
     this.liveSegment.segment.type = "Live";
     this.segmentService.saveLiveSegment(this.liveSegment).subscribe(
       (response) => {
+        this.router.navigate(['segment/segments']);
         this.messageService.addSuccessMessage("Live segment Created Successfully");
       },
       (error) => {
