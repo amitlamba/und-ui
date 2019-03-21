@@ -64,7 +64,9 @@ export class SegmentService {
     )));
   }
   get segmentMini(): SegmentMini[] {
-    return <SegmentMini[]>JSON.parse(localStorage.getItem("segmentNames"));
+    let segmentMini = <SegmentMini[]>JSON.parse(localStorage.getItem("segmentNames"));
+    if(segmentMini && segmentMini.length) return this.segmentMini;
+    else return [];
   }
 
   constructor(private httpClient: HttpClient) {
