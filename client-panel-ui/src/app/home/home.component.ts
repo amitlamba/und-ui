@@ -115,7 +115,7 @@ export class HomeComponent implements OnInit,OnChanges,OnDestroy {
   }
 
   ngOnInit() {
-    this.segments = this.segmentService.segmentMini;
+    this.segments = this.segmentService.segmentMini.filter(v=>v.type!='Live');
   }
 
   ngOnChanges() {
