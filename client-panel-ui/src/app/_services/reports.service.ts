@@ -2,7 +2,7 @@ import {EventEmitter, Injectable} from "@angular/core";
 import {
   Aggregate, AggregateBy, CampaignReach, EntityType,
   EventCount, EventPeriodCount, EventReportFilter, EventTimeFrequency, EventUserFrequency, FunnelReportFilter,
-  FunnelStep, GroupBy, PERIOD, Reachability, SegmentCount,
+  FunnelStep, GroupBy, LiveSegmentReportCount, PERIOD, Reachability, SegmentCount,
   Step,
   TrendCount,
   TrendTimeSeries,
@@ -236,11 +236,18 @@ export class ReportsService {
     return this.httpClient.get<CampaignReach>(AppSettings.API_ENDPOINT_CLIENT_REPORT_CAMPAIGN_REACH, {params});
   }
 
-  getSegmentTrendReport(segmentId:number,startDate:string,endDate:string):Observable<SegmentCount[]>{
+  getSegmentTrendReport(segmentId: number, startDate: string, endDate: string): Observable<SegmentCount[]>{
     var params: Params = new HttpParams()
       .set("start", startDate)
       .set("end", endDate);
     return this.httpClient.get<SegmentCount[]>(AppSettings.API_ENDPOINT_CLIENT_REPORT_SEGMENT_COUNT+"/"+segmentId, {params});
+  }
+
+  getLiveSegmentTrendReport(segmentId: number, startDate: string, endDate: string): Observable<LiveSegmentReportCount> {
+    var params: Params = new HttpParams()
+      .set("startDate", startDate)
+      .set("endDate", endDate);
+    return this.httpClient.get<LiveSegmentReportCount>(AppSettings.API_ENDPOINT_CLIENT_LIVESEGMENT_REPORT + "/" + segmentId, {params});
   }
 
   reportsDataFormat = [

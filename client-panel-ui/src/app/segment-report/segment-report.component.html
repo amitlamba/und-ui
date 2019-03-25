@@ -106,8 +106,8 @@
       </div>
     </div>
 
-    <div class="card">
-      <div class="card-header">Segment Trend over last days</div>
+    <div class="card" *ngIf="segmentChart">
+      <div class="card-header">Behaviour Segment Trend over last days</div>
       <div class="card-body">
 
         <app-draw-simple-chart [title]="segmentChart.title"
@@ -117,6 +117,22 @@
                                [chartType]="segmentChart.graphType"
                                [categories]="segmentChart.category"
                                [dataSeries]="segmentChart.dataSeries">
+
+        </app-draw-simple-chart>
+
+      </div>
+    </div>
+    <div class="card" *ngIf="liveSegmentChart">
+      <div class="card-header">Real-Time Segment Trend over last days</div>
+      <div class="card-body">
+
+        <app-draw-simple-chart [title]="liveSegmentChart.title"
+                               [subtitle]="liveSegmentChart.subTitle"
+                               [xAxisTitle]="liveSegmentChart.xAxisTitle"
+                               [yAxisTitle]="liveSegmentChart.yAxisTitle"
+                               [chartType]="liveSegmentChart.graphType"
+                               [categories]="liveSegmentChart.category"
+                               [dataSeries]="liveSegmentChart.dataSeries">
 
         </app-draw-simple-chart>
 

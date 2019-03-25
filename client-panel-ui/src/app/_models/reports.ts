@@ -89,7 +89,7 @@ export class FunnelReportFilter {
   conversionTime: number;
   steps: Array<Step>;
   funnelOrder: FunnelOrder;
-  splitProperty: string="None";
+  splitProperty: string = "None";
   splitPropertyType = GlobalFilterType.EventAttributeProperties;
   filters: Array<GlobalFilter> = [];
 }
@@ -164,7 +164,7 @@ export interface ChartSeriesData {
 }
 
 export class Reachability {
-  totalUser: number|null;
+  totalUser: number | null;
   email: number;
   sms: number;
   webpush: number;
@@ -179,7 +179,19 @@ export class CampaignReach {
   interacted: number;
 }
 
-export class SegmentCount{
-  date:string;
-  count:number;
+export class SegmentCount {
+  date: string;
+  count: number;
+}
+
+export class LiveSegmentReportCount {
+  countPerDay: CountPerDay[];
+  totalUsers: number;
+  totalUniqueUsers: number;
+}
+
+export class CountPerDay {
+  totalUsersPerDay: number;
+  uniqueUsersPerDay: number;
+  date: string;
 }
