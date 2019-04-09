@@ -3,7 +3,7 @@ import * as moment from "moment";
 import {Segment} from "../_models/segment";
 import {SegmentService} from "../_services/segment.service";
 import {ActivatedRoute, Router} from "@angular/router";
-import {ChartSeriesData, Reachability} from "../_models/reports";
+import {ChartSeriesData, LiveSegmentCount, Reachability} from "../_models/reports";
 import {ReportsService} from "../_services/reports.service";
 import {Campaign} from "../_models/campaign";
 
@@ -24,7 +24,9 @@ export class SegmentReportComponent implements OnInit {
   set segments(value: Segment[]) {
     this._segments = value;
     this.segmentsDropdown = [{id: -1, text: "--Select Segment--"}];
-    this.segmentsDropdown.push(...this._segments.map(v=>{return {id: v.id, text: v.name}}));
+    this.segmentsDropdown.push(...this._segments.map(v => {
+      return {id: v.id, text: v.name}
+    }));
   }
 
   segment: Segment;
@@ -33,11 +35,12 @@ export class SegmentReportComponent implements OnInit {
   associatedCampaigns: Campaign[];
   segmentChart: SegmentChartModel;
   liveSegmentChart: SegmentChartModel;
+  liveSegmentCount:LiveSegmentCount;
 
   segmentsDropdown: any[] = []; //id and text
 
-  toDate=moment().format("YYYY-MM-DD");
-  fromDate=moment().subtract(30,'day').format("YYYY-MM-DD");
+  toDate = moment().format("YYYY-MM-DD");
+  fromDate = moment().subtract(30, 'day').format("YYYY-MM-DD");
 
   constructor(private activatedRoute: ActivatedRoute, private segmentService: SegmentService,
               private reportsService: ReportsService,
@@ -48,26 +51,36 @@ export class SegmentReportComponent implements OnInit {
     this.segmentId = this.activatedRoute.snapshot.queryParams['sid'];
     this.segmentService.getSegments().subscribe(response => {
       this.segments = response;
-      this.segment = this._segments.find(v=>{
+      this.segment = this._segments.find(v => {
         return v.id == this.segmentId;
       });
       if (this.segmentId) {
         this.getReachability(this.segmentId);
         this.getAssociatedCampaigns(this.segmentId);
-        if(this.segment.type != 'Live') {
+        if (this.segment.type != 'Live') {
           this.segmentChart = new SegmentChartModel();
           this.getSegmentTrendOverTime(this.segmentId, this.fromDate, this.toDate);
         } else {
           this.liveSegmentChart = new SegmentChartModel();
           this.getLiveSegmentTrendOverTime(this.segmentId, this.fromDate, this.toDate);
+          this.getLiveSegmentCount(this.segmentId)
         }
       }
     });
   }
 
+  private getLiveSegmentCount(segmentId) {
+    this.reportsService.getLiveSegmentCount(segmentId).subscribe(response => {
+        this.liveSegmentCount = response;
+      },
+      error1 => {
+
+      })
+  }
+
   private getReachability(segmentId: number) {
     console.log("recgability called");
-    if(this.segment.type == 'Live') {
+    if (this.segment.type == 'Live') {
       this.reachability = null;
       return;
     }
@@ -87,8 +100,9 @@ export class SegmentReportComponent implements OnInit {
     );
   }
 
-  private getSegmentTrendOverTime(segmentId:number,startDate:string,endDate:string){
-    this.reportsService.getSegmentTrendReport(segmentId,startDate,endDate).subscribe(
+  private getSegmentTrendOverTime(segmentId: number, startDate: string, endDate: string) {
+    this.liveSegmentCount = new LiveSegmentCount();
+    this.reportsService.getSegmentTrendReport(segmentId, startDate, endDate).subscribe(
       (response) => {
         this.segmentChart.category = response.map<string>(value =>
           value.date.substr(0, 4) + "-" + value.date.substr(4, 2) + "-" + value.date.substr(6, 2)
@@ -99,7 +113,7 @@ export class SegmentReportComponent implements OnInit {
           data: response.map(value => value.count)
         }];
       },
-      (error) =>{
+      (error) => {
         console.error(error)
       }
     )
@@ -139,9 +153,9 @@ export class SegmentReportComponent implements OnInit {
     endDate: moment(this.toDate),
     ranges: {
       "Today": [moment(), moment().add("0", "day")],
-      "Yesterday": [moment().subtract("1", "day"), moment().subtract("1","day")],
-      "Last 7 Days": [moment().subtract("7", "day"), moment().subtract("1","day")],
-      "Last 30 Days": [moment().subtract("30", "day"), moment().subtract("1","day")],
+      "Yesterday": [moment().subtract("1", "day"), moment().subtract("1", "day")],
+      "Last 7 Days": [moment().subtract("7", "day"), moment().subtract("1", "day")],
+      "Last 30 Days": [moment().subtract("30", "day"), moment().subtract("1", "day")],
       "Last Month": [moment().subtract("1", "month").subtract(moment().date() - 1, "day"), moment().subtract(moment().date(), "day")],
     }
   };
@@ -149,15 +163,15 @@ export class SegmentReportComponent implements OnInit {
   selectedDate(event) {
     this.fromDate = (event.start).format("YYYY-MM-DD");
     this.toDate = (event.end).format("YYYY-MM-DD");
-    if(this.segmentId){
-      if(this.segment.type != 'Live') {
+    if (this.segmentId) {
+      if (this.segment.type != 'Live') {
         this.liveSegmentChart = null;
         this.segmentChart = new SegmentChartModel();
-        this.getSegmentTrendOverTime(this.segmentId,this.fromDate,this.toDate);
+        this.getSegmentTrendOverTime(this.segmentId, this.fromDate, this.toDate);
       } else {
-        this.segmentChart =  null;
+        this.segmentChart = null;
         this.liveSegmentChart = new SegmentChartModel();
-        this.getLiveSegmentTrendOverTime(this.segmentId,this.fromDate,this.toDate);
+        this.getLiveSegmentTrendOverTime(this.segmentId, this.fromDate, this.toDate);
       }
     }
     //re render reports
@@ -166,35 +180,39 @@ export class SegmentReportComponent implements OnInit {
   segmentChange(segmentDropdownSelected: any) {
     console.log(segmentDropdownSelected);
     this.segmentId = segmentDropdownSelected.value;
-    this.segment = this._segments.find(v=>{return v.id == this.segmentId});
+    this.segment = this._segments.find(v => {
+      return v.id == this.segmentId
+    });
     if (this.segmentId) {
       this.getReachability(this.segmentId);
       this.getAssociatedCampaigns(this.segmentId);
-      if(this.segment.type != 'Live') {
+      if (this.segment.type != 'Live') {
+        this.liveSegmentCount = new LiveSegmentCount();
         this.liveSegmentChart = null;
         this.segmentChart = new SegmentChartModel();
-        this.getSegmentTrendOverTime(this.segmentId,this.fromDate,this.toDate);
+        this.getSegmentTrendOverTime(this.segmentId, this.fromDate, this.toDate);
       } else {
         this.segmentChart = null;
         this.liveSegmentChart = new SegmentChartModel();
-        this.getLiveSegmentTrendOverTime(this.segmentId,this.fromDate,this.toDate);
+        this.getLiveSegmentTrendOverTime(this.segmentId, this.fromDate, this.toDate);
+        this.getLiveSegmentCount(this.segmentId)
       }
     }
     //re render reports
   }
 
   createCampaign(campaignType: string) {
-    this.router.navigate(['/campaigns/'+campaignType],{queryParams: {sid: this.segmentId}});
+    this.router.navigate(['/campaigns/' + campaignType], {queryParams: {sid: this.segmentId}});
   }
 
 }
 
 export class SegmentChartModel {
-  title:string='';
-  subTitle:string='';
-  xAxisTitle:string='';
-  yAxisTitle:string='';
-  graphType:string='line';
-  category:string[];
-  dataSeries:ChartSeriesData[]=[];
+  title: string = '';
+  subTitle: string = '';
+  xAxisTitle: string = '';
+  yAxisTitle: string = '';
+  graphType: string = 'line';
+  category: string[];
+  dataSeries: ChartSeriesData[] = [];
 }

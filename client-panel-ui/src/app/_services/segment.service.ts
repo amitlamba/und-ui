@@ -304,6 +304,7 @@ export class SegmentService {
   }
 
   getEventUsersBySegment(segment: Segment): Observable<EventUser[]> {
+    //TODO add include param
     return this.httpClient.post<EventUser[]>(AppSettings.API_ENDPOINT_CLIENT_USER_USER_LIST_SEGMENT, segment);
   }
 

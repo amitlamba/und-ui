@@ -1,5 +1,5 @@
 export class AppSettings {
-  public static API_ENDPOINT = "https://userndot.com";
+  public static API_ENDPOINT = "http://userndot.com";
 
 
   public static API_ENDPOINT_CLIENT = AppSettings.API_ENDPOINT + "/client";
@@ -114,6 +114,7 @@ export class AppSettings {
   public static API_ENDPOINT_CLIENT_LIVESEGMENT = AppSettings.API_ENDPOINT_CLIENT + "/livesegment";
   public static API_ENDPOINT_CLIENT_LIVESEGMENT_SAVE = AppSettings.API_ENDPOINT_CLIENT_LIVESEGMENT + "/save";
   public static API_ENDPOINT_CLIENT_LIVESEGMENT_REPORT = AppSettings.API_ENDPOINT_CLIENT_LIVESEGMENT + "/report";
+  public static API_ENDPOINT_CLIENT_LIVESEGMENT_COUNT = AppSettings.API_ENDPOINT_CLIENT_LIVESEGMENT + "/get/ls/users";
 
 
   public static API_ENDPOINT_CLIENT_USER = AppSettings.API_ENDPOINT_CLIENT + "/user";

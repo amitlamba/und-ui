@@ -195,3 +195,8 @@ export class CountPerDay {
   uniqueUsersPerDay: number;
   date: string;
 }
+
+export class LiveSegmentCount {
+  known:number;
+  unknown: number;
+}
