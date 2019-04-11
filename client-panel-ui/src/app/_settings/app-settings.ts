@@ -1,5 +1,5 @@
 export class AppSettings {
-  public static API_ENDPOINT = "http://userndot.com";
+  public static API_ENDPOINT = "https://userndot.com";
 
 
   public static API_ENDPOINT_CLIENT = AppSettings.API_ENDPOINT + "/client";
