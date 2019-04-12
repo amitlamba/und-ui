@@ -107,11 +107,23 @@ export class SegmentReportComponent implements OnInit {
         this.segmentChart.category = response.map<string>(value =>
           value.date.substr(0, 4) + "-" + value.date.substr(4, 2) + "-" + value.date.substr(6, 2)
         );
-        this.segmentChart.dataSeries = [{
-          showInLegend: false,
-          seriesName: "Users",
-          data: response.map(value => value.count)
-        }];
+        this.segmentChart.dataSeries = [
+          {
+            showInLegend: false,
+            seriesName: "Known Users",
+            data: response.map(value => value.count.known)
+          },
+          {
+            showInLegend: false,
+            seriesName: "Unknown Users",
+            data: response.map(value => value.count.unknown)
+          },
+          {
+            showInLegend: false,
+            seriesName: "All Users",
+            data: response.map(value => value.count.all)
+          }
+        ];
       },
       (error) => {
         console.error(error)

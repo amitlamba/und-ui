@@ -181,7 +181,13 @@ export class CampaignReach {
 
 export class SegmentCount {
   date: string;
-  count: number;
+  count: Count;
+}
+
+export class Count {
+  known: number;
+  unknown: number;
+  all: number;
 }
 
 export class LiveSegmentReportCount {
