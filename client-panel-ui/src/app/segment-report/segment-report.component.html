@@ -123,7 +123,7 @@
       </div>
     </div>
     <div class="card" *ngIf="liveSegmentChart">
-      <div class="card-header">Real-Time Segment Trend over last days</div>
+      <div class="card-header">Real-Time Segment Trend over last days  KNOWN Users {{liveSegmentCount.known}}  UNKNOWN Users {{liveSegmentCount.unknown}} </div>
       <div class="card-body">
 
         <app-draw-simple-chart [title]="liveSegmentChart.title"
