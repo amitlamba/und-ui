@@ -1,5 +1,5 @@
 <div class="container">
-  <h2 class="text-center">Live Segment</h2>
+  <h2 class="text-center">Real-Time Segment</h2>
 
   <form [formGroup]="liveSegmentForm">
     <div class="col-12">
@@ -11,7 +11,7 @@
               <option value="" disabled selected>--Select--</option>
               <option *ngFor="let event of registeredEvents" [value]="event.name">{{event.name}}</option>
             </select>
-            <small id="triggerEventHelp" class="form-text text-muted">The Action on which the Live segment triggers.
+            <small id="triggerEventHelp" class="form-text text-muted">The Action on which the Real-Time segment triggers.
             </small>
           </div>
           <div class="card mx-3" *ngIf="startEventFilterArray.controls && startEventFilterArray.controls.length">
