@@ -164,10 +164,10 @@ export class CreateLiveSegmentComponent implements OnInit {
     this.segmentService.saveLiveSegment(this.liveSegment).subscribe(
       (response) => {
         this.router.navigate(['segment/segments']);
-        this.messageService.addSuccessMessage("Live segment Created Successfully");
+        this.messageService.addSuccessMessage("Real-Time segment Created Successfully");
       },
       (error) => {
-        this.messageService.addDangerMessage("There is an issue creating live segment");
+        this.messageService.addDangerMessage("There is an issue creating real-time segment");
       }
     );
   }
