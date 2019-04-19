@@ -1,4 +1,5 @@
 
+
 @import "styles/scss/custombootstrap";
 @import "~bootstrap/scss/bootstrap";
 
@@ -11,4 +12,19 @@ body, html {
 
 .icon-light {
   opacity: 0.4;
+}
+
+.w100{
+  font-weight:light;
+
+}
+
+.w200{
+  font-weight:500;
+}
+.w300{
+  font-weight:400;
+}
+.w400{
+  font-weight:700;
 }
