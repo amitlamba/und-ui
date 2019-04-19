@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="50" height="60" viewBox="0 0 50 60">
+  <g id="_7" data-name="7" transform="translate(-5)">
+    <circle id="Ellipse_14" data-name="Ellipse 14" cx="1" cy="1" r="1" transform="translate(29 25)" fill="#f5554c"/>
+    <circle id="Ellipse_15" data-name="Ellipse 15" cx="1" cy="1" r="1" transform="translate(32 23)" fill="#f5554c"/>
+    <circle id="Ellipse_16" data-name="Ellipse 16" cx="1" cy="1" r="1" transform="translate(26 23)" fill="#f5554c"/>
+    <circle id="Ellipse_17" data-name="Ellipse 17" cx="1" cy="1" r="1" transform="translate(23 21)" fill="#f5554c"/>
+    <circle id="Ellipse_18" data-name="Ellipse 18" cx="1" cy="1" r="1" transform="translate(35 21)" fill="#f5554c"/>
+    <circle id="Ellipse_19" data-name="Ellipse 19" cx="1" cy="1" r="1" transform="translate(38 19)" fill="#f5554c"/>
+    <circle id="Ellipse_20" data-name="Ellipse 20" cx="1" cy="1" r="1" transform="translate(20 19)" fill="#f5554c"/>
+    <circle id="Ellipse_21" data-name="Ellipse 21" cx="1" cy="1" r="1" transform="translate(29 21)" fill="#f5554c"/>
+    <circle id="Ellipse_22" data-name="Ellipse 22" cx="1" cy="1" r="1" transform="translate(29 33)" fill="#f5554c"/>
+    <circle id="Ellipse_23" data-name="Ellipse 23" cx="1" cy="1" r="1" transform="translate(29 36)" fill="#f5554c"/>
+    <circle id="Ellipse_24" data-name="Ellipse 24" cx="1" cy="1" r="1" transform="translate(29 39)" fill="#f5554c"/>
+    <circle id="Ellipse_25" data-name="Ellipse 25" cx="1" cy="1" r="1" transform="translate(29 42)" fill="#f5554c"/>
+    <circle id="Ellipse_26" data-name="Ellipse 26" cx="1" cy="1" r="1" transform="translate(29 45)" fill="#f5554c"/>
+    <circle id="Ellipse_27" data-name="Ellipse 27" cx="1" cy="1" r="1" transform="translate(29 48)" fill="#f5554c"/>
+    <path id="Path_1018" data-name="Path 1018" d="M54,58H51V54H46V43.778a8.045,8.045,0,0,0-3.589-6.706L31.8,30l10.608-7.072A8.045,8.045,0,0,0,46,16.222V6h5V2h3a1,1,0,0,0,0-2H6A1,1,0,0,0,6,2H9V6h5V16.222a8.045,8.045,0,0,0,3.589,6.706L28.2,30,17.589,37.072A8.045,8.045,0,0,0,14,43.778V54H9v4H6a1,1,0,0,0,0,2H54a1,1,0,0,0,0-2ZM11,4V2H49V4H11Zm7.7,17.264A6.05,6.05,0,0,1,16,16.222V6H44V16.222a6.05,6.05,0,0,1-2.7,5.042L30,28.8ZM16,43.778a6.05,6.05,0,0,1,2.7-5.042L30,31.2l11.3,7.534A6.05,6.05,0,0,1,44,43.778V54H16ZM11,56H49v2H11Z" fill="#f5554c"/>
+  </g>
+</svg>
