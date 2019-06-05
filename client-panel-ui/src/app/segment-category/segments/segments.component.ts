@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Segment} from "../../_models/segment";
 import {Router} from "@angular/router";
 import {SegmentService} from "../../_services/segment.service";
+import {UndTrackingService} from "../../_services/und-tracking.service";
 
 @Component({
   selector: 'app-segments',
@@ -30,7 +31,7 @@ export class SegmentsComponent implements OnInit {
       });
   }
 
-  constructor(private router: Router, public segmentService: SegmentService) {
+  constructor(private router: Router, public segmentService: SegmentService, private undtrackingService: UndTrackingService) {
 
   }
 

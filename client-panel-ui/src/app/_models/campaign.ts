@@ -14,6 +14,9 @@ export class Campaign {
   fromUser: string;
   clientEmailSettingId: number;
   liveSchedule: LiveSchedule;
+  typeOfCampaign: string;
+  abCampaign: AbCampaign;
+  variants: Variant[] = [];
   // createdOn: Date;
   // clientID: number;
   // appuserID: number;
@@ -24,6 +27,61 @@ export class Campaign {
   // smsCampaign: SmsCampaign;
 }
 
+export class AbCampaign {
+  // var id:Long?=null
+  // var campaignId:Long?=null
+  // @NotNull
+  // var campaign:Campaign?=null
+  // @NotNull
+  // var variants:List<Variant> = emptyList()
+  // @NotNull
+  // var runType:RunType=RunType.AUTO
+  // var remind:Boolean=true
+  // var waitTime:Int?=null
+  // var sampleSize:Int?=null
+  id: number;
+  campaignId: number;
+  campaign: Campaign;
+  variants: Variant[] = [];
+  runType: RunType;
+  remind: boolean;
+  waitTime: number;
+  sampleSize: number;
+}
+
+export class Variant {
+  /*
+  var id:Long?=null
+    var campaignId:Long?=null
+    @NotNull
+    var percentage:Int?=null
+    @NotNull
+    lateinit var name:String
+    @NotNull
+    var users:Int?=null
+    var winner:Boolean=false
+    @NotNull
+    var templateId:Int?=null
+   */
+  id: number;
+  campaignId: number;
+  percentage: number;
+  name: string;
+  users: number;
+  winner: boolean = false;
+  templateId: number;
+}
+
+export enum RunType {
+  MANUAL = "MANUAL",
+  AUTO = "AUTO"
+}
+
+export enum typeOfCampaign {
+  AB_TEST = "AB_TEST",
+  NORMAL = "NORMAL"
+
+}
 
 export class LiveSchedule {
   nowOrLater: Now = Now.Now;

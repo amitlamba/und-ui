@@ -6,6 +6,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {ChartSeriesData, LiveSegmentCount, Reachability} from "../_models/reports";
 import {ReportsService} from "../_services/reports.service";
 import {Campaign} from "../_models/campaign";
+import {UndTrackingService} from "../_services/und-tracking.service";
 
 @Component({
   selector: 'app-segment-report',
@@ -35,7 +36,7 @@ export class SegmentReportComponent implements OnInit {
   associatedCampaigns: Campaign[];
   segmentChart: SegmentChartModel;
   liveSegmentChart: SegmentChartModel;
-  liveSegmentCount:LiveSegmentCount;
+  liveSegmentCount: LiveSegmentCount;
 
   segmentsDropdown: any[] = []; //id and text
 
@@ -43,6 +44,7 @@ export class SegmentReportComponent implements OnInit {
   fromDate = moment().subtract(30, 'day').format("YYYY-MM-DD");
 
   constructor(private activatedRoute: ActivatedRoute, private segmentService: SegmentService,
+              private undTracking: UndTrackingService,
               private reportsService: ReportsService,
               private router: Router) {
   }
@@ -210,7 +212,11 @@ export class SegmentReportComponent implements OnInit {
         this.getLiveSegmentCount(this.segmentId)
       }
     }
-    //re render reports
+    this.undTracking.trackEvent("Report", {
+      'SegmentID': this.segmentId,
+      'StartDate': this.fromDate,
+      'EndDate': this.toDate
+    })
   }
 
   createCampaign(campaignType: string) {

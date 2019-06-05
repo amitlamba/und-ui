@@ -1,5 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {RegistrationRequest} from "../_models/client";
+import {UndTrackingService} from "../_services/und-tracking.service";
+import {Identity} from "../_models/user";
+import {identity} from "rxjs/util/identity";
+import {HttpClient, HttpClientModule} from "@angular/common/http";
 
 @Component({
   selector: 'app-landing-page-und',
@@ -8,11 +12,17 @@ import {RegistrationRequest} from "../_models/client";
 })
 export class LandingPageUndComponent implements OnInit {
   demoRequest: RegistrationRequest = new RegistrationRequest();
-  constructor() {
+
+  constructor(private undTracking: UndTrackingService, private http: HttpClient) {
+
   }
 
+
   ngOnInit() {
+
+
   }
 
 
 }
+

@@ -14,6 +14,7 @@ import {Form, FormArray, FormBuilder, FormControl, FormGroup, Validators} from "
 import {MessageService} from "../../../_services/message.service";
 import {DaterangepickerConfig} from "ng2-daterangepicker";
 import * as moment from "moment";
+import {UndTrackingService} from "../../../_services/und-tracking.service";
 
 @Component({
   selector: 'app-create-reactive-segment',
@@ -25,6 +26,7 @@ export class CreateReactiveSegmentComponent implements OnInit, OnDestroy {
   @ViewChild('segmentNameModal') segmentNameModel: ElementRef;
   display = false;
   segment: Segment;
+  SegmentType: string;
   type: string = 'Process';
   validatedSegment: Segment;
   segmentFormModel: FormGroup;
@@ -37,7 +39,8 @@ export class CreateReactiveSegmentComponent implements OnInit, OnDestroy {
               private segmentService: SegmentService,
               private router: Router,
               private messageService: MessageService,
-              private route: ActivatedRoute) {
+              private route: ActivatedRoute,
+              private undtrackingService: UndTrackingService) {
 
     if (this.segmentService.cloneSegment) {
       this.segment = segmentService.cloneSegment;
@@ -50,6 +53,7 @@ export class CreateReactiveSegmentComponent implements OnInit, OnDestroy {
     this.withAction = this.route.snapshot.queryParams["a"] == 1;
     this.withInaction = this.route.snapshot.queryParams["i"] == 1;
     this.withUserProperties = this.route.snapshot.queryParams["u"] == 1;
+    this.compareSegmentType();
   }
 
   ngOnDestroy() {
@@ -70,6 +74,13 @@ export class CreateReactiveSegmentComponent implements OnInit, OnDestroy {
       }
     );
     this.display = false;
+    this.undtrackingService.trackEvent("Segment", {
+      'Action': 'Create Begin', 'Segment Type': this.SegmentType,
+      'Segment Category': this.validatedSegment.type,
+      'SegmentId': this.validatedSegment.id,
+      'SegmentName': this.validatedSegment.name
+    })
+    console.log(this.SegmentType);
   }
 
   openPopUp(segment: Segment) {
@@ -87,6 +98,16 @@ export class CreateReactiveSegmentComponent implements OnInit, OnDestroy {
 
   closeModal() {
     this.display = false;
+  }
+
+  compareSegmentType() {
+    if (this.withInaction) {
+      return this.SegmentType = "Based On Inaction";
+    } else if (this.withAction) {
+      return this.SegmentType = "Based On Action";
+    } else if (this.withUserProperties) {
+      return this.SegmentType = "Based On Properties";
+    }
   }
 
   get segmentNameControl(): FormControl {

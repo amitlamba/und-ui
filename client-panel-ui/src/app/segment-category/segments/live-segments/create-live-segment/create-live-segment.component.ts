@@ -8,6 +8,7 @@ import {SegmentService} from "../../../../_services/segment.service";
 import {Form, FormArray, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {ActivatedRoute, Router} from "@angular/router";
 import {MessageService} from "../../../../_services/message.service";
+import {UndTrackingService} from "../../../../_services/und-tracking.service";
 
 @Component({
   selector: 'app-create-live-segment',
@@ -45,7 +46,7 @@ export class CreateLiveSegmentComponent implements OnInit {
 
   segmentFormModel: FormGroup;
 
-  constructor(private segmentService: SegmentService, private fb: FormBuilder, private route: ActivatedRoute,
+  constructor(private segmentService: SegmentService, private undtrackingService: UndTrackingService, private fb: FormBuilder, private route: ActivatedRoute,
               private messageService: MessageService, private router: Router) {
   }
 
@@ -57,7 +58,7 @@ export class CreateLiveSegmentComponent implements OnInit {
     this.liveSegment.endEventFilters = [];
     this.initLiveSegmentForm();
     let inaction = this.route.snapshot.queryParams["i"]; //i=1 for inaction
-    if((inaction && inaction == 1)) {
+    if ((inaction && inaction == 1)) {
       this.liveSegmentWithInaction = true;
     }
     this.initSegmentModalForm();
@@ -77,7 +78,7 @@ export class CreateLiveSegmentComponent implements OnInit {
     this.liveSegmentForm = this.fb.group({
       startEvent: [this.liveSegment.startEvent ? this.liveSegment.startEvent : "", Validators.required],
       startEventFilters: this.fb.array(this.createEventFilters(this.liveSegment.startEventFilters)),
-      endEvent: [this.liveSegment.endEvent? this.liveSegment.endEvent : ""],
+      endEvent: [this.liveSegment.endEvent ? this.liveSegment.endEvent : ""],
       endEventFilters: this.fb.array(this.createEventFilters(this.liveSegment.endEventFilters)),
       interval: [this.liveSegment.interval]
     });
@@ -127,9 +128,9 @@ export class CreateLiveSegmentComponent implements OnInit {
 
   insertSegmentValue(event: any) {
     // console.log(event);
-    if(event && this.showBehaviorSegment) {
+    if (event && this.showBehaviorSegment) {
       this.liveSegment.segment = event;
-      if(this.liveSegmentWithInaction) {
+      if (this.liveSegmentWithInaction) {
         this.liveSegment.endEventDone = false;
         this.liveSegment.liveSegmentType = "InactionWithinTime";
       } else {
@@ -142,8 +143,8 @@ export class CreateLiveSegmentComponent implements OnInit {
 
   onSave() {
     Object.assign(this.liveSegment, this.liveSegmentForm['value']);
-    if( !this.showBehaviorSegment ) {
-      if(this.liveSegmentWithInaction) {
+    if (!this.showBehaviorSegment) {
+      if (this.liveSegmentWithInaction) {
         this.liveSegment.endEventDone = false;
         this.liveSegment.liveSegmentType = "InactionWithinTime";
       } else {
@@ -170,6 +171,13 @@ export class CreateLiveSegmentComponent implements OnInit {
         this.messageService.addDangerMessage("There is an issue creating real-time segment");
       }
     );
+    this.undtrackingService.trackEvent("Segment", {
+      'Action': 'Create Begin', 'Segment Type': this.liveSegment.liveSegmentType,
+      'Segment Category': this.liveSegment.segment.type,
+      'SegmentId': this.liveSegment.segment.id,
+      'SegmentName': this.liveSegment.segment.name
+    });
+    //console.log(this.liveSegment.liveSegmentType);
   }
 
   initSegment() {

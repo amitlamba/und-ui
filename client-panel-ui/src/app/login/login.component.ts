@@ -28,7 +28,7 @@ export class LoginComponent implements OnInit {
   constructor(private route: ActivatedRoute,
               private router: Router,
               private authenticationService: AuthenticationService,
-              private messageService: MessageService,private segmentService:SegmentService) {
+              private messageService: MessageService, private segmentService: SegmentService) {
     var currentUser = JSON.parse(localStorage.getItem('currentUser'));
     this.token = currentUser && currentUser.token;
 

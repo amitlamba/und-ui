@@ -127,6 +127,9 @@ import {NotificationTemplatesWebPushComponent} from "./templates/notification-te
 import { CreateNotificationTemplateWebPushFormComponent } from './templates/notification-templates-web-push/create-notification-template-web-push-form/create-notification-template-web-push-form.component';
 import { CreateSegmentComponent } from './segment-category/segments/create-segment/create-segment.component';
 import { CreateLiveSegmentComponent } from './segment-category/segments/live-segments/create-live-segment/create-live-segment.component';
+import {UndTrackingService} from "./_services/und-tracking.service";
+import { PricingComponent } from './pricing/pricing.component';
+import { CommonDataComponent } from './common-data/common-data.component';
 
 
 @NgModule({
@@ -246,7 +249,9 @@ import { CreateLiveSegmentComponent } from './segment-category/segments/live-seg
     NotificationTemplatesWebPushComponent,
     CreateNotificationTemplateWebPushFormComponent,
     CreateSegmentComponent,
-    CreateLiveSegmentComponent
+    CreateLiveSegmentComponent,
+    PricingComponent,
+    CommonDataComponent
   ],
   providers: [
     AuthGuard,
@@ -261,6 +266,7 @@ import { CreateLiveSegmentComponent } from './segment-category/segments/live-seg
     SegmentService,
     CampaignService,
     ReportsService,
+    UndTrackingService,
     RegisterService
   ],
   entryComponents: [

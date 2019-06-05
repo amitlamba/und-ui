@@ -1,10 +1,11 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {CampaignService} from "../../_services/campaign.service";
-import {Campaign, CampaignStatus} from "../../_models/campaign";
+import {Campaign, CampaignStatus, typeOfCampaign} from "../../_models/campaign";
 import {HttpErrorResponse} from "@angular/common/http";
 import {SegmentService} from "../../_services/segment.service";
 import {Segment} from "../../_models/segment";
 import {Router} from "@angular/router";
+import {UndTrackingService} from "../../_services/und-tracking.service";
 
 @Component({
   selector: 'app-campaigns-list',
@@ -43,12 +44,13 @@ export class CampaignsListComponent implements OnInit {
     this.filterCampaigns();
   }
 
-  constructor(private campaignService: CampaignService, private router: Router) {
+  constructor(private undtrackingService: UndTrackingService, private campaignService: CampaignService, private router: Router) {
   }
 
   ngOnInit() {
     this.getCampaignsList();
   }
+
 
   getCampaignsList() {
     this.campaignService.getCampaignList().subscribe((campaigns) => {
@@ -119,12 +121,21 @@ export class CampaignsListComponent implements OnInit {
             (campaignId) => {
               console.log(campaignId);
               this.getCampaignsList();
-
             },
             (error: HttpErrorResponse) => {
               console.log("Error from Pause Campaign Function" + error);
             }
           );
+        //Campaign Event on Pause
+        this.undtrackingService.trackEvent("Campaign", {
+          'CampaignID': this.campaignId, 'Action': 'Pause',
+          'CampaignName': this.campaigns.find(value => {
+            return value.id == this.campaignId
+          }).name,
+          'CampaignType': this.campaigns.find(value => {
+            return value.id == this.campaignId
+          }).campaignType
+        });
         break;
       }
 
@@ -141,6 +152,16 @@ export class CampaignsListComponent implements OnInit {
               console.log("Error from Stop Campaign Function" + error);
             }
           );
+        //Campaign Event on Stop
+        this.undtrackingService.trackEvent("Campaign", {
+          'CampaignID': this.campaignId, 'Action': 'Stop',
+          'CampaignName': this.campaigns.find(value => {
+            return value.id == this.campaignId
+          }).name,
+          'CampaignType': this.campaigns.find(value => {
+            return value.id == this.campaignId
+          }).campaignType
+        });
         break;
       }
 
@@ -157,6 +178,16 @@ export class CampaignsListComponent implements OnInit {
               console.log("Error from Delete Campaign Function" + error);
             }
           );
+        //Campaign Event on Delete
+        this.undtrackingService.trackEvent("Campaign", {
+          'CampaignID': this.campaignId, 'Action': 'Delete',
+          'CampaignName': this.campaigns.find(value => {
+            return value.id == this.campaignId
+          }).name,
+          'CampaignType': this.campaigns.find(value => {
+            return value.id == this.campaignId
+          }).campaignType
+        });
         break;
       }
     }
@@ -165,14 +196,15 @@ export class CampaignsListComponent implements OnInit {
 
   changeCampaignFilter(filter: string) {
     this.campaignType = filter;
+    debugger;
     this.filterCampaigns();
   }
 
   filterCampaigns() {
-    this.filteredCampaigns = this.searchFilteredCampaigns.filter(v=>{
-      if(this.campaignType == "Active") {
+    this.filteredCampaigns = this.searchFilteredCampaigns.filter(v => {
+      if (this.campaignType == "Active") {
         return v.status != CampaignStatus.COMPLETED && v.status != CampaignStatus.ERROR
-      } else if(this.campaignType == "Errors") {
+      } else if (this.campaignType == "Errors") {
         return v.status == CampaignStatus.ERROR
       } else {
         return v.status == CampaignStatus.COMPLETED
@@ -181,6 +213,17 @@ export class CampaignsListComponent implements OnInit {
   }
 
   viewReportClicked(campaignId: number) {
-    this.router.navigate(['/reports/campaign'],{queryParams: {cid: campaignId}});
+    this.router.navigate(['/reports/campaign'], {queryParams: {cid: campaignId}});
+    //Campaign Event on View Report
+    // this.undtrackingService.trackEvent("Campaign", {
+    //   'CampaignID': this.campaignId, 'Action': 'View Report',
+    //   'CampaignName': this.campaigns.find(value => {
+    //     return value.id == this.campaignId
+    //   }).name,
+    //   'CampaignType': this.campaigns.find(value => {
+    //     return value.id == this.campaignId
+    //   }).campaignType
+    // });
   }
+
 }

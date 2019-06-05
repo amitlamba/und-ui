@@ -92,6 +92,7 @@ export class Identity {
   sessionId: string;
   userId: string;
   clientId: string;
+  idf:number;
 }
 
 

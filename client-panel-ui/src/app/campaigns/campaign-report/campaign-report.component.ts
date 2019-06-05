@@ -7,11 +7,12 @@ import {ReportsService} from "../../_services/reports.service";
 import {ChartModel} from "../../eventreport/eventreport-demographics/eventreport-demographics.component";
 import {GlobalFilter, GlobalFilterType} from "../../_models/segment";
 import * as moment from "moment";
+import {UndTrackingService} from "../../_services/und-tracking.service";
 
 @Component({
-  selector:'app-campaign-report',
-  templateUrl:'campaign-report.component.html',
-  styleUrls:['./campaign-report.component.scss']
+  selector: 'app-campaign-report',
+  templateUrl: 'campaign-report.component.html',
+  styleUrls: ['./campaign-report.component.scss']
 })
 export class CampaignReportComponent implements OnInit {
 
@@ -26,17 +27,19 @@ export class CampaignReportComponent implements OnInit {
 
   constructor(private campaignService: CampaignService,
               private reportsService: ReportsService,
-              private activatedRoute: ActivatedRoute){}
+              private activatedRoute: ActivatedRoute,
+              private undtrackingService: UndTrackingService) {
+  }
 
   ngOnInit() {
     this.campaignId = this.activatedRoute.snapshot.queryParams['cid'];
     console.log("ngOnInit called");
-    if(!this.campaigns) {
-      this.campaignService.getCampaignList().subscribe((campaigns)=> {
+    if (!this.campaigns) {
+      this.campaignService.getCampaignList().subscribe((campaigns) => {
         this.campaigns = campaigns;
-        if(this.campaignId) {
-          try{
-            this.campaign = this.campaigns.filter(v=>v.id==this.campaignId)[0];
+        if (this.campaignId) {
+          try {
+            this.campaign = this.campaigns.filter(v => v.id == this.campaignId)[0];
           } catch (e) {
             console.error(e);
           }
@@ -73,22 +76,23 @@ export class CampaignReportComponent implements OnInit {
 
   campaignChange() {
     console.log(this.campaign);
-    this.campaignId=this.campaign.id;
+    this.campaignId = this.campaign.id;
     this.getCampaignReach(this.campaign.id);
-    this.getConversionFunnel()
+    this.getConversionFunnel();
+    this.undtrackingService.trackEvent("Report",{'CampaignID': this.campaign.id})
   }
 
   getConversionFunnel() {
     this.conversionFunnel = new FunnelReportFilter();
     this.conversionFunnel.segmentid = this.campaign.segmentationID;
-    let conversionE: string = this.campaign.conversionEvent?this.campaign.conversionEvent:"Charged";
-    this.conversionFunnel.steps = [{order: 1, eventName: "Notification Sent"},{order: 2, eventName: conversionE}];
-    if(this.campaign.dateCreated){
-      this.conversionFunnel.days=moment().dayOfYear()-moment(this.campaign.dateCreated).dayOfYear();
-      this.conversionFunnel.conversionTime=this.conversionFunnel.days*24*60*60;
+    let conversionE: string = this.campaign.conversionEvent ? this.campaign.conversionEvent : "Charged";
+    this.conversionFunnel.steps = [{order: 1, eventName: "Notification Sent"}, {order: 2, eventName: conversionE}];
+    if (this.campaign.dateCreated) {
+      this.conversionFunnel.days = moment().dayOfYear() - moment(this.campaign.dateCreated).dayOfYear();
+      this.conversionFunnel.conversionTime = this.conversionFunnel.days * 24 * 60 * 60;
     }
     // this.conversionFunnel.splitProperty=null;
-    this.conversionFunnel.funnelOrder=FunnelOrder.default;
+    this.conversionFunnel.funnelOrder = FunnelOrder.default;
     /*
     globalFilterType: GlobalFilterType;
   name: string;
@@ -118,23 +122,26 @@ export class CampaignReportComponent implements OnInit {
   }
 
   setCoversionFunnelChartData(data: any) {
-    this.conversionFunnelChartData= new ChartModel();
+    this.conversionFunnelChartData = new ChartModel();
     this.initializeGraph(data);
     console.log(data);
   }
-  initializeGraph(data:FunnelStep[]){
 
-      this.conversionFunnelChartData.category = data.map(v => v.property).filter(function(item, i, ar){ return ar.indexOf(item) === i; });
-      console.log(this.conversionFunnelChartData.category);
+  initializeGraph(data: FunnelStep[]) {
 
-      this.conversionFunnelChartData.dataSeries = [];
+    this.conversionFunnelChartData.category = data.map(v => v.property).filter(function (item, i, ar) {
+      return ar.indexOf(item) === i;
+    });
+    console.log(this.conversionFunnelChartData.category);
 
-      data.forEach(v => {
-        this.conversionFunnelChartData.dataSeries.push({
-          showInLegend: true,
-          seriesName: v.step.eventName,
-          data: [v.count]
-        });
+    this.conversionFunnelChartData.dataSeries = [];
+
+    data.forEach(v => {
+      this.conversionFunnelChartData.dataSeries.push({
+        showInLegend: true,
+        seriesName: v.step.eventName,
+        data: [v.count]
       });
+    });
   }
 }

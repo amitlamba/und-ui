@@ -42,12 +42,120 @@
                       [ngValue]="segment">{{segment.name}}
               </option>
             </select>
-            <small id="segmentNameHelp" class="form-text text-muted" *ngIf="selectedSegment">This is a <span class="text-secondary">{{selectedSegment.type}}</span> segment</small>
+            <small id="segmentNameHelp" class="form-text text-muted" *ngIf="selectedSegment">
+              This is a <span
+              class="text-secondary">{{selectedSegment.type}}</span> segment
+            </small>
           </div>
           <div class="form-group col-9">
             <label class="card-title h5">What do you want to Send? <sup>*</sup></label>
-            <select class="form-control"
-                    #templateID
+            <div class="form-group" [hidden]="!selectedSegment">
+              <input type="radio" name="Variants" (click)="selectTemplate(true)" checked><b>Normal</b>
+              <input type="radio" name="Variants" (click)="selectTemplate(false)"><b>A/B testing</b>
+            </div>
+            <div *ngIf="!isNotAbTesting" class="mt-2">
+              <form [formGroup]="abCampaignFB" class="mt-2">
+                <div *ngIf="selectedSegment.type != 'Live'">
+                  <div class="form-group">
+                    <label class="card-title h5">Run Type</label>
+                    <select class="form-control" formControlName="runType" (change)=" RuntypeChange($event)" required>
+                      <option value="" selected disabled>Select RunType</option>
+                      <option value="AUTO">AUTO</option>
+                      <option value="MANUAL">MANUAL</option>
+                    </select>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="card-title h5">Wait time</label>
+                    <input class="form-control"
+                           formControlName="waitTime"
+                           placeholder="Wait Time"
+                           required>
+                  </div>
+                  <div class="form-group" *ngIf="ReminD">
+                    <label class="card-title h5">Remind</label>
+                    <select class="form-control" formControlName="remind" required>
+                      <option value="" selected disabled>Select Remind</option>
+                      <option value="false">False</option>
+                      <option value="true">True</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="card-title h5">Sample Size</label>
+                  <input class="form-control"
+                         formControlName="sampleSize"
+                         placeholder="sampleSize"
+                         required>
+                </div>
+                <div formArrayName="variants">
+                  <div *ngFor="let item of variantsArray.controls;let k = index;">
+                    <div [formGroupName]="k" class="card my-2">
+                      <div class="card-body">
+                          <h4 class="card-title">Varaint {{k + 1}}
+                          <button *ngIf="variantsArray.controls.length>1" class="close ml-auto mr-4 pos "
+                                  aria-label="Close"
+                                  type="button" (click)="removeVarriant(k)"><span aria-hidden="true">&times;</span>
+                          </button></h4>
+                        <div class="form-group">
+                          <label class="card-title h5">Name</label>
+                          <input class="form-control"
+                                 formControlName="name"
+                                 placeholder="Name"
+                                 required>
+                        </div>
+                        <div class="form-group">
+                          <label class="card-title h5">Choose Template</label>
+                          <select class="form-control" formControlName="templateId"
+                                  required>
+                            <option value="-1" selected disabled>Choose from a list of Templates . . .</option>
+                            <ng-container
+                              *ngIf="currentPath==='sms'">
+                              <option *ngFor="let smsTemplate of smsTemplatesList"
+                                      [value]="smsTemplate.id">{{smsTemplate.name}}
+                              </option>
+                            </ng-container>
+                            <ng-container
+                              *ngIf="currentPath==='email'">
+                              <option *ngFor="let emailTemplate of emailTemplatesList"
+                                      [value]="emailTemplate.id">{{emailTemplate.name}}
+                              </option>
+                            </ng-container>
+                            <ng-container
+                              *ngIf="currentPath==='webpush'">
+                              <option *ngFor="let template of webPushTemplatesList"
+                                      [value]="template.id">{{template.name}}
+                              </option>
+                            </ng-container>
+                            <ng-container
+                              *ngIf="currentPath==='androidpush'">
+                              <option *ngFor="let template of androidTemplatesList"
+                                      [value]="template.id">{{template.name}}
+                              </option>
+                            </ng-container>
+                          </select>
+
+                        </div>
+                        <div class="form-group">
+                          <label class="card-title h5">Percentage</label>
+                          <input type="number" class="form-control"
+                                 formControlName="percentage"
+                                 placeholder="Percentage"
+                                 required>
+                        </div>
+                        <div class="clearfix"></div>
+                      </div>
+                    </div>
+                  </div>
+                  <button type="button" class="btn btn-primary" (click)="addVariant()">Add Variant</button>
+                </div>
+              </form>
+
+            </div>
+
+
+            <!--start code for normal  -->
+            <select class="form-control" *ngIf="isNotAbTesting" [hidden]="!selectedSegment"
                     [(ngModel)]="campaign.templateID" [ngModelOptions]="{standalone: true}" required>
               <option value="-1" selected disabled>Choose from a list of Templates . . .</option>
               <ng-container
@@ -80,22 +188,24 @@
           <button class="btn btn-primary ml-3 px-4"
                   (click)="continueToSchedule()"
                   type="button"
-                  [disabled]='f.invalid || templateID.value=="-1" || segmentID.value=="-1"'>
+                  [disabled]='f.invalid || segmentID.value=="-1" || ((isNotAbTesting && (campaign.templateID =="-1" || campaign.templateID == null))  || (!isNotAbTesting && !isValidAbCampaign()))'>
             Continue
           </button>
         </form>
       </div>
     </div>
 
-    <div class="ml-3 mb-3 back-btn" (click)="setupCampaignPage = 1" *ngIf="setupCampaignPage == 2"><i class="fas fa-arrow-left"></i> Back</div>
+    <div class="ml-3 mb-3 back-btn" (click)="setupCampaignPage = 1" *ngIf="setupCampaignPage == 2"><i
+      class="fas fa-arrow-left"></i> Back
+    </div>
     <div *ngIf="setupCampaignPage == 2">
       <div class="card mx-3"
-         *ngIf="selectedSegment.type != 'Live'">
+           *ngIf="selectedSegment.type != 'Live'">
         <h3 class="card-header">
           When do you want to schedule this campaign?
         </h3>
         <div class="card-body">
-          <form >
+          <form>
             <div class="row px-3">
               <div class="col-12">
                 <label class="card-title h5">Message Type</label>
@@ -269,7 +379,8 @@
                  class="d-inline">
                 On
                 <span class="mr-3">
-                {{schedule.oneTime.campaignDateTime.date|date}} at {{schedule.oneTime.campaignDateTime.hours}}:{{schedule.oneTime.campaignDateTime.minutes}}
+                {{schedule.oneTime.campaignDateTime.date|date}} at {{schedule.oneTime.campaignDateTime.hours}}
+                  :{{schedule.oneTime.campaignDateTime.minutes}}
               </span>
               </p>
               <p *ngIf="schedule && schedule.multipleDates" class="d-inline">
@@ -298,17 +409,19 @@
           When do you want to schedule this Live campaign?
         </h3>
         <div class="card-body">
-          <form >
+          <form>
             <div class="form-group">
               <strong class="mr-4">Live Campaign Starts</strong>
               <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="lsNow" id="lsNow1" value="Now" checked [(ngModel)]="campaign.liveSchedule.nowOrLater">
+                <input class="form-check-input" type="radio" name="lsNow" id="lsNow1" value="Now" checked
+                       [(ngModel)]="campaign.liveSchedule.nowOrLater">
                 <label class="form-check-label" for="lsNow1">
                   Now
                 </label>
               </div>
               <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="lsNow" id="lsNow2" value="Later" [(ngModel)]="campaign.liveSchedule.nowOrLater">
+                <input class="form-check-input" type="radio" name="lsNow" id="lsNow2" value="Later"
+                       [(ngModel)]="campaign.liveSchedule.nowOrLater">
                 <label class="form-check-label" for="lsNow2">
                   Later
                 </label>
@@ -319,13 +432,15 @@
             <div class="form-group mt-5">
               <strong class="mr-4">Live Campaign Ends</strong>
               <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="lsEnd" id="lsEnd1" value="NeverEnds" checked [(ngModel)]="liveSegmentEnds">
+                <input class="form-check-input" type="radio" name="lsEnd" id="lsEnd1" value="NeverEnds" checked
+                       [(ngModel)]="liveSegmentEnds">
                 <label class="form-check-label" for="lsEnd1">
                   Never Ends
                 </label>
               </div>
               <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="lsEnd" id="lsEnd2" value="EndsOn" [(ngModel)]="liveSegmentEnds">
+                <input class="form-check-input" type="radio" name="lsEnd" id="lsEnd2" value="EndsOn"
+                       [(ngModel)]="liveSegmentEnds">
                 <label class="form-check-label" for="lsEnd2">
                   Ends On
                 </label>
@@ -346,19 +461,19 @@
 
 
     <!--<div class="row px-3">-->
-      <!--<div class="col-12  mt-2"-->
-           <!--*ngIf="scheduleType==='multipleDates'">-->
-        <!--<label class="card-title mb-0 h5">Pick Dates</label>-->
-        <!--<br>-->
-        <!--<app-date-time [campaignTimesList]="schedule.multipleDates.campaignDateTimeList"></app-date-time>-->
-        <!--<div #parent></div>-->
-        <!--<button type="button"-->
-                <!--class="btn btn-link py-0 pl-0 mb-2"-->
-                <!--(click)="addAnotherDateTime()">-->
-          <!--<i class="fa fa-plus " aria-hidden="true"></i>-->
-          <!--Add another date-->
-        <!--</button>-->
-      <!--</div>-->
+    <!--<div class="col-12  mt-2"-->
+    <!--*ngIf="scheduleType==='multipleDates'">-->
+    <!--<label class="card-title mb-0 h5">Pick Dates</label>-->
+    <!--<br>-->
+    <!--<app-date-time [campaignTimesList]="schedule.multipleDates.campaignDateTimeList"></app-date-time>-->
+    <!--<div #parent></div>-->
+    <!--<button type="button"-->
+    <!--class="btn btn-link py-0 pl-0 mb-2"-->
+    <!--(click)="addAnotherDateTime()">-->
+    <!--<i class="fa fa-plus " aria-hidden="true"></i>-->
+    <!--Add another date-->
+    <!--</button>-->
+    <!--</div>-->
     <!--</div>-->
 
     <div class="ml-3 mb-3 back-btn" (click)="setupCampaignPage = 2" *ngIf="setupCampaignPage == 3"><i

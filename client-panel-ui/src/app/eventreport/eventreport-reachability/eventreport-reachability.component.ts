@@ -15,6 +15,7 @@ export class EventreportReachabilityComponent implements OnInit,OnDestroy ,OnCha
   @Input() eventName:string;
   @Input() fromDate:string;
   @Input() toDate:string;
+  @Input() button: string;
 
   @Input() filterList:GlobalFilter[];
   groupByFilterType:string;

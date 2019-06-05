@@ -1,5 +1,5 @@
 export class AppSettings {
-  public static API_ENDPOINT = "https://userndot.com";
+  public static API_ENDPOINT = "http://userndot.com";
 
 
   public static API_ENDPOINT_CLIENT = AppSettings.API_ENDPOINT + "/client";
@@ -134,6 +134,7 @@ export class AppSettings {
 
   public static API_ENDPOINT_CLIENT_CAMPAIGN = AppSettings.API_ENDPOINT_CLIENT + "/campaign";
   public static API_ENDPOINT_CLIENT_CAMPAIGN_SAVE = AppSettings.API_ENDPOINT_CLIENT_CAMPAIGN + "/save";
+  public static API_ENDPOINT_CLIENT_CAMPAIGN_SAVE_AB = AppSettings.API_ENDPOINT_CLIENT_CAMPAIGN + "/save/ab";
   public static API_ENDPOINT_CLIENT_CAMPAIGN_LIST = AppSettings.API_ENDPOINT_CLIENT_CAMPAIGN + "/list/all";
   public static API_ENDPOINT_CLIENT_CAMPAIGN_PAUSE = AppSettings.API_ENDPOINT_CLIENT_CAMPAIGN + "/pause";
   public static API_ENDPOINT_CLIENT_CAMPAIGN_RESUME = AppSettings.API_ENDPOINT_CLIENT_CAMPAIGN + "/resume";
@@ -171,6 +172,7 @@ export class AppSettings {
   public static API_ENDPOINT_AUTH_SETTING_REFRESHTOKEN = AppSettings.API_ENDPOINT_AUTH_SETTING + "/refreshToken";
 
   public static API_ENDPOINT_AUTH_CONTACT_US_SAVE = AppSettings.API_ENDPOINT_AUTH + "/contactUs/save";
+
 
 }
 

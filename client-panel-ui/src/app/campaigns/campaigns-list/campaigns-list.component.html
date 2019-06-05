@@ -37,14 +37,21 @@
            [(ngModel)]="searchfilterby"
     >
     <div class="input-group-append">
-      <button class="btn btn-outline-primary" type="button" id="button-search-segment"><i class="fas fa-search"></i></button>
+      <button class="btn btn-outline-primary" type="button" id="button-search-segment"><i class="fas fa-search"></i>
+      </button>
     </div>
   </div>
 
   <div class="row" id="campaign-navbar">
-    <button type="button" class="btn btn-primary" [ngClass]="{active:campaignType=='Active'}" (click)="changeCampaignFilter('Active')">Active</button>
-    <button type="button" class="btn btn-primary" [ngClass]="{active:campaignType=='Completed'}" (click)="changeCampaignFilter('Completed')">Completed</button>
-    <button type="button" class="btn btn-primary" [ngClass]="{active:campaignType=='Errors'}" (click)="changeCampaignFilter('Errors')">Errors</button>
+    <button type="button" class="btn btn-primary" [ngClass]="{active:campaignType=='Active'}"
+            (click)="changeCampaignFilter('Active')">Active
+    </button>
+    <button type="button" class="btn btn-primary" [ngClass]="{active:campaignType=='Completed'}"
+            (click)="changeCampaignFilter('Completed')">Completed
+    </button>
+    <button type="button" class="btn btn-primary" [ngClass]="{active:campaignType=='Errors'}"
+            (click)="changeCampaignFilter('Errors')">Errors
+    </button>
   </div>
 
   <div class="table-responsive mt-1">
@@ -52,6 +59,7 @@
       <thead style="background-color: rgba(0, 0, 0, .03);">
       <tr>
         <th scope="col">Campaign Name</th>
+        <th scope="col">Campaign</th>
         <th scope="col">Campaign Type</th>
         <th scope="col">Created On</th>
         <th scope="col">Frequency</th>
@@ -62,27 +70,32 @@
       <tbody>
       <tr *ngFor="let campaignItem of filteredCampaigns | orderBy : 'dateCreated' : true;">
         <td>
-          {{campaignItem.name.charAt(0).toUpperCase()+ campaignItem.name.slice(1).toLowerCase()}}
+          {{campaignItem.name.charAt(0).toUpperCase() + campaignItem.name.slice(1).toLowerCase()}}
           <a (click)="getCampaignItem(campaignItem)" data-toggle="modal" data-target="#campaignInfoModal"
              tooltip="Campaign Info">
             <i class="far fa-question-circle text-primary ml-2"></i></a></td>
+        <td>{{campaignItem.typeOfCampaign}}</td>
         <td>{{campaignItem.campaignType}}</td>
-        <td>{{campaignItem.dateCreated+"Z" | date:'medium'}}</td>
+        <td>{{campaignItem.dateCreated + "Z" | date:'medium'}}</td>
         <td>
-          <span *ngIf="campaignItem && campaignItem.schedule!=null && campaignItem.schedule.oneTime!==null">One Time</span>
+          <span
+            *ngIf="campaignItem && campaignItem.schedule!=null && campaignItem.schedule.oneTime!==null">One Time</span>
           <span *ngIf="campaignItem && campaignItem.schedule!=null && campaignItem.schedule.multipleDates!==null">Multiple Dates</span>
-          <span *ngIf="campaignItem && campaignItem.schedule!=null && campaignItem.schedule.recurring!==null">Recurring</span>
+          <span
+            *ngIf="campaignItem && campaignItem.schedule!=null && campaignItem.schedule.recurring!==null">Recurring</span>
         </td>
         <td *ngIf="campaignItem.status == 'ERROR'">
           <a href="#" (click)="getCampaignError(campaignItem)" data-toggle="modal" data-target="#campaignErrorModal"
-                                                      tooltip="Campaign Error Info">
-          {{campaignItem.status}}</a>
+             tooltip="Campaign Error Info">
+            {{campaignItem.status}}</a>
         </td>
-        <td *ngIf="campaignItem.status != 'ERROR'">{{(campaignItem.status=='CREATED'|| campaignItem.status=='RESUMED' ) ? ("Running") : ( campaignItem.status
-          )}}
+        <td
+          *ngIf="campaignItem.status != 'ERROR'">{{(campaignItem.status == 'CREATED' || campaignItem.status == 'RESUMED') ? ("Running") : (campaignItem.status
+        )}}
         </td>
         <td class="text-center">
-          <button class="btn btn-sm btn-outline-primary btn-action" tooltip="View Report" (click)="viewReportClicked(campaignItem.id)">
+          <button class="btn btn-sm btn-outline-primary btn-action" tooltip="View Report"
+                  (click)="viewReportClicked(campaignItem.id)">
             <i class="far fa-chart-bar"></i>
           </button>
           <button *ngIf="campaignItem.status=='PAUSED' "
@@ -128,8 +141,8 @@
       <div class="modal-content">
         <div class="modal-header">
           <h4 class="modal-title ml-auto" id="campaignInfoModalTitle">
-            {{modalCampaignInfoObject.name.charAt(0).toUpperCase()+
-            modalCampaignInfoObject.name.slice(1).toLowerCase()}}
+            {{modalCampaignInfoObject.name.charAt(0).toUpperCase() +
+          modalCampaignInfoObject.name.slice(1).toLowerCase()}}
           </h4>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
@@ -152,8 +165,10 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title font-weight-bold text-capitalize ml-auto" id="campaignErrorModalLabel">Campaign Error</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="showCampaignErrorMessage = false">
+          <h5 class="modal-title font-weight-bold text-capitalize ml-auto" id="campaignErrorModalLabel">Campaign
+            Error</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                  (click)="showCampaignErrorMessage = false">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
@@ -162,18 +177,22 @@
         </div>
         `
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="showCampaignErrorMessage = false">Close</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                  (click)="showCampaignErrorMessage = false">Close
+          </button>
         </div>
       </div>
     </div>
   </div>
 
-  <div class="modal fade" id="campaignActionConfirmationDialog" tabindex="-1" role="dialog" aria-labelledby="campaignConfirmationModalLabel"
+  <div class="modal fade" id="campaignActionConfirmationDialog" tabindex="-1" role="dialog"
+       aria-labelledby="campaignConfirmationModalLabel"
        aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title font-weight-bold text-capitalize ml-auto" id="campaignConfirmationModalLabel">{{campaignConfirmationDialogText}} Campaign</h5>
+          <h5 class="modal-title font-weight-bold text-capitalize ml-auto"
+              id="campaignConfirmationModalLabel">{{campaignConfirmationDialogText}} Campaign</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -184,7 +203,8 @@
         `
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary"  data-dismiss="modal" (click)="executeCampaignFunction()">Yes</button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="executeCampaignFunction()">Yes
+          </button>
         </div>
       </div>
     </div>

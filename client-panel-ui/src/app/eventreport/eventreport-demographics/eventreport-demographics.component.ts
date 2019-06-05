@@ -15,6 +15,7 @@ export class EventreportDemographicsComponent implements OnInit ,OnChanges,OnDes
   @Input() eventName:string;
   @Input() fromDate:string;
   @Input() toDate:string;
+  @Input() button: string;
 
   @Input() filterList:GlobalFilter[];
 

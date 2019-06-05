@@ -26,7 +26,7 @@ export class SegmentBehaviorReactiveComponent implements OnInit, OnChanges {
   set triggerValidatedSegment(value: boolean) {
     // console.log("triggerValidatedSegment set to "+value);
     // if (value)
-    if(this.segment)
+    if (this.segment)
       this.validateSegment();
     this._triggerValidatedSegment = value;
   }
@@ -111,12 +111,12 @@ export class SegmentBehaviorReactiveComponent implements OnInit, OnChanges {
   }
 
   openRelevantSection() {
-    if(this.withAction) {
+    if (this.withAction) {
       this.addDidEvent();
-    } else if(this.withInaction) {
+    } else if (this.withInaction) {
       this.addDidEvent();
       this.addDidNotEvent();
-    } else if(this.withUserProperties) {
+    } else if (this.withUserProperties) {
       this.addGlobalFilter();
     }
   }
@@ -182,8 +182,7 @@ export class SegmentBehaviorReactiveComponent implements OnInit, OnChanges {
       return events.map<FormGroup>((v, i, a) => {
         return this.createEventForm(v);
       });
-    }
-    else return [];
+    } else return [];
   }
 
   createEventForm(v: Event): FormGroup {

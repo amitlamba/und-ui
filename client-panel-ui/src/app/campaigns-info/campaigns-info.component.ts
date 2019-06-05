@@ -2,7 +2,7 @@ import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core'
 import {Segment} from "../_models/segment";
 import {SegmentService} from "../_services/segment.service";
 import {HttpErrorResponse} from "@angular/common/http";
-import {Campaign, CampaignType} from "../_models/campaign";
+import {Campaign, CampaignType, typeOfCampaign, AbCampaign, Variant} from "../_models/campaign";
 import cronstrue from 'cronstrue';
 import {TemplatesService} from "../_services/templates.service";
 import {EmailTemplate} from "../_models/email";
@@ -47,7 +47,7 @@ export class CampaignsInfoComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     //Check if not the first time change
-    if(!changes['campaignInfoObject'].isFirstChange()) {
+    if (!changes['campaignInfoObject'].isFirstChange()) {
       this.getCampaignInfo();
     }
   }
@@ -64,9 +64,8 @@ export class CampaignsInfoComponent implements OnInit, OnChanges {
     );
   }
 
-  private getTemplate() {
-    this.emailTemplate=this.smsTemplate=this.webPushTemplate=this.androidTemplate=null;
-    if(this.campaignInfoObject.campaignType == CampaignType.EMAIL) {
+  getCampaignData() {
+    if (this.campaignInfoObject.campaignType == CampaignType.EMAIL) {
       this.emailTemplate = null;
       this.templatesService.getEmailTemplateById(this.campaignInfoObject.templateID).subscribe(
         (emailTemplate: EmailTemplate) => {
@@ -76,7 +75,7 @@ export class CampaignsInfoComponent implements OnInit, OnChanges {
           console.error(error)
         }
       )
-    } else if(this.campaignInfoObject.campaignType == CampaignType.SMS) {
+    } else if (this.campaignInfoObject.campaignType == CampaignType.SMS) {
       this.smsTemplate = null;
       this.templatesService.getSmsTemplateById(this.campaignInfoObject.templateID).subscribe(
         (smsTemplate: SmsTemplate) => {
@@ -86,7 +85,7 @@ export class CampaignsInfoComponent implements OnInit, OnChanges {
           console.error(error)
         }
       )
-    } else if(this.campaignInfoObject.campaignType == CampaignType.PUSH_ANDROID) {
+    } else if (this.campaignInfoObject.campaignType == CampaignType.PUSH_ANDROID) {
       this.androidTemplate = null;
       this.templatesService.getAndroidTemplateById(this.campaignInfoObject.templateID).subscribe(
         (androidTemplate: AndroidTemplate) => {
@@ -96,7 +95,7 @@ export class CampaignsInfoComponent implements OnInit, OnChanges {
           console.error(error)
         }
       )
-    } else if(this.campaignInfoObject.campaignType == CampaignType.PUSH_WEB) {
+    } else if (this.campaignInfoObject.campaignType == CampaignType.PUSH_WEB) {
       this.webPushTemplate = null;
       this.templatesService.getWebPushTemplateById(this.campaignInfoObject.templateID).subscribe(
         (webPushTemplate: WebPushTemplate) => {
@@ -107,6 +106,20 @@ export class CampaignsInfoComponent implements OnInit, OnChanges {
         }
       )
     }
+  }
+
+  private getTemplate() {
+    this.emailTemplate = this.smsTemplate = this.webPushTemplate = this.androidTemplate = null;
+    if (!this.campaignInfoObject.abCampaign) {
+      this.getCampaignData();
+    }
+
+    if (this.campaignInfoObject.abCampaign) {
+      this.campaignInfoObject.templateID = this.campaignInfoObject.variants.map(v => v.templateId).reduce((v) => v);
+      this.getCampaignData();
+
+    }
+
   }
 
   getCronExpressionSummary() {

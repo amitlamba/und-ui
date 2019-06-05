@@ -27,6 +27,7 @@ import {LandingPageUndComponent} from "./landing-page-und/landing-page-und.compo
 import {AboutUsComponent} from "./about-us/about-us.component";
 import {TermsOfServiceComponent} from "./terms-of-service/terms-of-service.component";
 import {ContactUsComponent} from "./contact-us/contact-us.component";
+import {PricingComponent} from "./pricing/pricing.component";
 import {UserProfileComponent} from "./user-profile/user-profile.component";
 import {EmailSettingsComponent} from "./settings/email-settings/email-settings.component";
 import {CreateEmailTemplateFormComponent} from "./templates/email-templates/create-email-template-form/create-email-template-form.component";
@@ -139,6 +140,7 @@ const routes: Routes = [
       {path: 'terms-of-service', component: TermsOfServiceComponent},
       {path: 'privacy-policy', component: PrivacyPolicyComponent},
       {path: 'contact-us', component: ContactUsComponent},
+      {path: 'pricing', component: PricingComponent},
       {path: '**', component: PageNotFoundComponent},
     ]
   },

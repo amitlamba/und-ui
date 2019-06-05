@@ -3,7 +3,7 @@
   <div class="row">
     <div class="col-sm-4 col-md-3">
       <label for="eventName">Event</label>
-      <select class="form-control" id="eventName" [(ngModel)]="eventName">
+      <select class="form-control" id="eventName" [(ngModel)]="eventName" (change)="selectEvent()">
         <option [value]="" selected hidden>--Select Event--</option>
         <option *ngFor="let event of events" [value]="event.name">{{event.name}}</option>
       </select>
@@ -67,6 +67,7 @@
                              [eventName]="eventName"
                              [fromDate]="fromDate"
                              [toDate]="toDate"
+                             [button]="button"
                              [filterList]="filterList"
     ></app-eventreport-overall>
     <app-eventreport-demographics *ngIf="button==='demography'"
@@ -74,6 +75,7 @@
                                   [eventName]="eventName"
                                   [fromDate]="fromDate"
                                   [toDate]="toDate"
+                                  [button]="button"
                                   [filterList]="filterList"
     ></app-eventreport-demographics>
     <app-eventreport-geographics *ngIf="button==='geography'"
@@ -81,6 +83,7 @@
                                  [eventName]="eventName"
                                  [fromDate]="fromDate"
                                  [toDate]="toDate"
+                                 [button]="button"
                                  [filterList]="filterList"
     ></app-eventreport-geographics>
     <app-eventreport-technographics *ngIf="button==='technology'"
@@ -88,6 +91,7 @@
                                     [eventName]="eventName"
                                     [fromDate]="fromDate"
                                     [toDate]="toDate"
+                                    [button]="button"
                                     [filterList]="filterList"
     ></app-eventreport-technographics>
     <app-eventreport-reachability *ngIf="button==='reachability'"
@@ -95,6 +99,7 @@
                                   [eventName]="eventName"
                                   [fromDate]="fromDate"
                                   [toDate]="toDate"
+                                  [button]="button"
                                   [filterList]="filterList"
     ></app-eventreport-reachability>
   </div>

@@ -24,31 +24,39 @@
 .und-heading h1 {
   font-size: 3.2rem;
 }
+
 .display-4 {
   font-size: 3rem;
 }
+
 /*Button not displaying cursor on hover Bug in alpha version of bootstrap resolved by below code*/
 .btn:not(:disabled):not(.disabled) {
   cursor: pointer;
 }
+
 .section-title {
   font-size: 1.1rem;
 }
+
 .section-paragraph {
   font-size: 1rem;
 }
+
 .card-box-shadow {
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .16), 0 2px 10px 0 rgba(0, 0, 0, .12);
 }
+
 .section-testimonials {
   background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url("../../assets/img/testimonials-background.jpg");
   background-attachment: fixed;
   background-size: cover;
-  color:white;
+  color: white;
 }
+
 blockquote {
   position: relative;
 }
+
 blockquote:before {
   font-size: 500%;
   content: "\201C";
@@ -58,8 +66,9 @@ blockquote:before {
   left: -25px;
   height: 30px;
 }
+
 // Media Queries
-@media only screen and (max-width: 800px){
+@media only screen and (max-width: 800px) {
   .und-heading h1 {
     font-size: 2.7rem;
   }
@@ -67,29 +76,30 @@ blockquote:before {
     font-size: 2.1rem;
   }
 }
+
 .benefits-paragraph {
   font-size: 1.0rem;
 }
+
 .icon-light {
   opacity: 1;
 }
+
 .success-indicators-text {
   font-size: 1.5rem;
-  color:#132E63;
+  color: #132E63;
 }
 
 // head section
-.header-section
-{
-background-color: #F7F8FA;
+.header-section {
+  background-color: #F7F8FA;
 }
-//define details
-.intro
-{
-  display: inline-block;
-  background-color:#F7F8FA ;
-  margin:10px;
 
+//define details
+.intro {
+  display: inline-block;
+  background-color: #F7F8FA;
+  margin: 10px;
   padding: 40px;
   border-radius: 7px;
 }

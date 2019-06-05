@@ -9,6 +9,7 @@ import {ChartModel} from "../eventreport-demographics/eventreport-demographics.c
 import {GlobalFilter} from "../../_models/segment";
 import {forEach} from "@angular/router/src/utils/collection";
 import * as moment from "moment";
+import {UndTrackingService} from "../../_services/und-tracking.service";
 
 @Component({
   selector: 'app-eventreport-overall',
@@ -21,7 +22,7 @@ export class EventreportOverallComponent implements OnInit, OnChanges, OnDestroy
   @Input() eventName: string;
   @Input() fromDate: string;
   @Input() toDate: string;
-
+  @Input() button: string;
   totalUser: number;
   totalevent: number;
 
@@ -48,7 +49,7 @@ export class EventreportOverallComponent implements OnInit, OnChanges, OnDestroy
 
   aggregateBy: AggregateBy;
 
-  constructor(private reportService: ReportsService, private httpClient: HttpClient) {
+  constructor(private reportService: ReportsService, private httpClient: HttpClient,private undTracking: UndTrackingService) {
     this.groupByFilterType = 'Technographics';
     this.groupBy = 'os';
     this.period = 'dayOfMonth';

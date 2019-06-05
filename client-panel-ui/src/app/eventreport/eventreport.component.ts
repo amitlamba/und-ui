@@ -3,6 +3,7 @@ import {ActivatedRoute, ActivatedRouteSnapshot, Params} from "@angular/router";
 import * as moment from "moment";
 import {SegmentService} from "../_services/segment.service";
 import {GlobalFilter, GlobalFilterType, RegisteredEvent, Segment} from "../_models/segment";
+import {UndTrackingService} from "../_services/und-tracking.service";
 
 @Component({
   selector: 'app-eventreport',
@@ -17,21 +18,21 @@ export class EventreportComponent implements OnInit, OnChanges, DoCheck {
   fromDate: string;
   toDate: string;
   public multiPicker: any;
-/*
-globalFilterType: GlobalFilterType;
-  name: string;
-  type: string;
-  operator: string;
-  values: any[] = [];
-  valueUnit: string;
-  {
-    globalFilterType: GlobalFilterType.Demographics,
-    type:
-    name: 'gender',
-    operator: 'Equals',
-    values: ['Male']
-  }
- */
+  /*
+  globalFilterType: GlobalFilterType;
+    name: string;
+    type: string;
+    operator: string;
+    values: any[] = [];
+    valueUnit: string;
+    {
+      globalFilterType: GlobalFilterType.Demographics,
+      type:
+      name: 'gender',
+      operator: 'Equals',
+      values: ['Male']
+    }
+   */
 
   // filterList = [
   //   {"globalFilterType": "Technographics", "name": "os", "operator": "Contains", "values": ["Linux", "Window"]},
@@ -46,15 +47,15 @@ globalFilterType: GlobalFilterType;
     //   values: ['Linux'],
     //   valueUnit: "NONE"}
   ];
-    // },
-    // {
-    //   globalFilterType: GlobalFilterType.Demographics,
-    //   type: 'string',
-    //   name: 'gender',
-    //   operator: 'Contains',
-    //   values: ['Male'],
-    //   valueUnit: "NONE"
-    // }];
+  // },
+  // {
+  //   globalFilterType: GlobalFilterType.Demographics,
+  //   type: 'string',
+  //   name: 'gender',
+  //   operator: 'Contains',
+  //   values: ['Male'],
+  //   valueUnit: "NONE"
+  // }];
 
   segment: Segment;
 
@@ -72,7 +73,7 @@ globalFilterType: GlobalFilterType;
   }
 
 
-  constructor(private route: ActivatedRoute, private segmentService: SegmentService) {
+  constructor(private route: ActivatedRoute, private segmentService: SegmentService, private undTracking: UndTrackingService) {
     // this.route.queryParams.subscribe(
     //   (params: Params) => {
     //     if (params && params['event'])
@@ -85,16 +86,16 @@ globalFilterType: GlobalFilterType;
     this.eventName = this.route.snapshot.queryParams['event'];
     this.fromDate = this.toDate = this.route.snapshot.queryParams['date'];
     this.events = this.segmentService.cachedRegisteredEvents;
-    this.segments = this.segmentService.segmentMini.filter(v=>v.type!='Live');
+    this.segments = this.segmentService.segmentMini.filter(v => v.type != 'Live');
     this._segmentId = -1;
     var date = new Date();
-    if(!this.toDate) {
+    if (!this.toDate) {
       let day = date.getDate();
       let month = date.getMonth() + 1;
       let year = date.getFullYear();
       this.toDate = (year + '-' + ('0' + month).slice(-2) + '-' + ('0' + day).slice(-2));
     }
-    if(!this.fromDate) {
+    if (!this.fromDate) {
       date.setDate(date.getDate() - 30);
       let day = date.getDate();
       let month = date.getMonth() + 1;
@@ -113,7 +114,7 @@ globalFilterType: GlobalFilterType;
   }
 
   private getSegmentById() {
-    if(this._segmentId > 0) {
+    if (this._segmentId > 0) {
       this.segmentService.getSegmentById(this._segmentId).subscribe(
         (segment) => {
           this.segment = segment;
@@ -142,9 +143,9 @@ globalFilterType: GlobalFilterType;
       endDate: this.toDate,
       ranges: {
         "Today": [moment(), moment().add("0", "day")],
-        "Yesterday": [moment().subtract("1", "day"), moment().subtract("1","day")],
-        "Last 7 Days": [moment().subtract("7", "day"), moment().subtract("1","day")],
-        "Last 30 Days": [moment().subtract("30", "day"), moment().subtract("1","day")],
+        "Yesterday": [moment().subtract("1", "day"), moment().subtract("1", "day")],
+        "Last 7 Days": [moment().subtract("7", "day"), moment().subtract("1", "day")],
+        "Last 30 Days": [moment().subtract("30", "day"), moment().subtract("1", "day")],
         "Last Month": [moment().subtract("1", "month").subtract(moment().date() - 1, "day"), moment().subtract(moment().date(), "day")],
       },
       locale: {
@@ -165,5 +166,15 @@ globalFilterType: GlobalFilterType;
 
   onClearGlobalFilters() {
     this.filterList = [];
+  }
+
+  selectEvent() {
+    this.undTracking.trackEvent("Report", {
+      'Event Name': this.eventName, 'SegmentID': this._segmentId,
+      'PropertiesSelect': this.button,
+      'End Date': this.toDate,
+      'Start Date' : this.fromDate
+    });
+    //console.log(this.button);
   }
 }
