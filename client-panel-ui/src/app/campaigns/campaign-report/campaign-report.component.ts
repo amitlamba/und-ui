@@ -86,7 +86,7 @@ export class CampaignReportComponent implements OnInit {
     this.conversionFunnel = new FunnelReportFilter();
     this.conversionFunnel.segmentid = this.campaign.segmentationID;
     let conversionE: string = this.campaign.conversionEvent ? this.campaign.conversionEvent : "Charged";
-    this.conversionFunnel.steps = [{order: 1, eventName: "Notification Sent"}, {order: 2, eventName: conversionE}];
+    this.conversionFunnel.steps = [{order: 1, eventName: "Notification Sent"}, {order: 2, eventName: "Notification Clicked"}, {order: 3, eventName: conversionE}];
     if (this.campaign.dateCreated) {
       this.conversionFunnel.days = moment().dayOfYear() - moment(this.campaign.dateCreated).dayOfYear();
       this.conversionFunnel.conversionTime = this.conversionFunnel.days * 24 * 60 * 60;

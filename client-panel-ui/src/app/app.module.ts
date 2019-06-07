@@ -130,6 +130,7 @@ import { CreateLiveSegmentComponent } from './segment-category/segments/live-seg
 import {UndTrackingService} from "./_services/und-tracking.service";
 import { PricingComponent } from './pricing/pricing.component';
 import { CommonDataComponent } from './common-data/common-data.component';
+import { WhyUsComponent } from './why-us/why-us.component';
 
 
 @NgModule({
@@ -251,7 +252,8 @@ import { CommonDataComponent } from './common-data/common-data.component';
     CreateSegmentComponent,
     CreateLiveSegmentComponent,
     PricingComponent,
-    CommonDataComponent
+    CommonDataComponent,
+    WhyUsComponent
   ],
   providers: [
     AuthGuard,
