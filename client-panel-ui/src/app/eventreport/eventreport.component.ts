@@ -172,8 +172,8 @@ export class EventreportComponent implements OnInit, OnChanges, DoCheck {
     this.undTracking.trackEvent("Report", {
       'Event Name': this.eventName, 'SegmentID': this._segmentId,
       'PropertiesSelect': this.button,
-      'End Date': this.toDate,
-      'Start Date' : this.fromDate
+      'End Date': new Date(),
+      'Start Date' : new Date()
     });
     //console.log(this.button);
   }

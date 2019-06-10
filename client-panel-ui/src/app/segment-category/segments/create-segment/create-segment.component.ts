@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import {Router} from "@angular/router";
-import {UndTrackingService} from "../../../_services/und-tracking.service";
 
 @Component({
   selector: 'app-create-segment',
@@ -11,7 +10,7 @@ export class CreateSegmentComponent implements OnInit {
 
   private segmentTypes: string[] = ["Behavior-Actions", "Behavior-InActions", "Behavior-LocationBased", "Behavior-UserPropertiesBased", "Live-SingleAction", "Live-SingleActionWithSingleInaction", "Live-SingleActionWithOtherAction"];
 
-  constructor(private router: Router,private undtrackingService: UndTrackingService) { }
+  constructor(private router: Router) { }
 
   ngOnInit() {
 

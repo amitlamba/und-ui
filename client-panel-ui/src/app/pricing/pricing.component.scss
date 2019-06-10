@@ -1,0 +1,20 @@
+header {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.9)), url("/assets/img/pricing.jpg") !important;
+  background-position: 55% !important;
+  height: 50vh !important;
+}
+
+.pricing {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.pricingSection {
+
+  margin-left: 40px;
+  margin-right: 40px;
+}
+
+

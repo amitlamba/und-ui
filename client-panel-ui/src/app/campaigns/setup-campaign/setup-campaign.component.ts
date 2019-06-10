@@ -16,7 +16,8 @@ import {
   ScheduleMultipleDates,
   ScheduleOneTime,
   ScheduleRecurring,
-  ScheduleType, typeOfCampaign,
+  ScheduleType,
+  typeOfCampaign,
   Variant
 } from "../../_models/campaign";
 import {CronOptions} from "../../cron-editor/CronOptions";
@@ -29,7 +30,7 @@ import {EmailTemplate} from "../../_models/email";
 import {CampaignService} from "../../_services/campaign.service";
 import {MessageService} from "../../_services/message.service";
 import cronstrue from "cronstrue";
-import {FormArray, FormBuilder, FormGroup, Validator, Validators} from "@angular/forms";
+import {FormArray, FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {AndroidTemplate, WebPushTemplate} from "../../_models/notification";
 import {ServiceProviderCredentials} from "../../_models/client";
 import {SettingsService} from "../../_services/settings.service";
@@ -82,11 +83,13 @@ export class SetupCampaignComponent implements OnInit {
   private _selectedSegment: SegmentMini;
   get selectedSegment(): SegmentMini {
     return this._selectedSegment;
+    console.log("hi", this.abCampaign);
   }
 
   set selectedSegment(value: SegmentMini) {
     this._selectedSegment = value;
     this.campaign.segmentationID = value.id;
+    console.log("hi2", this.abCampaign);
   }
 
   liveSegmentEnds: string = 'NeverEnds';
@@ -152,6 +155,7 @@ export class SetupCampaignComponent implements OnInit {
     let re: RegisteredEvent[] = JSON.parse(localStorage.getItem("registeredEvents"));
     this.conversionEvents = re.map<string>((value) => {
       return value.name
+      console.log("hi3", this.abCampaign);
     });
     this.conversionEvents.push("None");
     // Segments List
@@ -161,6 +165,7 @@ export class SetupCampaignComponent implements OnInit {
         (segments) => {
           this.segmentService.segments = segments;
           this.segmentsList = this.segmentService.segmentMini;
+          console.log("hi4", this.abCampaign);
         }
       );
     }
@@ -238,6 +243,7 @@ export class SetupCampaignComponent implements OnInit {
     this.campaign.templateID = parseInt(this.route.snapshot.queryParams['tid']) ? parseInt(this.route.snapshot.queryParams['tid']) : -1;
     if (variant.templateId && this.campaign && this.campaign.segmentationID) {
       this._selectedSegment = this.segmentsList.find(v => v.id == this.campaign.segmentationID);
+      console.log("hi5", this.abCampaign);
     }
 
     var abcampaign = new AbCampaign();
@@ -247,7 +253,7 @@ export class SetupCampaignComponent implements OnInit {
     abcampaign.remind = false;
     abcampaign.variants = [variant];
     this.buildAbCampaignFB(abcampaign);
-
+    console.log("hi6", this.abCampaign);
 
   }
 
@@ -261,7 +267,7 @@ export class SetupCampaignComponent implements OnInit {
         variants: this.fb.array(this.buildVariants(campaign.variants))
       }
     );
-
+    console.log("hi7", this.abCampaign);
   }
 
   buildVariants(variants: Variant[]): FormGroup[] {
@@ -269,6 +275,7 @@ export class SetupCampaignComponent implements OnInit {
     if (variants && variants.length) {
       return variants.map((v) => {
         return this.buildVariant(v);
+        console.log("hi8", this.abCampaign);
       });
     } else return [];
   }
@@ -282,30 +289,36 @@ export class SetupCampaignComponent implements OnInit {
         percentage: [variant.percentage, Validators.required]
       }
     )
+    console.log("hi9", this.abCampaign);
   }
 
   isValidAbCampaign(): boolean {
     return !this.abCampaignFB.invalid;
+    console.log("hi10", this.abCampaign);
   }
 
   validateVariantPercentage(): boolean {
     let totalPercentage = this.abCampaign.variants.map(v => v.percentage).reduce((p, c, ci, a) => p + c, 0);
     return totalPercentage === 100;
+    console.log("hi11", this.abCampaign);
   }
 
 
   get variantsArray(): FormArray {
     return this.abCampaignFB.get('variants') as FormArray;
+    console.log("hi12", this.abCampaign);
   }
 
 
   addVariant() {
     let v = new Variant();
     this.variantsArray.push(this.buildVariant(v));
+    console.log("hi13", this.abCampaign);
   }
 
   removeVarriant(index) {
     this.variantsArray.removeAt(index);
+    console.log("hi14", this.abCampaign);
   }
 
   continueToSchedule(): void {
@@ -313,36 +326,42 @@ export class SetupCampaignComponent implements OnInit {
       this.campaign.liveSchedule = new LiveSchedule();
       this.campaign.liveSchedule.nowOrLater = Now.Now;
       this.campaign.liveSchedule.startTime = new CampaignDateTime();
+      console.log("hi15", this.abCampaign);
     }
     this.setupCampaignPage = 2;
+    console.log("hi16", this.abCampaign);
   }
 
   continueToSave(): void {
+    console.log("hi17", this.abCampaign);
     this.setupCampaignPage = 3;
   }
 
   onSubmit(): void {
     if (this.disableSubmit)
       this.messageService.addDangerMessage("Can not submit. Please correct and Submit");
+    console.log("hi18", this.abCampaign);
     this.campaign.name = this.campaignName;
     if (this.scheduleType === ScheduleType.recurring) {
       this.schedule.recurring.cronExpression = this.cronExpression;
     }
     if (this.selectedSegment.type == 'Live') {
       this.campaign.schedule = null;
+      console.log("hi19", this.abCampaign);
     } else {
       this.campaign.schedule = this.schedule;
     }
     this.checkCampaignType();
     if (this.campaign.campaignType == CampaignType.EMAIL && this.cesid) {
       this.campaign.fromUser = this.clientEmailSettings.find(value => value.ceid == this.cesid).fromAddress;
+      console.log("hi20", this.abCampaign);
     }
     // if(this.srpId!="None")this.campaign.serviceProviderId=parseInt(this.srpId);
     if (this.cEvent != "None") this.campaign.conversionEvent = this.cEvent;
 
     if (this.cesid) {
       this.campaign.clientEmailSettingId = this.cesid;
-
+      console.log("hi21", this.abCampaign);
     }
     console.log(JSON.stringify(this.campaign));
     console.log(this.abCampaignFB.value);
@@ -356,9 +375,11 @@ export class SetupCampaignComponent implements OnInit {
           this.messageService.addDangerMessage(error.error.error.split(".")[0]);
         }
       );
+      console.log("hi22", this.abCampaign);
     } else {
-      this.abCampaign = JSON.parse(JSON.stringify(this.abCampaignFB.value))
+      this.abCampaign = JSON.parse(JSON.stringify(this.abCampaignFB.value));
       this.abCampaign.campaign = this.campaign;
+      console.log("hi23", this.abCampaign);
       console.log(this.abCampaign);
       if (!this.validateVariantPercentage())
         this.messageService.addDangerMessage("Percentage of all variants must sum to 100");
@@ -373,6 +394,7 @@ export class SetupCampaignComponent implements OnInit {
             this.messageService.addDangerMessage(error.error.error.split(".")[0]);
           }
         );
+      console.log("hi24", this.abCampaign);
     }
   }
 
@@ -496,10 +518,11 @@ export class SetupCampaignComponent implements OnInit {
     return cronstrue.toString(this.cronExpression);
   }
 
-  selectTemplate(value) {
+  selectTemplate(value) :any {
     this.isNotAbTesting = value;
     if (this.isNotAbTesting === false) {
       this.campaign.templateID = null;
+      console.log("hi25", this.abCampaign);
       this.campaign.typeOfCampaign = typeOfCampaign.AB_TEST;
     } else {
     }
@@ -512,7 +535,6 @@ export class SetupCampaignComponent implements OnInit {
       this.ReminD = true;
     }
   }
-
 
 }
 

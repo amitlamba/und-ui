@@ -54,6 +54,7 @@ import {CreateNotificationTemplateWebPushFormComponent} from "./templates/notifi
 import {PrivacyPolicyComponent} from "./terms-of-service/privacy-policy/privacy-policy.component";
 import {CreateSegmentComponent} from "./segment-category/segments/create-segment/create-segment.component";
 import {CreateLiveSegmentComponent} from "./segment-category/segments/live-segments/create-live-segment/create-live-segment.component";
+import {WhyUsComponent} from "./why-us/why-us.component";
 
 const routes: Routes = [
   //Pages without layout goes here
@@ -141,6 +142,7 @@ const routes: Routes = [
       {path: 'privacy-policy', component: PrivacyPolicyComponent},
       {path: 'contact-us', component: ContactUsComponent},
       {path: 'pricing', component: PricingComponent},
+      {path: 'why-us', component: WhyUsComponent},
       {path: '**', component: PageNotFoundComponent},
     ]
   },
