@@ -2,8 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {AuthenticationService} from "../_services/authentication.service";
 import {MessageService} from "../_services/message.service";
 import {UndTrackingService} from "../_services/und-tracking.service";
-import {Event, Identity} from "../_models/user";
-import {Observable} from "rxjs";
 
 @Component({
   selector: 'app-logout-header',

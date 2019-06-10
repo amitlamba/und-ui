@@ -214,8 +214,8 @@ export class SegmentReportComponent implements OnInit {
     }
     this.undTracking.trackEvent("Report", {
       'SegmentID': this.segmentId,
-      'StartDate': this.fromDate,
-      'EndDate': this.toDate
+      'StartDate': new Date(),
+      'EndDate': new Date()
     })
   }
 

@@ -2,7 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {RegistrationRequest} from "../_models/client";
 import {AuthenticationService} from "../_services/authentication.service";
 //import {ContactUs, ContactUsComponent} from "../contact-us/contact-us.component";
-import {ContactUs, CommonDataComponent} from "../common-data/common-data.component";
+import {ContactUs, ContactUsFormComponent} from "../contact-us-form/contact-us-form.component";
 import {RegisterService} from "../_services/register.service";
 import {_RECAPTCHA_KEY} from "../_settings/app-settings";
 import {MessageService} from "../_services/message.service";
@@ -38,14 +38,17 @@ export class DemoFormComponent implements OnInit {
           this.contactUs = new ContactUs();
           this.recaptchaToken = null;
           this.messageService.addSuccessMessage("Message sent successfully");
+          this.undtrackingService.trackEvent("Schedule Demo", {
+            'Name': this.contactUs.name,
+            'Company Name': this.contactUs.companyName,
+            'Email': this.contactUs.email
+          });
         },
         (error: HttpErrorResponse) => {
-          this.messageService.addDangerMessage("There is an error scheduling demo. "+ error.error.message);
+          this.messageService.addDangerMessage("There is an error scheduling demo. " + error.error.message);
         }
       );
-    this.undtrackingService.trackEvent("Schedule Demo",{'Name': this.contactUs.name,
-    'Company Name': this.contactUs.companyName,
-    'Email': this.contactUs.email});
+
    // console.log(this.contactUs.companyName);
   }
 

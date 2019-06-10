@@ -1,12 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Observable} from "rxjs";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {EventCount} from "../_models/reports";
-import {AppSettings} from "../_settings/app-settings";
-import {Profile} from "selenium-webdriver/firefox";
-import {Identity} from "../_models/user";
-import {stringify} from "@angular/core/src/render3/util";
-import {Event} from "../_models/user";
 
 declare var _und: any;
 

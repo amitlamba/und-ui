@@ -5,12 +5,11 @@ import {_RECAPTCHA_KEY} from "../_settings/app-settings";
 import {MessageService} from "../_services/message.service";
 
 @Component({
-  selector: 'app-common-data',
-  templateUrl: './common-data.component.html',
-  styleUrls: ['./common-data.component.scss',
-    '../landing-page-und/landing-page-und.component.scss']
+  selector: 'app-contact-us-form',
+  templateUrl: './contact-us-form.component.html',
+  styleUrls: ['./contact-us-form.component.scss']
 })
-export class CommonDataComponent implements OnInit {
+export class ContactUsFormComponent implements OnInit {
 
   contactUs: ContactUs;
   loading: boolean = false;

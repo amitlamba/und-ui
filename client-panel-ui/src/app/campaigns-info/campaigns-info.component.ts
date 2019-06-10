@@ -2,7 +2,7 @@ import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core'
 import {Segment} from "../_models/segment";
 import {SegmentService} from "../_services/segment.service";
 import {HttpErrorResponse} from "@angular/common/http";
-import {Campaign, CampaignType, typeOfCampaign, AbCampaign, Variant} from "../_models/campaign";
+import {Campaign, CampaignType} from "../_models/campaign";
 import cronstrue from 'cronstrue';
 import {TemplatesService} from "../_services/templates.service";
 import {EmailTemplate} from "../_models/email";
@@ -64,7 +64,7 @@ export class CampaignsInfoComponent implements OnInit, OnChanges {
     );
   }
 
-  getCampaignData() {
+  private getCampaignData() {
     if (this.campaignInfoObject.campaignType == CampaignType.EMAIL) {
       this.emailTemplate = null;
       this.templatesService.getEmailTemplateById(this.campaignInfoObject.templateID).subscribe(
