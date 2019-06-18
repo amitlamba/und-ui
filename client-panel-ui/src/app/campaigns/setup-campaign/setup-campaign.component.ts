@@ -363,7 +363,7 @@ export class SetupCampaignComponent implements OnInit {
       console.log(this.abCampaign);
       if (!this.validateVariantPercentage())
         this.messageService.addDangerMessage("Percentage of all variants must sum to 100");
-      else
+      else {
         this.campaignService.saveAbCampaign(this.abCampaign).subscribe(
           (response) => {
             this.messageService.addSuccessMessage("AbCampaign created successfully.");
@@ -374,6 +374,7 @@ export class SetupCampaignComponent implements OnInit {
             this.messageService.addDangerMessage(error.error.error.split(".")[0]);
           }
         );
+      }
     }
   }
 
