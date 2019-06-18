@@ -213,16 +213,6 @@ export class CampaignsListComponent implements OnInit {
 
   viewReportClicked(campaignId: number) {
     this.router.navigate(['/reports/campaign'], {queryParams: {cid: campaignId}});
-    //Campaign Event on View Report
-    // this.undtrackingService.trackEvent("Campaign", {
-    //   'CampaignID': this.campaignId, 'Action': 'View Report',
-    //   'CampaignName': this.campaigns.find(value => {
-    //     return value.id == this.campaignId
-    //   }).name,
-    //   'CampaignType': this.campaigns.find(value => {
-    //     return value.id == this.campaignId
-    //   }).campaignType
-    // });
   }
 
 }

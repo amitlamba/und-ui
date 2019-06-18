@@ -45,7 +45,6 @@
         <th scope="col">Created On</th>
         <th scope="col">Name</th>
         <th scope="col">Subject</th>
-        <th scope="col">From</th>
         <th scope="col">Type</th>
         <th scope="col">Action</th>
       </tr>
@@ -55,7 +54,6 @@
         <td>{{et.dateCreated+"Z" | date:'medium'}}</td>
         <td>{{et.name}}</td>
         <td>{{et.emailTemplateSubject}}</td>
-        <td>{{et.from}}</td>
         <td>{{et.messageType}}</td>
         <td><button class="btn btn-sm btn-outline-primary" data-toggle="tooltip" data-placement="top" title="Clone Template"
                     (click)="onClone(et)"><i class="far fa-clone"></i></button> <!--<button class="btn btn-sm btn-outline-secondary"><i class="fas fa-trash icon-light"></i></button>--></td>

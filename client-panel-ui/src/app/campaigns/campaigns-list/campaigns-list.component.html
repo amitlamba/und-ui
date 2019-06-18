@@ -65,6 +65,7 @@
         <th scope="col">Frequency</th>
         <th scope="col">Status</th>
         <th scope="col">Action</th>
+<!--        <th scope="col">RunType</th>-->
       </tr>
       </thead>
       <tbody>
@@ -129,6 +130,7 @@
                                                [ngClass]="{'text-muted':campaignItem.status=='DELETED' || campaignItem.status=='ERROR'}"></i>
           </button>
         </td>
+<!--        <td><a  class="btn btn-primary" *ngIf="campaignItem.abCampaign.runType=='AUTO'" href="http://userndot.com/client/campaign/run/manually/{{campaignItem.id}}">{{campaignItem.abCampaign.runType}}</a></td>-->
       </tr>
       </tbody>
     </table>

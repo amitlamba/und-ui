@@ -55,6 +55,7 @@ import {PrivacyPolicyComponent} from "./terms-of-service/privacy-policy/privacy-
 import {CreateSegmentComponent} from "./segment-category/segments/create-segment/create-segment.component";
 import {CreateLiveSegmentComponent} from "./segment-category/segments/live-segments/create-live-segment/create-live-segment.component";
 import {WhyUsComponent} from "./why-us/why-us.component";
+import {ProductFeatureComponent} from "./product-feature/product-feature.component";
 
 const routes: Routes = [
   //Pages without layout goes here
@@ -142,6 +143,7 @@ const routes: Routes = [
       {path: 'privacy-policy', component: PrivacyPolicyComponent},
       {path: 'contact-us', component: ContactUsComponent},
       {path: 'pricing', component: PricingComponent},
+      {path: 'product-feature', component: ProductFeatureComponent},
       {path: 'why-us', component: WhyUsComponent},
       {path: '**', component: PageNotFoundComponent},
     ]

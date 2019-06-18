@@ -46,16 +46,16 @@ export class CreateEmailTemplateFormComponent implements OnInit, OnChanges {
     this.templatesService.castEmailTemplateForEdit.subscribe((emailTemplateForEdit) => {
       this.emailTemplate = emailTemplateForEdit;
     });
-    if(this.settingsService.sendersInfoList.length > 1) {
-      this.sendersInfoList = this.settingsService.sendersInfoList;
-    } else {
-      this.settingsService.getSendersInfoList().subscribe(
-        (sendersInfoList) => {
-          this.settingsService.sendersInfoList = sendersInfoList;
-          this.sendersInfoList = this.settingsService.sendersInfoList;
-        }
-      );
-    }
+    // if(this.settingsService.sendersInfoList.length > 1) {
+    //   this.sendersInfoList = this.settingsService.sendersInfoList;
+    // } else {
+    //   this.settingsService.getSendersInfoList().subscribe(
+    //     (sendersInfoList) => {
+    //       this.settingsService.sendersInfoList = sendersInfoList;
+    //       this.sendersInfoList = this.settingsService.sendersInfoList;
+    //     }
+    //   );
+    // }
     this.setUpUnsubscribeButtonText();
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/templates/email';
     // this.returnUrl = '/template/email';
