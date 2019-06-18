@@ -132,6 +132,8 @@ import { PricingComponent } from './pricing/pricing.component';
 import { WhyUsComponent } from './why-us/why-us.component';
 import { ContactUsFormComponent } from './contact-us-form/contact-us-form.component';
 import { ProductFeatureComponent } from './product-feature/product-feature.component';
+import { TestCampaignComponent } from './test-campaign/test-campaign.component';
+import {TestCampaignService} from "./_services/test-campaign.service";
 
 
 @NgModule({
@@ -255,7 +257,8 @@ import { ProductFeatureComponent } from './product-feature/product-feature.compo
     PricingComponent,
     WhyUsComponent,
     ContactUsFormComponent,
-    ProductFeatureComponent
+    ProductFeatureComponent,
+    TestCampaignComponent
   ],
   providers: [
     AuthGuard,
@@ -271,7 +274,8 @@ import { ProductFeatureComponent } from './product-feature/product-feature.compo
     CampaignService,
     ReportsService,
     UndTrackingService,
-    RegisterService
+    RegisterService,
+    TestCampaignService
   ],
   entryComponents: [
     DidEventComponent,

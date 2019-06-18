@@ -1,4 +1,7 @@
-import {AbCampaign, Campaign, ClientEmailSettIdFromAddrSrp, ClientFromAddressAndSrp} from "../_models/campaign";
+import {
+  AbCampaign, Campaign, ClientEmailSettIdFromAddrSrp, ClientFromAddressAndSrp,
+  TestCampaign
+} from "../_models/campaign";
 import {Observable} from "rxjs/Observable";
 import {HttpClient} from "@angular/common/http";
 import {AppSettings} from "../_settings/app-settings";
@@ -25,6 +28,11 @@ export class CampaignService {
   saveAbCampaign(abCampaign: AbCampaign): Observable<Campaign> {
     console.log(abCampaign);
     return this.httpClient.post<Campaign>(AppSettings.API_ENDPOINT_CLIENT_CAMPAIGN_SAVE_AB, abCampaign);
+  }
+
+  sendTestCampaign(testCampaign: TestCampaign): Observable<any> {
+    console.log(testCampaign);
+    return this.httpClient.post(AppSettings.API_ENDPOINT_CLIENT_CAMPAIGN_SEND_TESTCAMPAIGN, testCampaign);
   }
 
   getCampaignList(): Observable<Campaign[]> {

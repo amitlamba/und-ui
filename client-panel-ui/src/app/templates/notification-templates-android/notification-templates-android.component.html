@@ -35,9 +35,16 @@
         <td>{{nt.name}}</td>
         <td>{{nt.title}}</td>
         <td>{{nt.body}}</td>
-        <td><button class="btn btn-outline-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Clone Template" (click)="onClone(nt)"><i class="far fa-clone"></i></button> <button class="btn btn-outline-primary btn-sm"><i class="fas fa-trash-alt"></i></button></td>
+        <td>
+          <button class="btn btn-outline-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Clone Template" (click)="onClone(nt)"><i class="far fa-clone"></i></button>
+          <!--<button class="btn btn-outline-primary btn-sm"><i class="fas fa-trash-alt"></i></button>-->
+          <button type="button" class="btn btn-sm btn-outline-primary" data-toggle="modal" data-target="#testCampaignModal"
+                  (click)="setTestCampaign(nt)">Test</button>
+        </td>
       </tr>
       </tbody>
     </table>
   </div>
+
+  <app-test-campaign></app-test-campaign>
 </div>

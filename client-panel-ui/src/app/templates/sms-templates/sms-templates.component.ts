@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import {SmsTemplate} from "../../_models/sms";
 import {TemplatesService} from "../../_services/templates.service";
 import {Router, RouterStateSnapshot} from "@angular/router";
+import {TestCampaignService} from "../../_services/test-campaign.service";
+import {CampaignType, TestCampaign} from "../../_models/campaign";
 
 @Component({
   selector: 'app-sms-templates',
@@ -31,7 +33,8 @@ export class SmsTemplatesComponent implements OnInit {
   }
 
   constructor(private templatesService: TemplatesService,
-              private router: Router) {
+              private router: Router,
+              private testCampaignService: TestCampaignService) {
     this.state = router.routerState.snapshot;
   }
 
@@ -70,4 +73,10 @@ export class SmsTemplatesComponent implements OnInit {
 
   }
 
+  setTestCampaign(nt: SmsTemplate) {
+    console.log(nt);
+    this.testCampaignService.testCampaign = new TestCampaign();
+    this.testCampaignService.testCampaign.campaignType = CampaignType.SMS;
+    this.testCampaignService.testCampaign.smsTemplate = nt;
+  }
 }

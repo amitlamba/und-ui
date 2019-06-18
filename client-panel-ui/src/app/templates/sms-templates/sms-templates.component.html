@@ -55,9 +55,16 @@
         <td>{{st.from}}</td>
         <td>{{st.messageType}}</td>
         <td>{{st.smsTemplateBody}}</td>
-        <td><button class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#exampleModalLong" (click)="onEdit(st)"><i class="far fa-clone"></i></button> <button class="btn btn-outline-primary btn-sm disabled"><i class="fas fa-trash-alt"></i></button></td>
+        <td>
+          <button class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#exampleModalLong" (click)="onEdit(st)"><i class="far fa-clone"></i></button>
+          <button class="btn btn-outline-primary btn-sm disabled"><i class="fas fa-trash-alt"></i></button>
+          <button type="button" class="btn btn-sm btn-outline-primary" data-toggle="modal" data-target="#testCampaignModal"
+                  (click)="setTestCampaign(st)">Test</button>
+        </td>
       </tr>
       </tbody>
     </table>
   </div>
+
+  <app-test-campaign></app-test-campaign>
 </div>
