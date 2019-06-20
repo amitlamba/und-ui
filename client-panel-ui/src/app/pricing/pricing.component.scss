@@ -1,31 +1,52 @@
-header {
-  background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.9)), url("/assets/img/pricing.jpg") !important;
-  background-position: 55% !important;
-  height: 50vh !important;
+#homepage {
+  background-color: #F7F8FA;
 }
 
-.pricing {
+header{
+
+    background-position: 55% !important;
+    height: 20vh !important;
+}
+
+.title {
   position: absolute;
-  top: 50%;
-  left: 50%;
+  top: 20%;
+  left: 47%;
   transform: translate(-50%, -50%);
 }
-
+//.pricing{
+//  position: absolute;
+//  font-weight: 700;
+//  letter-spacing: 1px;
+//  top: 29%;
+//  left: 50%;
+//  transform: translate(-50%, -50%);
+//}
 .pricingSection {
 
   margin-left: 40px;
   margin-right: 40px;
 }
 .benefits-paragraph {
+  font-weight: 600;
+  margin-left:4em;
+  margin-bottom: 1.5em;
+  font-size: 15px;
   letter-spacing: 1px;
+  padding: 0px;
+  text-align: left;
+  transition: transform 1.5s;
+  font-family: Montserrat;
+  display: block;
+
 }
-.dot {
-  height: 10px;
-  width: 10px;
-  background-color:#000000;
-  border-radius: 50%;
-  margin-right: 2em;
-  display: inline-block;
+
+.fa-check-circle {
+  color:green;
+  font-size: 20px;
+  margin-left:1em;
+  margin-right: 1em;
+  float:left;
 }
 
 
