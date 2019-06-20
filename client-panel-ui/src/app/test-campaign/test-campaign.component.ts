@@ -81,7 +81,7 @@ export class TestCampaignComponent implements OnInit {
     return false;
   }
 
-  sendTestCampaign(f: any) {
+  sendTestCampaign() {
     // this.testCampaignService.testCampaign.toAddresses = "jogender.live@gmail.com";
     // this.testCampaignService.testCampaign.fromUser = "userndot19@gmail.com";
     // this.testCampaignService.testCampaign.findByType = "Email";

@@ -47,7 +47,7 @@
               </div>
               <div class="form-group col-9" *ngIf="findByType">
                 <label for="ids">{{findByType}}s</label>
-                <textarea class="form-control" id="ids" rows="3"></textarea>
+                <textarea class="form-control" id="ids" [(ngModel)]="toAddresses" rows="3" [ngModelOptions]="{standalone: true}"></textarea>
                 <div class="text-muted small">*Comma Separated IDs. *The User profile must exist for these IDs</div>
                 <div class="text-muted small">*Example: abc@example.com,xyz@abc.com</div>
               </div>
