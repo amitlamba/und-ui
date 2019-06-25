@@ -93,7 +93,7 @@ export class DateComparatorComponent implements OnInit {
     showDropdowns: true,
     opens: "center",
     startDate: moment(),
-    endDate: moment(),
+    maxDate: moment(),
     ranges: {
       "Today": [moment(), moment().add("0", "day")],
       "Yesterday": [moment().subtract("1", "day"), moment().subtract("1","day")],
@@ -106,7 +106,7 @@ export class DateComparatorComponent implements OnInit {
   public singlePicker = {
     singleDatePicker: true,
     showDropdowns: true,
-    startDate: moment(),
+    maxDate: moment(),
     opens: "right",
     locale: {
       format: "YYYY-MM-DD"

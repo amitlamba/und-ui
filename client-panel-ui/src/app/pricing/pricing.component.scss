@@ -2,33 +2,31 @@
   background-color: #F7F8FA;
 }
 
-header{
-
-    background-position: 55% !important;
-    height: 20vh !important;
+.header{
+  background-position: 55% !important;
+  height: 40vh !important;
+  background-color: #f2f4eb;
+  //transform: translate(-50%, -50%);
 }
 
 .title {
-  position: absolute;
-  top: 20%;
-  left: 47%;
-  transform: translate(-50%, -50%);
+  position: relative;
+  width:50%;
+  top:20%;
+  left: 25%;
 }
-//.pricing{
-//  position: absolute;
-//  font-weight: 700;
-//  letter-spacing: 1px;
-//  top: 29%;
-//  left: 50%;
-//  transform: translate(-50%, -50%);
-//}
 .pricingSection {
+  margin-top: 4em;
+  margin-left: 4em;
+  margin-right: 3em;
+}
 
+.card {
   margin-left: 40px;
   margin-right: 40px;
 }
 .benefits-paragraph {
-  font-weight: 600;
+  font-weight: 500;
   margin-left:4em;
   margin-bottom: 1.5em;
   font-size: 15px;
@@ -38,7 +36,6 @@ header{
   transition: transform 1.5s;
   font-family: Montserrat;
   display: block;
-
 }
 
 .fa-check-circle {
@@ -47,6 +44,26 @@ header{
   margin-left:1em;
   margin-right: 1em;
   float:left;
+}
+h1 {
+  letter-spacing: 1px;
+  word-spacing: 2px;
+  font-family: Montserrat;
+  text-align: center;
+}
+
+h2 {
+  color:white;
+}
+h4 {
+  font-family: Montserrat;
+  font-weight: 600;
+  letter-spacing: 1px;
+  word-spacing: 2px;
+  text-align: center;
+}
+.card-header {
+  background-color: #007bff;
 }
 
 

@@ -45,6 +45,9 @@ export class FindUsersComponent implements OnInit {
     this.inputPlaceholder = "Email";
     this.eventUserList = this.segmentService.eventUserList;
     this.route.fragment.subscribe(fragment => { this.fragment = fragment; });
+
+      this.eventUserList=null;
+
   }
 
   ngAfterViewInit(): void {
