@@ -1,23 +1,25 @@
 
-.list-group{
-  //width: 25rem;
-}
 .list-group-item {
   font-size: 1.2em;
   font-weight: bold;
-  padding: 10px;
+  padding: 0px;
   letter-spacing: 1px;
   word-spacing: 2px;
   text-align: center;
 }
-.list-group :hover {
-  background-color: blue;
+.list-group-item :hover {
+  background-color: #132E63;
   color: #ffffff;
 }
-
-.margin {
-  margin-left: auto;
+.nav-link {
+  height:3em;
 }
+
+
+.card {
+ //height:410px;
+}
+
 .product {
   margin-top: 6em;
   letter-spacing:1px;
@@ -27,7 +29,6 @@ img {
 }
 .section-paragraph {
   font-weight: 600;
-  font-family: Montserrat;
-  letter-spacing: 1px;
+  letter-spacing: 1.5px;
   font-size: 16px;
 }

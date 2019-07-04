@@ -1,166 +1,197 @@
-<section class="py-5 px-4 container-fluid" style="background-color: #f7f8fa;">
-  <div class="container">
+<section class="header py-5 px-4" style="background-color: #ebecf7;">
     <div class="row justify-content-center py-3">
       <h2 class="display-4 text-uppercase text-center col-12 text-primary font-weight-bold">product features</h2>
     </div>
+</section>
+    <section class="container-fluid" style="background-color: #f7f8fa;border: 1px solid #f7f8fa">
+  <div class="container mb-5 ">
+    <div class="col-md-12 mt-5">
+      <div class="row">
+
+        <div class="nav flex-column nav-pills col-md-4" id="v-pills-tab" role="tablist">
+          <ul class="list-group">
+          <li class="list-group-item text-capitalize"><a class="nav-link active" id="v-pills-integrate-tab" data-toggle="pill" href="#v-pills-integrate" role="tab"
+             aria-controls="v-pills-integrate" aria-selected="true">Easy to integrate</a></li>
+            <li class="list-group-item text-capitalize"> <a class="nav-link" id="v-pills-testing-tab" data-toggle="pill" href="#v-pills-testing" role="tab"
+             aria-controls="v-pills-testing" aria-selected="false">a/b testing / experiment</a></li>
+            <li class="list-group-item text-capitalize"><a class="nav-link" id="v-pills-geolocation-tab" data-toggle="pill" href="#v-pills-geolocation" role="tab"
+             aria-controls="v-pills-geolocation" aria-selected="false">geolocation based targeting</a></li>
+            <li class="list-group-item text-capitalize"><a class="nav-link" id="v-pills-customized-tab" data-toggle="pill" href="#v-pills-customized" role="tab"
+             aria-controls="v-pills-customized" aria-selected="false">customized messaging</a></li>
+            <li class="list-group-item text-capitalize"> <a class="nav-link" id="v-pills-advanced-tab" data-toggle="pill" href="#v-pills-advanced" role="tab"
+             aria-controls="v-pills-advanced" aria-selected="false">advanced segmentation</a></li>
+            <li class="list-group-item text-capitalize"> <a class="nav-link" id="v-pills-multiple-tab" data-toggle="pill" href="#v-pills-multiple" role="tab"
+             aria-controls="v-pills-multiple" aria-selected="false">multiple channels for marketing</a></li>
+            <li class="list-group-item text-capitalize"><a class="nav-link" id="v-pills-realtime-tab" data-toggle="pill" href="#v-pills-realtime" role="tab"
+             aria-controls="v-pills-realtime" aria-selected="false">realtime reporting</a></li>
+            <li class="list-group-item text-capitalize"> <a class="nav-link" id="v-pills-scheduling-tab" data-toggle="pill" href="#v-pills-scheduling" role="tab"
+             aria-controls="v-pills-scheduling" aria-selected="false">ahead of time scheduling</a></li>
+          </ul>
+        </div>
 
 
-<div class="col-md-12 mt-5">
-    <div class="row">
-      <ul class="list-group col-md-4">
-        <li class="list-group-item text-capitalize" [ngClass]="{active:tab1 == 'tab1'}">Easy to integrate </li>
-        <li class="list-group-item text-capitalize" [ngClass]="{active:tab2 == 'tab2'}">a/b testing / experiment</li>
-        <li class="list-group-item text-capitalize" [ngClass]="{active:tab3 == 'tab3'}" >geolocation based targeting</li>
-        <li class="list-group-item text-capitalize" [ngClass]="{active:tab4 == 'tab4'}">customized messaging</li>
-        <li class="list-group-item text-capitalize" [ngClass]="{active:tab5 == 'tab5'}" >advanced segmentation</li>
-        <li class="list-group-item text-capitalize" [ngClass]="{active:tab6 == 'tab6'}">multiple channels for marketing</li>
-        <li class="list-group-item text-capitalize" [ngClass]="{active:tab7 == 'tab7'}">realtime reporting</li>
-        <li class="list-group-item text-capitalize" [ngClass]="{active:tab8 == 'tab8'}">ahead of time scheduling</li>
-      </ul>
 
-<!-- easy to integrate -->
-    <div class="card col-md-8" id="tab1">
-      <div class="card-body mt-5 mb-5 ml-3 mr-3" >
-        <div class="row">
-          <div class="col-md-6">
-            <h4 class="font-weight-bold section-title text-capitalize mb-0 pb-2 pt-4 text-primary">easy to
-              integrate </h4>
-            <p class="section-paragraph text-capitalize mt-2">
-              integration is a child’s game. just plug and play.you would be ready for use with very less effort.
-            </p>
+        <div class="tab-content card col-md-8" id="v-pills-tabContent" style="background-color: #ffffff">
+          <!--      easy to intergrate-->
+          <div class="tab-pane fade show  active" id="v-pills-integrate" role="tabpanel"
+               aria-labelledby="v-pills-integrate-tab">
+
+              <div class="card-body mt-5 mb-5 ml-5 mr-5">
+                <div class="row">
+                  <div class="col-md-6 mt-5 ">
+                    <h4 class="font-weight-bold section-title text-capitalize mb-0 pb-2 pt-4 text-primary">easy to
+                      integrate </h4>
+                    <p class="section-paragraph text-capitalize mt-2">
+                      integration is a child’s game. just plug and play.you would be ready for use with very less
+                      effort.
+                    </p>
+                  </div>
+                  <div class="col-md-6 mt-5 mb-0 pb-2 pt-4">
+                    <img class="ml-5" src="assets/img/userndot/product/1.svg">
+                  </div>
+                </div>
+              </div>
           </div>
-          <div class="col-md-6  mb-0 pb-2 pt-4">
-            <img class="ml-5" src="assets/img/userndot/product/1.svg">
+
+          <!--        abtesting feature-->
+          <div class="tab-pane fade" id="v-pills-testing" role="tabpanel" aria-labelledby="v-pills-testing-tab">
+              <div class="card-body mt-5 mb-5 ml-5 mr-5">
+                <div class="row">
+                  <div class="col-md-6 mt-5">
+                    <h4 class="font-weight-bold section-title text-capitalize mb-0 pb-2 pt-4 text-primary">a/b testing /
+                      experiment </h4>
+                    <p class="section-paragraph text-capitalize mt-2">experiment with different kind of messaging and
+                      keep the best,
+                      and
+                      gradually reach towards the ideal.
+                    </p>
+                  </div>
+                  <div class="col-md-6 mt-5 mb-0 pb-2 pt-4">
+                    <img class="ml-5" src="assets/img/userndot/product/2.svg">
+                  </div>
+                </div>
+              </div>
           </div>
+
+            <!--        geolocation -->
+            <div class="tab-pane fade" id="v-pills-geolocation" role="tabpanel"
+                 aria-labelledby="v-pills-geolocation-tab">
+            <div class=" card-body mt-5 mb-5 ml-5 mr-5">
+              <div class="row">
+                <div class="col-md-6 mt-5">
+                  <h4 class="font-weight-bold section-title text-capitalize mb-0 pb-2 pt-4 text-primary">geolocation
+                    based targeting </h4>
+                  <p class="section-paragraph text-capitalize mt-2">you could target your users based on their
+                    geographical
+                    locations.
+                  </p>
+                </div>
+                <div class="col-md-6  mt-5 mb-0 pb-2 pt-4">
+                  <img class="ml-5" src="assets/img/userndot/product/3.svg">
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+        <!--        customizing feature-->
+        <div class="tab-pane fade" id="v-pills-customized" role="tabpanel" aria-labelledby="v-pills-customized-tab">
+            <div class="card-body mt-5 mb-5 ml-5 mr-5">
+              <div class="row">
+                <div class="col-md-6 mt-5">
+                  <h4 class="font-weight-bold section-title text-capitalize mb-0 pb-2 pt-4 text-primary">customized
+                    messaging </h4>
+                  <p class="section-paragraph text-capitalize mt-2">use the details and behaviour of your user to send
+                    them custom
+                    messages.
+                  </p>
+                </div>
+                <div class="col-md-6  mt-5 mb-0 pb-2 pt-4">
+                  <img class="ml-5" src="assets/img/userndot/product/4.svg">
+                </div>
+              </div>
+            </div>
+          </div>
+
+        <!--   advanced segmentation   -->
+        <div class="tab-pane fade" id="v-pills-advanced" role="tabpanel" aria-labelledby="v-pills-advanced-tab">
+            <div class="card-body mt-5 mb-5 ml-5 mr-5">
+              <div class="row">
+                <div class="col-md-6 mt-5">
+                  <h4 class="font-weight-bold section-title text-capitalize mb-0 pb-2 pt-4 text-primary">advanced
+                    segmentation </h4>
+                  <p class="section-paragraph text-capitalize mt-2">segment your users with the help of our advanced
+                    segmentation tool
+                    based on user details, user behaviour and geo locations.
+                  </p>
+                </div>
+                <div class="col-md-6  mt-5 mb-0 pb-2 pt-4">
+                  <img class="ml-5" src="assets/img/userndot/product/5.svg">
+                </div>
+              </div>
+            </div>
+          </div>
+
+        <!--    multiple channels for marketing  -->
+        <div class="tab-pane fade" id="v-pills-multiple" role="tabpanel" aria-labelledby="v-pills-multiple-tab">
+            <div class="card-body mt-5 mb-5 ml-5 mr-5">
+              <div class="row">
+                <div class="col-md-6 mt-5">
+                  <h4 class="font-weight-bold section-title text-capitalize mb-0 pb-2 pt-4 text-primary">multiple
+                    channels for marketing </h4>
+                  <p class="section-paragraph text-capitalize mt-2">email, sms, mobile notifications, in app
+                    notification, browser
+                    push
+                    notifications,
+                    and browser notifications all at one place.
+                  </p>
+                </div>
+                <div class="col-md-6  mt-5 mb-0 pb-2 pt-4">
+                  <img class="ml-5" src="assets/img/userndot/product/6.svg">
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <!--   realtime reporting   -->
+        <div class="tab-pane fade" id="v-pills-realtime" role="tabpanel" aria-labelledby="v-pills-realtime-tab">
+            <div class="card-body mt-5 mb-5 ml-5 mr-5">
+              <div class="row">
+                <div class="col-md-6 mt-5">
+                  <h4 class="font-weight-bold section-title text-capitalize mb-0 pb-2 pt-4 text-primary">realtime
+                    reporting </h4>
+                  <p class="section-paragraph text-capitalize mt-2">get quick and realtime feedback about the users and
+                    user
+                    behaviour.
+                  </p>
+                </div>
+                <div class="col-md-6  mt-5 mb-0 pb-2 pt-4">
+                  <img class="ml-5" src="assets/img/userndot/product/7.svg">
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <!--   ahead of time scheduling   -->
+        <div class="tab-pane fade" id="v-pills-scheduling" role="tabpanel" aria-labelledby="v-pills-scheduling-tab">
+            <div class="card-body mt-5 mb-5 ml-5 mr-5">
+              <div class="row">
+                <div class="col-md-6 mt-5">
+                  <h4 class="font-weight-bold section-title text-capitalize mb-0 pb-2 pt-4 text-primary">ahead of time
+                    scheduling </h4>
+                  <p class="section-paragraph text-capitalize mt-2">schedule campaigns at the convenience of your time.
+                  </p>
+                </div>
+                <div class="col-md-6  mt-5 mb-0 pb-2 pt-4">
+                  <img class="ml-5" src="assets/img/userndot/product/8.svg">
+                </div>
+              </div>
+            </div>
+        </div>
+
         </div>
       </div>
     </div>
-
-<!--      AbTesting feature-->
-      <div class="card col-md-8" id="tab2">
-        <div class="card-body mt-5 mb-5 ml-3 mr-3" >
-          <div class="row">
-            <div class="col-md-6">
-              <h4 class="font-weight-bold section-title text-capitalize mb-0 pb-2 pt-4 text-primary">a/b testing / experiment </h4>
-              <p class="section-paragraph text-capitalize mt-2">experiment with different kind of messaging and keep the best,
-                and
-                gradually reach towards the ideal.
-              </p>
-            </div>
-            <div class="col-md-6  mb-0 pb-2 pt-4">
-              <img class="ml-5" src="assets/img/userndot/product/2.svg">
-            </div>
-          </div>
-        </div>
-      </div>
-
-<!--    geolocation based targeting  -->
-      <div class="card col-md-8" id="tab3">
-        <div class="card-body mt-5 mb-5 ml-3 mr-3" >
-          <div class="row">
-            <div class="col-md-6">
-              <h4 class="font-weight-bold section-title text-capitalize mb-0 pb-2 pt-4 text-primary">geolocation based targeting </h4>
-              <p class="section-paragraph text-capitalize mt-2">you could target your users based on their geographical
-                locations.
-              </p>
-            </div>
-            <div class="col-md-6  mb-0 pb-2 pt-4">
-              <img class="ml-5" src="assets/img/userndot/product/3.svg">
-            </div>
-          </div>
-        </div>
-      </div>
-
-<!--  customized messaging    -->
-      <div class="card col-md-8" id="tab4">
-        <div class="card-body mt-5 mb-5 ml-3 mr-3" >
-          <div class="row">
-            <div class="col-md-6">
-              <h4 class="font-weight-bold section-title text-capitalize mb-0 pb-2 pt-4 text-primary">customized messaging </h4>
-              <p class="section-paragraph text-capitalize mt-2">use the details and behaviour of your user to send them custom
-                messages.
-              </p>
-            </div>
-            <div class="col-md-6  mb-0 pb-2 pt-4">
-              <img class="ml-5" src="assets/img/userndot/product/4.svg">
-            </div>
-          </div>
-        </div>
-      </div>
-
-<!--   advanced segmentation   -->
-      <div class="card col-md-8" id="tab5">
-        <div class="card-body mt-5 mb-5 ml-3 mr-3" >
-          <div class="row">
-            <div class="col-md-6">
-              <h4 class="font-weight-bold section-title text-capitalize mb-0 pb-2 pt-4 text-primary">advanced segmentation </h4>
-              <p class="section-paragraph text-capitalize mt-2">segment your users with the help of our advanced segmentation tool
-                based on user details, user behaviour and geo locations.
-              </p>
-            </div>
-            <div class="col-md-6  mb-0 pb-2 pt-4">
-              <img class="ml-5" src="assets/img/userndot/product/5.svg">
-            </div>
-          </div>
-        </div>
-      </div>
-
-<!--    multiple channels for marketing  -->
-      <div class="card col-md-8" id="tab6">
-        <div class="card-body mt-5 mb-5 ml-3 mr-3" >
-          <div class="row">
-            <div class="col-md-6">
-              <h4 class="font-weight-bold section-title text-capitalize mb-0 pb-2 pt-4 text-primary">multiple channels for marketing </h4>
-              <p class="section-paragraph text-capitalize mt-2">email, sms, mobile notifications, in app notification, browser
-                push
-                notifications,
-                and browser notifications all at one place.
-              </p>
-            </div>
-            <div class="col-md-6  mb-0 pb-2 pt-4">
-              <img class="ml-5" src="assets/img/userndot/product/6.svg">
-            </div>
-          </div>
-        </div>
-      </div>
-
-<!--   realtime reporting   -->
-      <div class="card col-md-8" id="tab7">
-        <div class="card-body mt-5 mb-5 ml-3 mr-3" >
-          <div class="row">
-            <div class="col-md-6">
-              <h4 class="font-weight-bold section-title text-capitalize mb-0 pb-2 pt-4 text-primary">realtime reporting </h4>
-              <p class="section-paragraph text-capitalize mt-2">get quick and realtime feedback about the users and user
-                behaviour.
-              </p>
-            </div>
-            <div class="col-md-6  mb-0 pb-2 pt-4">
-              <img class="ml-5" src="assets/img/userndot/product/7.svg">
-            </div>
-          </div>
-        </div>
-      </div>
-
-<!--   ahead of time scheduling   -->
-      <div class="card col-md-8" id="tab8">
-        <div class="card-body mt-5 mb-5 ml-3 mr-3" >
-          <div class="row">
-            <div class="col-md-6">
-              <h4 class="font-weight-bold section-title text-capitalize mb-0 pb-2 pt-4 text-primary">ahead of time scheduling </h4>
-              <p class="section-paragraph text-capitalize mt-2">schedule campaigns at the convenience of your time.
-              </p>
-            </div>
-            <div class="col-md-6  mb-0 pb-2 pt-4">
-              <img class="ml-5" src="assets/img/userndot/product/8.svg">
-            </div>
-          </div>
-        </div>
-      </div>
-
-    </div>
-</div>
-
-
   </div>
 </section>
 

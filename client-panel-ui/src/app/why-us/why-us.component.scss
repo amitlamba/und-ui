@@ -1,20 +1,22 @@
-.header-section {
-  background-color: #F7F8FA;
+.header {
+  background-color: #ebecf7;
 }
-.cursor {
-  cursor: grabbing;
-}
+
 .main {
   background-color: #F7F8FA;
 }
+
+.cursor {
+  cursor: grabbing;
+}
+
 .benefits-paragraph {
-  font-family: Montserrat;
-  letter-spacing: 1px;
+  letter-spacing: 1.5px;
   font-weight: 600;
+  word-spacing: 2px;
 
 }
 h5 {
-  font-family: Montserrat;
-  letter-spacing: 1px;
+  letter-spacing: 1.5px;
   font-weight: 600;
 }
