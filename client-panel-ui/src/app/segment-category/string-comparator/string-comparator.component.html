@@ -1,4 +1,4 @@
-<div class="d-flex flex-row">
+<div class="d-flex flex-row" style="width:150%;">
   <div class="form-group mx-2">
     <select class="form-control" (change)="dropdownChanged($event.target.value)" [ngModel]="operator">
       <option value="" disabled selected>--Select--</option>
@@ -22,6 +22,7 @@
              [value]="localValues"
              [options]="select2Options"
              (valueChanged)="select2ValueChanged($event)"
-             [width]="380"></select2>
+             [width]="300"
+              ></select2>
   </div>
 </div>

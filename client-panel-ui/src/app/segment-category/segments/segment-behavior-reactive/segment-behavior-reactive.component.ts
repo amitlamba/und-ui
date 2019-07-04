@@ -190,7 +190,8 @@ export class SegmentBehaviorReactiveComponent implements OnInit, OnChanges {
       name: [v.name],
       dateFilter: this.fb.group({
         operator: [v.dateFilter.operator],
-        values: [v.dateFilter.values]
+        values: [v.dateFilter.values],
+        valueUnit: [v.dateFilter.valueUnit]
       }),
       propertyFilters: this.fb.array(this.createPropertyFilters(v.propertyFilters)),
       whereFilter: this.fb.group({

@@ -77,6 +77,7 @@ export class DidEventReactiveComponent implements OnInit ,OnChanges{
 
   set valueUnit(value: string) {
     this._valueUnit = value;
+    this.didEventForm.get('dateFilter').get('valueUnit').setValue(this._valueUnit);
   }
 
   private _valueUnit:string;

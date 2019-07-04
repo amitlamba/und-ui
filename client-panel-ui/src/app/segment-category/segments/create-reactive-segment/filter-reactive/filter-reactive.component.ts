@@ -42,6 +42,7 @@ export class FilterReactiveComponent implements OnInit {
     }
   }
 
+
   get propertyFilterOperator(): string {
     return this._propertyFilterOperator;
   }
@@ -143,7 +144,8 @@ export class FilterReactiveComponent implements OnInit {
     if(!this.selectedProperty) {
       this.selectedProperty = this.defaultProperties.find(data => data.name === event.target.value);
     }
-    this.filterForm.get('type').setValue(PropertyType[this.selectedProperty.dataType]);
+
+    this.filterForm.get('type').setValue(this.selectedProperty.dataType);
     console.log(this.selectedProperty.dataType);
   }
 

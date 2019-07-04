@@ -46,7 +46,6 @@ export class FindUsersComponent implements OnInit {
     this.eventUserList = this.segmentService.eventUserList;
     this.route.fragment.subscribe(fragment => { this.fragment = fragment; });
 
-      this.eventUserList=null;
 
   }
 

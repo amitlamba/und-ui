@@ -49,7 +49,7 @@ export class Event {
 export class DateFilter {
   operator: DateOperator;
   values: string[];
-  valueUnit: string;
+  valueUnit: string="NONE";
 }
 
 export class PropertyFilter {

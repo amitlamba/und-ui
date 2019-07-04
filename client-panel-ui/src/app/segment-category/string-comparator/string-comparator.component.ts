@@ -90,7 +90,7 @@ export class StringComparatorComponent implements OnInit, OnChanges {
       this.stringComparatorOperators = Object.keys(this.segmentService.stringComparatorMetadata);
     this.select2Options = {
       multiple: true,
-      placeholder:"Please select one or more values"
+      placeholder:"Please select one or more values",
     }
     this.select2SingleSelectOptions = {
       multiple: false,

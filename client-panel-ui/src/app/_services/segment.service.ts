@@ -620,7 +620,7 @@ export class SegmentService {
         if(!event.name) error.push("Event Name Must be specified for event number "+(index+1)+" in " + notString);
         if(!event.dateFilter) error.push("Date condition Must be specified for event "+event.name+" in " + notString);
         if(!event.dateFilter || !event.dateFilter.operator) error.push("Date condition operator Must be specified for event "+event.name+" in " + notString);
-        if(!event.dateFilter || !event.dateFilter.values.length || event.dateFilter.values[0] == null) error.push("Date condition values Must be specified for event event "+event.name+" in " + notString);
+        if (!(event.dateFilter.operator == "Today") && (!event.dateFilter || !event.dateFilter.values.length || event.dateFilter.values[0] == null)) error.push("Date condition values Must be specified for event event " + event.name + " in " + notString);
         if(event.propertyFilters && event.propertyFilters.length > 0) {
           event.propertyFilters.forEach(
             (pf, i) => {
