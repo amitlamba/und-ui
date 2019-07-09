@@ -58,7 +58,7 @@ export class PropertyFilter {
   filterType: PropertyFilterType;
   operator: string;
   values: string[];
-  valueUnit: string;
+  valueUnit: string="NONE";
 }
 
 export enum PropertyType {

@@ -103,7 +103,7 @@
         <p *ngIf="showSuccessMessage" class="mb-0">Submitted Successfully.</p>
         <p *ngIf="showErrorMessage" class="mb-0">{{errorMessage}}</p>
       </div>
-      <button class="btn btn-primary w-100"
+      <button class="btn btn-secondary w-100"
               (click)="submitContactUsForm()"
               [disabled]="contactUsForm.invalid || loading || !recaptchaToken || phoneNumberLength <10">Submit
       </button>

@@ -1,16 +1,15 @@
-
 .list-group-item {
   font-size: 1.2em;
-  font-weight: bold;
   padding: 0px;
   letter-spacing: 1px;
-  word-spacing: 2px;
   text-align: center;
 }
+
 .list-group-item :hover {
   background-color: #132E63;
   color: #ffffff;
 }
+
 .nav-link {
   height:3em;
 }
@@ -28,7 +27,6 @@ img {
   height: 10em;
 }
 .section-paragraph {
-  font-weight: 600;
-  letter-spacing: 1.5px;
-  font-size: 16px;
+  letter-spacing: 1.0px;
+  font-size: 1.1rem;
 }

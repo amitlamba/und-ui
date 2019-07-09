@@ -43,12 +43,19 @@ export class FindUsersComponent implements OnInit {
 
   ngOnInit() {
     this.inputPlaceholder = "Email";
-    this.eventUserList = this.segmentService.eventUserList;
     this.route.fragment.subscribe(fragment => { this.fragment = fragment; });
-
+    this.userlist();
 
   }
 
+  userlist() {
+    if(this.route.snapshot.queryParams['/segment/user-profile']||this.fragment){
+      this.eventUserList = this.segmentService.eventUserList;
+    }
+    else {
+      this.eventUserList=null;
+    }
+  }
   ngAfterViewInit(): void {
     this.scrollToFragment();
   }
@@ -199,5 +206,6 @@ export class FindUsersComponent implements OnInit {
         this.messageService.addInfoMessage("No Such user Exists!!");
       });
   }
+
 
 }

@@ -1,20 +1,23 @@
-<div id="homepage">
-  <div class="pricing-header">
-    <div class="title mt-4" >
-      <span class="header text-primary font-weight-bold text-capitalize">Pricing Plan</span><br/><span class="priceheader">Get 1-month free trial</span>
-      <p class="subtag mt-4">SignUp quickly.Get 1 month risk free trial in SAAS Package</p>
-      <p class="subtag">Choose a plan that’s right for your business</p>
+<section id="homepage">
+  <section class="header-section card" style="min-height: 30vh;">
+  <div class="pricing-header text-center card-body">
+    <div class="title mt-2">
+      <span class="header text-primary w200 text-capitalize">Pricing Plan</span><br/><span class="priceheader w300">Get 1-month free trial</span>
+      <p class="subtag w100 mt-4">SignUp quickly. Get 1 month risk free trial in SAAS Package</p>
+      <p class="subtag w100">Choose a plan that’s right for your business</p>
     </div>
   </div>
-
-  <div class="row col-md-12">
-    <div class="col-md-4  pricingSection">
+  </section>
+<section class="main"  style="background-color: #ffffff;">
+  <div class="col-md-12 mt-3">
+    <div class="row mt-5 ml-5 mr-5">
+    <div class="col-md-5 mt-5 mb-4 ml-5 mr-5">
       <div class="card h-100 ">
         <div class="card-header">
-          <h2 class="text-center font-weight-bold">One Time On Premises</h2>
+          <h2 class="text-center w200 pt-2">One Time On Premises</h2>
         </div>
-        <div class="card-body">
-            <i class="fas fa-check-circle"></i> <p class="benefits-paragraph ">Pay one time</p>
+        <div class="card-body w200">
+            <i class="fas fa-check-circle"></i> <p class="benefits-paragraph">Pay one time</p>
             <i class="fas fa-check-circle"></i> <p class="benefits-paragraph ">Lifetime free to use</p>
             <i class="fas fa-check-circle"></i> <p class="benefits-paragraph ">Support for 1 Year</p>
           <i class="fas fa-check-circle"></i> <p class="benefits-paragraph ">Easy To Integrate</p>
@@ -28,16 +31,16 @@
           <i class="fas fa-check-circle"></i> <p class="benefits-paragraph ">Contact Us for pricing</p>
         </div>
         <div class="card-footer text-center">
-          <button class="btn btn-primary" (click)="ContactForm(target)">Contact Us</button>
+          <button class="btn btn-secondary" (click)="ContactForm(target)">Contact Us</button>
         </div>
       </div>
     </div>
-    <div class="col-md-4 pricingSection">
+    <div class="col-md-5 mt-5 mb-4 ml-5 mr-5">
       <div class="card h-100 w-auto">
         <div class="card-header">
-        <h2 class="text-center font-weight-bold">SAAS</h2>
-        </div>
-        <div class="card-body">
+        <h2 class="text-center w200 pt-2">SAAS</h2>
+        </div>s
+        <div class="card-body w200">
           <i class="fas fa-check-circle"></i> <p class="benefits-paragraph ">Pay as you go</p>
           <i class="fas fa-check-circle"></i> <p class="benefits-paragraph">Annual and Semi Annual Subscription</p>
           <i class="fas fa-check-circle"></i> <p class="benefits-paragraph ">Create your account and you are good to go</p>
@@ -55,13 +58,15 @@
           <i class="fas fa-check-circle"></i> <p class="benefits-paragraph ">Contact Us for pricing</p>
         </div>
         <div class="card-footer text-center">
-          <button class="btn btn-primary" (click)="ContactForm(target) ">Contact Us</button>
+          <button class="btn btn-secondary" (click)="ContactForm(target) ">Contact Us</button>
         </div>
       </div>
     </div>
   </div>
+  </div>
+</section>
   <div #target>
     <app-contact-us-form></app-contact-us-form>
   </div>
-</div>
+</section>
 

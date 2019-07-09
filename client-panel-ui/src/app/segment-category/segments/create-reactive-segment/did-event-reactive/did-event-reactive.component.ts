@@ -181,7 +181,8 @@ export class DidEventReactiveComponent implements OnInit ,OnChanges{
       name: [propertyFilter.name],
       type: [propertyFilter.type],
       operator: [propertyFilter.operator],
-      values: [propertyFilter.values]
+      values: [propertyFilter.values],
+      valueUnit:[propertyFilter.valueUnit]
     });
   }
 

@@ -1,22 +1,32 @@
 .header {
-  background-color: #ebecf7;
+  background-color: #F7F8FA;
+  min-height: 35vh;
 }
 
 .main {
-  background-color: #F7F8FA;
+  background-color: #ffffff;
 }
 
 .cursor {
   cursor: grabbing;
 }
 
-.benefits-paragraph {
-  letter-spacing: 1.5px;
-  font-weight: 600;
-  word-spacing: 2px;
-
+.section-title {
+  font-size: 1.3rem;
 }
+
+.benefits-paragraph {
+  font-size: 1.0rem;
+}
+
+.section-paragraph {
+  font-size: 1.0rem;
+}
+
 h5 {
-  letter-spacing: 1.5px;
-  font-weight: 600;
+  letter-spacing: 1.0px;
+}
+
+h2 {
+  line-height: 1.2;
 }
