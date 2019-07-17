@@ -132,6 +132,15 @@ import { PricingComponent } from './pricing/pricing.component';
 import { WhyUsComponent } from './why-us/why-us.component';
 import { ContactUsFormComponent } from './contact-us-form/contact-us-form.component';
 import { ProductFeatureComponent } from './product-feature/product-feature.component';
+import { ProductFeatureDetailComponent } from './product-feature/product-feature-detail/product-feature-detail.component';
+import { SegmentFeatureComponent } from './product-feature/segment-feature/segment-feature.component';
+import { AbTestingFeatureComponent } from './product-feature/ab-testing-feature/ab-testing-feature.component';
+import { MarketingFeatureComponent } from './product-feature/marketing-feature/marketing-feature.component';
+import { RealtimeReportingComponent } from './product-feature/realtime-reporting/realtime-reporting.component';
+import { TimeScheduleComponent } from './product-feature/time-schedule/time-schedule.component';
+import { GeolocationBasedTargetingComponent } from './product-feature/geolocation-based-targeting/geolocation-based-targeting.component';
+import { EasyIntegrateComponent } from './product-feature/easy-integrate/easy-integrate.component';
+import { CustomizedMessageComponent } from './product-feature/customized-message/customized-message.component';
 
 
 @NgModule({
@@ -255,7 +264,16 @@ import { ProductFeatureComponent } from './product-feature/product-feature.compo
     PricingComponent,
     WhyUsComponent,
     ContactUsFormComponent,
-    ProductFeatureComponent
+    ProductFeatureComponent,
+    ProductFeatureDetailComponent,
+    SegmentFeatureComponent,
+    AbTestingFeatureComponent,
+    MarketingFeatureComponent,
+    RealtimeReportingComponent,
+    TimeScheduleComponent,
+    GeolocationBasedTargetingComponent,
+    EasyIntegrateComponent,
+    CustomizedMessageComponent
   ],
   providers: [
     AuthGuard,

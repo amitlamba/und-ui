@@ -56,6 +56,15 @@ import {CreateSegmentComponent} from "./segment-category/segments/create-segment
 import {CreateLiveSegmentComponent} from "./segment-category/segments/live-segments/create-live-segment/create-live-segment.component";
 import {WhyUsComponent} from "./why-us/why-us.component";
 import {ProductFeatureComponent} from "./product-feature/product-feature.component";
+import {ProductFeatureDetailComponent} from "./product-feature/product-feature-detail/product-feature-detail.component";
+import {AbTestingFeatureComponent} from "./product-feature/ab-testing-feature/ab-testing-feature.component";
+import {GeolocationBasedTargetingComponent} from './product-feature/geolocation-based-targeting/geolocation-based-targeting.component';
+import {RealtimeReportingComponent} from './product-feature/realtime-reporting/realtime-reporting.component';
+import {MarketingFeatureComponent} from "./product-feature/marketing-feature/marketing-feature.component";
+import {SegmentFeatureComponent} from "./product-feature/segment-feature/segment-feature.component";
+import {TimeScheduleComponent} from "./product-feature/time-schedule/time-schedule.component";
+import {CustomizedMessageComponent} from "./product-feature/customized-message/customized-message.component";
+import {EasyIntegrateComponent} from "./product-feature/easy-integrate/easy-integrate.component";
 
 const routes: Routes = [
   //Pages without layout goes here
@@ -143,7 +152,21 @@ const routes: Routes = [
       {path: 'privacy-policy', component: PrivacyPolicyComponent},
       {path: 'contact-us', component: ContactUsComponent},
       {path: 'pricing', component: PricingComponent},
-      {path: 'product-feature', component: ProductFeatureComponent},
+      {path: 'product-feature', redirectTo:'product-feature/product-feature-detail' ,pathMatch: "full"},
+      {
+        path: 'product-feature', component: ProductFeatureComponent,  children: [
+          {path: 'product-feature-detail', component: ProductFeatureDetailComponent},
+          {path: 'ab-testing-feature', component: AbTestingFeatureComponent},
+          {path: 'geolocation-based-targeting', component: GeolocationBasedTargetingComponent},
+          {path: 'realtime-reporting', component: RealtimeReportingComponent},
+          {path: 'marketing-feature', component: MarketingFeatureComponent},
+          {path: 'segment-feature', component: SegmentFeatureComponent},
+          {path: 'time-schedule', component: TimeScheduleComponent},
+          {path: 'customized-message', component: CustomizedMessageComponent},
+          {path: 'easy-integrate', component: EasyIntegrateComponent}
+
+        ]
+      },
       {path: 'why-us', component: WhyUsComponent},
       {path: '**', component: PageNotFoundComponent},
     ]

@@ -34,7 +34,7 @@ export class ContactUsFormComponent implements OnInit {
   submitContactUsForm() {
     this.loading = true;
     this.showSubmitMessage = true;
-    this.registerService.submitContactForm(this.contactUs, this.recaptchaToken)
+    this.registerService.submitContactForm(this.contactUs , this.recaptchaToken)
       .subscribe(
         (response) => {
           console.log(response);

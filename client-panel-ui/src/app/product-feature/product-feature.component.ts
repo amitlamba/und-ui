@@ -7,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ProductFeatureComponent implements OnInit {
 
+  pr
   constructor() { }
 
   ngOnInit() {
