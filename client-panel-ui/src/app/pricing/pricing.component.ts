@@ -7,7 +7,7 @@ import {Component, OnInit} from '@angular/core';
   styleUrls: ['./pricing.component.scss']
 })
 export class PricingComponent implements OnInit {
-
+price:string="this is from pricing page";
   constructor() {
   }
 

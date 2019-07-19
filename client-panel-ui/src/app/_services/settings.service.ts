@@ -147,6 +147,18 @@ export class SettingsService {
             }
           ]
         },
+        "SendGrid": {
+          "name": "SendGrid",
+          "displayName": "SendGrid",
+          "fields": [
+            {
+              "fieldName": "sendGridApiKey",
+              "fieldDisplayName": "SendGridApiKey",
+              "required": true,
+              "fieldType": "string"
+            }
+          ]
+        },
         "AWS - Simple Email Service (API)": {
           "name": "AWS - Simple Email Service (API)",
           "displayName": "AWS - Simple Email Service (API)",
@@ -248,6 +260,30 @@ export class SettingsService {
               "fieldType": "string",
             }
           ]
+        },
+        "Twillio" : {
+          "name": "Twillio",
+          "displayName": "Twillio",
+          "fields": [
+            {
+              "fieldName": "fromUser",
+              "fieldDisplayName": "fromPhoneNumber",
+              "required": true,
+              "fieldType": "string",
+            },
+            {
+              "fieldName": "username",
+              "fieldDisplayName": "AccountSID",
+              "required": true,
+              "fieldType": "string",
+            },
+            {
+              "fieldName": "password",
+              "fieldDisplayName": "AuthToken",
+              "required": true,
+              "fieldType": "string",
+            }
+            ]
         }
       }
     },
