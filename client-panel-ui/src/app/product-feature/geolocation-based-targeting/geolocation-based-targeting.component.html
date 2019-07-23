@@ -1,0 +1,57 @@
+<div class="main">
+  <div class="card mb-4">
+    <div class="card-body">
+      <h2 class="text-uppercase text-center w200 text-primary">Geolocation Based Targeting</h2>
+      <p class="w100 mt-4 text-center text-primary">You Could Target Your Users Based On Their Geographical
+        Locations.</p>
+      <div class="text-center mt-4">
+        <button type="button"
+                class="btn btn-secondary btn-lg mt-2  w400" data-toggle="modal"
+                data-target="#demoFormModal">
+          Schedule a Demo
+        </button>
+      </div>
+    </div>
+  </div>
+
+
+  <!--model-->
+  <div class="modal fade" id="demoFormModal" tabindex="-1" role="dialog"
+       aria-labelledby="demoFormModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header pt-3 pb-2">
+          <h5 class="modal-title mx-auto font-weight-bold text-center" id="demoFormModalLabel"
+              style="font-weight: 800;">Schedule a Demo
+            <br>
+            <i class="far fa-handshake text-primary fa-2x mt-1"></i>
+          </h5>
+          <button type="button" class="close ml-0" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <app-demo-form [modalDemoButton]="true"></app-demo-form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mb-5 mt-5 ml-5 mr-5">
+    <div class="ml-5 mr-5">
+      <div class="card  ml-3 mr-3">
+        <img class="card-img-top" src="assets/img/userndot/feature/geolocation.png" alt="Card image cap">
+        <div class="card-body">
+          <h5 class="card-title text-primary text-center w200" style="letter-spacing: 1px;">Geolocation Target</h5>
+          <p class="card-text section-paragraph w300 mt-4 ml-5 mr-5">Geolocation data is an essential parameter for creating an
+            effective social advertising strategy. Location not only helps you figure out where your customer is but
+            careful analysis of their visits and local searches can help you create relevant, personalized and targeted
+            ads.</p>
+          <p class="w300 section-paragraph ml-5 mr-5">Based on the tracking UserNDot provides extensive analytics of the users. Behaviour
+            of users could be analysed
+            based on Location, Gender, Activity done by the user on the application, Kind of devices used, Age etc</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
