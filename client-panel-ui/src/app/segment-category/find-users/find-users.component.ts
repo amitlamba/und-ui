@@ -49,11 +49,13 @@ export class FindUsersComponent implements OnInit {
   }
 
   userlist() {
-    if(this.route.snapshot.queryParams['/segment/user-profile']||this.fragment){
-      this.eventUserList = this.segmentService.eventUserList;
+    if(!(this.route.snapshot.queryParams['/segment/user-profile']||this.fragment)){
+      this.eventUserList=null;
+
     }
     else {
-      this.eventUserList=null;
+      this.eventUserList = this.segmentService.eventUserList;
+
     }
   }
   ngAfterViewInit(): void {
