@@ -94,17 +94,20 @@ export class FilterReactiveComponent implements OnInit {
       multiple: true,
       placeholder: "Please Select a Value"
     };
+    this.setSelectedProperty();
+
     if(!this.filterForm.get('operator').value){
       this.propertyFilterOperator='Equals';
     }else{
       this._propertyFilterOperator=this.filterForm.get('operator').value;
     }
     if(!this.filterForm.get('values').value){
-      this.propertyFilterValues=[];
+      this.propertyFilterValues= [this._selectedProperty.options["0"]];
     }else{
       this._propertyFilterValues=this.filterForm.get('values').value;
     }
-    this.setSelectedProperty();
+
+
   }
 
   ngOnChanges(change: SimpleChanges) {
