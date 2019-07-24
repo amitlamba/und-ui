@@ -18,7 +18,7 @@ export class AppSettings {
   public static API_ENDPOINT_CLIENT_DASHBOARD_SAMPLEUSERSBYEVENT = AppSettings.API_ENDPOINT_CLIENT_DASHBOARD+ "/samepleusersbyevent";
 
   // public static API_ENDPOINT_CLIENT_REPORT_EVENT = AppSettings.API_ENDPOINT_CLIENT + "/report/event";
-  public static API_ENDPOINT_CLIENT_REPORT_EVENT = AppSettings.API_ENDPOINT_CLIENT + "/report/event";
+  public static API_ENDPOINT_CLIENT_REPORT_EVENT = AppSettings.API_ENDPOINT_REPORT_SERVICE + "/report/event";
   public static API_ENDPOINT_CLIENT_REPORT_EVENT_EVENTCOUNT = AppSettings.API_ENDPOINT_CLIENT_REPORT_EVENT+ "/eventcount";
   public static API_ENDPOINT_CLIENT_REPORT_EVENT_EVENTREACHABILITY = AppSettings.API_ENDPOINT_CLIENT_REPORT_EVENT + "/eventReachability";
   public static API_ENDPOINT_CLIENT_REPORT_EVENT_TRENDBYTIMEPERIOD = AppSettings.API_ENDPOINT_CLIENT_REPORT_EVENT + "/trendBytimePeriod";
