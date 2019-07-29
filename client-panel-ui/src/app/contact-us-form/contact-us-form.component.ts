@@ -35,46 +35,24 @@ export class ContactUsFormComponent implements OnInit {
   submitContactUsForm() {
     this.loading = true;
     this.showSubmitMessage = true;
+      this.registerService.submitContactForm(this.contactUs, this.recaptchaToken)
+        .subscribe(
+          (response) => {
+            console.log(response);
+            this.loading = false;
+            this.showSuccessMessage = true;
+            this.contactUs = new ContactUs();
+            this.contactUsForm.reset();
+            this.contactUs.mobileNo = "";
+          },
+          (error: HttpErrorResponse) => {
+            this.loading = false;
+            this.showErrorMessage = true;
+            console.log(JSON.stringify(error));
+            this.errorMessage = error.error.message;
+          }
+        );
 
-    if (this.pricing) {
-      this.contactUs.message = this.pricing + " / " + this.contactUs.message;
-      console.log(this.contactUs);
-      this.registerService.submitContactForm(this.contactUs, this.recaptchaToken)
-        .subscribe(
-          (response) => {
-            console.log(response);
-            this.loading = false;
-            this.showSuccessMessage = true;
-            this.contactUs = new ContactUs();
-            this.contactUsForm.reset();
-            this.contactUs.mobileNo = "";
-          },
-          (error: HttpErrorResponse) => {
-            this.loading = false;
-            this.showErrorMessage = true;
-            console.log(JSON.stringify(error));
-            this.errorMessage = error.error.message;
-          }
-        );
-    } else {
-      this.registerService.submitContactForm(this.contactUs, this.recaptchaToken)
-        .subscribe(
-          (response) => {
-            console.log(response);
-            this.loading = false;
-            this.showSuccessMessage = true;
-            this.contactUs = new ContactUs();
-            this.contactUsForm.reset();
-            this.contactUs.mobileNo = "";
-          },
-          (error: HttpErrorResponse) => {
-            this.loading = false;
-            this.showErrorMessage = true;
-            console.log(JSON.stringify(error));
-            this.errorMessage = error.error.message;
-          }
-        );
-    }
   }
 
   handleCorrectCaptcha(event) {
