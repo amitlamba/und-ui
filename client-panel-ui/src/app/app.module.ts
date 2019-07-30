@@ -132,7 +132,7 @@ import { PricingComponent } from './pricing/pricing.component';
 import { WhyUsComponent } from './why-us/why-us.component';
 import { ContactUsFormComponent } from './contact-us-form/contact-us-form.component';
 import { ProductFeatureComponent } from './product-feature/product-feature.component';
-<<<<<<< HEAD
+// <<<<<<< HEAD
 import { ProductFeatureDetailComponent } from './product-feature/product-feature-detail/product-feature-detail.component';
 import { SegmentFeatureComponent } from './product-feature/segment-feature/segment-feature.component';
 import { AbTestingFeatureComponent } from './product-feature/ab-testing-feature/ab-testing-feature.component';
@@ -142,10 +142,10 @@ import { TimeScheduleComponent } from './product-feature/time-schedule/time-sche
 import { GeolocationBasedTargetingComponent } from './product-feature/geolocation-based-targeting/geolocation-based-targeting.component';
 import { EasyIntegrateComponent } from './product-feature/easy-integrate/easy-integrate.component';
 import { CustomizedMessageComponent } from './product-feature/customized-message/customized-message.component';
-=======
+// =======
 import { TestCampaignComponent } from './test-campaign/test-campaign.component';
 import {TestCampaignService} from "./_services/test-campaign.service";
->>>>>>> test-campaign
+// >>>>>>> test-campaign
 
 
 @NgModule({
@@ -270,7 +270,7 @@ import {TestCampaignService} from "./_services/test-campaign.service";
     WhyUsComponent,
     ContactUsFormComponent,
     ProductFeatureComponent,
-<<<<<<< HEAD
+// <<<<<<< HEAD
     ProductFeatureDetailComponent,
     SegmentFeatureComponent,
     AbTestingFeatureComponent,
@@ -279,10 +279,10 @@ import {TestCampaignService} from "./_services/test-campaign.service";
     TimeScheduleComponent,
     GeolocationBasedTargetingComponent,
     EasyIntegrateComponent,
-    CustomizedMessageComponent
-=======
+    CustomizedMessageComponent,
+// =======
     TestCampaignComponent
->>>>>>> test-campaign
+// >>>>>>> test-campaign
   ],
   providers: [
     AuthGuard,
