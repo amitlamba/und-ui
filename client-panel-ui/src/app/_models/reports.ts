@@ -179,6 +179,11 @@ export class CampaignReach {
   interacted: number;
 }
 
+/*
+data class SegmentTrendCount(var date:String,var count:Count)
+
+data class Count(val known:Int,val unknown:Int,val all:Int)
+ */
 export class SegmentCount {
   date: string;
   count: Count;

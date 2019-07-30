@@ -154,6 +154,7 @@ export class AppSettings {
   public static API_ENDPOINT_CLIENT_CAMPAIGN_DELETE = AppSettings.API_ENDPOINT_CLIENT_CAMPAIGN + "/delete";
   public static API_ENDPOINT_CLIENT_CAMPAIGN_ERROR = AppSettings.API_ENDPOINT_CLIENT_CAMPAIGN + "/error";
   public static API_ENDPOINT_CLIENT_CAMPAIGN_EMAIL_SETTING = AppSettings.API_ENDPOINT_CLIENT_CAMPAIGN + "/email/faddrandsrp";
+  public static API_ENDPOINT_CLIENT_CAMPAIGN_SEND_TESTCAMPAIGN = AppSettings.API_ENDPOINT_CLIENT_CAMPAIGN + "/send/testcampaign";
 
 
   public static API_ENDPOINT_CLIENT_LOCATION = AppSettings.API_ENDPOINT_CLIENT + "/location";

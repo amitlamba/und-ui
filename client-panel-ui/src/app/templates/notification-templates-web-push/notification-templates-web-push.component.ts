@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import {WebPushTemplate} from "../../_models/notification";
 import {Router, RouterStateSnapshot} from "@angular/router";
 import {TemplatesService} from "../../_services/templates.service";
+import {TestCampaignService} from "../../_services/test-campaign.service";
+import {CampaignType, TestCampaign} from "../../_models/campaign";
 
 @Component({
   selector: 'app-notification-templates-web-push',
@@ -31,7 +33,8 @@ export class NotificationTemplatesWebPushComponent implements OnInit {
   }
 
   constructor(private templatesService: TemplatesService,
-              private router: Router) {
+              private router: Router,
+              private testCampaignService: TestCampaignService) {
     this.state = router.routerState.snapshot;
   }
 
@@ -55,5 +58,12 @@ export class NotificationTemplatesWebPushComponent implements OnInit {
   onCreateNew() {
     this.templatesService.webPushTemplateForEdit.next(new WebPushTemplate());
     this.router.navigate(['create-notification-template-web-push',true], {queryParams: {returnUrl: this.state.url}});
+  }
+
+  setTestCampaign(nt: WebPushTemplate) {
+    console.log(nt);
+    this.testCampaignService.testCampaign = new TestCampaign();
+    this.testCampaignService.testCampaign.campaignType = CampaignType.PUSH_WEB;
+    this.testCampaignService.testCampaign.webPushTemplate = nt;
   }
 }

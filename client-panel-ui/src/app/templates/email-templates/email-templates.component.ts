@@ -3,6 +3,8 @@ import {EditorSelected, EmailTemplate} from "../../_models/email";
 import {TemplatesService} from "../../_services/templates.service";
 import {CreateEmailTemplateFormComponent} from "./create-email-template-form/create-email-template-form.component";
 import {Router, RouterStateSnapshot} from "@angular/router";
+import {TestCampaignService} from "../../_services/test-campaign.service";
+import {CampaignType, TestCampaign} from "../../_models/campaign";
 
 @Component({
   selector: 'app-email-templates',
@@ -18,6 +20,8 @@ export class EmailTemplatesComponent implements OnInit {
   state: RouterStateSnapshot;
 
   searchFilteredEmailTemplates: EmailTemplate[];
+
+  showTestCampaignModal = false;
 
   private _searchfilterby: string;
   get searchfilterby(): string {
@@ -37,7 +41,8 @@ export class EmailTemplatesComponent implements OnInit {
   constructor(
     public templatesService: TemplatesService,
     private componentFactoryResolver: ComponentFactoryResolver,
-    private router: Router) {
+    private router: Router,
+    private testCampaignService: TestCampaignService) {
     this.state = router.routerState.snapshot;
   }
 
@@ -93,5 +98,17 @@ export class EmailTemplatesComponent implements OnInit {
     while(this.components.length > 0) {
       this.components.pop().destroy();
     }
+  }
+
+  onTest(emaillTemplate: EmailTemplate) {
+    console.log("OnTest");
+    this.showTestCampaignModal = true;
+  }
+
+  setTestCampaign(emaillTemplate: EmailTemplate) {
+    console.log(emaillTemplate);
+    this.testCampaignService.testCampaign = new TestCampaign();
+    this.testCampaignService.testCampaign.campaignType = CampaignType.EMAIL;
+    this.testCampaignService.testCampaign.emailTemplate = emaillTemplate;
   }
 }

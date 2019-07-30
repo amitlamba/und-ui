@@ -132,6 +132,7 @@ import { PricingComponent } from './pricing/pricing.component';
 import { WhyUsComponent } from './why-us/why-us.component';
 import { ContactUsFormComponent } from './contact-us-form/contact-us-form.component';
 import { ProductFeatureComponent } from './product-feature/product-feature.component';
+<<<<<<< HEAD
 import { ProductFeatureDetailComponent } from './product-feature/product-feature-detail/product-feature-detail.component';
 import { SegmentFeatureComponent } from './product-feature/segment-feature/segment-feature.component';
 import { AbTestingFeatureComponent } from './product-feature/ab-testing-feature/ab-testing-feature.component';
@@ -141,6 +142,10 @@ import { TimeScheduleComponent } from './product-feature/time-schedule/time-sche
 import { GeolocationBasedTargetingComponent } from './product-feature/geolocation-based-targeting/geolocation-based-targeting.component';
 import { EasyIntegrateComponent } from './product-feature/easy-integrate/easy-integrate.component';
 import { CustomizedMessageComponent } from './product-feature/customized-message/customized-message.component';
+=======
+import { TestCampaignComponent } from './test-campaign/test-campaign.component';
+import {TestCampaignService} from "./_services/test-campaign.service";
+>>>>>>> test-campaign
 
 
 @NgModule({
@@ -265,6 +270,7 @@ import { CustomizedMessageComponent } from './product-feature/customized-message
     WhyUsComponent,
     ContactUsFormComponent,
     ProductFeatureComponent,
+<<<<<<< HEAD
     ProductFeatureDetailComponent,
     SegmentFeatureComponent,
     AbTestingFeatureComponent,
@@ -274,6 +280,9 @@ import { CustomizedMessageComponent } from './product-feature/customized-message
     GeolocationBasedTargetingComponent,
     EasyIntegrateComponent,
     CustomizedMessageComponent
+=======
+    TestCampaignComponent
+>>>>>>> test-campaign
   ],
   providers: [
     AuthGuard,
@@ -289,7 +298,8 @@ import { CustomizedMessageComponent } from './product-feature/customized-message
     CampaignService,
     ReportsService,
     UndTrackingService,
-    RegisterService
+    RegisterService,
+    TestCampaignService
   ],
   entryComponents: [
     DidEventComponent,

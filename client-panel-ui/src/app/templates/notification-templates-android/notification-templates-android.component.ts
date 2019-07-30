@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import {AndroidTemplate, NotificationTemplate} from "../../_models/notification";
 import {TemplatesService} from "../../_services/templates.service";
 import {Router, RouterStateSnapshot} from "@angular/router";
+import {CampaignType, TestCampaign} from "../../_models/campaign";
+import {TestCampaignService} from "../../_services/test-campaign.service";
 
 @Component({
   selector: 'app-notification-templates-android',
@@ -31,7 +33,8 @@ export class NotificationTemplatesAndroidComponent implements OnInit {
   }
 
   constructor(private templatesService: TemplatesService,
-              private router: Router) {
+              private router: Router,
+              private testCampaignService: TestCampaignService) {
     this.state = router.routerState.snapshot;
   }
 
@@ -55,5 +58,12 @@ export class NotificationTemplatesAndroidComponent implements OnInit {
   onCreateNew() {
     this.templatesService.androidTemplateForEdit.next(new AndroidTemplate());
     this.router.navigate(['create-notification-template-android',true], {queryParams: {returnUrl: this.state.url}});
+  }
+
+  setTestCampaign(nt: AndroidTemplate) {
+    console.log(nt);
+    this.testCampaignService.testCampaign = new TestCampaign();
+    this.testCampaignService.testCampaign.campaignType = CampaignType.PUSH_ANDROID;
+    this.testCampaignService.testCampaign.androidTemplate = nt;
   }
 }

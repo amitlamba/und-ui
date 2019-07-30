@@ -1,4 +1,6 @@
-import {EmailCampaign} from "./email";
+import {EmailCampaign, EmailTemplate} from "./email";
+import {SmsTemplate} from "./sms";
+import {AndroidTemplate, WebPushTemplate} from "./notification";
 
 export class Campaign {
   id: number;
@@ -173,4 +175,18 @@ export class ClientEmailSettIdFromAddrSrp {
   fromAddress: string;
   ceid: number;
   srpName: string;
-};
+}
+
+export class TestCampaign {
+  emailTemplate: EmailTemplate = null;
+  smsTemplate: SmsTemplate = null;
+  androidTemplate: AndroidTemplate = null;
+  webPushTemplate: WebPushTemplate = null;
+  findByType: string = null; //Valid Values "Email", "UserNDot ID", "Mobile Number", "Client User ID", "TOKEN"
+  toAddresses: string = null;
+  campaignType: CampaignType;
+  segmentationID: number = null;
+  serviceProviderId: number = null;
+  fromUser: string = null;
+  clientEmailSettingId: number = null;
+}
