@@ -8,6 +8,8 @@ import {Component, OnInit} from '@angular/core';
 })
 export class PricingComponent implements OnInit {
 
+  price:string="this is from pricing page";
+
   constructor() {
   }
 
