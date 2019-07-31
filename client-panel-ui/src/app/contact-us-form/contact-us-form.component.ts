@@ -57,6 +57,7 @@ export class ContactUsFormComponent implements OnInit {
         );
     }
     else {
+
       this.registerService.submitContactForm(this.contactUs, this.recaptchaToken)
         .subscribe(
           (response) => {
