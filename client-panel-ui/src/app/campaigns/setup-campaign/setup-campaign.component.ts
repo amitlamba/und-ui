@@ -336,7 +336,7 @@ export class SetupCampaignComponent implements OnInit {
     if (this.campaign.campaignType == CampaignType.EMAIL && this.cesid) {
       this.campaign.fromUser = this.clientEmailSettings.find(value => value.ceid == this.cesid).fromAddress;
     }
-    // if(this.srpId!="None")this.campaign.serviceProviderId=parseInt(this.srpId);
+    if(this.srpId!="None")this.campaign.serviceProviderId=parseInt(this.srpId);
     if (this.cEvent != "None") this.campaign.conversionEvent = this.cEvent;
 
     if (this.cesid) {
